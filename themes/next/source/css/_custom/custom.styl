@@ -1,0 +1,29 @@
+// Custom styles.
+
+/** {
+	border: 1px solid red;
+}*/
+
+/*****宽版*****/
+.header .container .main-inner { 
+  width: 90%; 
+  +tablet() { width: 100%; }
+  +mobile() { width: 100%; }
+}
+.content-wrap { 
+  width: calc(100% - 260px); 
+  +tablet() { width: 100%; }
+  +mobile() { width: 100%; }
+}
+.site-nav-toggle {
+  +tablet() { top: 10px; }
+  +mobile() { top: 11px; }
+}
+.site-meta {
+  +tablet() { padding: 1px 0;}
+  +mobile() { padding: 1px 0;}
+}
+.site-nav-toggle button {
+  margin-top: 20px;
+}
+/*****宽版*****/
