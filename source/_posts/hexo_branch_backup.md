@@ -13,9 +13,12 @@ tags:
 操作如下
 
 1. 将网站 clone 到本地
+<<<<<<< HEAD
 ```
 git clone git@github.com:username/username.github.io
 ```
+=======
+>>>>>>> 41ad1eff98eccf5970d2a0cbe8dcd29451a19fce
 
 2. 创建空的新分支
 ```
@@ -28,6 +31,7 @@ git checkout --orphan <branchname>
 ```
 git push --set-upstream origin hexo
 ```
+<<<<<<< HEAD
 	*到此，远程仓库就有两个 branch 了*
 
 5. 将 .git 文件夹复制到 Hexo 文件夹
@@ -38,3 +42,13 @@ git push --set-upstream origin hexo
 ```
 git clone -b <branchname> git@github.com:username/username.github.io
 ```
+=======
+
+5. 后续日常更新
+```
+git clone -b <branchname> git@github.com:username/username.github.io
+```
+复制更换文件后 commit push
+
+缺点是每次备份都要先 clone 一次站点文件
+>>>>>>> 41ad1eff98eccf5970d2a0cbe8dcd29451a19fce
