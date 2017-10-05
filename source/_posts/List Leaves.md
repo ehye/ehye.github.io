@@ -1,9 +1,9 @@
 ---
 title: 数据结构题目集 - List Leaves
 date: 2016-10-07 13:35:05
-categories: Code
+categories: Algorithm
 tags: 
-	- Programming Ability Test
+	- PAT
 	- Data Structures
 ---
 Given a tree, you are supposed to list all the leaves in the order of top down, and left to right.<!-- more -->

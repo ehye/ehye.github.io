@@ -1,9 +1,9 @@
 ---
 title: 数据结构题目集 - Maximum Subsequence Sum
 date: 2016-09-19 23:26:13
-categories: Code
+categories: Algorithm
 tags: 
-	- Programming Ability Test
+	- PAT
 	- Data Structures
 ---
 

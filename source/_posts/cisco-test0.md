@@ -1,9 +1,9 @@
 ---
 title: Cisco 网络实验室1
 date: 2017-06-18 19:28:30
-categories: Web
+categories: web
 tags: 
-	-Cisco
+	- Cisco
 ---
 本题所用的操作：路由、单臂路由、VLAN、ACL、NAT、无线网络等
 <!--more-->

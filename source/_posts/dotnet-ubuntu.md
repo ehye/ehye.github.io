@@ -3,6 +3,7 @@ title: How to Run .Net Framework on Ubuntu
 date: 2017-06-21 17:15:04
 categories: Linux
 tags:
+	- Linux
 	- Ubuntu
 	- .Net
 ---

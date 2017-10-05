@@ -1,8 +1,9 @@
 ---
 title: LeetCode 344.Reverse String
 date: 2016-08-31 21:08:38
-categories: Code
-tags: LeetCode
+categories: Algorithm
+tags: 
+	- LeetCode
 ---
 Write a function that takes a string as input and returns the string reversed.<!--more-->
 

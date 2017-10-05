@@ -1,8 +1,9 @@
 ---
 title: LeetCode 92.Reverse Linked List II
 date: 2016-09-25 22:49:41
-categories: Code
-tags: LeetCode
+categories: Algorithm
+tags: 
+	- LeetCode
 ---
 Reverse a linked list from position m to n. Do it in-place and in one-pass.
 <!--more-->

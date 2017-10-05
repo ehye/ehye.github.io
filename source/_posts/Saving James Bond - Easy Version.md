@@ -1,9 +1,9 @@
 ---
 title: 数据结构题目集 - Saving James Bond(Easy Version)
 date: 2016-10-26 17:49:43
-categories: Code
+categories: Algorithm
 tags: 
-	- Programming Ability Test
+	- PAT
 	- Data Structures
 ---
 This time let us consider the situation in the movie "Live and Let Die"<!--more--> in which James Bond, the world's most famous spy, was captured by a group of drug dealers. He was sent to a small piece of land at the center of a lake filled with crocodiles. There he performed the most daring action to escape -- he jumped onto the head of the nearest crocodile! Before the animal realized what was happening, James jumped again onto the next big head... Finally he reached the bank before the last crocodile could bite him (actually the stunt man was caught by the big mouth and barely escaped with his extra thick boot).

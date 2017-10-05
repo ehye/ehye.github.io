@@ -3,8 +3,8 @@ title: UWP开发笔记 获取定位信息
 date: 2017-01-26 15:43:02
 categories: Code
 tags:
-- UWP
-- C#
+	- UWP
+	- C#
 ---
 首先创建一个叫LocationManager的类
 ```csharp
