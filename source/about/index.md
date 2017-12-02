@@ -5,9 +5,10 @@ type: about
 ---
 ```c
 int main() {
-	double world;
-	short stay;
-	long memory;
-	printf("I miss you.");
+    double world;
+    short stay;
+    long memory;
+    printf("I miss you.");
 }
 ```
+![](/images/Starry_Night.jpg)

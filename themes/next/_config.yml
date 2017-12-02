@@ -95,8 +95,9 @@ scheme: Gemini
 social:
   GitHub: https://github.com/ehye || github
   Twitter: https://twitter.com/YeChiehwei || twitter
+  E-Mail: mailto:yjw9610@hotmail.com || envelope
+  #Steam: http://steamcommunity.com/profiles/76561198020635296 || fa-steam-square
   # 豆瓣: https://www.douban.com/people/76382145/
-  #E-Mail: mailto:yourname@gmail.com || envelope
   #Google: https://plus.google.com/yourname || google
   #FB Page: https://www.facebook.com/yourname || facebook
   #VK Group: https://vk.com/yourname || vk
@@ -554,7 +555,7 @@ tabs:
 
 # Motion
 motion:
-  enable: true
+  enable: false
   async: false
   transition:
     # Transition variants:

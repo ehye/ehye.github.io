@@ -4,7 +4,9 @@ date: 2016-12-09 11:10:24
 categories: Diary
 tags: 随笔
 ---
-Pink Floyd专辑介绍
+
+{% asset_img TheDarkSideoftheMoon.jpg %}
+
 <!-- more -->
 
 {% iframe //music.163.com/outchain/player?type=1&id=428503&auto=0 312 440 %}
