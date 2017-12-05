@@ -55,7 +55,7 @@ force_install_dir /usr/games/ins-ds/
 2. 查找服务器ID并下载
 Insurgency 服务器ID为237410，可加`validate`来检验下载
 ```
-app_update 740 validate
+app_update 237410 validate
 ```
 
 3. 配置服务器
