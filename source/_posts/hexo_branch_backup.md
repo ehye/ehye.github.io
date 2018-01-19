@@ -1,7 +1,7 @@
 ---
 title: 使用 branch 对 hexo 备份
 date: 2017-09-12 20:41:13
-categories: web
+categories: Web
 tags: 
 	- hexo
 	- blog

@@ -1,12 +1,12 @@
 ---
-title: 利用亚马逊云搭建Shadowsock服务器
+title: 利用亚马逊云搭建 Shadowsock 服务器
 date: 2017-03-09 16:23:12
-categories: web
+categories: Web
 tags:
-	- 云
-	- Linux
+	- Ubuntu
 	- 梯子
 	- AWS
+	- Shadowsock
 ---
 
 不耗一元电费，使用云主机搭建Shadowsock服务器<!--more-->

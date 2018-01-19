@@ -3,8 +3,6 @@ title: Algorithms, Part I - Programming Assignment 3 - Pattern Recognition
 date: 2017-05-08 22:55:03
 categories: Algorithm
 tags:
-	- Algorithm
-	- MOOC
 ---
 
 来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第三周编程作业[Pattern Recognition](http://coursera.cs.princeton.edu/algs4/assignments/collinear.html)<!--more-->

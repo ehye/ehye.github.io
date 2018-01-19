@@ -31,7 +31,7 @@ tags:
 故可用`=`替换这些字符，将文本保存形似 ` Alpha== Bravo== China` 的计算字符串
 以计算空格的总数量来确定每个单词开头字母的位置，从而计算出偏移量
 
-编写一段用于计算偏移量的程序
+为了算出每个单词的在数组里的位置，使用了Java编写一段用于计算偏移量的程序：
 
 *args[0]：保存计算字符串的文本的路径*
 
@@ -48,9 +48,7 @@ public class Main {
         System.out.println(s);
         for (char c : chars) {
             sum++;
-            if (c == ' ') {
-                System.out.print(sum - 1 + ",");
-            }
+            if (c == ' ') System.out.print(sum - 1 + ",");
         }
     }
 
@@ -70,6 +68,7 @@ alphabetL:
     " sierra\n"," tango\n"," uniform\n"," victor\n"," whisky\n"," x-ray\n"," yankee\n"," zulu\n"
 al_offset:
     .word 0,8,16,24,32,39,49,56,64,72,81,88,95,102,113,121,129,138,149,158,166,176,185,194,202,211
+	# 使用 Java 算出的偏移量
 number: 
     .asciiz " Zero\n"," First\n"," Second\n"," Third\n"," Fourth\n"," Fifth\n"," Sixth\n"," Seventh\n"," Eighth\n"," Ninth\n"
 n_offset:
@@ -210,9 +209,9 @@ x
 Fail!
 ```
 
-感觉就是一个 for-if-else 的翻译
+因为只是查找一个字符串中的一个字符，因此可以直接遍历每个字符串，进行字符匹配，具体到实现，就是高级语言中的 if-else 以及 for 所实现的功能。
 
-```mars
+```mips
 .data
     suces_str: .asciiz "\nSuccess! Location: "
     fail_str: .asciiz "\nFail!"

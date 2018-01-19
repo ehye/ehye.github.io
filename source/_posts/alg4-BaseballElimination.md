@@ -1,7 +1,7 @@
 ﻿---
 title: Algorithms, Part II - Week 3 - Baseball Elimination
 date: 2017-12-04 15:48:31
-categories: Algorithms
+categories: Algorithm
 tags:
     - max flow
     - min cut

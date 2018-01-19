@@ -1,7 +1,7 @@
 ﻿---
 title: Algorithms, Part II - Week 4 - Boggle
 date: 2017-12-04 16:52:35
-categories: Algorithms
+categories: Algorithm
 tags:
     - TST
     - Tries

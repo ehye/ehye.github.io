@@ -1,7 +1,7 @@
 ﻿---
 title: Algorithms, Part II - Week 5 - BurrowsWheeler
 date: 2017-12-04 17:49:16
-categories: Algorithms
+categories: Algorithm
 tags:
 ---
 

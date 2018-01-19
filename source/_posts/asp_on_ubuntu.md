@@ -1,7 +1,7 @@
 ---
 title: 在 Ubuntu 上利用 Nginx 搭建 ASP.Net Core 站点
 date: 2017-09-17 19:14:43
-categories: web
+categories: Web
 tags:
 	- Ubuntu
 	- Nginx

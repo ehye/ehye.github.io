@@ -3,8 +3,7 @@ title: Algorithms, Part I - Programming Assignment 5 - Kd-Trees
 date: 2017-05-21 17:26:13
 categories: Algorithm
 tags:
-	- Algorithm
-	- MOOC
+	- KdTree
 ---
 
 来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业[Kd-Trees](http://coursera.cs.princeton.edu/algs4/assignments/kdtree.html)<!--more-->

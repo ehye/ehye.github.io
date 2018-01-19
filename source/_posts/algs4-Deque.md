@@ -3,8 +3,8 @@ title: Algorithms, Part I - Programming Assignment 2 - Deques and Randomized Que
 date: 2017-05-06 16:44:57
 categories: Algorithm
 tags:
-	- Algorithm
-	- MOOC
+	- stack
+	- linkedlist
 ---
 
 来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第二周编程作业[Deques and Randomized Queues](http://coursera.cs.princeton.edu/algs4/assignments/queues.html)<!--more-->

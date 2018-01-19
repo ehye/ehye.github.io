@@ -2,9 +2,7 @@
 title: Algorithms, Part I - Programming Assignment 1 - Percolation
 date: 2017-04-21 21:07:49
 categories: Algorithm
-tags: 
-	- Algorithm
-	- MOOC
+tags:
 ---
 
 来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第一周编程作业[Percolation](http://coursera.cs.princeton.edu/algs4/assignments/percolation.html)<!--more-->

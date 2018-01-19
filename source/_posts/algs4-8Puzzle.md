@@ -3,8 +3,7 @@ title: Algorithms, Part I - Programming Assignment 4 - 8 Puzzle
 date: 2017-05-13 21:41:29
 categories: Algorithm
 tags:
-	- Algorithm
-	- MOOC
+	- A*
 ---
 
 来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第四周编程作业[8 Puzzle](http://coursera.cs.princeton.edu/algs4/assignments/8puzzle.html)<!--more-->
