@@ -5,7 +5,7 @@ categories: Web
 tags:
 	- Chrome
 ---
-获取插件 id
+到[应用店](https://chrome.google.com/webstore/category/extensions)搜索并获取获取插件 id
 {% asset_img get_id.png %}
 
 <body>

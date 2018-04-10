@@ -8,7 +8,7 @@ tags:
     - Shortest path
 ---
 
-这是一个PS里的功能，删去图片中信息量较小的像素，从而改变图片像素而发生不拉伸扭曲
+这是一个PS里的功能，删去图片中信息量较小的像素，实现改变图片大小而不发生扭曲
 <!-- more -->
 
 {% asset_img HJoceanSmall_compressed.jpg origin %}
