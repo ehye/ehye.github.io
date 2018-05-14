@@ -20,6 +20,11 @@ $ mkdir -m 700 .ssh
 $ cd .ssh
 $ vi authorized_keys
 ```
+
+5. 关闭密码验证
+打开 ssh 配置文件`vim /etc/config/dropbear`
+增加一行`option PasswordAuth 'off'`
+
 5. 打开PuTTY，进入 Connection/SSH/Auth 选项卡，在 Private key file for authentication 一栏中填入私匙地址
 
 6. Connection/Data 在 Auto-login username 填入要自动登入的用户名

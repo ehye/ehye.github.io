@@ -28,3 +28,6 @@ kill pid
 
 ÷ÿ∆Ù
 sudo reboot
+
+∆Ù∂Ø apache
+sudo service apache2 start

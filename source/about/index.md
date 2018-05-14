@@ -4,7 +4,7 @@ date: 2016-09-02 19:17:07
 type: about
 ---
 ```c
-int main() {
+void main() {
     double world;
     short stay;
     long memory;

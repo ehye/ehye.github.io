@@ -1,6 +1,7 @@
 ﻿---
 title: 在 Ubuntu 上搭建 Insurgency 对战服务器
 date: 2017-12-02 20:01:00
+categories: Game
 tags:
 	- steam
 	- Ubuntu
