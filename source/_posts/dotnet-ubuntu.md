@@ -1,10 +1,10 @@
 ---
 title: How to Run .Net Framework on Ubuntu
 date: 2017-06-21 17:15:04
-categories: Ubuntu
+categories: Server
 tags:
 	- Ubuntu
-	- .Net
+	- .Net Framework
 ---
 ## Add the Mono repository to your system
 ```

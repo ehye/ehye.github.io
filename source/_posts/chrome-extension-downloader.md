@@ -1,7 +1,7 @@
 ---
 title: Chrome 插件打包下载
 date: 2017-12-12 08:12:02
-categories: Web
+categories: WEB
 tags:
 	- Chrome
 ---

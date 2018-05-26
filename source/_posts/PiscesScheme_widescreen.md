@@ -1,11 +1,12 @@
 ---
 title: 使 next 主题适应移动设备
 date: 2016-12-16 13:15:56
-categories: Web
+categories: WEB
 tags: 
 	- hexo
 	- CSS
 	- blog
+	- NexT
 ---
 修改 PiscesScheme 的宽度，使 next 主题适应移动设备
 > 对于Pisces Scheme ，需要同时修改 **header** 的宽度、**.main-inner** 的宽度以及 **.content-wrap** 的宽度。例如，使用百分比（Pisces 的布局定义在 source/css/_schemes/Picses/_layout.styl 中）：

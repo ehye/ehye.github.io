@@ -11,15 +11,24 @@ tags:
 
 2. 点击 Save private key 将私匙保存起来
 
-3. 登陆到远程节点，在~（home/username）路径下创建".ssh"文件夹，确保这个文件夹只有自己拥有操作权限：
+3. 安装ssh
+
+```bash
+apt-get install ssh
+```
+
+3. 登陆到远程节点，在 `/home/<username>` 路径下创建 `.ssh` 文件夹，确保这个文件夹只有自己拥有操作权限：
 ```bash
 $ mkdir -m 700 .ssh
 ```
+
 4. 进入文件夹，创建公匙文件"authorized_keys"，将PuTTYgen文本框中生成的公匙复制粘贴过来，保存：
+
 ```bash
 $ cd .ssh
 $ vi authorized_keys
 ```
+注意公钥以 ssh-rsa 开头并只有一行
 
 5. 关闭密码验证
 打开 ssh 配置文件`vim /etc/config/dropbear`

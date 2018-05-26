@@ -3,6 +3,8 @@ title: Algorithms, Part II - Week 5 - BurrowsWheeler
 date: 2017-12-04 17:49:16
 categories: Algorithm
 tags:
+	- 7-Zip
+	- WinRAR
 ---
 
 巨长的 specification，没有图片解释，超多的OJ检测点，最后的一次作业甚至涉及到第一次的内容<!-- more -->
