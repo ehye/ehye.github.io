@@ -1,7 +1,7 @@
 ---
 title: Cisco 网络实验室1
 date: 2017-06-18 19:28:30
-categories: Web
+categories: Network
 tags: 
 	- Cisco
 ---

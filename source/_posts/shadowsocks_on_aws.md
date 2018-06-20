@@ -1,12 +1,11 @@
 ---
-title: 利用亚马逊云搭建 Shadowsock 服务器
+title: 利用亚马逊云搭建 shadowsocks 服务器
 date: 2017-03-09 16:23:12
-categories: Web
+categories: Server
 tags:
 	- Ubuntu
-	- 梯子
 	- AWS
-	- Shadowsock
+	- shadowsocks
 ---
 
 不耗一元电费，使用云主机搭建Shadowsock服务器<!--more-->
@@ -94,8 +93,11 @@ tags:
 
 ---
 
-使用一键配置脚本
-===
+
+# 安装并配置 shadowsocks
+
+## 方案一使用一键配置脚本
+
 > http://teddysun.com/342.html
 
 ```
@@ -104,8 +106,37 @@ chmod +x shadowsocks.sh
 ./shadowsocks.sh 2>&1 | tee shadowsocks.log
 ```
 
+## 方案二安装 [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev)
+
+```
+sudo apt update
+sudo apt install shadowsocks-libev
+```
+
+编辑配置文件
+```
+sudo vim /etc/shadowsocks-libev/config.json
+```
+例如运行在公网IP为27.27.27.27的服务器上，服务器端口为8080，密码为123456，客户端本地端口为1080，超时时间为5秒，加密方式为 aes-256-cfb
+```json
+{
+    "server": "27.27.27.27",
+    "server_port": 8080,
+    "password": "123456",
+    "local_port":1080,
+    "timeout":5,
+    "method": "aes-256-cfb"
+}
+```
+
+保存并退出后重启服务
+```
+sudo /etc/init.d/shadowsocks-libev start
+```
+
+
 ---
 
 开始使用
 ===
-在要上网的设备配置好Shadowsock客户端，输入上面的ss服务器信息，就可以魔法上网了
+在要上网的设备配置好 shadowsocks 客户端，就可以科学上网了

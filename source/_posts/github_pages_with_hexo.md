@@ -1,7 +1,7 @@
 ---
 title: 用 Github Pages 与 hexo 搭建个人博客
 date: 2016-12-17 00:06:33
-categories: Web
+categories: Blog
 tags: 
 	- hexo
 	- blog

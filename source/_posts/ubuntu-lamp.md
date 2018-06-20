@@ -21,40 +21,40 @@ sudo apt install apache2
 ## 改变默认站点位置
 **这步可以在最后 LAMP 所有组件都测试通过后再调整**
 
-复制站点配置文件进行备份
+1. 复制站点配置文件进行备份
 ```
 sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/mysite.conf 
 ```
-编辑新的配置文件
+2. 编辑新的可用站点配置文件
 ```
 sudo vim /etc/apache2/sites-available/mysite.conf
 ```
+	将 DocumentRoot 设置为 `/home/<user>/public_html`
+	
+3. 改变探测路径
+```
+sudo vim /etc/apache2/apache2.conf
+```
+	将 `<Directory /var/www/>` 替换为 `<Directory /home/<user>/public_html/>`
 
-将默认站点位置设置为 `/home/<user>/public_html/`
-
-In the file: `/etc/apache2/apache2.conf`, change the Directory directive, replace `<Directory /var/www/>` to `<Directory /home/user/public_html/>`
-
-
-Now, we must deactivate the old site, and activate our new one. Ubuntu provides two small utilities that take care of this: a2ensite (apache2enable site) and a2dissite (apache2disable site).
-
+3. 使旧站点失效，新站点生效
 ```
 sudo a2dissite 000-default && sudo a2ensite mysite
 ```
-Finally, we restart Apache2:
-
+4. 重启 Apache
 ```
 sudo /etc/init.d/apache2 restart
 ```
 
-建立目录 `/home/<user>/public_html/`
 
+
+## 测试
 建立一个测试页面
 ```
 echo '<b>Hello! It is working!</b>' > /home/<user>/public_html/index.html
 ```
 
-## 测试
-`http://your_server_ip/`
+访问进行测试 `http://your_server_ip/`
 
 ---
 
@@ -100,7 +100,7 @@ sudo systemctl status apache2
 			. . .
 ```
 ## Testing PHP 
-在 apache 默认站点位置创建一个测试页面
+在 apache 默认站点或者你更改后的自定义位置创建一个测试页面
 ```
 sudo vim /var/www/html/test.php
 ```
@@ -113,7 +113,7 @@ sudo vim /var/www/html/test.php
 访问页面进行测试
 `http://your_server_ip/test.php`
 
-出于安全考虑，成功后删除这个文件
+测试成功后出于安全考虑，删除这个文件
 ```
 sudo rm /var/www/html/test.php
 ```
@@ -191,11 +191,26 @@ mysql> FLUSH PRIVILEGES;
 sudo mysql -u root -p
 ```
 
-## 测试 phpMyAdmin
-`https://your_domain_or_IP/phpmyadmin`
-使用 root 和密码即可成功登录
+## 解决兼容问题
+通过软件源安装的 phpMyAdmin 和 php7.2 不兼容，会有查询错误，解决方法是手动更新 phpMyAdmin
+1. 到官网下载最新的 phpMyAdmin
 
-## 加密访问 phpMyAdmin 
+2. 删除或重命名（备份）`/usr/share/phpmyadmin/` 的文件夹
+
+3. 将最新的 phpMyAdmin 解压到 `/usr/share/phpmyadmin/`
+
+4. 编辑文件 `./libraries/vendor_config.php` 将 `define('CONFIG_DIR', '');` 
+改为
+`define('CONFIG_DIR', '/etc/phpmyadmin/');`
+
+5. 重启 apache
+
+## 测试
+`https://your_domain_or_IP/phpmyadmin`
+使用 root 和密码应可成功登录
+
+
+## 增加 http 基本验证
 ```
 sudo vim /etc/apache2/conf-available/phpmyadmin.conf
 ```
@@ -204,7 +219,7 @@ sudo vim /etc/apache2/conf-available/phpmyadmin.conf
 <Directory /usr/share/phpmyadmin>
     Options FollowSymLinks
     DirectoryIndex index.php
-    *AllowOverride All*
+    AllowOverride All
     . . .
 ```
 
@@ -230,24 +245,8 @@ Require valid-user
 ```bash
 sudo htpasswd -c /etc/phpmyadmin/.htpasswd <username>
 ```
-
-`https://domain_name_or_IP/phpmyadmin`
-
-## 解决兼容问题
-和 php7.2 不兼容，会有查询错误
-解决方法是手动更新 phpMyAdmin
-1. First download latest phpMyAdmin file.
-
-2. Delete (make a backup) all previous version file located in `/usr/share/phpmyadmin` directory.
-
-3. Uncompress to `/usr/share/phpmyadmin/` directory all files of latest phpmyadmin.
-
-4. Modify file `./libraries/vendor_config.php` and change line:
-`define('CONFIG_DIR', '');` 
-to
-`define('CONFIG_DIR', '/etc/phpmyadmin/');`
-
-5. restart apache server and done.
+访问经行测试
+`http://domain_name_or_IP/phpmyadmin`
 
 ---
 Reference

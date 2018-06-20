@@ -1,10 +1,9 @@
 ---
 title: 使用 branch 对 hexo 备份
 date: 2017-09-12 20:41:13
-categories: WEB
+categories: Blog
 tags: 
 	- hexo
-	- blog
 	- git
 ---
 因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少
