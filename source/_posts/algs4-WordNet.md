@@ -4,16 +4,17 @@ date: 2017-12-04 10:26:07
 categories: Algorithm
 tags:
 	- DFS
-    - Directed acyclic graph
-    - Shortest path
+	- Directed acyclic graph
+	- Shortest path
 ---
 
 突然开课的 Part II，难度大增<!-- more -->
+
 ---
 
 # 分析
 
-目标是用有向无环图(DAG)建立一颗词典树，树根是实体(event)
+目标是用有向无环图(DAG)建立一颗词典树，树根是 event 这个单词
 
 {% asset_img wordnet-fig1.png %}
 
@@ -54,25 +55,25 @@ for (int i = 0; i < vMarked.length; i++) {
 设计 一个 Hypernym 类，用 ArrayList 来记录上位词(hypernyms)ID
 ```java
 private class Hypernym implements Comparable<Hypernym> {
-	
-	private final String nounId;
-	private final ArrayList<Integer> hypernymsId;
-	
-	public Hypernym(String nounId) {
-		if (nounId == null)
-			throw new IllegalArgumentException();
-		hypernymsId = new ArrayList<>();
-		this.nounId = nounId; 
-	}
-	
-	@Override
-	public int compareTo(Hypernym that) {
-		return this.nounId.compareTo(that.nounId);
-	}
-	
-	private void addId(int id) {
-		this.hypernymsId.add(id);
-	}	
+    
+    private final String nounId;
+    private final ArrayList<Integer> hypernymsId;
+    
+    public Hypernym(String nounId) {
+        if (nounId == null)
+            throw new IllegalArgumentException();
+        hypernymsId = new ArrayList<>();
+        this.nounId = nounId; 
+    }
+    
+    @Override
+    public int compareTo(Hypernym that) {
+        return this.nounId.compareTo(that.nounId);
+    }
+    
+    private void addId(int id) {
+        this.hypernymsId.add(id);
+    }    
 }
 ```
 
