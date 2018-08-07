@@ -96,15 +96,14 @@ social:
   GitHub: https://github.com/ehye || github
   E-Mail: mailto:yjw9610@hotmail.com || envelope
   Steam: http://steamcommunity.com/profiles/76561198020635296 || fab fa-steam
-  # Twitter: https://twitter.com/YeChiehwei || twitter 政治敏感
-  # 豆瓣: https://www.douban.com/people/76382145/
-  #Google: https://plus.google.com/yourname || google
-  #FB Page: https://www.facebook.com/yourname || facebook
-  #VK Group: https://vk.com/yourname || vk
-  #StackOverflow: https://stackoverflow.com/yourname || stack-overflow
-  #YouTube: https://youtube.com/yourname || youtube
-  #Instagram: https://instagram.com/yourname || instagram
-  #Skype: skype:yourname?call|chat || skype
+  # Twitter: https://twitter.com/YeChiehwei || twitter
+  # Google: https://plus.google.com/yourname || google
+  # FB Page: https://www.facebook.com/yourname || facebook
+  # VK Group: https://vk.com/yourname || vk
+  # StackOverflow: https://stackoverflow.com/yourname || stack-overflow
+  # YouTube: https://youtube.com/yourname || youtube
+  # Instagram: https://instagram.com/yourname || instagram
+  # Skype: skype:yourname?call|chat || skype
 
 social_icons:
   enable: true
@@ -137,8 +136,7 @@ toc:
 # Creative Commons 4.0 International License.
 # http://creativecommons.org/
 # Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
-#creative_commons: by-nc-sa
-#creative_commons:
+creative_commons: by-nc-sa
 
 sidebar:
   # Sidebar Position, available value: left | right

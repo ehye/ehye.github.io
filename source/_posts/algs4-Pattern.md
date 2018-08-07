@@ -23,15 +23,15 @@ tags:
 ## Point 数据类型
 ```java
 public class Point implements Comparable<Point> {
-	public Point(int x, int y)              // constructs the point (x, y)
+    public Point(int x, int y)              // constructs the point (x, y)
 
-	public   void draw()                    // draws this point
-	public   void drawTo(Point that)        // draws the line segment from this point to that point
-	public String toString()                // string representation
+    public   void draw()                    // draws this point
+    public   void drawTo(Point that)        // draws the line segment from this point to that point
+    public String toString()                // string representation
 
-	public int compareTo(Point that)     	// compare two points by y-coordinates, breaking ties by x-coordinates
-	public double slopeTo(Point that)       // the slope between this point and that point
-	public Comparator<Point> slopeOrder()   // compare two points by slopes they make with this point
+    public int compareTo(Point that)         // compare two points by y-coordinates, breaking ties by x-coordinates
+    public double slopeTo(Point that)       // the slope between this point and that point
+    public Comparator<Point> slopeOrder()   // compare two points by slopes they make with this point
 }
 ```
 课件给了一个[半成品](http://coursera.cs.princeton.edu/algs4/testing/collinear/Point.java)，相对容易能够完成
@@ -44,13 +44,13 @@ public class Point implements Comparable<Point> {
 
 ```java
 public Comparator<Point> slopeOrder() {
-	return new SlopeOrder();
+    return new SlopeOrder();
 }
 
 private class SlopeOrder implements Comparator<Point> {
-	public int compare(Point q1, Point q2) {
-		
-	}
+    public int compare(Point q1, Point q2) {
+        
+    }
 }
 ```
 
@@ -107,31 +107,31 @@ public class Point implements Comparable<Point> {
 
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
-    	if (this.y == that.y) { 						// horizontal
-    		if (this.x == that.x) {
-    			return Double.NEGATIVE_INFINITY;	
-    		}
-    		return 0.0;    		
-    	}
-    	if (this.x == that.x) 						// vertical
-    		return Double.POSITIVE_INFINITY;
-    	
-    	return (double)(that.y - this.y) / (that.x - this.x);
+        if (this.y == that.y) {                         // horizontal
+            if (this.x == that.x) {
+                return Double.NEGATIVE_INFINITY;    
+            }
+            return 0.0;            
+        }
+        if (this.x == that.x)                         // vertical
+            return Double.POSITIVE_INFINITY;
+        
+        return (double)(that.y - this.y) / (that.x - this.x);
     }
 
-	public int compareTo(Point that) {
+    public int compareTo(Point that) {
         /* YOUR CODE HERE */
-	    if (this.y < that.y || (this.y == that.y && this.x < that.x))
-	    	return -1;
-	    else if (this.y == that.y && this.x == that.x)
-	    	return 0;
-	    else
-	    	return 1;
+        if (this.y < that.y || (this.y == that.y && this.x < that.x))
+            return -1;
+        else if (this.y == that.y && this.x == that.x)
+            return 0;
+        else
+            return 1;
     }
-	
-	public Comparator<Point> slopeOrder() {
+    
+    public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
-    	return new SlopeOrder();
+        return new SlopeOrder();
     }
 
     private class SlopeOrder implements Comparator<Point> 
@@ -156,131 +156,131 @@ BruteCollinearPoints.java
 ```java
 public class BruteCollinearPoints {
 
-	private Point[] copies;
-	private ArrayList<LineSegment> lineSegments = new ArrayList<LineSegment>();
+    private Point[] copies;
+    private ArrayList<LineSegment> lineSegments = new ArrayList<LineSegment>();
 
-	// finds all line segments containing 4 points
-	public BruteCollinearPoints(final Point[] points) {
-		
-		if (points == null) 
-			throw new java.lang.NullPointerException();
+    // finds all line segments containing 4 points
+    public BruteCollinearPoints(final Point[] points) {
+        
+        if (points == null) 
+            throw new java.lang.NullPointerException();
 
-		copies = new Point[points.length];
-		for (int i = 0; i < points.length; i++) {
-			copies[i] = points[i];
-		}
-		
-		// sort by y-coordinate
-		// the endpoints are the first and last points
-		Arrays.sort(copies);
-		
-		// after sort then can check if duplicate
-		for (int i = 0; i < copies.length - 1; i++) 
-			if (copies[i].compareTo(copies[i+1]) == 0)
-				throw new java.lang.IllegalArgumentException();		
-		
-		for (int ip = 0; ip < copies.length-3; ip++) {
-		    for (int iq = ip + 1; iq < copies.length-2; iq++) {
-		    	double slopeP2Q = copies[ip].slopeTo(copies[iq]);
-		        for (int ir = iq + 1; ir < copies.length-1; ir++) {
-		        	double slopeQ2R = copies[iq].slopeTo(copies[ir]);
-		        	if (slopeP2Q != slopeQ2R) continue;
-		            for (int is = ir + 1; is < copies.length; is++) {
-		            	double slopeR2S = copies[ir].slopeTo(copies[is]);
-		            	// if 3 of 4's slopes are equal then 4 points are colllinear
-		            	if (slopeP2Q == slopeR2S) 
-	                		lineSegments.add(new LineSegment(copies[ip], copies[is]));
-		            }
-		        }
-		    }
-		}
-	}
+        copies = new Point[points.length];
+        for (int i = 0; i < points.length; i++) {
+            copies[i] = points[i];
+        }
+        
+        // sort by y-coordinate
+        // the endpoints are the first and last points
+        Arrays.sort(copies);
+        
+        // after sort then can check if duplicate
+        for (int i = 0; i < copies.length - 1; i++) 
+            if (copies[i].compareTo(copies[i+1]) == 0)
+                throw new java.lang.IllegalArgumentException();        
+        
+        for (int ip = 0; ip < copies.length-3; ip++) {
+            for (int iq = ip + 1; iq < copies.length-2; iq++) {
+                double slopeP2Q = copies[ip].slopeTo(copies[iq]);
+                for (int ir = iq + 1; ir < copies.length-1; ir++) {
+                    double slopeQ2R = copies[iq].slopeTo(copies[ir]);
+                    if (slopeP2Q != slopeQ2R) continue;
+                    for (int is = ir + 1; is < copies.length; is++) {
+                        double slopeR2S = copies[ir].slopeTo(copies[is]);
+                        // if 3 of 4's slopes are equal then 4 points are colllinear
+                        if (slopeP2Q == slopeR2S) 
+                            lineSegments.add(new LineSegment(copies[ip], copies[is]));
+                    }
+                }
+            }
+        }
+    }
 
-	// the number of line segments
-	public int numberOfSegments() {
-		return lineSegments.size();
-	}
+    // the number of line segments
+    public int numberOfSegments() {
+        return lineSegments.size();
+    }
 
-	// the line segments
-	public LineSegment[] segments() {
-		LineSegment[] result = new LineSegment[lineSegments.size()];
-		for (int i = 0; i < lineSegments.size(); i++) {
-			result[i] = lineSegments.get(i);
-		}
-		return result;
-	}
+    // the line segments
+    public LineSegment[] segments() {
+        LineSegment[] result = new LineSegment[lineSegments.size()];
+        for (int i = 0; i < lineSegments.size(); i++) {
+            result[i] = lineSegments.get(i);
+        }
+        return result;
+    }
 }
 ```
 
 FastCollinearPoints.java
 ```java
 public class FastCollinearPoints {
-	
-	private Point[] copies;
-	private ArrayList<LineSegment> lineSegments = new ArrayList<LineSegment>();
-	
-	// finds all line segments containing 4 or more points
-	public FastCollinearPoints(Point[] points) {
-		if (points == null) 
-			throw new java.lang.NullPointerException();
-		
-		copies = new Point[points.length];
-		for (int i = 0; i < points.length; i++) {
-			copies[i] = points[i];
-		}
-		
-		// sort by y-coordinate
-		// the endpoints are the first and last points
-		Arrays.sort(copies);
-		
-		// after sort then can check if duplicate
-		for (int i = 0; i < copies.length - 1; i++) 
-			if (copies[i].compareTo(copies[i+1]) == 0)
-				throw new java.lang.IllegalArgumentException();
-	
-		for (int i = 0; i < copies.length - 1; i++) {			
-			Point origin = copies[i]; 			// Think of p as the origin.
-			double[] slopes = new double[copies.length - 1 - i];
-			Point[] others = new Point[copies.length - 1 - i];
-			
-			for (int j = 0; j < copies.length - 1 - i; j++)
-				others[j] = copies[j + 1 + i];
-			
-			// For each other point q, determine the slope it makes with p
-			for (int j = 0; j < others.length; j++)
-				slopes[j] = origin.slopeTo(others[j]);
-			
-			// Sort the points according to the slopes they makes with p
-			Arrays.sort(others, origin.slopeOrder());
-			
-			Arrays.sort(slopes);
-			// Check if any 3 (or more) adjacent points in the 
-			// sorted order have equal slopes with respect to p
-			// If so, these points, together with p, are collinear
-			for (int cnt_same = 0, j = 0; j < slopes.length - 1; j++) {
-				if (slopes[j] == slopes[j+1]) {
-					cnt_same++;
-				}
-				if (cnt_same >= 2) {
-					lineSegments.add(new LineSegment(origin, others[j + 1]));
-					break;
-				}
-			}
-		}
-	}
+    
+    private Point[] copies;
+    private ArrayList<LineSegment> lineSegments = new ArrayList<LineSegment>();
+    
+    // finds all line segments containing 4 or more points
+    public FastCollinearPoints(Point[] points) {
+        if (points == null) 
+            throw new java.lang.NullPointerException();
+        
+        copies = new Point[points.length];
+        for (int i = 0; i < points.length; i++) {
+            copies[i] = points[i];
+        }
+        
+        // sort by y-coordinate
+        // the endpoints are the first and last points
+        Arrays.sort(copies);
+        
+        // after sort then can check if duplicate
+        for (int i = 0; i < copies.length - 1; i++) 
+            if (copies[i].compareTo(copies[i+1]) == 0)
+                throw new java.lang.IllegalArgumentException();
+    
+        for (int i = 0; i < copies.length - 1; i++) {            
+            Point origin = copies[i];             // Think of p as the origin.
+            double[] slopes = new double[copies.length - 1 - i];
+            Point[] others = new Point[copies.length - 1 - i];
+            
+            for (int j = 0; j < copies.length - 1 - i; j++)
+                others[j] = copies[j + 1 + i];
+            
+            // For each other point q, determine the slope it makes with p
+            for (int j = 0; j < others.length; j++)
+                slopes[j] = origin.slopeTo(others[j]);
+            
+            // Sort the points according to the slopes they makes with p
+            Arrays.sort(others, origin.slopeOrder());
+            
+            Arrays.sort(slopes);
+            // Check if any 3 (or more) adjacent points in the 
+            // sorted order have equal slopes with respect to p
+            // If so, these points, together with p, are collinear
+            for (int cnt_same = 0, j = 0; j < slopes.length - 1; j++) {
+                if (slopes[j] == slopes[j+1]) {
+                    cnt_same++;
+                }
+                if (cnt_same >= 2) {
+                    lineSegments.add(new LineSegment(origin, others[j + 1]));
+                    break;
+                }
+            }
+        }
+    }
 
-	// the number of line segments
-	public int numberOfSegments() {
-		return lineSegments.size();
-	}
+    // the number of line segments
+    public int numberOfSegments() {
+        return lineSegments.size();
+    }
 
-	// the line segments
-	public LineSegment[] segments() {
-		LineSegment[] result = new LineSegment[lineSegments.size()];
-		for (int i = 0; i < lineSegments.size(); i++) {
-			result[i] = lineSegments.get(i);
-		}
-		return result;
-	}
+    // the line segments
+    public LineSegment[] segments() {
+        LineSegment[] result = new LineSegment[lineSegments.size()];
+        for (int i = 0; i < lineSegments.size(); i++) {
+            result[i] = lineSegments.get(i);
+        }
+        return result;
+    }
 }
 ```

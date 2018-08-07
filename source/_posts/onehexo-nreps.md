@@ -7,6 +7,10 @@ tags:
 	- hexo
 ---
 
+GitHub Pages 在国内访问会不可避免的慢，因此可以使用国内类似的类似平台提供的服务，来加快从国内访问的速度<!--more-->
+
+---
+
 # Hexo 设置
 
 在 `_config.yml` 中修改参数，添加仓库地址
@@ -43,3 +47,9 @@ git push --set-upstream all hexo
 ```
 
 到此，每个远程仓库就有两个 branch 了
+
+后续只要正常地使用`hexo d`和`git push`即可完成博客部署以及备份分支的推送
+
+---
+**ref**
+> https://stackoverflow.com/questions/4255865/git-push-to-multiple-repositories-simultaneously
