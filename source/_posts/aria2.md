@@ -1,0 +1,121 @@
+---
+title: OpenWrt折腾记录01
+date: 2019-01-15 12:28:41
+categories: Router
+tags:
+	- OpenWrt
+	- aria2
+	- NFS
+---
+路由器+转接线+旧硬盘=私有云存储<!-- more -->
+
+---
+
+# 挂载移动硬盘
+## 安装驱动
+
+- 硬件驱动
+
+```bash
+opkg install kmod-usb-core
+opkg install kmod-usb-uhci kmod-usb-ohci # USB 1.1
+opkg install kmod-usb2
+opkg install kmod-usb3 # 实测就算路由器上的接口是2.0，但用了3.0的线也要这个包
+opkg install kmod-usb-storage # USB存储设备
+opkg install kmod-usb-storage-extras # 读卡器
+opkg install kmod-scsi-core
+opkg install kmod-scsi-generic
+```
+因为连接的是硬盘而不是U盘，连接线是某联的sata转usb线，走的是SCSI协议，因此还要额外安装`kmod-usb-storage-uas`，网上帖子都没有提到，最后在官方文档找到
+```bash
+opkg install kmod-usb-storage-uas
+```
+
+- 文件系统驱动
+
+```bash
+opkg install kmod-fs-ext2
+opkg install kmod-fs-ext3
+opkg install kmod-fs-ext4
+opkg install kmod-fs-ntfs
+opkg install kmod-fs-vfat
+```
+
+## 准备硬盘
+使用Diskgenius将硬盘格式化为ext4，Windows上装Ext2Fsd即可像普通分区一样对ext4分区进行操作
+> 卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载
+
+接上路由，使用mount命令或在挂载点进行挂载
+
+
+# Aria2下载工具
+
+## 安装
+```bash
+opkg install aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
+```
+## 配置
+- **以此用户权限运行**选`root`
+- **附加选项列表**增加一项`check-certificate=false`，即可下载https
+- **默认下载目录**选择硬盘的目录，例如/mnt/sda1/
+- **磁盘预分配**选择`Falloc` (ext4格式时)
+- **添加额外的Tracker**，[附加 Bt tracker 列表](https://github.com/ngosang/trackerslist)
+
+## Web前端
+这里选择webui-aria2
+```bash
+opkg install webui-aria2
+```
+# NFS服务
+
+## 服务端
+1. 安装nfs-kernel-server，这会自动下载所有需要的包
+
+```
+opkg install nfs-kernel-server
+```
+
+2. 服务端配置
+
+编辑`/etc/exports`，指定匿名用户的uid和gid，方便Windows客户端访问
+```
+/mnt/sda1       *(rw,no_root_squash,no_subtree_check,sync,insecure,anonuid=0,anongid=0)
+```
+保存后执行`service nfsd reload`重启NFS
+
+## 客户端（Windows10）
+
+1. 启用或关闭Windows功能中启用NSF服务
+2. 使用cmd挂载网络存储
+```
+mount -o anon \\192.168.1.1\mnt\sda1 Z:
+```
+	计算机中出现了一个Z盘，此时访问会出现权限限制
+
+3. cmd 运行 mount 命令
+```
+本地    远程                                 属性
+-------------------------------------------------------------------------------
+Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
+                                                rsize=16384, wsize=16384
+                                                mount=soft, timeout=10.0
+                                                retry=1, locking=yes
+                                                fileaccess=755, lang=GB2312-80
+                                                casesensitive=no
+                                                sec=sys
+
+```
+	记下uid和gid，Z盘属性-NFS属性，填入uid和gid
+
+
+4. 使用UTF8编码，解决中文乱码
+https://zhuanlan.zhihu.com/p/46254792
+
+## 客户端（Android）
+手机可使用ES File Explorer，安卓电视用Kodi
+
+---
+
+**参考**
+- https://openwrt.org/docs/guide-user/storage/usb-installing
+- https://openwrt.org/docs/guide-user/services/nas/nfs_configuration

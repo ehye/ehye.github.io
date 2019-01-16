@@ -20,11 +20,15 @@ git clone git@github.com:username/username.github.io
 git checkout --orphan <branchname>
 ```
 
-3. 清空网站文件夹，把所需的 hexo 文件复制进来
+3. 清空网站文件夹，把所需的 hexo 文件复制进来add
+```
+git add .
+```
 
 4. 设置上游分支并推送
 ```
-git push --set-upstream origin hexo
+git commit -am"initial commit"
+git push --set-upstream origin <branchname>
 ```
 
 	到此，远程仓库就有两个 branch 了
