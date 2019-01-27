@@ -1,7 +1,7 @@
 ---
-title: Algorithms, Part I - Programming Assignment 3 - Pattern Recognition
+title: Algorithms, Part I - Week 3 - Pattern Recognition
 date: 2017-05-08 22:55:03
-categories: Algorithm
+categories: MOOC
 tags:
 ---
 

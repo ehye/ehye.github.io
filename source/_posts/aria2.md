@@ -110,6 +110,7 @@ Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
 
 4. 使用UTF8编码，解决中文乱码
 https://zhuanlan.zhihu.com/p/46254792
+部分中文软件可能会显示乱码
 
 ## 客户端（Android）
 手机可使用ES File Explorer，安卓电视用Kodi

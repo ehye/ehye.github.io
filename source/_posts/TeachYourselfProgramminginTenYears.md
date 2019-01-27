@@ -1,7 +1,7 @@
 ---
 title: Teach Yourself Programming in Ten Years
 date: 2016-12-22 12:51:58
-categories: 转载
+categories: Article
 tags:
 ---
 Peter Norvig

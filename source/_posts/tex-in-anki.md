@@ -1,7 +1,7 @@
 ﻿---
 title: 向 Anki 添加 LaTeX 支持
 date: 2018-04-10 15:50:06
-categories: Software
+categories: Tips
 tags:
     - LaTeX
     - Anki

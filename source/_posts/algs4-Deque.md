@@ -1,7 +1,7 @@
 ---
-title: Algorithms, Part I - Programming Assignment 2 - Deques and Randomized Queues
+title: Algorithms, Part I - Week 2 - Deques and Randomized Queues
 date: 2017-05-06 16:44:57
-categories: Algorithm
+categories: MOOC
 tags:
 	- stack
 	- linkedlist

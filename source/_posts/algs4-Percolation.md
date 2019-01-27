@@ -1,7 +1,7 @@
 ---
-title: Algorithms, Part I - Programming Assignment 1 - Percolation
+title: Algorithms, Part I - Week 1 - Percolation
 date: 2017-04-21 21:07:49
-categories: Algorithm
+categories: MOOC
 tags:
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 在 Win10 64位上使用 debug.exe
 date: 2017-09-26 13:42:36
-categories: Software
+categories: Tips
 tags:
 	- 汇编
 	- DOSBox

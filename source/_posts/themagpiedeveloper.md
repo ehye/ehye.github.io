@@ -1,7 +1,7 @@
 ---
 title: The Magpie Developer
 date: 2016-12-22 09:33:46
-categories: 转载
+categories: Article
 tags: 
 ---
 Written by Jeff Atwood<!--more-->

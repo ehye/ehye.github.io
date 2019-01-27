@@ -1,7 +1,7 @@
 ---
 title: IMAP和POP3有什么区别
 date: 2016-12-31 13:31:15
-categories: Network
+categories: Tips
 tags: 
 	- IMAP
 	- POP3

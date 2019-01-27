@@ -1,7 +1,7 @@
 ---
-title: Algorithms, Part I - Programming Assignment 5 - Kd-Trees
+title: Algorithms, Part I - Week 5 - Kd-Trees
 date: 2017-05-21 17:26:13
-categories: Algorithm
+categories: MOOC
 tags:
 	- KdTree
 ---

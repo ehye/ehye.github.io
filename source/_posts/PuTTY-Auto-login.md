@@ -1,7 +1,7 @@
 ﻿---
 title: PuTTY 自动登录设置
 date: 2018-01-19 00:18:32
-categories: Software
+categories: Tips
 tags:
 	- SSH
 	- PuTTY

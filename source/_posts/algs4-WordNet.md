@@ -1,10 +1,10 @@
 ﻿---
 title: Algorithms, Part II - Week 1 - WordNet
 date: 2017-12-04 10:26:07
-categories: Algorithm
+categories: MOOC
 tags:
 	- DFS
-	- Directed acyclic graph
+	- DAG
 	- Shortest path
 ---
 

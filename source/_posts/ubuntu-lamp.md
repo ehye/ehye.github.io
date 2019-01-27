@@ -1,12 +1,13 @@
 ﻿---
 title: 在 Ubuntu 上安装和配置 LAMP
 date: 2018-05-26 10:34:46
-categories: Server
+categories: Tips
 tags:
-  - Apache
-  - Ubuntu
-  - PHP
-  - MySQL
+	- LAMP
+	- Apache
+	- Ubuntu
+	- PHP
+	- MySQL
 ---
 
 Set up and install a LAMP (Linux-Apache-MySQL-PHP) server in Ubuntu 18.04, including Apache 2, PHP 7 and MySQL 5.7. <!--more-->
@@ -245,7 +246,7 @@ Require valid-user
 ```bash
 sudo htpasswd -c /etc/phpmyadmin/.htpasswd <username>
 ```
-访问经行测试
+访问测试
 `http://domain_name_or_IP/phpmyadmin`
 
 ---

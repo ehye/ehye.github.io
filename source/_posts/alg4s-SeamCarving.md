@@ -1,14 +1,14 @@
 ﻿---
 title: Algorithms, Part II - Week 2 - Seam Carving
 date: 2017-12-04 14:17:55
-categories: Algorithm
+categories: MOOC
 tags:
     - DFS
-    - Directed acyclic graph
+    - DAG
     - Shortest path
 ---
 
-这是一个PS里的功能，删去图片中信息量较小的像素，实现改变图片大小而不发生扭曲
+这是一个PS里的功能，删去图片中信息量较小的像素，实现改变图片长宽比而不发生扭曲
 <!-- more -->
 
 {% asset_img HJoceanSmall_compressed.jpg origin %}

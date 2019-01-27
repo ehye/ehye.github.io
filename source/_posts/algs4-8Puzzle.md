@@ -1,7 +1,7 @@
 ---
-title: Algorithms, Part I - Programming Assignment 4 - 8 Puzzle
+title: Algorithms, Part I - Week 4 - 8 Puzzle
 date: 2017-05-13 21:41:29
-categories: Algorithm
+categories: MOOC
 tags:
 	- A*
 ---
