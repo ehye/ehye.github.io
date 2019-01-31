@@ -11,7 +11,7 @@ tags:
 <body>
     <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">Download extension</button>
     <br/>
-    <a id="download_link" href="" style="visibility: hidden;">Click this link</a>
+    <a id="download_link" href="" style="visibility: hidden;">点击下载</a>
 </body>
 
 <script type="text/javascript">
@@ -21,8 +21,6 @@ tags:
             var str = "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D~~%26installsource%3Dondemand%26uc";
             var link = str.replace(/~~/,id);
             document.getElementById("download_link").href = link;
-            // document.getElementById("demo").innerHTML = link;
-            // location.href = link;
             document.getElementById("download_link").style.visibility = "visible";
 		}
 		else {

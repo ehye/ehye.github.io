@@ -4,7 +4,6 @@ date: 2018-10-18 22:18:37
 categories: Router
 tags:
 	- OpenWrt
-	- LEDE
 ---
 
 之前刷网件R6220的过程<!-- more -->
@@ -70,6 +69,6 @@ opkg install <packages>
 
 ---
 
-参考
+ref
 https://www.right.com.cn/forum/thread-208580-1-1.html
 https://emersion.fr/blog/2017/installing-lede-on-a-netgear-r6220/

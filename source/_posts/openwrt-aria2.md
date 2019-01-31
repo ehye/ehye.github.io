@@ -43,10 +43,12 @@ opkg install kmod-fs-vfat
 
 ## 准备硬盘
 使用Diskgenius将硬盘格式化为ext4，Windows上装Ext2Fsd即可像普通分区一样对ext4分区进行操作
-> 卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载
+> 卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载，否则不能关机
 
 接上路由，使用mount命令或在挂载点进行挂载
-
+```
+mount -o anon \\192.168.1.1\mnt\sda1 Z:
+```
 
 # Aria2下载工具
 
@@ -57,15 +59,30 @@ opkg install aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
 ## 配置
 - **以此用户权限运行**选`root`
 - **附加选项列表**增加一项`check-certificate=false`，即可下载https
-- **默认下载目录**选择硬盘的目录，例如/mnt/sda1/
+- **默认下载目录**选择硬盘的目录，例如`/mnt/sda1/`
+- **指定日志位置**`log=/var/etc/aria2/aria2.log`
 - **磁盘预分配**选择`Falloc` (ext4格式时)
 - **添加额外的Tracker**，[附加 Bt tracker 列表](https://github.com/ngosang/trackerslist)
 
-## Web前端
+## 安装前端
 这里选择webui-aria2
 ```bash
 opkg install webui-aria2
 ```
+
+## 启用HTTPS
+aria2配置文件增加3行
+```
+rpc-secure=true
+rpc-certificate=/etc/ssl/mycert.pem
+rpc-private-key=/etc/ssl/mycert.key
+```
+证书要pem格式，就用uHTTPd的crt格式证书转换了
+```
+openssl x509 -in mycert.crt -out mycert.pem -outform PEM
+```
+端口都设置为6800，在webui勾选`启用 SSL/TLS 加密`，之后就可以通过HTTPS访问了
+
 # NFS服务
 
 ## 服务端
@@ -109,8 +126,9 @@ Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
 
 
 4. 使用UTF8编码，解决中文乱码
-https://zhuanlan.zhihu.com/p/46254792
-部分中文软件可能会显示乱码
+	> https://zhuanlan.zhihu.com/p/46254792
+
+	部分中文软件可能会显示乱码
 
 ## 客户端（Android）
 手机可使用ES File Explorer，安卓电视用Kodi
