@@ -28,7 +28,6 @@ plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y', 'MarkerSize', 7);
 ```
 
 - sigmoid.m
-
 $g(z) = \dfrac{1}{1 + e^{-z}}$
 数组也需适用，要用exp
 ```matlab
@@ -36,7 +35,6 @@ g = 1 ./ (1 + exp(-z));
 ```
 
 - costFunction.m
-
 ```matlab
 % p21
 J = sum(-y'*log(sigmoid(X*theta))-(1-y)'*log(1-sigmoid(X*theta))) / m;
@@ -45,13 +43,17 @@ grad = (X'*(sigmoid(X*theta)-y)) ./ m;
 ```
 
 - predict.m
-
 ```matlab
-
+for i = 1:size(p)
+    if (sigmoid(X*theta) >= 0.5)
+        p(i) = 1;
+    else
+        p(i) = 0;
+    end
+end
 ```
 
 - costFunctionReg.m
-
 ```matlab
 
 ```

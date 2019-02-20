@@ -18,11 +18,11 @@ opkg install luci-app-ddns luci-i18n-ddns-zh-cn
 ```
 安装GoDaddy脚本
 ```
-opkg ddns-scripts_godaddy.com-v1
+opkg install ddns-scripts_godaddy.com-v1
 ```
 安装uHTTPd
 ```
-opkg luci-app-uhttpd
+opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn
 ```
 
 # 配置

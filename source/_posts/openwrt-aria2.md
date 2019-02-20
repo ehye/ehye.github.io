@@ -41,8 +41,24 @@ opkg install kmod-fs-ntfs
 opkg install kmod-fs-vfat
 ```
 
-## 准备硬盘
-使用Diskgenius将硬盘格式化为ext4，Windows上装Ext2Fsd即可像普通分区一样对ext4分区进行操作
+## 挂载硬盘
+
+安装挂载点
+```
+opkg install block-mount
+```
+
+新建目录
+```
+mkdir /mnt/sda1
+```
+
+挂载硬盘
+```
+mount /dev/sda1 /mnt/sda1
+```
+
+> 使用Diskgenius将硬盘格式化为ext4，Windows上装Ext2Fsd即可像普通分区一样对ext4分区进行操作
 > 卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载，否则不能关机
 
 接上路由，使用mount命令或在挂载点进行挂载
@@ -71,7 +87,11 @@ opkg install webui-aria2
 ```
 
 ## 启用HTTPS
-aria2配置文件增加3行
+
+先为 uHTTPd 添加 https 证书
+> https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings
+
+配置文件是每次自动生成的，因此直接修改无效，通过 UCI 增加参数反而更简单
 ```
 rpc-secure=true
 rpc-certificate=/etc/ssl/mycert.pem
@@ -81,24 +101,22 @@ rpc-private-key=/etc/ssl/mycert.key
 ```
 openssl x509 -in mycert.crt -out mycert.pem -outform PEM
 ```
-端口都设置为6800，在webui勾选`启用 SSL/TLS 加密`，之后就可以通过HTTPS访问了
+端口都设置为6800，在webui勾选`启用 SSL/TLS 加密`，reload 之后就可以通过HTTPS访问了
 
 # NFS服务
 
 ## 服务端
 1. 安装nfs-kernel-server，这会自动下载所有需要的包
-
 ```
 opkg install nfs-kernel-server
 ```
 
 2. 服务端配置
-
 编辑`/etc/exports`，指定匿名用户的uid和gid，方便Windows客户端访问
 ```
 /mnt/sda1       *(rw,no_root_squash,no_subtree_check,sync,insecure,anonuid=0,anongid=0)
 ```
-保存后执行`service nfsd reload`重启NFS
+	保存后执行`service nfsd reload`重启NFS
 
 ## 客户端（Windows10）
 

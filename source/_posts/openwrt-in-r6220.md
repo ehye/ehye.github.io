@@ -58,7 +58,27 @@ src/gz packages https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.1/packa
 src/gz packages_ex https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.1/targets/ramips/mt7621/packages
 src/gz telephony https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.1/packages/mipsel_24kc/telephony
 ```
-其中第五行是目标类型为ramips，子类型为mt7621的所有package，注意名称不能一样
+其中第五行是目标类型为ramips，子类型为mt7621的补充package，注意名称不能一样
+
+> 若https链接下载不了，先改成http
+更新列表
+```
+opkg update
+```
+更新 wget 支持 SSL
+```
+opkg install wget
+```
+添加证书
+```
+opkg install ca-certificates
+```
+添加 SSL 库
+```
+opkg install libustream-openssl
+```
+现在 OPKG 就可以使用 HTTPS 了，将http 改为 https
+
 
 连上网后就可以更新了
 ```
