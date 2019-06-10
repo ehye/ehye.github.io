@@ -5,8 +5,8 @@ tags:
 	- git
 ---
 
-# fetch 下载
-# pull 更新
+# fetch is 下载
+# pull is 更新
 
 # 合并 commit
 git commit -a --amend -m "my message here"
@@ -20,7 +20,6 @@ git config user.email <邮箱>
 # 全局用户名邮箱
 git config  --global user.name <用户名>
 git config  --global user.email <邮箱>
-
 
 # 忽略文件（本地）
 git update-index --assume-unchanged PATH
@@ -37,3 +36,6 @@ git rebase <des>
 
 # 移动HEAD
 git checkout <des>
+
+# 切换分支
+git checkout -b <branch>
