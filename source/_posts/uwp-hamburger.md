@@ -1,8 +1,9 @@
 ---
 title: UWP开发笔记 汉堡菜单
 date: 2016-09-04 13:12:33
-categories: UWP
+categories: Tips
 tags:
+	- UWP
 ---
 先画出汉堡菜单按钮或返回按钮
 ```xml
@@ -67,6 +68,6 @@ tags:
 		HamburgerMeun.IsPaneOpen = !HamburgerMeun.IsPaneOpen;
 	}
 ```
-*Bob Tabord 的汉堡菜单弹出写法 *
+*Bob Tabord 的汉堡菜单弹出写法*
 
 第一次看到这样写按钮，很巧妙

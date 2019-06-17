@@ -1,7 +1,7 @@
 ---
 title: 安卓解包方法
 date: 2019-06-10 10:02:22
-categoies: Tips
+categories: Tips
 tags:
     - Android
 ---

@@ -3,7 +3,6 @@ title: 机器学习编程作业1 - Linear Regression
 date: 2019-01-19 18:57:23
 categories: MOOC
 tags:
-	- Machine Learning
 	- Linear Regression
 	- Gradient Descent
 ---
