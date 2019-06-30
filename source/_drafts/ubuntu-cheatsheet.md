@@ -64,3 +64,6 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 # 启动ss-go
 shadowsocks-server -c go/shadowsocks/bin/config.json > go/bin/log &
+
+# scp 传文件
+scp -P 2003 E:\xx.ipk root@192.168.1.1:/tmp

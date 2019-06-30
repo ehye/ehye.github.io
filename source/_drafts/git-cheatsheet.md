@@ -6,7 +6,7 @@ tags:
 ---
 
 # fetch is 下载
-# pull is 更新
+# pull is fetch and merge
 
 # 合并 commit
 git commit -a --amend -m "my message here"
@@ -20,6 +20,9 @@ git config user.email <邮箱>
 # 全局用户名邮箱
 git config  --global user.name <用户名>
 git config  --global user.email <邮箱>
+
+# 移除 add 操作
+git rm --cached themes/hexo-theme-next
 
 # 忽略文件（本地）
 git update-index --assume-unchanged PATH

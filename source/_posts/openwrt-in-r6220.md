@@ -6,7 +6,7 @@ tags:
 	- OpenWrt
 ---
 
-之前刷网件R6220的过程<!-- more -->
+记之前刷网件R6220的过程<!-- more -->
 
 ---
 
@@ -61,15 +61,15 @@ src/gz telephony https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.2/pack
 ```
 其中第五行是目标类型为ramips，子类型为mt7621的补充package，注意名称不能一样
 
->若https链接下载不了，先改成http，更新后再改为https
-```
+{% note warning %} 现已强制跳转https，除了刷入装有支持https的完整wget固件无其他方法（2019/6/29）
+
+> 若https链接下载不了，先改成http，更新后再改为https
 opkg update
 opkg install wget # 更新 wget 支持 SSL
 opkg install ca-certificates # 添加证书
 opkg install libustream-openssl # 添加 SSL 库
-```
 
-
+{% endnote %}
 
 连上网后就可以更新了
 ```

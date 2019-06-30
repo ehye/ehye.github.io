@@ -63,8 +63,8 @@ menu:
   categories: /categories/ || th
   tags: /tags/ || tags
   about: /about/ || user
+  # sitemap: /sitemap.xml || sitemap
   #schedule: /schedule/ || calendar
-  #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
 
 # Enable/Disable menu icons.
@@ -78,7 +78,7 @@ menu_icons:
 
 # Schemes
 # scheme: Muse
-#scheme: Mist
+# scheme: Mist
 # scheme: Pisces
 scheme: Gemini
 
@@ -95,8 +95,7 @@ scheme: Gemini
 social:
   GitHub: https://github.com/ehye || github
   E-Mail: mailto:yjw9610@hotmail.com || envelope
-  # Steam: http://steamcommunity.com/profiles/76561198020635296 || fab fa-steam
-  # Twitter: https://twitter.com/YeChiehwei || twitter
+  # Steam: http://steamcommunity.com/profiles/ || fab fa-steam
   # Google: https://plus.google.com/yourname || google
   # FB Page: https://www.facebook.com/yourname || facebook
   # VK Group: https://vk.com/yourname || vk
@@ -158,10 +157,10 @@ sidebar:
   offset_float: 12
 
   # Back to top in sidebar
-  b2t: false
+  b2t: true
 
   # Scroll percent label in b2t button
-  scrollpercent: false
+  scrollpercent: true
   
   # Enable sidebar on narrow view
   onmobile: false
@@ -216,9 +215,9 @@ post_wordcount:
 
 # Declare license on posts
 post_copyright:
-  enable: false
-  license: CC BY-NC-SA 3.0
-  license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
+  enable: true
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
 # ---------------------------------------------------------------
