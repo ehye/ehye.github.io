@@ -2,6 +2,7 @@
 title: 机器学习编程作业1 - Linear Regression
 date: 2019-01-19 18:57:23
 categories: MOOC
+mathjax: true
 tags:
 	- Linear Regression
 	- Gradient Descent
@@ -35,7 +36,7 @@ xlabel('Population of City in 10,000s'); % Set the x−axis label
 ```
 
 - computeCost.m
-设计代价函数$J(\theta_0,\theta_1)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$
+设计代价函数 $J(\theta_0,\theta_1)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$
 ```matlab
 predictions = X*theta;
 sqrErrors = (predictions-y).^2;

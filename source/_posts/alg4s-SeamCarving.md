@@ -2,6 +2,7 @@
 title: Algorithms, Part II - Week 2 - Seam Carving
 date: 2017-12-04 14:17:55
 categories: MOOC
+mathjax: true
 tags:
     - DFS
     - DAG
