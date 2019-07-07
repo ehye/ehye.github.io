@@ -300,7 +300,7 @@ text_align:
   mobile: justify
 
 # Automatically scroll page to section which is under <!-- more --> mark.
-scroll_to_more: true
+scroll_to_more: false
 
 # Automatically saving scroll position on each post / page in cookies.
 save_scroll: false
@@ -674,7 +674,7 @@ gitalk:
   github_id: ehye # Github repo owner
   repo: ehye.github.io # Repository name to store issues
   client_id: e3ae448941bcaaad5715 # Github Application Client ID
-  client_secret: 4ab54af915b324546e0b8855d33a7555cb85d699 # Github Application Client Secret
+  client_secret: 856c27abc9e6ebc4f8b4342d767d896e422b995d # Github Application Client Secret
   admin_user: ehye # GitHub repo owner and collaborators, only these guys can initialize github issues
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment

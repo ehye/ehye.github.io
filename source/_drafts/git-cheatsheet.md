@@ -39,3 +39,8 @@ git checkout <des>
 
 # 切换分支
 git checkout -b <branch>
+
+# 重装后加key
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+> https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent
