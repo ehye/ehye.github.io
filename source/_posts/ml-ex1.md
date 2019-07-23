@@ -36,7 +36,8 @@ xlabel('Population of City in 10,000s'); % Set the x−axis label
 ```
 
 - computeCost.m
-设计代价函数 $J(\theta_0,\theta_1)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$
+    
+    设计代价函数 $$J(\theta_0,\theta_1)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$$
 ```matlab
 predictions = X*theta;
 sqrErrors = (predictions-y).^2;
@@ -55,7 +56,10 @@ J = 1/(2*m) * sum(sqrErrors);
 ```
 
 - featureNormalize.m
-参考讲义4-P12 $x_1=\frac{x_1-\mu_1}{s_1}$
+
+    > 参考讲义4-P12
+
+    $x_1=\frac{x_1-\mu_1}{s_1}$
 ```matlab
 for i=1:size(X,2)
     mu(i)=mean(X(:,i));
@@ -65,21 +69,29 @@ X_norm=(X_norm - mu) ./ sigma;
 ```
 
 - computeCostMulti.m
-参考讲义4-P7 $J(\theta)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$
+
+    > 参考讲义4-P7 
+
+    $$J(\theta)=\frac{1}{2m}\displaystyle\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$$
 ```matlab
 J = sum((X*theta-y).^2/(2*m)); % 4-P7
 ```
+
 - gradientDescentMulti.m
-参考讲义4-P8 
+参考讲义4-P8
 ```matlab
 temp=theta;
 for t = 1:length(theta)
-	temp(t,1)=theta(t,1)-alpha*sum((X*theta-y).*X(:,t))/m;
+    temp(t,1)=theta(t,1)-alpha*sum((X*theta-y).*X(:,t))/m;
 end
 theta=temp;
 ```
+
 - normalEqn.m
-参考讲义4-P27 $\theta=(X^TX)^{-1}X^Ty$
+
+    > 参考讲义4-P27 
+
+    $\theta=(X^TX)^{-1}X^Ty$
 ```matlab
 theta=pinv(X'*X)*X'*y
 ```

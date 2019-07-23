@@ -52,3 +52,9 @@ using ( var x = new Something() ) {
 > https://stackoverflow.com/questions/662773/returning-in-the-middle-of-a-using-block
 > https://stackoverflow.com/questions/11776945/is-it-a-good-approach-to-call-return-inside-using-statement
 
+
+convert-dataset-to-iqueryablet-or-ienumerablet
+table.AsEnumerable()...
+
+table.AsEnumerable().AsQueryable()...
+> https://stackoverflow.com/questions/505054/convert-dataset-to-iqueryablet-or-ienumerablet

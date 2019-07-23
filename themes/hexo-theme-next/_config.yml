@@ -606,8 +606,8 @@ calendar:
 # Disqus
 disqus:
   enable: false
-  shortname:
-  count: true
+  shortname: ehye
+  count: false
   lazyload: false
 
 # DisqusJS
@@ -634,13 +634,13 @@ changyan:
 # You can get your appid and appkey from https://leancloud.cn
 # More info available at https://valine.js.org
 valine:
-  enable: false # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version.
-  appid:  # your leancloud application appid
-  appkey:  # your leancloud application appkey
+  enable: enable # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version.
+  appid:  1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz # your leancloud application appid
+  appkey:  bFOfQNjmK9F4LGFJY7A5TSFl # your leancloud application appkey
   notify: false # mail notifier, See: https://github.com/xCss/Valine/wiki
   verify: false # Verification code
   placeholder: Just go go # comment box placeholder
-  avatar: mm # gravatar style
+  avatar: retro # gravatar style
   guest_info: nick,mail,link # custom comment header
   pageSize: 10 # pagination size
   language: # language, available values: en, zh-cn
@@ -670,12 +670,12 @@ gitment:
 # Gitalk
 # Demo: https://gitalk.github.io
 gitalk:
-  enable: true
-  github_id: ehye # Github repo owner
-  repo: ehye.github.io # Repository name to store issues
-  client_id: e3ae448941bcaaad5715 # Github Application Client ID
-  client_secret: 856c27abc9e6ebc4f8b4342d767d896e422b995d # Github Application Client Secret
-  admin_user: ehye # GitHub repo owner and collaborators, only these guys can initialize github issues
+  enable: false
+  github_id:  # Github repo owner
+  repo:  # Repository name to store issues
+  client_id:  # Github Application Client ID
+  client_secret:  # Github Application Client Secret
+  admin_user:  # GitHub repo owner and collaborators, only these guys can initialize github issues
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment
   # If you want everyone visiting your site to see a uniform language, you can set a force language value
@@ -756,8 +756,8 @@ needmoreshare2:
 
 # Google Analytics
 #google_analytics:
-#  tracking_id:
-#  localhost_ignored: true
+tracking_id: UA-143510723-1
+localhost_ignored: true
 
 # CNZZ count
 #cnzz_siteid:
@@ -818,7 +818,7 @@ leancloud_visitors:
 # Visit https://console.firebase.google.com/u/0/ to get apiKey and projectId.
 # Visit https://firebase.google.com/docs/firestore/ to get more information about firestore.
 firestore:
-  enable: true
+  enable: false
   collection: articles #required, a string collection name to access firestore database
   apiKey: AIzaSyAB6xg9A5OHTbYRHKSUMpCUCIKC_KgzUwI #required
   projectId: github-pages-comment #required
