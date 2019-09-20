@@ -4,6 +4,9 @@ tags:
     - npm
 ---
 
-# 升级
+- 升级
+
+```bash
 npm outdated
 npm install <package-name>@latest --save
+```

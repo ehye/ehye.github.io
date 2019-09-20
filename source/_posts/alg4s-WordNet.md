@@ -86,6 +86,6 @@ private class Hypernym implements Comparable<Hypernym> {
 ---
 
 参考
-- http://coursera.cs.princeton.edu/algs4/assignments/wordnet.html
-- http://coursera.cs.princeton.edu/algs4/checklists/wordnet.html
-- http://blog.csdn.net/liuweiran900217/article/details/22603325#t5
+http://coursera.cs.princeton.edu/algs4/assignments/wordnet.html
+http://coursera.cs.princeton.edu/algs4/checklists/wordnet.html
+http://blog.csdn.net/liuweiran900217/article/details/22603325#t5

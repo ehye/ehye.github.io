@@ -10,18 +10,17 @@ tags:
 {% asset_img outline.png %}
 
 # 实践内容：
+
 - 路由和单臂路由配置，实现A、B、C部门计算机能访问Web、FTP服务
 - Web、FTP服务器配置静态NAT，实现A、B、C部门计算机能访问Web、FTP服务
 - 配置安全性，禁止B部门的计算机访问FTP服务器
 - 配置安全性，禁止B部门“恶意入侵”者访问Web服务
 - 管理员计算机能telnet登录R1路由器进行管理
 
+# 路由和单臂路由配置
 
+## 配置过程
 
-路由和单臂路由配置
-===
-配置过程
----
 S0
 ```
 Switch(config)#vlan 5
@@ -58,9 +57,9 @@ Router(config-subif)#en do 10
 Router(config-subif)#ip add 192.168.29.1 255.255.255.0
 ```
 
-配置静态NAT
-===
-配置过程
+# 配置静态NAT
+
+## 配置过程
 ---
 R1
 ```
@@ -92,8 +91,8 @@ Router(config-router)#netw 172.21.29.0 0.0.0.255 area 0
 Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0
 ```
 
-测试结果
----
+## 测试结果
+
 
 {% asset_img web-ftp-pass1.png %}
 
@@ -101,10 +100,10 @@ Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0
 
 {% asset_img web-ftp-pass3.png %}
 
-禁止B部门访问FTP服务器
-===
-配置过程
----
+# 禁止B部门访问FTP服务器
+
+## 配置过程
+
 R2
 ```
 Router(config)#access-list 110 remark NO FTP
@@ -119,10 +118,10 @@ Router(config-if)#ip access-group 110 in
 --- 
 {% asset_img deny-ftp.png %}
 
-禁止“恶意入侵”者访问 Web
-===
-配置过程
----
+# 禁止“恶意入侵”者访问 Web
+
+## 配置过程
+
 R2
 ```
 Router(config)#access-list 111 remark NO HTTP
@@ -132,15 +131,13 @@ Router(config)#int se0/2/0
 Router(config-if)#ip access-group 111 in
 ```
 
-测试结果
----
+## 测试结果
+
 {% asset_img deny-web.png %}
 
+# telnet 登录R1路由器进行管理
+## 配置过程
 
-telnet 登录R1路由器进行管理
-===
-配置过程
----
 R2
 ```
 Router#configure terminal 
@@ -152,17 +149,16 @@ Router(config)#enable password cisco
 Router(config)#end
 ```
 
-测试结果
----
+## 测试结果
+
 {% asset_img telnet.png %}
 
-----------
-
-实践总结
-===
+# 实践总结
 
 本次实践并不一帆风顺，在实际操作中遇到了一些问题：
 
 - 不清楚在哪台路由器上配置 NAT ——其实只要把两台服务器映射给到公网就行了
 - 单臂路由和 VLAN 配置语句不熟练——由于模拟器版本，一些封装语句和课本不一样
 - ACL 添加出错——课本上的简写语句并不能直接使用，如 host 需写成 0.0.0.0
+
+---

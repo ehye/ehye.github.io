@@ -11,17 +11,14 @@ tags:
 
 ---
 
-分析
-===
+# 分析
 
 链表和堆栈的运用
 
-解答
-===
-
-## 答案
+# 答案
 
 Deque.java
+
 ```java
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdOut;
@@ -31,7 +28,7 @@ public class Deque<Item> implements Iterable<Item>
 {
     private int n;
     private Node first, last;
-    
+
     private class Node
     {
         private Item item;
@@ -44,19 +41,19 @@ public class Deque<Item> implements Iterable<Item>
     {
         first = last = null;
         n = 0;
-    }                           
+    }
 
     // is the deque empty?
     public boolean isEmpty()
     {
         return n == 0;
     }
-    
+
     // return the number of items on the deque
     public int size()
     {
         return n;
-    }                        
+    }
 
     // add the item to the front
     public void addFirst(Item item)
@@ -69,7 +66,7 @@ public class Deque<Item> implements Iterable<Item>
         if (isEmpty())     last = first;
         else             oldfirst.prev = first;    
         n++;
-    }          
+    }
 
     // add the item to the end
     public void addLast(Item item)
@@ -94,7 +91,7 @@ public class Deque<Item> implements Iterable<Item>
         oldfirst = null;
         n--;
         return item;
-    }                
+    }
 
     // remove and return the item from the end
     public Item removeLast()
@@ -106,14 +103,14 @@ public class Deque<Item> implements Iterable<Item>
         oldlast = null;
         n--;
         return item;
-    }                 
+    }
 
     // return an iterator over items in order from front to end
     public Iterator<Item> iterator()
     {
         return new ListIterator();
     }
-    
+
     private class ListIterator implements Iterator<Item>
     {
         private Node current;
@@ -121,14 +118,14 @@ public class Deque<Item> implements Iterable<Item>
         public Item next() 
         {
             if (isEmpty()) throw new java.util.NoSuchElementException();
-            
+
             current = first;
             Item item = current.item;
             current = current.next;
             return item;
 
         }
-        
+
         public void remove()
         {
             throw new java.lang.UnsupportedOperationException();
@@ -144,7 +141,6 @@ public class Deque<Item> implements Iterable<Item>
     public static void main(String[] args)
     {
            Deque<Integer> deque = new Deque<Integer> ();
-           
            deque.addLast(1);
            deque.addLast(2);
            StdOut.println(deque.removeLast());
@@ -153,6 +149,7 @@ public class Deque<Item> implements Iterable<Item>
 ```
 
 RandomizedQueue.java
+
 ```java
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdOut;
@@ -162,7 +159,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
 {
     private int n = 0;
     private Item[] items;
-    
+
     // construct an empty randomized queue
     public RandomizedQueue()
     {
@@ -193,7 +190,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     public Item dequeue()
     {
         if (isEmpty()) throw new java.util.NoSuchElementException();
-        
+
         int index = StdRandom.uniform(n);
         Item item = items[index];
         items[index] = items[n-1];
@@ -210,7 +207,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         int index = StdRandom.uniform(n);
         return items[index];
     }
-    
+
     private void resize(int capacity)
     {
         Item[] copy = (Item[]) new Object[capacity];
@@ -230,12 +227,12 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     private class ListIterator implements Iterator<Item>
     {
         private int i = n;
-        
-        public boolean hasNext() 
+
+        public boolean hasNext()
         {
             return i > 0;
         }
-        
+
         public void remove()
         {
             throw new java.lang.UnsupportedOperationException();
@@ -244,17 +241,17 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         public Item next() 
         {
             if (isEmpty()) throw new java.util.NoSuchElementException();
-            
+
             int index = StdRandom.uniform(n);
             return items[index];
         }
     }
-    
+
     // unit testing (optional)
     public static void main(String[] args)
     {
         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer> ();
-        Iterator<Integer> it = rq.iterator();        
+        Iterator<Integer> it = rq.iterator();
         rq.enqueue(1);
         rq.enqueue(2);
         rq.enqueue(3);
@@ -265,13 +262,14 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         StdOut.println(rq.dequeue());
         StdOut.println("Size: " + rq.size());
         StdOut.println(it.next());
-//        StdOut.println(rq.sample()); 
+//        StdOut.println(rq.sample());
 //        StdOut.println(rq.sample());
     }
 }
 ```
 
 Permutation.java
+
 ```java
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
@@ -282,7 +280,7 @@ public class Permutation {
         int k = Integer.parseInt(args[0]);
         RandomizedQueue<String> deque = new RandomizedQueue<String>();
         while (!StdIn.isEmpty()) {
-            deque.enqueue(StdIn.readString());       
+            deque.enqueue(StdIn.readString());
         }
         for (int i = 0; i < k; i++) {
             StdOut.println(deque.dequeue());
@@ -292,9 +290,3 @@ public class Permutation {
 ```
 
 ---
-
-哦谢特
-===
-
-代码并不能通过
-明明记得有 commit
