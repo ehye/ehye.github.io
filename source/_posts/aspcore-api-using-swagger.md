@@ -12,9 +12,37 @@ tags:
 
 ---
 
+# 安装Nuget包
+
+对**core**项目安装`Swashbuckle.AspNetCore`
+
+{% asset_img install-nuget-swagger.png %}
+
+然后在`Startup.cs`中的`ConfigureServices`方法增加配置
+
+```csharp
+services.AddMvc();
+
+services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
+```
+
+以及`Configure`方法中
+
+```csharp
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+});
+```
+
 # 书写XML注释
 
-> MSDOC上一个较为完整的例子
+> 微软官方文档上一个较为完整的例子
 
 ```csharp
 /// <summary>
@@ -38,6 +66,7 @@ tags:
 [HttpPost]
 [ProducesResponseType(201)]
 [ProducesResponseType(400)]
+// [Obsolete]
 public ActionResult<TodoItem> Create(TodoItem item)
 {
     _context.TodoItems.Add(item);
@@ -47,9 +76,9 @@ public ActionResult<TodoItem> Create(TodoItem item)
 }
 ```
 
-![swagger summary](https://github.com/aspnet/AspNetCore.Docs/raw/master/aspnetcore/tutorials/web-api-help-pages-using-swagger/samples/3.0/TodoApi.Swashbuckle/sample_images/xml-comments-extended.png)
+{% asset_img xml-comments-extended.png %}
 
-# 生成XML
+# 在swagger文档上显示注释
 
 1. 在【解决方案管理器】右击**Application**项目，选择**属性**
 2. 在【生成】页面，勾选**XML文档文件**
@@ -57,13 +86,13 @@ public ActionResult<TodoItem> Create(TodoItem item)
 
 # 配置Swagger参数(4.0.0)
 
-1. 打开*Web.Host.Startup.cs*,在*ConfigureServices*方法中增加下行
+1. 打开`Startup.cs`,在`ConfigureServices`方法中增加下行
 
     ```csharp
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "<XML File Name>"));
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "<XML File Path>"));
     ```
 
-2. 在*Configure*方法中自定义你的Swagger页面样式
+2. 在*Configure*方法中自定义Swagger页面样式
 
     ```csharp
     options.ShowExtensions();
@@ -89,10 +118,36 @@ public ActionResult<TodoItem> Create(TodoItem item)
     options.SupportedSubmitMethods();
     ```
 
+# 增加折叠块注释
+
+新增一个过滤器
+
+```csharp
+public class TagDescriptionsDocumentFilter : IDocumentFilter
+{
+    public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
+    {
+        swaggerDoc.Tags = new[]
+        {
+            new Tag { Name = "Admin", Description = "管理员" },
+            new Tag { Name = "User", Description = "用户" }
+        };
+    }
+}
+```
+
+然后在`Startup.cs > ConfigureServices > AddSwaggerGen`里添加
+
+```csharp
+options.DocumentFilter<TagDescriptionsDocumentFilter>();
+```
+
 ---
 
 参考
 
-[Swagger UI Integration](https://aspnetboilerplate.com/Pages/Documents/Swagger-UI-Integration)
+[Swagger UI Integration - ASP.NET Boilerplate](https://aspnetboilerplate.com/Pages/Documents/Swagger-UI-Integration)
 
-[Get started with Swashbuckle and ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio#customize-and-extend)
+[Get started with Swashbuckle and ASP.NET Core | Microsoft Docs](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio#customize-and-extend)
+
+[Swashbuckle.AspNetCore On GitHub](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)

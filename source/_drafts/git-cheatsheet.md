@@ -47,7 +47,7 @@ git update-index --assume-unchanged PATH
 - 取消忽略
 
 ```bash
-git update-index –no-assume-unchanged –path
+git update-index --no-assume-unchanged –path
 ```
 
 - 所有被忽略的文件

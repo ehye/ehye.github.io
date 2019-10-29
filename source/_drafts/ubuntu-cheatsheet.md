@@ -120,13 +120,19 @@ export PATH=$PATH:$GOPATH/bin
 - 启动ss-go
 
 ```bash
-shadowsocks-server -c go/shadowsocks/bin/config.json > go/bin/log &
+go/shadowsocks/bin/shadowsocks-server -c go/shadowsocks/bin/config.json > go/shadowsocks/bin/log &
 ```
 
 - scp 传文件
 
 ```bash
 scp -P 2003 E:\xx.ipk root@192.168.1.1:/tmp
+```
+
+- 清空日志
+
+```bash
+echo "" > log
 ```
 
 ---

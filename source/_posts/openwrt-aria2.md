@@ -12,6 +12,7 @@ tags:
 ---
 
 # 挂载移动硬盘
+
 ## 安装驱动
 
 - 硬件驱动
@@ -23,10 +24,12 @@ opkg install kmod-usb2
 opkg install kmod-usb3 # 实测就算路由器上的接口是2.0，但用了3.0的线也要这个包
 opkg install kmod-usb-storage # USB存储设备
 opkg install kmod-usb-storage-extras # 读卡器
-opkg install kmod-scsi-core
+opkg install kmod-scsi-core # SCSI协议支持
 opkg install kmod-scsi-generic
 ```
+
 因为连接的是硬盘而不是U盘，连接线是某联的sata转usb线，走的是SCSI协议，因此还要额外安装`kmod-usb-storage-uas`，网上帖子都没有提到，最后在官方文档找到
+
 ```bash
 opkg install kmod-usb-storage-uas
 ```
@@ -44,12 +47,13 @@ opkg install kmod-fs-vfat
 ## 挂载硬盘
 
 安装挂载点
+
 ```
 opkg install block-mount
 ```
 
 新建目录
-```
+```cmd
 mkdir /mnt/sda1
 ```
 
@@ -92,7 +96,7 @@ opkg install webui-aria2
 > https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings
 
 配置文件是每次自动生成的，因此直接修改无效，通过 UCI 增加参数反而更简单
-```
+```sh
 rpc-secure=true
 rpc-certificate=/etc/ssl/mycert.pem
 rpc-private-key=/etc/ssl/mycert.key
@@ -128,7 +132,7 @@ mount -o anon \\192.168.1.1\mnt\sda1 Z:
 	计算机中出现了一个Z盘，此时访问会出现权限限制
 
 3. cmd 运行 mount 命令
-```
+```cmd
 本地    远程                                 属性
 -------------------------------------------------------------------------------
 Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
@@ -153,6 +157,8 @@ Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
 
 ---
 
-**参考**
-- https://openwrt.org/docs/guide-user/storage/usb-installing
-- https://openwrt.org/docs/guide-user/services/nas/nfs_configuration
+# 参考
+
+https://openwrt.org/docs/guide-user/storage/usb-installing
+
+https://openwrt.org/docs/guide-user/services/nas/nfs_configuration
