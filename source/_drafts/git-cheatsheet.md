@@ -5,19 +5,10 @@ tags:
 	- git
 ---
 
-# Note
 
-- fetch is 下载
+---
 
-- pull is fetch and merge
-
-- 合并 commit
-
-# 常用命令
-
-```bash
-git commit -a --amend -m "my message here"
-```
+# config
 
 - 修改当前的project的用户名
 
@@ -37,6 +28,47 @@ git config user.email <邮箱>
 git config  --global user.name <用户名>
 git config  --global user.email <邮箱>
 ```
+
+- 重装后加key
+
+```bash
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+```
+
+> [Adding your SSH key to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent)
+
+- 配置代理
+
+```conf
+[http]
+    proxy = socks5://127.0.0.1:7070
+```
+
+
+# pull
+
+- 拉取单个文件夹
+
+1. cd into the top of your repo copy
+2. `git fetch`
+3. `git checkout HEAD path/to/your/dir/or/file`
+
+- Where "`path/...`" in (3) starts at the directory just below the repo root containing your "`.../file`"
+
+- NOTE that instead of "HEAD", the hash code of a specific commit may be used, and then you will get the revision (file) or revisions (dir) specific to that commit.
+
+> [How to pull specific directory with git
+](https://stackoverflow.com/a/4048993/)
+
+# commit
+
+- 合并 commit
+
+```bash
+git commit -a --amend -m "my message here"
+```
+
 
 - 忽略文件（本地）
 
@@ -64,6 +96,8 @@ git ls-files -v | grep '^h\ '
 
 > [git忽略已经被提交的文件](https://segmentfault.com/q/1010000000430426)
 
+# bracnh
+
 - 移动分支指向
 
 ```bash
@@ -80,20 +114,4 @@ git checkout <des>
 
 ```bash
 git checkout -b <branch>
-```
-
-- 重装后加key
-
-```bash
-eval $(ssh-agent -s)
-ssh-add ~/.ssh/id_rsa
-```
-
-> [Adding your SSH key to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent)
-
-- 配置代理
-
-```REST
-[http]
-    proxy = socks5://127.0.0.1:7070
 ```

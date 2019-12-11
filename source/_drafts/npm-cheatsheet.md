@@ -10,3 +10,9 @@ tags:
 npm outdated
 npm install <package-name>@latest --save
 ```
+
+- cnpm权限
+
+```powershell
+ set-ExecutionPolicy RemoteSigned
+```

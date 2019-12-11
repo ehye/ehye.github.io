@@ -1,20 +1,23 @@
-部门树（左数右表）
-
-appservice
+---
+title: piedpiper
+date: 2019-12-10 11:27:07
+categroies: 
+tags:
+---
 
 ```csharp
 /// <summary>
 /// 部门树
 /// </summary>
+/// <param name="tenantId"></param>
 /// <returns></returns>
-public async Task<List<DepTreeOutDto>> GetDetpTreeWithEmp(string corpid, int tenantid)
+/// <remarks>token为管理员时租户为null，根据参数查询；token为用户时，限制按照其租户id查询</remarks>
+public async Task<List<DepartmentDto>> GetDetpTree(int? tenantId)
 {
-    using (CurrentUnitOfWork.SetTenantId(tenantid))
-    {
-        var deptEntity = await _deptManager.GetDeptById(corpid);
-        var deptDto = ObjectMapper.Map<DepTreeOutDto>(deptEntity);
-        return new List<DepTreeOutDto>() { deptDto };
-    }
+    int tid = AbpSession.TenantId ?? tenantId.Value;
+    string corpid = _tenantCache.GetOrNull(tid).TenancyName;
+    var deptEntity = await _deptManager.GetByTenancyName(corpid);
+    return new List<DepartmentDto> { ObjectMapper.Map<DepartmentDto>(deptEntity[0]) };
 }
 
 /// <summary>
@@ -33,28 +36,31 @@ public async Task<PagedResultDto<UserOutDto>> PostEmpInfo(UserInDto input)
 }
 ```
 
-manager
+---
 
-```csharp
-public async Task<Department> GetDeptById(string corpid)
-{
-    var allDept = await _deptRepository.GetAll()
-        .Where(d => d.CorpId == corpid).ToListAsync();
-    return allDept.FirstOrDefault();
-}
+租户仓储
 
-/// <summary>
-/// 根据部门取人员
-/// （用于部门树的人员列表字段）
-/// </summary>
-/// <param name="deptid"></param>
-/// <param name="namesearch"></param>
-/// <returns></returns>
-public async Task<List<User>> GetUsersByDept(long deptid, string namesearch)
+```cs
+//Find a user by email for current tenant
+var user = _userManager.FindByEmail("sampleuser@aspnetboilerplate.com");
+```
+
+```cs
+//Switch to tenant 42
+CurrentUnitOfWork.SetFilterParameter(AbpDataFilters.MayHaveTenant, AbpDataFilters.Parameters.TenantId, 42);
+
+//Find a user by email for tenant 42
+var user = _userManager.FindByEmail("sampleuser@aspnetboilerplate.com");
+```
+
+```cs
+//Disabling MayHaveTenant filter, so we can reach all users
+using (CurrentUnitOfWork.DisableFilter(AbpDataFilters.MayHaveTenant))
 {
-    return await UserRepository.GetAll()
-        .Where(u => u.DepartmentId == deptid)
-        .WhereIf(!string.IsNullOrEmpty(namesearch), u => u.Name.Contains(namesearch))
-        .ToListAsync();
+    //Now, we can search for a user name in all tenants
+    var users = _userManager.Users.Where(u => u.UserName == "sampleuser").ToList();
+
+    //Or we can add TenantId filter if we want to search for a specific tenant
+    var user = _userManager.Users.FirstOrDefault(u => u.TenantId == 42 && u.UserName == "sampleuser");
 }
 ```

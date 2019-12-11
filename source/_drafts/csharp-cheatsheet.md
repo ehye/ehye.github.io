@@ -1,7 +1,44 @@
 ---
 title: csharp_cheatsheet
 tags:
+    - C#
+    - Linq
+    - lambda
 ---
+
+C#笔记
+
+---
+
+## Basic
+
+### [Static readonly vs const](https://stackoverflow.com/questions/755685/static-readonly-vs-const)
+
+`const` can be faster, but if you change the value of const, you need to rebuild all the clients
+
+If the value will **never** change, then const is fine, other than that, `static` properties are more common.
+
+### Compare structs and classes
+
+Classes and Structs in C# do have a few things in common, namely:
+
+Are compound data types
+Can contain methods and events
+Can support interfaces
+But there are a number of differences. Here’s a comparison:
+
+*Classes:*
+
+- Support inheritance
+- Are reference (pointer) types
+- The reference can be null
+- Have memory overhead per new instance
+*Structs:*
+
+- Do not support inheritance
+- static (value) types
+- Cannot have a null reference (unless Nullable is used)
+- Do not have memory overhead per new instance (unless “boxed”)
 
 ## LINQ
 
@@ -27,13 +64,26 @@ var idlist = input.Split(',').Select(long.Parse).ToList();
 
 ### convert-dataset-to-iqueryablet-or-ienumerablet
 
-table.AsEnumerable()...
+```csharp
+table.AsEnumerable();
+```
 
 ```csharp
-table.AsEnumerable().AsQueryable()...
+table.AsEnumerable().AsQueryable();
 ```
 
 > https://stackoverflow.com/questions/505054/convert-dataset-to-iqueryablet-or-ienumerablet
+
+### Use Async with ForEach
+
+```chsarp
+var tasks = list.Select(i => DoSomething(i));
+var values = await Task.WhenAll(tasks);
+```
+
+*C#8.0中有`await foreach`*
+
+> https://stackoverflow.com/questions/18667633/how-can-i-use-async-with-foreach
 
 ## Thread
 
@@ -45,15 +95,15 @@ totally safe, using block is just the try/catch block
 var scope = new TransactionScope())
 try
 {
-  // my core logic
-  return true; // if condition met else
-  return false;
-  scope.Complete();
+    // my core logic
+    return true; // if condition met else
+    return false;
+    scope.Complete();
 }
 finally
 {
-  if( scope != null)
-    ((IDisposable)scope).Dispose();
+    if( scope != null)
+        ((IDisposable)scope).Dispose();
 }
 ```
 
@@ -61,18 +111,19 @@ better not keep reference
 
 ```csharp
 using ( var x = new Something() ) {
-  // not a good idea
-  return x;
+    // not a good idea
+    return x;
 }
 ```
 
 ```csharp
 Something y;
-using ( var x = new Something() ) {
-  y = x;
+using (var x = new Something()) {
+    y = x;
 }
 ```
 
 > https://stackoverflow.com/questions/662773/returning-in-the-middle-of-a-using-block
-
 > https://stackoverflow.com/questions/11776945/is-it-a-good-approach-to-call-return-inside-using-statement
+
+---
