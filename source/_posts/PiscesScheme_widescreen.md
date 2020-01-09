@@ -10,7 +10,6 @@ tags:
 修改 PiscesScheme 的宽度，使 next 主题适应移动设备
 > 对于Pisces Scheme ，需要同时修改 **header** 的宽度、**.main-inner** 的宽度以及 **.content-wrap** 的宽度。例如，使用百分比（Pisces 的布局定义在 source/css/_schemes/Picses/_layout.styl 中）：
 
-
 ```css
 .header{ width: 90%; }
 .container .main-inner { width: 90%; }
@@ -22,13 +21,13 @@ tags:
 实际操作后发现此时移动端页面显示不完整，相应修改如下
 
 ```css
-.header .container .main-inner { 
-  width: 90%; 
+.header .container .main-inner {
+  width: 90%;
   +tablet() { width: 100%; }
   +mobile() { width: 100%; }
 }
-.content-wrap { 
-  width: calc(100% - 260px); 
+.content-wrap {
+  width: calc(100% - 260px);
   +tablet() { width: 100%; }
   +mobile() { width: 100%; }
 }

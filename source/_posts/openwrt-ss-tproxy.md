@@ -48,11 +48,11 @@ opkg install luci-app-shadowsocks
 ```json
 {
     "server": "*.*.*.*",
-    "server_port": ****,
+    "server_port": 1080,
     "password": "****",
-    "method": "aes-256-gcm",
+    "method": "aes-128-cfb",
     "local_address": "0.0.0.0",
-    "timeout": 60,
+    "timeout": 5,
     "reuse_port": true
 }
 ```
@@ -76,14 +76,12 @@ iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to
 
 修改 `/etc/dnsmasq.conf`，在最后加入 `conf-dir=/etc/dnsmasq.d`
 
-
 # 配置DNS
 
 ## 防污染
 转发墙外域名到谷歌DNS进行解析
 
 {% asset_img dns-forward.png %}
-
 
 > 5353是多播DNS(mDNS)的端口
 
@@ -106,7 +104,8 @@ http://www.ip111.cn/
 
 ---
 
-**ref**
+ref
+
 > http://openwrt-dist.sourceforge.net/
 > https://github.com/aa65535/openwrt-dist-luci
 > https://cokebar.info/archives/962

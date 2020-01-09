@@ -24,7 +24,7 @@ import java.util.Iterator;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
-public class Deque<Item> implements Iterable<Item> 
+public class Deque<Item> implements Iterable<Item>
 {
     private int n;
     private Node first, last;
@@ -64,7 +64,7 @@ public class Deque<Item> implements Iterable<Item>
         first.item = item;
         first.next = oldfirst;
         if (isEmpty())     last = first;
-        else             oldfirst.prev = first;    
+        else             oldfirst.prev = first;
         n++;
     }
 
@@ -79,7 +79,7 @@ public class Deque<Item> implements Iterable<Item>
           if (isEmpty())     first = last;
         else             oldlast.next = last;
           n++;
-    }           
+    }
 
     // remove and return the item from the front
     public Item removeFirst()
@@ -115,7 +115,7 @@ public class Deque<Item> implements Iterable<Item>
     {
         private Node current;
 
-        public Item next() 
+        public Item next()
         {
             if (isEmpty()) throw new java.util.NoSuchElementException();
 
@@ -155,7 +155,7 @@ import java.util.Iterator;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
-public class RandomizedQueue<Item> implements Iterable<Item> 
+public class RandomizedQueue<Item> implements Iterable<Item>
 {
     private int n = 0;
     private Item[] items;
@@ -238,7 +238,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
             throw new java.lang.UnsupportedOperationException();
         }
 
-        public Item next() 
+        public Item next()
         {
             if (isEmpty()) throw new java.util.NoSuchElementException();
 

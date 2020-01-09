@@ -6,13 +6,13 @@ tags:
     - lambda
 ---
 
-C#笔记
+C# Cheatsheet
 
 ---
 
 ## Basic
 
-### [Static readonly vs const](https://stackoverflow.com/questions/755685/static-readonly-vs-const)
+### Static readonly vs const
 
 `const` can be faster, but if you change the value of const, you need to rebuild all the clients
 
@@ -40,6 +40,8 @@ But there are a number of differences. Here’s a comparison:
 - Cannot have a null reference (unless Nullable is used)
 - Do not have memory overhead per new instance (unless “boxed”)
 
+> [c# - Static readonly vs const - Stack Overflow](https://stackoverflow.com/questions/755685/static-readonly-vs-const)
+
 ## LINQ
 
 ### Where() vs FindAll()
@@ -48,11 +50,10 @@ FindAll() ≈ Where().ToList()
 
 List            Any
 
-FindAll() can only return List<T>
+FindAll() can only return List\<T>
 
-> FindAll() is a function on the List<T> type, it's not a LINQ extension method like Where. The LINQ extension methods work on any type that implements IEnumerable, whereas FindAll can only be used on List<T> instances (or instances of classes that inherit from it, of course).
-
-> Additionally, they differ in actual purpose. Where returns an instance of IEnumerable that is executed on-demand when the object is enumerated. FindAll returns a new List<T> that contains the requested elements. FindAll is more like calling Where(...).ToList() on an instance of IEnumerable.
+> FindAll() is a function on the List\<T> type, it's not a LINQ extension method like Where. The LINQ extension methods work on any type that implements IEnumerable, whereas FindAll can only be used on List\<T> instances (or instances of classes that inherit from it, of course).
+> Additionally, they differ in actual purpose. Where returns an instance of IEnumerable that is executed on-demand when the object is enumerated. FindAll returns a new List\<T> that contains the requested elements. FindAll is more like calling Where(...).ToList() on an instance of IEnumerable.
 
 ### string to int array
 
@@ -60,7 +61,7 @@ FindAll() can only return List<T>
 var idlist = input.Split(',').Select(long.Parse).ToList();
 ```
 
-> https://stackoverflow.com/questions/1938204/linq-where-vs-findall
+> [c# - LINQ, Where() vs FindAll() - Stack Overflow](https://stackoverflow.com/questions/1938204/linq-where-vs-findall)
 
 ### convert-dataset-to-iqueryablet-or-ienumerablet
 
@@ -72,7 +73,7 @@ table.AsEnumerable();
 table.AsEnumerable().AsQueryable();
 ```
 
-> https://stackoverflow.com/questions/505054/convert-dataset-to-iqueryablet-or-ienumerablet
+> [linq - Convert Dataset to IQueryable\<T> or IEnumerable\<T> - Stack Overflow](https://stackoverflow.com/questions/505054/convert-dataset-to-iqueryablet-or-ienumerablet)
 
 ### Use Async with ForEach
 
@@ -83,7 +84,7 @@ var values = await Task.WhenAll(tasks);
 
 *C#8.0中有`await foreach`*
 
-> https://stackoverflow.com/questions/18667633/how-can-i-use-async-with-foreach
+> [c# - How can I use Async with ForEach? - Stack Overflow](https://stackoverflow.com/questions/18667633/how-can-i-use-async-with-foreach)
 
 ## Thread
 
@@ -123,7 +124,7 @@ using (var x = new Something()) {
 }
 ```
 
-> https://stackoverflow.com/questions/662773/returning-in-the-middle-of-a-using-block
-> https://stackoverflow.com/questions/11776945/is-it-a-good-approach-to-call-return-inside-using-statement
+> [c# - returning in the middle of a using block - Stack Overflow](https://stackoverflow.com/questions/662773/returning-in-the-middle-of-a-using-block)
+> [c# - Is it a good approach to call return inside using {} statement? - Stack Overflow](https://stackoverflow.com/questions/11776945/is-it-a-good-approach-to-call-return-inside-using-statement)
 
 ---

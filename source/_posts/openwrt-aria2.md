@@ -53,11 +53,13 @@ opkg install block-mount
 ```
 
 新建目录
+
 ```cmd
 mkdir /mnt/sda1
 ```
 
 挂载硬盘
+
 ```
 mount /dev/sda1 /mnt/sda1
 ```
@@ -66,6 +68,7 @@ mount /dev/sda1 /mnt/sda1
 > 卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载，否则不能关机
 
 接上路由，使用mount命令或在挂载点进行挂载
+
 ```
 mount -o anon \\192.168.1.1\mnt\sda1 Z:
 ```
@@ -73,10 +76,13 @@ mount -o anon \\192.168.1.1\mnt\sda1 Z:
 # Aria2下载工具
 
 ## 安装
+
 ```bash
 opkg install aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
 ```
+
 ## 配置
+
 - **以此用户权限运行**选`root`
 - **附加选项列表**增加一项`check-certificate=false`，即可下载https
 - **默认下载目录**选择硬盘的目录，例如`/mnt/sda1/`
@@ -85,7 +91,9 @@ opkg install aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
 - **添加额外的Tracker**，[附加 Bt tracker 列表](https://github.com/ngosang/trackerslist)
 
 ## 安装前端
+
 这里选择webui-aria2
+
 ```bash
 opkg install webui-aria2
 ```
@@ -96,27 +104,35 @@ opkg install webui-aria2
 > https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings
 
 配置文件是每次自动生成的，因此直接修改无效，通过 UCI 增加参数反而更简单
+
 ```sh
 rpc-secure=true
 rpc-certificate=/etc/ssl/mycert.pem
 rpc-private-key=/etc/ssl/mycert.key
 ```
+
 证书要pem格式，就用uHTTPd的crt格式证书转换了
+
 ```
 openssl x509 -in mycert.crt -out mycert.pem -outform PEM
 ```
+
 端口都设置为6800，在webui勾选`启用 SSL/TLS 加密`，reload 之后就可以通过HTTPS访问了
 
 # NFS服务
 
 ## 服务端
-1. 安装nfs-kernel-server，这会自动下载所有需要的包
+
+1.安装nfs-kernel-server，这会自动下载所有需要的包
+
 ```
 opkg install nfs-kernel-server
 ```
 
-2. 服务端配置
+2.服务端配置
+
 编辑`/etc/exports`，指定匿名用户的uid和gid，方便Windows客户端访问
+
 ```
 /mnt/sda1       *(rw,no_root_squash,no_subtree_check,sync,insecure,anonuid=0,anongid=0)
 ```
@@ -129,9 +145,11 @@ opkg install nfs-kernel-server
 ```
 mount -o anon \\192.168.1.1\mnt\sda1 Z:
 ```
-	计算机中出现了一个Z盘，此时访问会出现权限限制
+
+计算机中出现了一个Z盘，此时访问会出现权限限制
 
 3. cmd 运行 mount 命令
+
 ```cmd
 本地    远程                                 属性
 -------------------------------------------------------------------------------
@@ -144,21 +162,23 @@ Z:       \\192.168.1.1\mnt\sda1                 UID=-2, GID=-2
                                                 sec=sys
 
 ```
-	记下uid和gid，Z盘属性-NFS属性，填入uid和gid
 
+记下uid和gid，Z盘属性-NFS属性，填入uid和gid
 
 4. 使用UTF8编码，解决中文乱码
-	> https://zhuanlan.zhihu.com/p/46254792
 
-	部分中文软件可能会显示乱码
+> https://zhuanlan.zhihu.com/p/46254792
+
+部分中文软件可能会显示乱码
 
 ## 客户端（Android）
+
 手机可使用ES File Explorer，安卓电视用Kodi
 
 ---
 
 # 参考
 
-https://openwrt.org/docs/guide-user/storage/usb-installing
+> https://openwrt.org/docs/guide-user/storage/usb-installing
 
-https://openwrt.org/docs/guide-user/services/nas/nfs_configuration
+> https://openwrt.org/docs/guide-user/services/nas/nfs_configuration

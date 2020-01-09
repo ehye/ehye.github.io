@@ -3,8 +3,8 @@ title: 数据结构题目集 - Saving James Bond(Easy Version)
 date: 2016-10-26 17:49:43
 categories: Algorithm
 tags: 
-	- PAT
-	- Data Structures
+    - PAT
+    - Data Structures
 ---
 This time let us consider the situation in the movie "Live and Let Die"<!--more--> in which James Bond, the world's most famous spy, was captured by a group of drug dealers. He was sent to a small piece of land at the center of a lake filled with crocodiles. There he performed the most daring action to escape -- he jumped onto the head of the nearest crocodile! Before the animal realized what was happening, James jumped again onto the next big head... Finally he reached the bank before the last crocodile could bite him (actually the stunt man was caught by the big mouth and barely escaped with his extra thick boot).
 
@@ -66,8 +66,8 @@ C
 typedef int Crocodile;
 
 typedef struct LocOfCro{
-	int x;
-	int y;
+    int x;
+    int y;
 }Location;
 
 int Nc, distance;
@@ -82,65 +82,65 @@ bool FirstJump(V);
 bool Jump(V, W);
 
 int main() {
-	AddCrocodile();
-	Save007(crocodiles);
-	return 0;
+    AddCrocodile();
+    Save007(crocodiles);
+    return 0;
 }
 
 void AddCrocodile() {
-	int v1, v2;
-	scanf("%d", &Nc);
-	/* CreateLocation */
-	for (int i = 0; i < Nc; i++) {
-		crocodiles[i].x = crocodiles[i].y = -1;
-	}
-	scanf("%d", &distance);
-	for (int i = 0; i < Nc; i++) {
-		scanf("%d %d", &v1, &v2);
-		/* AddCrocodile */
-		crocodiles[i].x = v1;
-		crocodiles[i].y = v2;
-	}
+    int v1, v2;
+    scanf("%d", &Nc);
+    /* CreateLocation */
+    for (int i = 0; i < Nc; i++) {
+        crocodiles[i].x = crocodiles[i].y = -1;
+    }
+    scanf("%d", &distance);
+    for (int i = 0; i < Nc; i++) {
+        scanf("%d %d", &v1, &v2);
+        /* AddCrocodile */
+        crocodiles[i].x = v1;
+        crocodiles[i].y = v2;
+    }
 }
 
 int DFS(Crocodile i) {
-	int answer = 0;
-	visited[i] = true;
-	if (IsSafe(i))
-		answer = 1;
-	else {
-		for (int j = 0; j < Nc; j++)
-			if (!visited[j] && Jump(i,j)) {
-				answer = DFS(j);
-				if (answer == 1)
-					break;
-			}
-	}
-	return answer;
+    int answer = 0;
+    visited[i] = true;
+    if (IsSafe(i))
+        answer = 1;
+    else {
+        for (int j = 0; j < Nc; j++)
+            if (!visited[j] && Jump(i,j)) {
+                answer = DFS(j);
+                if (answer == 1)
+                    break;
+            }
+    }
+    return answer;
 }
 
 void Save007(Location crocodiles[]) {
-	int answer = 0;
-	for (int i = 0; i < Nc; i++) {
-		if (!visited[i] && FirstJump(i)) {
-			answer = DFS(i);
-			if (answer == 1) break;
-		}
-	}
-	if (answer == 1) printf("Yes");
-	else printf("No");
+    int answer = 0;
+    for (int i = 0; i < Nc; i++) {
+        if (!visited[i] && FirstJump(i)) {
+            answer = DFS(i);
+            if (answer == 1) break;
+        }
+    }
+    if (answer == 1) printf("Yes");
+    else printf("No");
 }
 
 bool IsSafe(Crocodile i) {
-	return (abs(crocodiles[i].x) + distance >= 50) || (abs(crocodiles[i].y) + distance >= 50);
+    return (abs(crocodiles[i].x) + distance >= 50) || (abs(crocodiles[i].y) + distance >= 50);
 }
 
 bool FirstJump(Crocodile i) {
-	return sqrt(pow(crocodiles[i].x + 0.0, 2) + pow(crocodiles[i].y + 0.0, 2)) <= (Diameter / 2 + distance);
+    return sqrt(pow(crocodiles[i].x + 0.0, 2) + pow(crocodiles[i].y + 0.0, 2)) <= (Diameter / 2 + distance);
 }
 
 bool Jump(int V, int W) {
-	return sqrt((crocodiles[V].x - crocodiles[W].x) * (crocodiles[V].x - crocodiles[W].x)
-		+ (crocodiles[V].y - crocodiles[W].y) * (crocodiles[V].y - crocodiles[W].y)) <= distance;
+    return sqrt((crocodiles[V].x - crocodiles[W].x) * (crocodiles[V].x - crocodiles[W].x)
+        + (crocodiles[V].y - crocodiles[W].y) * (crocodiles[V].y - crocodiles[W].y)) <= distance;
 }
 ```

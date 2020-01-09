@@ -19,13 +19,16 @@ tags:
 {% asset_img wordnet-fig1.png %}
 
 ## DeluxeDFS.java
+
 先从SAP入手，新建一个叫DeluxeDFS的类，增加一个`getMark()`方法，得到`boolean[] marked`
+
 ```java
 public boolean[] getMarked(){
     boolean[] marked = this.marked;
     return marked;  
 }
 ```
+
 ## SAP.java
 
 什么是 shortest ancestor path ？给了一个简单的例子。
@@ -35,12 +38,13 @@ public boolean[] getMarked(){
 
 读入 synsets*.txt 进行测试，第三个字段为词语解释，这个作业不需要
 因此，用 DeluxeDFS 访问 boolean[] marked ，修改讲义P20的 relax()
+
 ```java
 for (int i = 0; i < vMarked.length; i++) {
     if (vMarked[i] && wMarked[i]) {                     // is same ancestral
         currentPath = vBFS.distTo(i) + wBFS.distTo(i);  // update shortest path
         if (currentPath < shortestPath) {
-            shortestPath = currentPath;                
+            shortestPath = currentPath;
             shortestAncestor = i;                       // update shortest path
         }
     }
@@ -53,27 +57,28 @@ for (int i = 0; i < vMarked.length; i++) {
 构造函数把同义词加入一个 list，用上位词创建DAG
 
 设计 一个 Hypernym 类，用 ArrayList 来记录上位词(hypernyms)ID
+
 ```java
 private class Hypernym implements Comparable<Hypernym> {
-    
+
     private final String nounId;
     private final ArrayList<Integer> hypernymsId;
-    
+
     public Hypernym(String nounId) {
         if (nounId == null)
             throw new IllegalArgumentException();
         hypernymsId = new ArrayList<>();
         this.nounId = nounId; 
     }
-    
+
     @Override
     public int compareTo(Hypernym that) {
         return this.nounId.compareTo(that.nounId);
     }
-    
+
     private void addId(int id) {
         this.hypernymsId.add(id);
-    }    
+    }
 }
 ```
 

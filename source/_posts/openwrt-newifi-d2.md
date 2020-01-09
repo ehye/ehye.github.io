@@ -1,5 +1,5 @@
 ---
-title: OpenWrt折腾记录05
+title: OpenWrt折腾记录04
 date: 2019-06-18 09:45:48
 categories: Router
 tags:
@@ -10,7 +10,7 @@ tags:
 
 ---
 
-# 刷入固件
+## 刷入固件
 
 1. 开启 SSH
 
@@ -24,7 +24,7 @@ tags:
 
     SSH执行`insmod newifi-d2-jail-break.ko`，成功后路由器会自动重启，断电后按复位健/USB键开进入Breed
 
-# 配置
+## 配置
 
 1. 设置静态地址
 
@@ -34,7 +34,8 @@ tags:
 
     将网线连接到无线AP的任一LAN口，无线AP的LAN口配置为`DHCP服务器`，接到WAN口则可配置为二级路由
 
-# 结果
+## 结果
+
 路由器IP依然为有线路由的IP
 
 ---

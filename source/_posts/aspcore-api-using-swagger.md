@@ -12,7 +12,7 @@ tags:
 
 ---
 
-# 安装Nuget包
+## 安装Nuget包
 
 对**core**项目安装`Swashbuckle.AspNetCore`
 
@@ -40,7 +40,7 @@ app.UseSwaggerUI(c =>
 });
 ```
 
-# 书写XML注释
+## 书写XML注释
 
 > 微软官方文档上一个较为完整的例子
 
@@ -78,13 +78,13 @@ public ActionResult<TodoItem> Create(TodoItem item)
 
 {% asset_img xml-comments-extended.png %}
 
-# 在swagger文档上显示注释
+## 在swagger文档上显示注释
 
 1. 在【解决方案管理器】右击**Application**项目，选择**属性**
 2. 在【生成】页面，勾选**XML文档文件**
 3. 在【取消显示警告】一栏中增加**1591;**
 
-# 配置Swagger参数(4.0.0)
+## 配置Swagger参数(4.0.0)
 
 1. 打开`Startup.cs`,在`ConfigureServices`方法中增加下行
 
@@ -118,7 +118,7 @@ public ActionResult<TodoItem> Create(TodoItem item)
     options.SupportedSubmitMethods();
     ```
 
-# 增加折叠块注释
+## 增加折叠块注释
 
 新增一个过滤器
 

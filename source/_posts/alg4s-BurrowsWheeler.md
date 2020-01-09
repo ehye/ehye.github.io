@@ -32,6 +32,7 @@ tags:
 读入一行字符串"ABRACADABRA!"构造一个后缀数组，再按照第一列进行字母排序，index数组记录排序后的第i行是原数组的第index[i]行
 
 可以不生成排序后的数组，而只排序原序号
+
 ```java
 public int compare(Integer first, Integer second) {
     // get start indexes of chars to compare
@@ -40,14 +41,14 @@ public int compare(Integer first, Integer second) {
     // for all characters
     for (int i = 0; i < s.length(); i++) {
     // if out of the last char then start from beginning
-    if (firstIndex > s.length() - 1) 
+    if (firstIndex > s.length() - 1)
         firstIndex = 0;
-    if (secondIndex > s.length() - 1) 
+    if (secondIndex > s.length() - 1)
         secondIndex = 0;
     // if first string > second
-    if (s.charAt(firstIndex) < s.charAt(secondIndex)) 
+    if (s.charAt(firstIndex) < s.charAt(secondIndex))
         return -1;
-    else if (s.charAt(firstIndex) > s.charAt(secondIndex)) 
+    else if (s.charAt(firstIndex) > s.charAt(secondIndex))
         return 1;
     // watch next chars
     firstIndex++;
@@ -83,6 +84,7 @@ public int compare(Integer first, Integer second) {
 OJ不允许有`CircularSuffixArray.java`的 API 中之外的 **public**  方法，所以不能在`CircularSuffixArray.java`记录排序后的数组然后在这里引用，因此唯一入手点就是之前的`index()`
 
 ### inverse transform
+
 <pre> i      Sorted Suffixes     t      next[i]
 --    -----------------------      -------
  0    ! ? ? ? ? ? ? ? ? ? ? A        <font color="blue">3</font>

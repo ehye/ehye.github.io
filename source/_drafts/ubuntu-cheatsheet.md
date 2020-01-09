@@ -133,6 +133,8 @@ scp -P 2003 E:\xx.ipk root@192.168.1.1:/tmp
 
 ```bash
 echo "" > log
+# echo "" >> file # 在末尾添加
 ```
+
 
 ---

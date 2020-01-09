@@ -48,12 +48,15 @@ login anonymous
 ```
 
 # Insurgency
+
 1. 设置安装路径
-```
+
+```text
 force_install_dir /usr/games/ins-ds/
 ```
 
 2. 查找服务器ID并下载
+
 Insurgency 服务器ID为237410，可加`validate`来检验下载
 ```
 app_update 237410 validate
@@ -116,17 +119,22 @@ sv_playlist pvp
 ```
 
 4. cd 到游戏目录建立以下脚本
-`./srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8`
+
+```
+./srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8
+```
 
 4. sh 运行脚本
 
 # 效果
+
 <del>延迟一百多，估计是单核的原因吧</del>
 服务器问题跳 ping
 {% asset_img 20171202161412_1.jpg %}
 
 ---
 # 参考
+
 https://developer.valvesoftware.com/wiki/SteamCMD
 https://developer.valvesoftware.com/wiki/Dedicated_Servers_List
 https://developer.valvesoftware.com/wiki/Insurgency_2014_Dedicated_Server

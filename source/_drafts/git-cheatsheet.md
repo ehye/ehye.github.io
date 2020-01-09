@@ -5,10 +5,36 @@ tags:
 	- git
 ---
 
+git 命令笔记
 
 ---
 
-# config
+## config
+
+- create a new repository
+
+```bash
+echo "" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/[username]/[repository].git
+git push -u origin master
+```
+
+- push an existing repository
+
+```bash
+git remote add origin https://github.com/<username>/<repository>.git
+git push
+```
+
+- push to a licence added repository
+
+```bash
+git pull --allow-unrelated-histories https://<reop>.git
+git push --set-upstream origin master
+```
 
 - 修改当前的project的用户名
 
@@ -45,8 +71,7 @@ ssh-add ~/.ssh/id_rsa
     proxy = socks5://127.0.0.1:7070
 ```
 
-
-# pull
+## pull
 
 - 拉取单个文件夹
 
@@ -61,7 +86,7 @@ ssh-add ~/.ssh/id_rsa
 > [How to pull specific directory with git
 ](https://stackoverflow.com/a/4048993/)
 
-# commit
+## commit
 
 - 合并 commit
 
@@ -96,7 +121,7 @@ git ls-files -v | grep '^h\ '
 
 > [git忽略已经被提交的文件](https://segmentfault.com/q/1010000000430426)
 
-# bracnh
+## bracnh
 
 - 移动分支指向
 

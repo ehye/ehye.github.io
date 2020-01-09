@@ -20,6 +20,7 @@ tags:
 # 分析
 
 分三步
+
 - 计算每个像素能量
 - 找出最小能量像素
 - 移除最小能量像素
@@ -41,7 +42,6 @@ $$
 
 $R_x(x, y),G_x(x, y),B_x(x, y)$分别为像素的RGB值，用java自带的方法就能得到
 
-
 ## 寻找最小能量
 
 按照作业思路，实现一个垂直寻找方法和一个倒置方法，这样一来水平寻找方法就是先倒置进行垂直寻找再倒置回来
@@ -52,8 +52,10 @@ $R_x(x, y),G_x(x, y),B_x(x, y)$分别为像素的RGB值，用java自带的方法
 这里要同时移除 color 数据
 
 ## 输出图片
+
 不能每移除一次像素就生成一次图片，可以在构造函数获取Color类型的数据，在移除能量的时候一并移除相关Color，最后才生成图片。
 写的时候发现不能用泛型数组真的迷茫，好在RGB可以直接用整形存储，再写一个把 int 转成 RGB 的函数就行
+
 ```java
 private Color getRGB(int rgb) {
     return new Color((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
@@ -62,8 +64,12 @@ private Color getRGB(int rgb) {
 
 ---
 
-# 参考
-- http://coursera.cs.princeton.edu/algs4/assignments/seam.html
-- http://coursera.cs.princeton.edu/algs4/checklists/seam.html
-- http://www.jianshu.com/p/24cf792dbef8
-- https://github.com/nastra/AlgorithmsPartII-Princeton/blob/master/src/SeamCarver.java
+参考
+
+http://coursera.cs.princeton.edu/algs4/assignments/seam.html
+
+http://coursera.cs.princeton.edu/algs4/checklists/seam.html
+
+http://www.jianshu.com/p/24cf792dbef8
+
+https://github.com/nastra/AlgorithmsPartII-Princeton/blob/master/src/SeamCarver.java

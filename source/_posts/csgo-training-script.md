@@ -7,6 +7,7 @@ tags:
 ---
 
 新建一个文本文档，复制黏贴以下代码
+
 ```
 sv_cheats 1
 sv_showimpacts 1
@@ -23,6 +24,7 @@ mp_roundtime_defuse 60
 bind alt noclip
 mp_restartgame 1
 ```
+
 另存为 cfg 文件到 CSGO 安装路径
 
 如`X:\Program Files\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\xxjj.cfg`
