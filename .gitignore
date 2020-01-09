@@ -1,9 +1,8 @@
-.deploy*/
-node_modules/
-public/
+.DS_Store
+Thumbs.db
 db.json
 *.log
-Thumbs.db
-.DS_Store
-themes/
-source/*.xml
+node_modules/
+public/
+.deploy*/
+themes/hexo-theme-next/

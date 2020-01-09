@@ -2,6 +2,7 @@
 title: about
 date: 2016-09-02 19:17:07
 type: about
+comments: false
 ---
 ```c
 void main() {
