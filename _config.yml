@@ -7,7 +7,7 @@ title: ehye's Blog
 subtitle: 
 description: 
 author: ehye
-language: zh-Hans
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -72,6 +72,9 @@ search:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: hexo-theme-next
+
+sitemap:
+    path: sitemap.xml
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
