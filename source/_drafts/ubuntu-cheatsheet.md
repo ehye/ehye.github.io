@@ -10,6 +10,12 @@ tags:
 hostnamectl
 ```
 
+- 更改时区
+
+```bash
+sudo timedatectl set-timezone Asia/Shanghai
+```
+
 - 更新软件
 
 ```bash
@@ -46,6 +52,10 @@ sudo rm -rf folder
 - 解压到指定文件夹
 
 ```bash
+tar -xvzf images.tar.gz -C my_images
+```
+
+```bash
 unzip file.zip -d destination_folder
 ```
 
@@ -79,11 +89,20 @@ kill <pid>
 netstat -ntlp | grep -v tcp6
 ```
 
+- ufw 允许和拒绝
+
+```bash
+sudo ufw allow 53/tcp
+sudo ufw allow 11200:11299/tcp
+
+sudo ufw deny 53/tcp
+```
+
 - ufw 删除规则
 
 ```bash
-ufw status numbered
-ufw delete 2
+sudo ufw status numbered
+sudo ufw delete 2
 ```
 
 - 重启
@@ -110,6 +129,12 @@ nginx -s stop
 openssl pkcs12 -export -out k4asf.pfx -inkey xxx.key -in xxx.crt
 ```
 
+How to convert .crt to .pem [duplicate]
+
+```bash
+openssl x509 -in mycert.crt -out mycert.pem -outform PEM
+```
+
 - 设置GOPATH
 
 ```bash
@@ -120,7 +145,7 @@ export PATH=$PATH:$GOPATH/bin
 - 启动ss-go
 
 ```bash
-go/shadowsocks/bin/shadowsocks-server -c go/shadowsocks/bin/config.json > go/shadowsocks/bin/log &
+go/bin/shadowsocks-server -c go/bin/config.json > go/bin/log &
 ```
 
 - scp 传文件
@@ -136,5 +161,7 @@ echo "" > log
 # echo "" >> file # 在末尾添加
 ```
 
-
----
+- 快捷方式
+```
+ln -s /mnt/c/Users/xxx ~/win10 
+```
