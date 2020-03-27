@@ -46,9 +46,7 @@ deploy:
 git push --set-upstream all hexo
 ```
 
-{% note success %}
 到此，每个远程仓库就有两个 branch 了
-{% endnote %}
 
 后续只要正常地使用`hexo d`和`git push`即可完成博客部署以及备份分支的推送
 
