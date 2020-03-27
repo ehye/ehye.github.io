@@ -1,3 +1,4 @@
+# https://hexo.io/zh-cn/docs/github-pages.html
 sudo: false
 language: node_js
 node_js:
@@ -5,9 +6,10 @@ node_js:
 cache: npm
 branches:
   only:
-    - hexo # build master branch only
+    - hexo
 script:
-  - hexo generate # generate static files
+  - hexo clean
+  - hexo generate
 deploy:
   provider: pages
   skip-cleanup: true
