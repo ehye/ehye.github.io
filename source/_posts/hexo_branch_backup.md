@@ -37,7 +37,9 @@ tags:
     git push --set-upstream origin <branchname>
     ```
 
-    {% note success %} 到此，远程仓库就有两个 branch 了 {% endnote %}
+    {% note success %}
+    到此，远程仓库就有两个 branch 了
+    {% endnote %}
 
 5. 将 .git 文件夹复制到 Hexo 文件夹
 

@@ -59,9 +59,11 @@ src/gz packages https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.2/packa
 src/gz packages_ex https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.2/targets/ramips/mt7621/packages
 src/gz telephony https://mirrors.tuna.tsinghua.edu.cn/lede/releases/18.06.2/packages/mipsel_24kc/telephony
 ```
+
 其中第五行是目标类型为ramips，子类型为mt7621的补充package，注意名称不能一样
 
-{% note warning %} 现已强制跳转https，除了刷入装有支持https的完整wget固件无其他方法（2019/6/29）
+{% note warning %}
+现已强制跳转https，除了刷入装有支持https的完整wget固件无其他方法（2019/6/29）
 
 > 若https链接下载不了，先改成http，更新后再改为https
 opkg update
