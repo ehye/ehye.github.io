@@ -13,7 +13,7 @@ install:
 script:
   - mkdir themes/next
   - curl -s https://api.github.com/repos/iissnan/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
-  - no | mv themes/next/* -i themes/hexo-theme-next/
+  - yes | mv themes/next/* -i themes/hexo-theme-next/
   - hexo clean
   - hexo generate
 deploy:
@@ -21,6 +21,5 @@ deploy:
   skip-cleanup: true
   github-token: $GH_TOKEN
   keep-history: true
-  on:
-    branch: master
+  on: master
   local-dir: public
