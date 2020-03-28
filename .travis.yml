@@ -16,10 +16,15 @@ script:
   - yes | mv themes/next/* -i themes/hexo-theme-next/
   - hexo clean
   - hexo generate
+# after_success:
+#   - sed -i'' "s~git@github.com:~https://s~git@github.com:~https://${GH_TOKEN}@github.com/~" _config.yml
+#   - hexo deploy
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GH_TOKEN
   keep-history: true
-  on: hexo
+  on: 
+    all_branches: true # solve a permission problem
+  target_branch: master
   local-dir: public
