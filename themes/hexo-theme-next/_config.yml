@@ -120,7 +120,7 @@ menu:
   home: / || home
   about: /about/ || user
   tags: /tags/ || tags
-  categories: /categories/ || th
+  # categories: /categories/ || th
   archives: /archives/ || archive
   #schedule: /schedule/ || calendar
   sitemap: /sitemap.xml || sitemap
@@ -246,7 +246,7 @@ post_meta:
   updated_at:
     enable: true
     another_day: true
-  categories: true
+  categories: false
 
 # Post wordcount display settings
 # Dependencies: https://github.com/theme-next/hexo-symbols-count-time
@@ -567,18 +567,22 @@ comments:
   style: tabs
   # Choose a comment system to be displayed by default.
   # Available values: changyan | disqus | disqusjs | gitalk | livere | valine
-  active:
+  active: valine
   # Setting `true` means remembering the comment system selected by the visitor.
-  storage: true
+  storage: false
   # Lazyload all comment systems.
-  lazyload: false
+  lazyload: true
   # Modify texts or order for any navs, here are some examples.
   nav:
-    #disqus:
-    #  text: Load Disqus
-    #  order: -1
-    #gitalk:
-    #  order: -2
+    valine:
+     text: Valine
+     order: 1
+    disqusjs:
+     text: Disqus
+     order: 2
+    livere:
+     text: LiveRe
+     order: 3
 
 # Disqus
 disqus:
@@ -592,14 +596,16 @@ disqus:
 # Demo: https://suka.js.org/DisqusJS/
 # For more information: https://github.com/SukkaW/DisqusJS
 disqusjs:
-  enable: false
+  enable: true
   # API Endpoint of Disqus API (https://disqus.com/api/).
   # Leave api empty if you are able to connect to Disqus API. Otherwise you need a reverse proxy for it.
   # For example:
   # api: https://disqus.skk.moe/disqus/
   api:
-  apikey: # Register new application from https://disqus.com/api/applications/
-  shortname: # See: https://disqus.com/admin/settings/general/
+  # Register new application from https://disqus.com/api/applications/
+  apikey: brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb 
+  # See: https://disqus.com/admin/settings/general/
+  shortname: ehye 
 
 # Changyan
 changyan:
@@ -629,7 +635,7 @@ valine:
 
 # LiveRe comments system
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-livere_uid: # <your_uid>
+livere_uid: MTAyMC8zMDgyMy83Mzc1 # <your_uid>
 
 # Gitalk
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
