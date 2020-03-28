@@ -12,13 +12,12 @@ install:
   - npm install
 script:
   - mkdir themes/next
+  # download last satble next theme
   - curl -s https://api.github.com/repos/iissnan/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
-  - yes | mv themes/next/* -i themes/hexo-theme-next/
+  # copy the custom next theme config file
+  - no | mv themes/next/* -i themes/hexo-theme-next/
   - hexo clean
   - hexo generate
-# after_success:
-#   - sed -i'' "s~git@github.com:~https://s~git@github.com:~https://${GH_TOKEN}@github.com/~" _config.yml
-#   - hexo deploy
 deploy:
   provider: pages
   skip-cleanup: true
