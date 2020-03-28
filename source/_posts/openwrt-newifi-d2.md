@@ -40,6 +40,6 @@ tags:
 
 ---
 
-ref
+参考
 
-> https://www.right.com.cn/forum/thread-161906-1-1.html
+[AR/QCA/MTK Breed，功能强大的多线程 Bootloader](https://www.right.com.cn/forum/thread-161906-1-1.html)

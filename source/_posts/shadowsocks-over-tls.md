@@ -46,7 +46,7 @@ tags:
     ```nginx
     server {
         listen 443 ssl default_server;
-        listen [::]:443 ssl default_server;
+        listen [::]:443 ssl default_server; # 没有 ipv6 可以不写这行
         ssl_certificate /etc/nginx/certs/fullchain.cer;
         ssl_certificate_key /etc/nginx/certs/mydomain.com.key;
         ssl_session_timeout 3m;
@@ -67,6 +67,10 @@ tags:
     }
     ```
 
+    {% note info %}
+    location 后面的路径就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的
+    {% endnote %}
+
 3. 设置自动更新
 
     ```bash
@@ -81,9 +85,9 @@ tags:
 
     ```json
     {
-        "server":"localhost",   # 只允许从本地访问
+        "server":"localhost",
         "mode":"tcp_only",
-        "server_port":8008,     # 同Nginx配置文件
+        "server_port":8008,
         "local_port":1080,
         "password":"***",
         "timeout":5,
@@ -92,6 +96,13 @@ tags:
         "plugin_opts":"server;host=mydomain.com;path=/ray"
     }
     ```
+
+    {% note info %}
+  - `server`设置为只允许从本地访问
+  - `server_port`要和Nginx配置文件中`proxy_pass`的端口一致
+  - 因为是通过 Ngxin 转发，同时也配置了HTTPS，所以`plugin_opts`就不需要再使用证书了
+  - path 要和在 Nginx 配置里 location 中规定的一致
+    {% endnote %}
 
 - Windows 客户端配置（部分）
 
