@@ -10,12 +10,13 @@ branches:
 install:
   - npm install -g hexo
   - npm install
-script:
+before_script:
   - mkdir themes/next
   # clone next theme
   - git clone --depth=1 https://github.com/theme-next/hexo-theme-next themes/next
   # copy the custom next theme config file
   - no | mv themes/next/* -i themes/hexo-theme-next/
+script:
   - hexo clean
   - hexo generate
 deploy:
