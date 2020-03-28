@@ -21,6 +21,5 @@ deploy:
   skip-cleanup: true
   github-token: $GH_TOKEN
   keep-history: true
-  on: 
-    branch: hexo
+  on: hexo
   local-dir: public
