@@ -10,10 +10,9 @@ branches:
 install:
   - npm install -g hexo
   - npm install
-before_script:
+script:
   - curl -s https://api.github.com/repos/iissnan/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
   - no | mv themes/next/* -i themes/hexo-theme-next/
-script:
   - hexo clean
   - hexo generate
 deploy:
