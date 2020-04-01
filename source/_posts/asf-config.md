@@ -43,4 +43,4 @@ location /asf/ {
 
 [Nginx初学者折腾asf时想实现一个功能](https://keylol.com/t551721-1-1)
 
-[我可以将 ASF 的 IPC 部署在 Apache 或者 Nginx 的反向代理后吗？](https://github.com/JustArchiNET/ArchiSteamFarm/wiki/IPC-zh-CN#%E6%88%91%E5%8F%AF%E4%BB%A5%E5%B0%86-asf-%E7%9A%84-ipc-%E9%83%A8%E7%BD%B2%E5%9C%A8-apache-%E6%88%96%E8%80%85-nginx-%E7%9A%84%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%90%8E%E5%90%97
+[我可以将 ASF 的 IPC 部署在 Apache 或者 Nginx 的反向代理后吗？](https://github.com/JustArchiNET/ArchiSteamFarm/wiki/IPC-zh-CN#%E6%88%91%E5%8F%AF%E4%BB%A5%E5%B0%86-asf-%E7%9A%84-ipc-%E9%83%A8%E7%BD%B2%E5%9C%A8-apache-%E6%88%96%E8%80%85-nginx-%E7%9A%84%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%90%8E%E5%90%97)
