@@ -76,11 +76,6 @@ theme: hexo-theme-next
 sitemap:
     path: sitemap.xml
 
-leancloud_counter_security:
-  app_id: 1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz
-  app_key: bFOfQNjmK9F4LGFJY7A5TSFl
-  enable_sync: true
-
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 
