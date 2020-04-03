@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业Kd-Trees">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithms, Part I - Week 5 - Kd-Trees">
+<meta property="og:url" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业Kd-Trees">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/RectHV.png">
+<meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/kdtree-insert.png">
+<meta property="article:published_time" content="2017-05-21T09:26:13.000Z">
+<meta property="article:modified_time" content="2020-04-03T06:31:46.671Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="KdTree">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/RectHV.png">
+
+<link rel="canonical" href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Algorithms, Part I - Week 5 - Kd-Trees | ehye's Blog</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-143510723-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ehye's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Algorithms, Part I - Week 5 - Kd-Trees
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-21 17:26:13" itemprop="dateCreated datePublished" datetime="2017-05-21T17:26:13+08:00">2017-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 14:31:46" itemprop="dateModified" datetime="2020-04-03T14:31:46+08:00">2020-04-03</time>
+              </span>
+
+          
+            <span id="/2017/05/21/alg4s-KdTrees/" class="post-meta-item leancloud_visitors" data-flag-title="Algorithms, Part I - Week 5 - Kd-Trees" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/05/21/alg4s-KdTrees/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/21/alg4s-KdTrees/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业<a href="http://coursera.cs.princeton.edu/algs4/assignments/kdtree.html" target="_blank" rel="noopener">Kd-Trees</a><a id="more"></a></p>
+<hr>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>编写数据类型以表示单位正方形中的一组点 (所有点都具有0和1之间的 x 和 y 坐标)</p>
+<p>使用2维树进行范围搜索 (查找查询矩形中包含的所有点) 和最近的邻居搜索 (查找与查询点最近的点)</p>
+<p>2维树有许多应用，从将天文物体分类到计算机动画，再到加速神经网络，挖掘数据到图像检索。</p>
+
+
+<p><strong>Geometric primitives.</strong> 定义了图元的坐标表示方法</p>
+<img src="/2017/05/21/alg4s-KdTrees/RectHV.png" class="">
+
+<p>主要是完成 API 里的 draw(), range(), nearest() 方法</p>
+<p>题目给了 Point2D, RectHV 这两种数据类型以使用，要提交的 PointSET.java 使用蛮力运算，KdTree.java 则使用 2d-Trees 来运算，题目就是完成这两个文件</p>
+<h3 id="Node-data-type"><a href="#Node-data-type" class="headerlink" title="Node data type"></a>Node data type</h3><p>根据<a href="http://coursera.cs.princeton.edu/algs4/checklists/kdtree.html" target="_blank" rel="noopener">CheckList</a>所给的结点参考模型进行一些修改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isVertical;</span><br><span class="line">    <span class="keyword">private</span> Point2D p;</span><br><span class="line">    <span class="comment">// the left/bottom subtree</span></span><br><span class="line">    <span class="keyword">private</span> Node lb;</span><br><span class="line">    <span class="comment">// the right/top subtree</span></span><br><span class="line">    <span class="keyword">private</span> Node rt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Point2D p, <span class="keyword">boolean</span> isVertical)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.p = p;</span><br><span class="line">        <span class="keyword">this</span>.isVertical = isVertical;</span><br><span class="line">        <span class="keyword">this</span>.lb = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">this</span>.rt = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Writing-KdTree"><a href="#Writing-KdTree" class="headerlink" title="Writing KdTree"></a>Writing KdTree</h3><p>可以从编写 isEmpty() 和 size() 开始，再写 insert()，再 写 contains() 并测试 insert()是否可用<br>要注意的是, insert() 和 contains() 的写法要使用 <em>private helper methods*（书399页），并增加一个 *boolean orientation</em> 作为这些帮助器方法的参数</p>
+<p><strong>2d-tree implementation.</strong> 编写一个可变数据类型 KdTree, 它使用2维树实现和蛮力运算相同的 api</p>
+<img src="/2017/05/21/alg4s-KdTrees/kdtree-insert.png" class="">
+
+<p>注意的是，垂直分割线段是红色，垂直分割线段是蓝色，第一条一定是垂直分割，所以用一个布尔变量 isVertical 来识别线段颜色</p>
+<p><strong>Range search.</strong> 思想在课件里给出了，主要就是递归以，而且要分4种情况（垂直线左，垂直线右，水平线下，水平线上）进行回溯剪枝，这样可以排除不可能的子树</p>
+<p><strong>Nearest neighbor search.</strong> 从根结点开始递归搜索，更新候选点，同样使用剪枝</p>
+<h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>PointSET.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PointSET</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SET&lt;Point2D&gt; set;</span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;Point2D&gt; result;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// construct an empty set of points</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PointSET</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        set = <span class="keyword">new</span> SET&lt;Point2D&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is the set empty?</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> set.size() == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// number of points in the set</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> set.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add the point to the set (if it is not already in the set)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)             <span class="keyword">throw</span> <span class="keyword">new</span> java.lang.NullPointerException();</span><br><span class="line">        <span class="keyword">if</span> (!set.contains(p)) set.add(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// does the set contain point p?</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> java.lang.NullPointerException();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> set.contains(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// draw all points to standard draw</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// drawing the points</span></span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius(<span class="number">0.01</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            StdDraw.point(point.x(), point.y());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// all points that are inside the rectangle</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Point2D&gt; <span class="title">range</span><span class="params">(RectHV rect)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (rect == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> java.lang.NullPointerException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        result = <span class="keyword">new</span> ArrayList&lt;Point2D&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (rect.contains(point))</span><br><span class="line">                result.add(point);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a nearest neighbor in the set to point p; null if the set is empty</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Point2D <span class="title">nearest</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)         <span class="keyword">throw</span> <span class="keyword">new</span> java.lang.NullPointerException();</span><br><span class="line">        <span class="keyword">if</span> (set.isEmpty())     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> min = Double.MAX_VALUE;</span><br><span class="line">        Point2D result = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            <span class="keyword">double</span> distence = Point.distanceSq(p.x(), p.y(), point.x(), point.y());</span><br><span class="line">            <span class="keyword">if</span> (distence &lt; min) &#123;</span><br><span class="line">                min = distence;</span><br><span class="line">                result = point;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// unit testing of the methods (optional)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PointSET.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KdTree</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> isVertical;</span><br><span class="line">        <span class="keyword">private</span> Point2D p;</span><br><span class="line">        <span class="comment">// the left/bottom subtree</span></span><br><span class="line">        <span class="keyword">private</span> Node lb;</span><br><span class="line">        <span class="comment">// the right/top subtree</span></span><br><span class="line">        <span class="keyword">private</span> Node rt;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Point2D p, <span class="keyword">boolean</span> isVertical)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.p = p;</span><br><span class="line">            <span class="keyword">this</span>.isVertical = isVertical;</span><br><span class="line">            <span class="keyword">this</span>.lb = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">this</span>.rt = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RectHV RECT = <span class="keyword">new</span> RectHV(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// construct an empty set of points</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KdTree</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.root = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">this</span>.size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is the set empty?</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.size == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// number of points in the set</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add the point to the set (if it is not already in the set)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> java.lang.NullPointerException();</span><br><span class="line">        <span class="keyword">this</span>.root = insert(root, p, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">insert</span><span class="params">(Node node, Point2D p, <span class="keyword">boolean</span> isVertical)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// if it is not in the set, create new node</span></span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            size++;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Node(p, isVertical);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// already in, return it</span></span><br><span class="line">        <span class="keyword">if</span> (node.p.equals(p))</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// else insert it</span></span><br><span class="line">        <span class="keyword">if</span> (node.isVertical &amp;&amp; p.x() &lt; node.p.x() || !node.isVertical &amp;&amp; p.y() &lt; node.p.y()) &#123;</span><br><span class="line">            node.lb = insert(node.lb, p, !node.isVertical);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            node.rt = insert(node.rt, p, !node.isVertical);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// does the set contain point p?</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p ==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> contains(root, p, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Node node, Point2D p, <span class="keyword">boolean</span> orientation)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> cmp = p.compareTo(node.p);</span><br><span class="line">        <span class="keyword">if</span>      (cmp &lt; <span class="number">0</span>) <span class="keyword">return</span> contains(node.lb, p, !orientation);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) <span class="keyword">return</span> contains(node.rt, p, !orientation);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// draw all points to standard draw</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        StdDraw.setScale(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius();</span><br><span class="line"></span><br><span class="line">        RECT.draw();</span><br><span class="line">        draw(root, RECT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">(Node node, RectHV rect)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// drawing the points</span></span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius(<span class="number">0.01</span>);</span><br><span class="line">        StdDraw.point(node.p.x(), node.p.y());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// drawing the splitting lines</span></span><br><span class="line">        StdDraw.setPenRadius();</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="comment">// vertical</span></span><br><span class="line">            StdDraw.setPenColor(StdDraw.RED);</span><br><span class="line">            StdDraw.line(node.p.x(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// horizontal</span></span><br><span class="line">            StdDraw.setPenColor(StdDraw.BLUE);</span><br><span class="line">            StdDraw.line(rect.xmin(), node.p.y(), rect.xmax(), node.p.y());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// recursively draw children</span></span><br><span class="line">        draw(node.lb, leftRect(rect, node));</span><br><span class="line">        draw(node.rt, rightRect(rect, node));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> RectHV <span class="title">leftRect</span><span class="params">(<span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Node node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RectHV(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RectHV(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> RectHV <span class="title">rightRect</span><span class="params">(<span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Node node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RectHV(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RectHV(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// all points that are inside the rectangle</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Point2D&gt; <span class="title">range</span><span class="params">(RectHV rect)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> TreeSet&lt;Point2D&gt; rangeSet = <span class="keyword">new</span> TreeSet&lt;Point2D&gt;();</span><br><span class="line">        range(root, RECT, rect, rangeSet);</span><br><span class="line">        <span class="keyword">return</span> rangeSet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">range</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">final</span> RectHV qrect, <span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> TreeSet&lt;Point2D&gt; rangeSet)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (rect.intersects(qrect)) &#123;                                    <span class="comment">// if query rect is in rectangle</span></span><br><span class="line">            <span class="keyword">final</span> Point2D p = <span class="keyword">new</span> Point2D(node.p.x(), node.p.y());</span><br><span class="line">            <span class="keyword">if</span> (rect.contains(p)) rangeSet.add(p);                <span class="comment">// find the point</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// pruning rule</span></span><br><span class="line">            <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">                <span class="keyword">if</span> (qrect.xmax() &lt; p.x())</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.xmax() &gt; p.x())</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.contains(p)) &#123;</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (qrect.ymax() &lt; p.y())</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.ymax() &gt; p.y())</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.contains(p)) &#123;</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a nearest neighbor in the set to point p; null if the set is empty</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Point2D <span class="title">nearest</span><span class="params">(Point2D p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        Point2D retp = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">double</span> mindis = Double.MAX_VALUE;</span><br><span class="line">        Queue&lt;Node&gt; queue = <span class="keyword">new</span> Queue&lt;Node&gt;();</span><br><span class="line">        queue.enqueue(root);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            Node x = queue.dequeue();</span><br><span class="line">            <span class="keyword">double</span> dis = p.distanceSquaredTo(x.p);</span><br><span class="line">            <span class="keyword">if</span> (dis &lt; mindis) &#123;</span><br><span class="line">                retp = x.p;</span><br><span class="line">                mindis = dis;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (x.lb != <span class="keyword">null</span> &amp;&amp; x.lb.p.distanceSquaredTo(p) &lt; mindis)</span><br><span class="line">                queue.enqueue(x.lb);</span><br><span class="line">            <span class="keyword">if</span> (x.rt != <span class="keyword">null</span> &amp;&amp; x.rt.p.distanceSquaredTo(p) &lt; mindis)</span><br><span class="line">                queue.enqueue(x.rt);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> retp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Point2D <span class="title">nearest</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Point2D p, Point2D candidate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span> candidate;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> dqn = <span class="number">0.0</span>;</span><br><span class="line">        <span class="keyword">double</span> drq = <span class="number">0.0</span>;</span><br><span class="line">        RectHV leftRect = <span class="keyword">null</span>;</span><br><span class="line">        RectHV rigtRect = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">final</span> Point2D query = <span class="keyword">new</span> Point2D(p.x(), p.y());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (candidate != <span class="keyword">null</span>) &#123;</span><br><span class="line">            dqn = query.distanceSquaredTo(candidate);</span><br><span class="line">            drq = rect.distanceSquaredTo(query);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (candidate == <span class="keyword">null</span> || dqn &gt; drq) &#123;</span><br><span class="line">            <span class="keyword">final</span> Point2D point = <span class="keyword">new</span> Point2D(node.p.x(), node.p.y());</span><br><span class="line">            <span class="keyword">if</span> (candidate == <span class="keyword">null</span> || dqn &gt; query.distanceSquaredTo(point))</span><br><span class="line">                candidate = point;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">                <span class="comment">// only p.x() changes</span></span><br><span class="line">                leftRect = <span class="keyword">new</span> RectHV(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">                rigtRect = <span class="keyword">new</span> RectHV(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (p.x() &lt; node.p.x()) &#123;</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// only p.y() changes</span></span><br><span class="line">                leftRect = <span class="keyword">new</span> RectHV(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());</span><br><span class="line">                rigtRect = <span class="keyword">new</span> RectHV(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (p.y() &lt; node.p.y()) &#123;</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> candidate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/" title="Algorithms, Part I - Week 5 - Kd-Trees">https://ehye.github.io/2017/05/21/alg4s-KdTrees/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/KdTree/" rel="tag"><i class="fa fa-tag"></i> KdTree</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/13/alg4s-8Puzzle/" rel="prev" title="Algorithms, Part I - Week 4 - 8 Puzzle">
+      <i class="fa fa-chevron-left"></i> Algorithms, Part I - Week 4 - 8 Puzzle
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/18/cisco-trial/" rel="next" title="Cisco 网络实验室期末测试B组">
+      Cisco 网络实验室期末测试B组 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-valine">Valine</a></li>
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-data-type"><span class="nav-number">1.1.</span> <span class="nav-text">Node data type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-KdTree"><span class="nav-number">1.2.</span> <span class="nav-text">Writing KdTree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#答案"><span class="nav-number">2.</span> <span class="nav-text">答案</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
+      shortname : 'ehye',
+      url       : "https://ehye.github.io/2017/05/21/alg4s-KdTrees/",
+      identifier: "2017/05/21/alg4s-KdTrees/",
+      title     : "Algorithms, Part I - Week 5 - Kd-Trees",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz',
+      appKey     : 'bFOfQNjmK9F4LGFJY7A5TSFl',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
