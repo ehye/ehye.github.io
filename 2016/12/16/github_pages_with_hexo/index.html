@@ -19,24 +19,24 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="打开 PuTTYgen，点击 generate ，不断在进度条下空白区域移动鼠标，直到生成密匙。  点击 Save private key 将私匙保存起来  安装ssh 1apt-get install ssh  登陆到远程节点，在 &#x2F;home&#x2F;&lt;username&gt; 路径下创建 .ssh 文件夹，确保这个文件夹只有自己拥有操作权限： 1$ mkdir -m 700 .ssh  进入文">
+  <meta name="description" content="Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PuTTY 自动登录设置">
-<meta property="og:url" content="https://ehye.github.io/2018/01/19/PuTTY-Auto-login/index.html">
+<meta property="og:title" content="用 Github Pages 与 hexo 搭建个人博客">
+<meta property="og:url" content="https://ehye.github.io/2016/12/16/github_pages_with_hexo/index.html">
 <meta property="og:site_name" content="ehye&#39;s Blog">
-<meta property="og:description" content="打开 PuTTYgen，点击 generate ，不断在进度条下空白区域移动鼠标，直到生成密匙。  点击 Save private key 将私匙保存起来  安装ssh 1apt-get install ssh  登陆到远程节点，在 &#x2F;home&#x2F;&lt;username&gt; 路径下创建 .ssh 文件夹，确保这个文件夹只有自己拥有操作权限： 1$ mkdir -m 700 .ssh  进入文">
+<meta property="og:description" content="Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-01-18T16:18:32.000Z">
-<meta property="article:modified_time" content="2020-04-03T06:31:46.671Z">
+<meta property="article:published_time" content="2016-12-16T16:06:33.000Z">
+<meta property="article:modified_time" content="2020-04-03T07:31:23.921Z">
 <meta property="article:author" content="ehye">
-<meta property="article:tag" content="SSH">
-<meta property="article:tag" content="PuTTY">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ehye.github.io/2018/01/19/PuTTY-Auto-login/">
+<link rel="canonical" href="https://ehye.github.io/2016/12/16/github_pages_with_hexo/">
 
 
 <script id="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>PuTTY 自动登录设置 | ehye's Blog</title>
+  <title>用 Github Pages 与 hexo 搭建个人博客 | ehye's Blog</title>
   
     <script>
       function sendPageView() {
@@ -203,15 +203,14 @@
         <div class="content-wrap">
           
 
-          <div class="content post">
+          <div class="content post posts-expand">
             
 
-  <div class="posts-expand">
-      
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2018/01/19/PuTTY-Auto-login/">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/12/16/github_pages_with_hexo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -224,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          PuTTY 自动登录设置
+          用 Github Pages 与 hexo 搭建个人博客
         </h1>
 
         <div class="post-meta">
@@ -234,18 +233,18 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-01-19 00:18:32" itemprop="dateCreated datePublished" datetime="2018-01-19T00:18:32+08:00">2018-01-19</time>
+              <time title="创建时间：2016-12-17 00:06:33" itemprop="dateCreated datePublished" datetime="2016-12-17T00:06:33+08:00">2016-12-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-03 14:31:46" itemprop="dateModified" datetime="2020-04-03T14:31:46+08:00">2020-04-03</time>
+                <time title="修改时间：2020-04-03 15:31:23" itemprop="dateModified" datetime="2020-04-03T15:31:23+08:00">2020-04-03</time>
               </span>
 
           
-            <span id="/2018/01/19/PuTTY-Auto-login/" class="post-meta-item leancloud_visitors" data-flag-title="PuTTY 自动登录设置" title="阅读次数">
+            <span id="/2016/12/16/github_pages_with_hexo/" class="post-meta-item leancloud_visitors" data-flag-title="用 Github Pages 与 hexo 搭建个人博客" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -260,8 +259,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2018/01/19/PuTTY-Auto-login/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/19/PuTTY-Auto-login/" itemprop="commentCount"></span>
+    <a title="valine" href="/2016/12/16/github_pages_with_hexo/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/12/16/github_pages_with_hexo/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -276,33 +275,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ol>
-<li><p>打开 PuTTYgen，点击 generate ，不断在进度条下空白区域移动鼠标，直到生成密匙。</p>
-</li>
-<li><p>点击 Save private key 将私匙保存起来</p>
-</li>
-<li><p>安装ssh</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ssh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>登陆到远程节点，在 <code>/home/&lt;username&gt;</code> 路径下创建 <code>.ssh</code> 文件夹，确保这个文件夹只有自己拥有操作权限：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -m 700 .ssh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入文件夹，创建文件”authorized_keys”，将PuTTYgen文本框中生成的公匙粘贴过来：（公钥以 ssh-rsa 开头并只有一行）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> .ssh</span><br><span class="line">$ vi authorized_keys</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>关闭密码验证，打开 ssh 配置文件<code>vim /etc/config/dropbear</code>增加一行<code>option PasswordAuth &#39;off&#39;</code></p>
-</li>
-<li><p>打开PuTTY，进入 Connection/SSH/Auth 选项卡，在 Private key file for authentication 中选择私匙文件</p>
-</li>
-<li><p>定位到 Connection/Data 在 Auto-login username 填入要自动登入的用户名</p>
-</li>
-<li><p>回到 Session 选项卡，将更改保存一下，搞定。</p>
-</li>
-</ol>
-<blockquote>
-<p><a href="http://sfau.lt/b5cQwW" target="_blank" rel="noopener">http://sfau.lt/b5cQwW</a></p>
+        <blockquote>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
 </blockquote>
+<a id="more"></a>
 
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装 Hexo 相当简单。然而在安装前，您必须检查电脑中是否已安装下列应用程序：</p>
+<ul>
+<li><a href="http://nodejs.org/" target="_blank" rel="noopener">Node.js</a></li>
+<li><a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a></li>
+</ul>
+<h2 id="淘宝-NPM-镜像"><a href="#淘宝-NPM-镜像" class="headerlink" title="淘宝 NPM 镜像"></a>淘宝 NPM 镜像</h2><p><em>免梯子，使用<a href="https://npm.taobao.org/" target="_blank" rel="noopener">淘宝npm镜像</a>安装npm工具</em><br><em>使用定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>继续使用 cnpm 即可完成 Hexo 的安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h1><p>安装 Hexo 完成后，执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ cd &lt;folder&gt;</span><br><span class="line">$ cnpm install</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。</p>
+</blockquote>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>一切成功的话，此时可以运行$ hexo s启动服务器<br>默认情况下，访问网址为：<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> </p>
+<hr>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="部署到Github"><a href="#部署到Github" class="headerlink" title="部署到Github"></a>部署到Github</h2><p>需要先提前安装一个扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>接着在配置文件_config.xml中作如下修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:username&#x2F;username.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>把 username 替换成你的Github用户名，然后在命令行中执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>即可完成部署。</p>
+<h2 id="Local-Search"><a href="#Local-Search" class="headerlink" title="Local Search"></a>Local Search</h2><p>添加自定义站点内容搜索<br>安装 hexo-generator-searchdb，在站点的根目录下执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<p>编辑 站点配置文件，新增以下内容到任意位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -317,7 +325,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://ehye.github.io/2018/01/19/PuTTY-Auto-login/" title="PuTTY 自动登录设置">https://ehye.github.io/2018/01/19/PuTTY-Auto-login/</a>
+    <a href="https://ehye.github.io/2016/12/16/github_pages_with_hexo/" title="用 Github Pages 与 hexo 搭建个人博客">https://ehye.github.io/2016/12/16/github_pages_with_hexo/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -329,8 +337,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/SSH/" rel="tag"><i class="fa fa-tag"></i> SSH</a>
-              <a href="/tags/PuTTY/" rel="tag"><i class="fa fa-tag"></i> PuTTY</a>
+              <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
+              <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
           </div>
 
         
@@ -339,12 +347,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/12/12/chrome-extension-downloader/" rel="prev" title="Chrome 插件打包下载">
-      <i class="fa fa-chevron-left"></i> Chrome 插件打包下载
+    <a href="/2016/12/16/PiscesScheme_widescreen/" rel="prev" title="使 next 主题适应移动设备">
+      <i class="fa fa-chevron-left"></i> 使 next 主题适应移动设备
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/04/10/tex-in-anki/" rel="next" title="向 Anki 添加 LaTeX 支持">
-      向 Anki 添加 LaTeX 支持 <i class="fa fa-chevron-right"></i>
+    <a href="/2016/12/22/the-magpie-developer/" rel="next" title="The Magpie Developer">
+      The Magpie Developer <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -354,7 +362,6 @@
   
   
 
-  </div>
 
 
           </div>
@@ -433,6 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#淘宝-NPM-镜像"><span class="nav-number">1.1.</span> <span class="nav-text">淘宝 NPM 镜像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建站"><span class="nav-number">2.</span> <span class="nav-text">建站</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">2.1.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署到Github"><span class="nav-number">3.1.</span> <span class="nav-text">部署到Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Local-Search"><span class="nav-number">3.2.</span> <span class="nav-text">Local Search</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,9 +546,14 @@
                 console.error('Failed to save visitor count', error);
               });
           } else {
-              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
-            
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
           }
         })
         .catch(error => {
@@ -567,7 +580,7 @@
         });
     }
 
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":true};
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
     function fetchData(api_server) {
       var Counter = (method, url, data) => {
         return fetch(`${api_server}/1.1${url}`, {
@@ -647,6 +660,23 @@
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
+      shortname : 'ehye',
+      url       : "https://ehye.github.io/2016/12/16/github_pages_with_hexo/",
+      identifier: "2016/12/16/github_pages_with_hexo/",
+      title     : "用 Github Pages 与 hexo 搭建个人博客",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
 <script>
 NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
   window.livereOptions = {
@@ -660,23 +690,6 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
     j.async = true;
     e.parentNode.insertBefore(j, e);
   })(document, 'script');
-});
-</script>
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
-    window.dsqjs = new DisqusJS({
-      api       : '' || 'https://disqus.com/api/',
-      apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
-      shortname : 'ehye',
-      url       : "https://ehye.github.io/2018/01/19/PuTTY-Auto-login/",
-      identifier: "2018/01/19/PuTTY-Auto-login/",
-      title     : "PuTTY 自动登录设置",
-    });
-  }, window.DisqusJS);
 });
 </script>
 
