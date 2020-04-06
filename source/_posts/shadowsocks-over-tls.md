@@ -5,7 +5,7 @@ categories: Tips
 tags:
     - Nginx
     - Shadowsocks
-    - TLS
+    - SSL
     - V2Ray
 ---
 
@@ -19,12 +19,12 @@ tags:
 
 - shadowsocks-libev
 - Nginx
-- TLS 证书 [acme.sh](https://github.com/acmesh-official/acme.sh)
+- SSL 证书 [acme.sh](https://github.com/acmesh-official/acme.sh) （DNSpod 等免费 SSL 证书亦可）
 - v2ray-plugin [release](https://github.com/shadowsocks/v2ray-plugin/releases)
 
 ## 配置 Nginx 及证书
 
-1. 颁发 TLS 证书
+1. 颁发 SSL 证书
 
     ```bash
     acme.sh  --issue -d mydomain.com   --standalone
@@ -41,7 +41,7 @@ tags:
     --reloadcmd     "service nginx force-reload"
     ```
 
-    配置好的 Nginx 文件如下
+    安装并配置 Nginx
 
     ```nginx
     server {
@@ -104,9 +104,9 @@ tags:
   - path 要和在 Nginx 配置里 location 中规定的一致
     {% endnote %}
 
-- Windows 客户端配置（部分）
+- Windows 客户端配置
 
-    `gui-config.json`
+    节选`gui-config.json`
 
     ```json
     {

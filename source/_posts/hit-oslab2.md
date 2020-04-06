@@ -11,7 +11,7 @@ tags:
 
 > 在通常情况下，调用系统调用和调用一个普通的自定义函数在代码上并没有什么区别，但调用后发生的事情有很大不同。调用自定义函数是通过call指令直接跳转到该函数的地址，继续运行。而调用系统调用，是调用系统库中为该系统调用编写的一个接口函数，叫API（Application Programming Interface）。API并不能完成系统调用的真正功能，它要做的是去调用真正的系统调用
 
-- 涉及到的所有文件
+- 修改的的文件
 
 ```text
 linux-0.11/include/linux/sys.h
@@ -23,7 +23,7 @@ linux-0.11/kernel/Makefile
 ~/whoami.c
 ```
 
-# 修改
+## 修改
 
 - 增加系统调用声明
 
@@ -110,7 +110,7 @@ linux-0.11/kernel/Makefile
 
     关键点在于如何在核心态同用户态进行数据交换，别误以为可以直接访问全局变量`_myname`，这个是核心态的变量，因此要用 `get_fs_byte()` 和 `put_fs_byte()` 进行读写
 
-# 编译
+## 编译
 
 - 修改 kernel/Makefile
 
@@ -125,7 +125,7 @@ linux-0.11/kernel/Makefile
     添加 who.s who.o: who.c ../include/linux/kernel.h ../include/unistd.h
 
     ```makefile
-    ### Dependencies:
+    #### Dependencies:
     who.s who.o: who.c ../include/linux/kernel.h ../include/unistd.h
     exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
     ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
@@ -145,7 +145,7 @@ linux-0.11/kernel/Makefile
     #define __NR_iam  73
     ```
 
-# 测试
+## 测试
 
 - 编写测试程序
 
@@ -165,12 +165,15 @@ linux-0.11/kernel/Makefile
     _syscall2(int, whoami,char*,name,unsigned int,size);
 
     int main(char *arg) {
-        // make a var name and it has length, like 50
         char myname[50];
         whoami(myname, 50);
         return 0;
     }
     ```
+
+    {% note info %}
+    myname 长度只要大于 who.c 里 _myname 的长度就行
+    {% endnote %}
 
     `~/iam.c`
 
@@ -193,6 +196,10 @@ linux-0.11/kernel/Makefile
     }
     ```
 
+    {% note info %}
+    注意是取第二个参数
+    {% endnote %}
+
 - 编译
 
     ```shell
@@ -207,6 +214,26 @@ linux-0.11/kernel/Makefile
     [/usr/root]# ./whoami
     ehye
     ```
+
+## 总结
+
+可以总结出向 Linux 0.11 添加一个系统调用 foo() 的步骤
+
+1. 修改 include/linux/sys.h 在`sys_call_table`数组最后加入`sys_foo`，再加上`extern rettype sys_foo()`
+
+2. 在`include/unistd.h`添加宏`#define __NR_foo num`
+
+3. 在`kernel/system_call.s`添加`nr_system_calls = num`
+
+4. 在`kernel/`中添加 foo.c ，实现系统调用`sys_foo()`
+
+5. 修改Makefile，`OBJS`一节添加 foo.c
+
+6. 编写调用程序时要加上
+
+   - #define __LIBRARY__
+   - #include <unistd.h>
+   - _syscallN()（N视具体参数数量而定）
 
 ---
 
