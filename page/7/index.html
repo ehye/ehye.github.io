@@ -203,6 +203,88 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/09/04/uwp-hamburger/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/09/04/uwp-hamburger/" class="post-title-link" itemprop="url">UWP开发笔记 汉堡菜单</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-09-04 13:12:33" itemprop="dateCreated datePublished" datetime="2016-09-04T13:12:33+08:00">2016-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
+              </span>
+
+          
+            <span id="/2016/09/04/uwp-hamburger/" class="post-meta-item leancloud_visitors" data-flag-title="UWP开发笔记 汉堡菜单" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>先画出汉堡菜单按钮或返回按钮</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">RelativePanel</span>&gt;</span></span><br><span class="line">true<span class="tag">&lt;<span class="name">Button</span> <span class="attr">Name</span>=<span class="string">"HamburgerButton"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">FontFamily</span>=<span class="string">"Segoe MDL2 Assets"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Content</span>=<span class="string">"<span class="symbol">&amp;#xE700;</span>"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Click</span>=<span class="string">"HamburgerButton_Click"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">FontSize</span>=<span class="string">"36"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Background</span>=<span class="string">"LightGray"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">RelativePanel.AlignLeftWithPanel</span>=<span class="string">"True"</span>/&gt;</span></span><br><span class="line">true<span class="tag">&lt;<span class="name">Button</span> <span class="attr">Name</span>=<span class="string">"Back"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Visibility</span>=<span class="string">"Collapsed"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">FontFamily</span>=<span class="string">"Segoe MDL2 Assets"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Content</span>=<span class="string">"<span class="symbol">&amp;#xE7EA;</span>"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Click</span>=<span class="string">"Back_Click"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">FontSize</span>=<span class="string">"36"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">Background</span>=<span class="string">"White"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">RelativePanel.RightOf</span>=<span class="string">"HamburgerButton"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativePanel</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后是菜单列表</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">SplitView</span> <span class="attr">Grid.Row</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">	   <span class="attr">Name</span>=<span class="string">"HamburgerMeun"</span> </span></span><br><span class="line"><span class="tag">	   <span class="attr">DisplayMode</span>=<span class="string">"CompactOverlay"</span></span></span><br><span class="line"><span class="tag">	   <span class="attr">OpenPaneLength</span>=<span class="string">"200"</span></span></span><br><span class="line"><span class="tag">	   <span class="attr">CompactPaneLength</span>=<span class="string">"56"</span> </span></span><br><span class="line"><span class="tag">	   <span class="attr">IsPaneOpen</span>=<span class="string">"False"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">SplitView.Pane</span>&gt;</span></span><br><span class="line">true<span class="tag">&lt;<span class="name">ListBox</span> <span class="attr">SelectionMode</span>=<span class="string">"Single"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">SelectionChanged</span>=<span class="string">"ListBox_SelectionChanged"</span>&gt;</span></span><br><span class="line">truetrue<span class="tag">&lt;<span class="name">ListBoxItem</span> <span class="attr">Name</span>=<span class="string">"Financial"</span>&gt;</span></span><br><span class="line">truetruetrue<span class="tag">&lt;<span class="name">StackPanel</span> <span class="attr">Orientation</span>=<span class="string">"Horizontal"</span>&gt;</span></span><br><span class="line">truetruetruetrue<span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">"<span class="symbol">&amp;#xE10F;</span>"</span></span></span><br><span class="line"><span class="tag">				   <span class="attr">FontFamily</span>=<span class="string">"Segoe MDL2 Assets"</span></span></span><br><span class="line"><span class="tag">				   <span class="attr">FontSize</span>=<span class="string">"36"</span>&gt;</span><span class="tag">&lt;/<span class="name">TextBlock</span>&gt;</span></span><br><span class="line">truetruetruetrue<span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">"Home"</span> </span></span><br><span class="line"><span class="tag">				   <span class="attr">FontSize</span>=<span class="string">"24"</span></span></span><br><span class="line"><span class="tag">				   <span class="attr">Margin</span>=<span class="string">"20,0,0,0"</span>&gt;</span><span class="tag">&lt;/<span class="name">TextBlock</span>&gt;</span></span><br><span class="line">truetruetrue<span class="tag">&lt;/<span class="name">StackPanel</span>&gt;</span></span><br><span class="line">truetrue<span class="tag">&lt;/<span class="name">ListBoxItem</span>&gt;</span></span><br><span class="line"></span><br><span class="line">truetrue<span class="tag">&lt;<span class="name">ListBoxItem</span> <span class="attr">Name</span>=<span class="string">"Food"</span>&gt;</span></span><br><span class="line">truetruetrue<span class="tag">&lt;<span class="name">StackPanel</span> <span class="attr">Orientation</span>=<span class="string">"Horizontal"</span>&gt;</span></span><br><span class="line">truetruetruetrue<span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">"<span class="symbol">&amp;#xE1CE;</span>"</span></span></span><br><span class="line"><span class="tag">					<span class="attr">FontFamily</span>=<span class="string">"Segoe MDL2 Assets"</span></span></span><br><span class="line"><span class="tag">					<span class="attr">FontSize</span>=<span class="string">"36"</span>&gt;</span><span class="tag">&lt;/<span class="name">TextBlock</span>&gt;</span></span><br><span class="line">truetruetruetrue<span class="tag">&lt;<span class="name">TextBlock</span> <span class="attr">Text</span>=<span class="string">"Food"</span></span></span><br><span class="line"><span class="tag">					<span class="attr">FontSize</span>=<span class="string">"24"</span></span></span><br><span class="line"><span class="tag">					<span class="attr">Margin</span>=<span class="string">"20,0,0,0"</span>&gt;</span><span class="tag">&lt;/<span class="name">TextBlock</span>&gt;</span></span><br><span class="line">truetruetrue<span class="tag">&lt;/<span class="name">StackPanel</span>&gt;</span></span><br><span class="line">truetrue<span class="tag">&lt;/<span class="name">ListBoxItem</span>&gt;</span></span><br><span class="line">true<span class="tag">&lt;/<span class="name">ListBox</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">SplitView.Pane</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来是点击事件</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">HamburgerButton_Click</span>(<span class="params"><span class="keyword">object</span> sender, RoutedEventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">trueHamburgerMeun.IsPaneOpen = !HamburgerMeun.IsPaneOpen;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Bob Tabord 的汉堡菜单弹出写法</em></p>
+<p>第一次看到这样写按钮，很巧妙</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/08/31/Reverse%20String/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -234,7 +316,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -310,7 +392,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -422,7 +504,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

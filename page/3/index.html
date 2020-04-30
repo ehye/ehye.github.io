@@ -203,6 +203,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/12/12/chrome-extension-downloader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/12/chrome-extension-downloader/" class="post-title-link" itemprop="url">Chrome 插件打包下载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-12 08:12:02" itemprop="dateCreated datePublished" datetime="2017-12-12T08:12:02+08:00">2017-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
+              </span>
+
+          
+            <span id="/2017/12/12/chrome-extension-downloader/" class="post-meta-item leancloud_visitors" data-flag-title="Chrome 插件打包下载" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>到<a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener">应用商店</a>搜索并获取获取插件 id</p>
+<img src="/2017/12/12/chrome-extension-downloader/get_id.png" class="">
+
+<body>
+    <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">Download extension</button>
+    <br/>
+    <a id="download_link" href="" style="visibility: hidden;">点击下载</a>
+</body>
+
+<script type="text/javascript">
+    document.getElementById("btn").onclick = function() {
+        var id = document.getElementById("input_id").value;
+        if (id != "") {
+            var str = "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D~~%26installsource%3Dondemand%26uc";
+            var link = str.replace(/~~/,id);
+            document.getElementById("download_link").href = link;
+            document.getElementById("download_link").style.visibility = "visible";
+        }
+        else {
+            document.getElementById("download_link").style.visibility = "hidden";
+        }
+    };
+</script>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/12/04/alg4s-BurrowsWheeler/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -234,7 +331,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -310,7 +407,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -386,7 +483,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -462,7 +559,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -538,7 +635,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -614,7 +711,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -690,7 +787,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -773,7 +870,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -849,7 +946,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-30 19:45:30" itemprop="dateModified" datetime="2020-04-30T19:45:30+08:00">2020-04-30</time>
               </span>
 
           
@@ -880,82 +977,6 @@
 </blockquote>
 <p>切换到 C 盘，运行</p>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/09/12/hexo_branch_backup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ehye">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ehye's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/12/hexo_branch_backup/" class="post-title-link" itemprop="url">使用 branch 对 hexo 备份</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-12 20:41:13" itemprop="dateCreated datePublished" datetime="2017-09-12T20:41:13+08:00">2017-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 19:43:52" itemprop="dateModified" datetime="2020-04-06T19:43:52+08:00">2020-04-06</time>
-              </span>
-
-          
-            <span id="/2017/09/12/hexo_branch_backup/" class="post-meta-item leancloud_visitors" data-flag-title="使用 branch 对 hexo 备份" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少，而新建一个 repository 过于臃肿，因此利用 branch 进行备份
-          <!--noindex-->
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1041,7 +1062,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -1100,6 +1100,74 @@
       </categories>
   </entry>
   <entry>
+    <title>哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计</title>
+    <url>/2020/04/30/hit-oslab8/</url>
+    <content><![CDATA[<p>修改 Linux 0.11 的终端设备处理代码，对键盘输入和字符显示进行非常规的控制<a id="more"></a></p>
+<blockquote>
+<p>在初始状态，一切如常。用户按一次 F12 后，把应用程序向终端输出所有字母都替换为“*”。用户再按一次 F12，又恢复正常。第三次按 F12，再进行输出替换。依此类推。</p>
+</blockquote>
+<p>以 ls 命令为例：</p>
+<p>正常情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ls</span><br><span class="line">hello.c hello.o hello</span><br></pre></td></tr></table></figure>
+
+<p>第一次按 F12，然后输入 ls：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># **</span><br><span class="line">*****.* *****.* *****</span><br></pre></td></tr></table></figure>
+
+<p>第二次按 F12，然后输入 ls：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ls</span><br><span class="line">hello.c hello.o hello</span><br></pre></td></tr></table></figure>
+
+<p>第三次按 F12，然后输入 ls：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># **</span><br><span class="line">*****.* *****.* *****</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>相对简单的一次实验，根据F12键盘中断，设置一个开关，再更改输出即可</p>
+<ul>
+<li>修改的文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">include&#x2F;linux&#x2F;sched.h</span><br><span class="line">kernel&#x2F;sched.c</span><br><span class="line">kernel&#x2F;chr_drv&#x2F;keyboard.S</span><br><span class="line">kernel&#x2F;chr_drv&#x2F;console.c</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
+<li><p>sched.h</p>
+<p>  添加一个全局变量作为开关</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> f12_flag;</span><br></pre></td></tr></table></figure>
+
+<p>  因为 console.c 引用 sched.h ，所以不能在 sched.c 里定义</p>
+</li>
+<li><p>sched.c</p>
+<p>  没错又是 sched.c</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">f12_flag = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">switch_f12</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(f12_flag) f12_flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> f12_flag = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  一个开关函数，课件里有提示了</p>
+</li>
+<li><p>keyboard.S</p>
+<p>  修改功能键扫描码处理块，参考自《Linux 内核 0.11 详细注释》</p>
+  <figure class="highlight as"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* this routine handles function keys</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">func:</span><br><span class="line">    subb $<span class="number">0x3B</span>,%al</span><br><span class="line">    jb end_func</span><br><span class="line">    cmpb $<span class="number">9</span>,%al</span><br><span class="line">    jbe ok_func</span><br><span class="line">    subb $<span class="number">18</span>,%al <span class="comment">// 是功能键F11、F12？</span></span><br><span class="line">    cmpb $<span class="number">10</span>,%al <span class="comment">// 是功能键F11？</span></span><br><span class="line">    jb end_func  <span class="comment">// 不是，则不处理，返回</span></span><br><span class="line">    cmpb $<span class="number">11</span>,%al <span class="comment">// 是功能键F12？</span></span><br><span class="line">    ja end_func  <span class="comment">// 不是，则不处理，返回</span></span><br><span class="line">    call switch_f12</span><br></pre></td></tr></table></figure>
+
+<p>  增加跳转<code>switch_f12</code>的语句</p>
+</li>
+<li><p>console.c</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">con_write</span><span class="params">(struct tty_struct * tty)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> nr;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line"></span><br><span class="line">    nr = CHARS(tty-&gt;write_q);</span><br><span class="line">    <span class="keyword">while</span> (nr--) &#123;</span><br><span class="line">        GETCH(tty-&gt;write_q,c);</span><br><span class="line">        <span class="keyword">switch</span>(state) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> (c&gt;<span class="number">31</span> &amp;&amp; c&lt;<span class="number">127</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (x&gt;=video_num_columns) &#123;</span><br><span class="line">                        x -= video_num_columns;</span><br><span class="line">                        pos -= video_size_row;</span><br><span class="line">                        lf();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">/* 只针对字母 */</span></span><br><span class="line">                    <span class="keyword">if</span>(f12_flag &amp;&amp; ((c&gt;<span class="number">64</span> &amp;&amp; c&lt;<span class="number">91</span>) || (c&gt;<span class="number">96</span> &amp;&amp; c&lt;<span class="number">123</span>)))</span><br><span class="line">                        c=<span class="string">'*'</span>;</span><br><span class="line">                    __asm__(<span class="string">"movb attr,%%ah\n\t"</span></span><br><span class="line">                        <span class="string">"movw %%ax,%1\n\t"</span></span><br><span class="line">                        ::<span class="string">"a"</span> (c),<span class="string">"m"</span> (*(short *)pos)</span><br><span class="line">                        );</span><br><span class="line">                    pos += <span class="number">2</span>;</span><br><span class="line">                    x++;</span><br><span class="line">                &#125; </span><br><span class="line">                ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>: ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    set_cursor();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  在con_write，真正写显示器前根据 flag 改变输出字符</p>
+</li>
+</ul>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><img src="/2020/04/30/hit-oslab8/switch_f12.jpg" class="">
+
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul>
+<li><p>F12原有的功能没能去掉</p>
+</li>
+<li><p>当输出星号后，下一行会有一个<code>L</code></p>
+</li>
+</ul>
+<hr>
+<p>相关资源</p>
+<p><a href="https://www.icourse163.org/learn/HIT-1002531008" target="_blank" rel="noopener">操作系统 中国大学MOOC(慕课)</a><br><a href="https://www.shiyanlou.com/courses/115/learning/?id=574" target="_blank" rel="noopener">操作系统原理与实践 - 终端设备的控制 - 实验楼</a></p>
+]]></content>
+      <categories>
+        <category>MOOC</category>
+      </categories>
+  </entry>
+  <entry>
     <title>在 Ubuntu 上搭建 Insurgency 对战服务器</title>
     <url>/2017/12/02/insurgency-server-build/</url>
     <content><![CDATA[<img src="/2017/12/02/insurgency-server-build/Insurgency_2014.jpg" class="">
