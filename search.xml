@@ -1100,7 +1100,7 @@
       </categories>
   </entry>
   <entry>
-    <title>哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计</title>
+    <title>哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计</title>
     <url>/2020/04/30/hit-oslab8/</url>
     <content><![CDATA[<p>修改 Linux 0.11 的终端设备处理代码，对键盘输入和字符显示进行非常规的控制<a id="more"></a></p>
 <blockquote>
