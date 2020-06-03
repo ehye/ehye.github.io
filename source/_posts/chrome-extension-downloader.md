@@ -9,9 +9,8 @@ tags:
 {% asset_img get_id.png %}
 
 <body>
-    <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">Download extension</button>
-    <br/>
-    <a id="download_link" href="" style="visibility: hidden;">点击下载</a>
+    <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">生成链接</button>
+    <a id="download_link" href="" style="visibility: hidden;">右键另存为</a>
 </body>
 
 <script type="text/javascript">

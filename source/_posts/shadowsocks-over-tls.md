@@ -20,6 +20,7 @@ tags:
 - shadowsocks-libev
 - Nginx
 - SSL 证书 [acme.sh](https://github.com/acmesh-official/acme.sh) （DNSpod 等免费 SSL 证书亦可）
+- DNS解析
 - v2ray-plugin [release](https://github.com/shadowsocks/v2ray-plugin/releases)
 
 ## 配置 Nginx 及证书
@@ -27,12 +28,12 @@ tags:
 1. 颁发 SSL 证书
 
     ```bash
-    acme.sh  --issue -d mydomain.com   --standalone
+    acme.sh --issue -d mydomain.com --standalone
     ```
 
 2. 复制/安装
 
-    不要直接使用`~/.acme.sh/`下的文件，可以复制到`/etc/nginx/certs/`下，然后使用脚本安装
+    不要让 Nginx 直接使用`~/.acme.sh/`下的文件，使用以下脚本可以复制到`/etc/nginx/certs/`下并安装
 
     ```bash
     acme.sh --installcert -d mydomain.com \
@@ -68,16 +69,20 @@ tags:
     ```
 
     {% note info %}
-    location 后面的路径就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的
+    此例中 /ray 就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的
     {% endnote %}
 
 3. 设置自动更新
 
     ```bash
-    acme.sh  --upgrade  --auto-upgrade
+    acme.sh --upgrade --auto-upgrade
     ```
 
 ## Shadowsocks 配置
+
+- 安装 v2ray 插件
+
+    将下载的 release 解压到 `/user/bin`
 
 - 服务端配置
 
@@ -120,8 +125,14 @@ tags:
     }
     ```
 
+## DNS解析
+
+最后一步，使用DNS解析服务，将你的域名解析到主机
+
 ---
 
 参考
 
 [Use v2ray-plugin after Nginx · Issue #48 · shadowsocks/v2ray-plugin](https://github.com/shadowsocks/v2ray-plugin/issues/48)
+
+[说明 · acmesh-official/acme.sh Wiki](https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E)
