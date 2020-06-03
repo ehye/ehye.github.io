@@ -691,9 +691,8 @@
 <img src="/2017/12/12/chrome-extension-downloader/get_id.png" class="">
 
 <body>
-    <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">Download extension</button>
-    <br/>
-    <a id="download_link" href="" style="visibility: hidden;">点击下载</a>
+    <input type="text" id="input_id" placeholder="extension id" style="border: 1px solid #cccccc; width: 300px; height: 28px; padding-left: 10px;"><button id="btn" class="btn">生成链接</button>
+    <a id="download_link" href="" style="visibility: hidden;">右键另存为</a>
 </body>
 
 <script type="text/javascript">
@@ -1616,29 +1615,33 @@
 <li>shadowsocks-libev</li>
 <li>Nginx</li>
 <li>SSL 证书 <a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a> （DNSpod 等免费 SSL 证书亦可）</li>
+<li>DNS解析</li>
 <li>v2ray-plugin <a href="https://github.com/shadowsocks/v2ray-plugin/releases" target="_blank" rel="noopener">release</a></li>
 </ul>
 <h2 id="配置-Nginx-及证书"><a href="#配置-Nginx-及证书" class="headerlink" title="配置 Nginx 及证书"></a>配置 Nginx 及证书</h2><ol>
 <li><p>颁发 SSL 证书</p>
- <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">acme.sh  --issue -d mydomain.com   --standalone</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">acme.sh --issue -d mydomain.com --standalone</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>复制/安装</p>
-<p> 不要直接使用<code>~/.acme.sh/</code>下的文件，可以复制到<code>/etc/nginx/certs/</code>下，然后使用脚本安装</p>
+<p> 不要让 Nginx 直接使用<code>~/.acme.sh/</code>下的文件，使用以下脚本可以复制到<code>/etc/nginx/certs/</code>下并安装</p>
  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">acme.sh --installcert -d mydomain.com \</span><br><span class="line">--key-file       /etc/nginx/certs/mydomain.com.key  \</span><br><span class="line">--fullchain-file /etc/nginx/certs/fullchain.cer \</span><br><span class="line">--reloadcmd     <span class="string">"service nginx force-reload"</span></span><br></pre></td></tr></table></figure>
 
 <p> 安装并配置 Nginx</p>
  <figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl default_server;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl default_server; <span class="comment"># 没有 ipv6 可以不写这行</span></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/nginx/certs/fullchain.cer;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/nginx/certs/mydomain.com.key;</span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">3m</span>;</span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> mydomain.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /ray &#123;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8008;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
  <div class="note info">
-            <p>location 后面的路径就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的</p>
+            <p>此例中 /ray 就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的</p>
           </div>
 </li>
 <li><p>设置自动更新</p>
- <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">acme.sh  --upgrade  --auto-upgrade</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">acme.sh --upgrade --auto-upgrade</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
 <h2 id="Shadowsocks-配置"><a href="#Shadowsocks-配置" class="headerlink" title="Shadowsocks 配置"></a>Shadowsocks 配置</h2><ul>
+<li><p>安装 v2ray 插件</p>
+<p>  将下载的 release 解压到 <code>/user/bin</code></p>
+</li>
 <li><p>服务端配置</p>
 <p>  <code>/etc/shadowsocks-libev/config.json</code></p>
   <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"localhost"</span>,</span><br><span class="line">    <span class="attr">"mode"</span>:<span class="string">"tcp_only"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:<span class="number">8008</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"***"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">5</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"chacha20-ietf-poly1305"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"v2ray-plugin"</span>,</span><br><span class="line">    <span class="attr">"plugin_opts"</span>:<span class="string">"server;host=mydomain.com;path=/ray"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1653,9 +1656,11 @@
 
 </li>
 </ul>
+<h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2><p>最后一步，使用DNS解析服务，将你的域名解析到主机</p>
 <hr>
 <p>参考</p>
 <p><a href="https://github.com/shadowsocks/v2ray-plugin/issues/48" target="_blank" rel="noopener">Use v2ray-plugin after Nginx · Issue #48 · shadowsocks/v2ray-plugin</a></p>
+<p><a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">说明 · acmesh-official/acme.sh Wiki</a></p>
 ]]></content>
       <categories>
         <category>Tips</category>
