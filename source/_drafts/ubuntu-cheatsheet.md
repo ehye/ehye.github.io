@@ -162,6 +162,7 @@ echo "" > log
 ```
 
 - 快捷方式
-```
+
+```bash
 ln -s /mnt/c/Users/xxx ~/win10 
 ```

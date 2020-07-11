@@ -9,17 +9,17 @@ tags:
 ---
 
 在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<!-- more -->
-手机成功进入 fastboot 了，在 cmd 运行`fastboot devices`后手机却断开了，屏幕上显示一行 Press any key to shutdown
-而在一些预装 Win8 的机子上使用 USB3.0 也不会出现这样的问题
+手机成功进入 fastboot 了，但在 cmd 执行`fastboot devices`后手机却断开了，屏幕上显示一行 Press any key to shutdown
+而在一些预装 Win8 的机子上使用 USB3.0 却不会出现这样的问题
 
 解决方法如下：
 
 1. 手机进入 fastboot 模式，打开设备管理器，在详细信息选项卡查看手机的硬件ID，
 2. 打开注册表编辑器，定位到`HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\usbflags`
-3. 根据`VID` `PID` `REV`后的值找到对应的项
-4. 新建一个名称为`SkipBOSDescriptorQuery`的DWORD值
-5. 在`数值数据`框中，键入1，然后单击确定。
-6. 退出注册表编辑器，拔下并重新插入设备，以使解决方法生效。
+3. 根据`VID` `PID` `REV`后的值找到对应的项（本例中为`18D1D00D0100`）
+4. 按照这个值，新建一个类型为DWORD，名称为`SkipBOSDescriptorQuery`的数据
+5. `数值数据`设为1，然后单击确定
+6. 退出注册表编辑器，拔下并重新插入设备，以使解决方法生效
 
 最终效果：
 
