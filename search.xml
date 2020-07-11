@@ -793,9 +793,9 @@
  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">.\brotli.exe -d system.new.dat.br -o system.new.dat</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>使用 <a href="https://github.com/xpirt/sdat2img" target="_blank" rel="noopener">sdat2img</a> 生成刷入的镜像</p>
- <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sdat2img.py system.transfer.list system.new.dat system.img</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">.\sdat2img.py system.transfer.list system.new.dat system.img</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>进入twrp，因为是同内核升级，双清即可，然后刷入system分区</p>
+<li><p>进入twrp，因为是同内核升级，双清(Cache, Dalvik)即可，然后刷入system分区</p>
 </li>
 </ol>
 <hr>
@@ -881,15 +881,15 @@
   <entry>
     <title>如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误</title>
     <url>/2020/03/21/fastboot-press-any-key-to-shutdown/</url>
-    <content><![CDATA[<p>在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<a id="more"></a><br>手机成功进入 fastboot 了，在 cmd 运行<code>fastboot devices</code>后手机却断开了，屏幕上显示一行 Press any key to shutdown<br>而在一些预装 Win8 的机子上使用 USB3.0 也不会出现这样的问题</p>
+    <content><![CDATA[<p>在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<a id="more"></a><br>手机成功进入 fastboot 了，但在 cmd 执行<code>fastboot devices</code>后手机却断开了，屏幕上显示一行 Press any key to shutdown<br>而在一些预装 Win8 的机子上使用 USB3.0 却不会出现这样的问题</p>
 <p>解决方法如下：</p>
 <ol>
 <li>手机进入 fastboot 模式，打开设备管理器，在详细信息选项卡查看手机的硬件ID，</li>
 <li>打开注册表编辑器，定位到<code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\usbflags</code></li>
-<li>根据<code>VID</code> <code>PID</code> <code>REV</code>后的值找到对应的项</li>
-<li>新建一个名称为<code>SkipBOSDescriptorQuery</code>的DWORD值</li>
-<li>在<code>数值数据</code>框中，键入1，然后单击确定。</li>
-<li>退出注册表编辑器，拔下并重新插入设备，以使解决方法生效。</li>
+<li>根据<code>VID</code> <code>PID</code> <code>REV</code>后的值找到对应的项（本例中为<code>18D1D00D0100</code>）</li>
+<li>按照这个值，新建一个类型为DWORD，名称为<code>SkipBOSDescriptorQuery</code>的数据</li>
+<li><code>数值数据</code>设为1，然后单击确定</li>
+<li>退出注册表编辑器，拔下并重新插入设备，以使解决方法生效</li>
 </ol>
 <p>最终效果：</p>
 <img src="/2020/03/21/fastboot-press-any-key-to-shutdown/VIDPIDREV.png" class="" title="最终效果">
