@@ -61,9 +61,14 @@ unzip file.zip -d destination_folder
 
 - 后台运行程序
 
+1. 不需要输入
+
 ```bash
 nohup dotnet ArchiSteamFarm.dll &
 ```
+2. 需要输入
+
+ctrl + z 暂停后，使用htop继续
 
 - 查看进程
 
