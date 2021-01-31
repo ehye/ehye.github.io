@@ -13,9 +13,7 @@ install:
 before_script:
   - mkdir themes/next
   # clone next theme
-  - curl -s https://api.github.com/repos/theme-next/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
-  # copy the custom next theme config file
-  - no | mv themes/next/* -i themes/hexo-theme-next/
+  - curl -s https://api.github.com/repos/next-theme/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
 script:
   - hexo clean
   - hexo generate
