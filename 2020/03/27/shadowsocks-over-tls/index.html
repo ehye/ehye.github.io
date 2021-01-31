@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,14 +17,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-<script id="hexo-configurations">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+
+<script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"disqusjs"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta name="description" content="裸连 Shadowsocks 在特殊时期会被无差别攻击，只有伪装成 HTTPS 才能续命">
+<meta name="description" content="裸连 Shadowsocks 在特殊时期会被无差别攻击，只有伪装成 HTTPS 才能续命">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shadowsocks over websocket (HTTPS) 配置记录">
 <meta property="og:url" content="https://ehye.github.io/2020/03/27/shadowsocks-over-tls/index.html">
@@ -30,7 +32,7 @@
 <meta property="og:description" content="裸连 Shadowsocks 在特殊时期会被无差别攻击，只有伪装成 HTTPS 才能续命">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-27T10:53:20.000Z">
-<meta property="article:modified_time" content="2020-10-07T05:40:45.264Z">
+<meta property="article:modified_time" content="2021-01-31T10:43:27.241Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Nginx">
 <meta property="article:tag" content="Shadowsocks">
@@ -38,10 +40,11 @@
 <meta property="article:tag" content="V2Ray">
 <meta name="twitter:card" content="summary">
 
+
 <link rel="canonical" href="https://ehye.github.io/2020/03/27/shadowsocks-over-tls/">
 
 
-<script id="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -49,9 +52,14 @@
     isPost : true,
     lang   : 'zh-CN'
   };
+</script><script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
 </script>
-
-  <title>Shadowsocks over websocket (HTTPS) 配置记录 | ehye's Blog</title>
+<title>Shadowsocks over websocket (HTTPS) 配置记录 | ehye's Blog</title>
   
     <script>
       function sendPageView() {
@@ -73,53 +81,63 @@
 
 
 
-
-
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container">
-    <div class="headband"></div>
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
+      <i class="logo-line"></i>
       <h1 class="site-title">ehye's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
     </a>
   </div>
 
@@ -132,34 +150,14 @@
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-sitemap">
-
-    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -170,23 +168,22 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="搜索..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
 
@@ -194,24 +191,105 @@
   </div>
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">原料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Nginx-%E5%8F%8A%E8%AF%81%E4%B9%A6"><span class="nav-number">2.</span> <span class="nav-text">配置 Nginx 及证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shadowsocks-%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">Shadowsocks 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">DNS解析</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
-  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+    <div class="main-inner post posts-expand">
 
-          <div class="content post posts-expand">
-            
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2020/03/27/shadowsocks-over-tls/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,45 +306,33 @@
           Shadowsocks over websocket (HTTPS) 配置记录
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-27 18:53:20" itemprop="dateCreated datePublished" datetime="2020-03-27T18:53:20+08:00">2020-03-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-07 13:40:45" itemprop="dateModified" datetime="2020-10-07T13:40:45+08:00">2020-10-07</time>
-              </span>
-
-          
-            <span id="/2020/03/27/shadowsocks-over-tls/" class="post-meta-item leancloud_visitors" data-flag-title="Shadowsocks over websocket (HTTPS) 配置记录" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/03/27/shadowsocks-over-tls/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/27/shadowsocks-over-tls/" itemprop="commentCount"></span>
-    </a>
-  </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-27 18:53:20" itemprop="dateCreated datePublished" datetime="2020-03-27T18:53:20+08:00">2020-03-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-31 18:43:27" itemprop="dateModified" datetime="2021-01-31T18:43:27+08:00">2021-01-31</time>
+      </span>
+
   
-  
+    <span id="/2020/03/27/shadowsocks-over-tls/" class="post-meta-item leancloud_visitors" data-flag-title="Shadowsocks over websocket (HTTPS) 配置记录" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -275,8 +341,6 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <p>裸连 Shadowsocks 在特殊时期会被无差别攻击，只有伪装成 HTTPS 才能续命</p>
 <a id="more"></a>
 
@@ -285,136 +349,161 @@
 <h2 id="原料"><a href="#原料" class="headerlink" title="原料"></a>原料</h2><ul>
 <li>shadowsocks-libev</li>
 <li>Nginx</li>
-<li>SSL 证书 <a href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acme.sh</a> （DNSpod 等免费 SSL 证书亦可）</li>
+<li>SSL 证书 <a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh</a> （DNSpod 等免费 SSL 证书亦可）</li>
 <li>DNS解析</li>
-<li>v2ray-plugin <a href="https://github.com/shadowsocks/v2ray-plugin/releases" target="_blank" rel="noopener">release</a></li>
+<li>v2ray-plugin <a target="_blank" rel="noopener" href="https://github.com/shadowsocks/v2ray-plugin/releases">release</a></li>
 </ul>
 <h2 id="配置-Nginx-及证书"><a href="#配置-Nginx-及证书" class="headerlink" title="配置 Nginx 及证书"></a>配置 Nginx 及证书</h2><ol>
 <li><p>颁发 SSL 证书</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue -d mydomain.com --standalone</span><br></pre></td></tr></table></figure>
-</li>
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">acme.sh --issue -d mydomain.com --standalone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>复制/安装</p>
 <p> 不要让 Nginx 直接使用<code>~/.acme.sh/</code>下的文件，使用以下脚本可以复制到<code>/etc/nginx/certs/</code>下并安装</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --installcert -d mydomain.com \</span><br><span class="line">--key-file       /etc/nginx/certs/mydomain.com.key  \</span><br><span class="line">--fullchain-file /etc/nginx/certs/fullchain.cer \</span><br><span class="line">--reloadcmd     <span class="string">"service nginx force-reload"</span></span><br></pre></td></tr></table></figure>
-
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">acme.sh --installcert -d mydomain.com <span class="token punctuation">\</span>
+--key-file       /etc/nginx/certs/mydomain.com.key  <span class="token punctuation">\</span>
+--fullchain-file /etc/nginx/certs/fullchain.cer <span class="token punctuation">\</span>
+--reloadcmd     <span class="token string">"service nginx force-reload"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p> 安装并配置 Nginx</p>
- <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl default_server;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl default_server; <span class="comment"># 没有 ipv6 可以不写这行</span></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/nginx/certs/fullchain.cer;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/nginx/certs/mydomain.com.key;</span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">3m</span>;</span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> mydomain.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /ray &#123;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8008;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">listen</span> <span class="token number">443</span> <span class="token keyword">ssl</span> default_server<span class="token punctuation">;</span>
+    <span class="token keyword">listen</span> <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">443</span> <span class="token keyword">ssl</span> default_server<span class="token punctuation">;</span> <span class="token comment"># 没有 ipv6 可以不写这行</span>
+    <span class="token keyword">ssl_certificate</span> <span class="token operator">/</span>etc<span class="token operator">/</span>nginx<span class="token operator">/</span>certs<span class="token operator">/</span>fullchain<span class="token punctuation">.</span>cer<span class="token punctuation">;</span>
+    <span class="token keyword">ssl_certificate_key</span> <span class="token operator">/</span>etc<span class="token operator">/</span>nginx<span class="token operator">/</span>certs<span class="token operator">/</span>mydomain<span class="token punctuation">.</span>com<span class="token punctuation">.</span>key<span class="token punctuation">;</span>
+    <span class="token keyword">ssl_session_timeout</span> <span class="token number">3</span>m<span class="token punctuation">;</span>
+    <span class="token keyword">ssl_protocols</span> TLSv1 TLSv1<span class="token punctuation">.</span><span class="token number">1</span> TLSv1<span class="token punctuation">.</span><span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">ssl_ciphers</span> ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>HIGH<span class="token punctuation">:</span><span class="token operator">!</span>aNULL<span class="token punctuation">:</span><span class="token operator">!</span>MD5<span class="token punctuation">:</span><span class="token operator">!</span>RC4<span class="token punctuation">:</span><span class="token operator">!</span>DHE<span class="token punctuation">;</span>
+    <span class="token keyword">ssl_prefer_server_ciphers</span> on<span class="token punctuation">;</span>
 
- <div class="note info">
-            <p>此例中 /ray 就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的</p>
-          </div>
+    <span class="token keyword">server_name</span> mydomain<span class="token punctuation">.</span>com<span class="token punctuation">;</span>
+
+    <span class="token keyword">location</span> <span class="token operator">/</span>ray <span class="token punctuation">&#123;</span>
+        <span class="token keyword">proxy_redirect</span> off<span class="token punctuation">;</span>
+        <span class="token keyword">proxy_pass</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token punctuation">:</span><span class="token number">8008</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span> Host <span class="token variable">$http_host</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_http_version</span> <span class="token number">1.1</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span> Upgrade <span class="token variable">$http_upgrade</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span> Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <div class="note info"><p>此例中 /ray 就是你要作为梯子访问的路径，以此达到网站和梯子共用443端口的目的</p>
+</div>
 </li>
 <li><p>设置自动更新</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --upgrade --auto-upgrade</span><br></pre></td></tr></table></figure>
-
-</li>
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">acme.sh --upgrade --auto-upgrade<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Shadowsocks-配置"><a href="#Shadowsocks-配置" class="headerlink" title="Shadowsocks 配置"></a>Shadowsocks 配置</h2></li>
 </ol>
-<h2 id="Shadowsocks-配置"><a href="#Shadowsocks-配置" class="headerlink" title="Shadowsocks 配置"></a>Shadowsocks 配置</h2><ul>
+<ul>
 <li><p>安装 v2ray 插件</p>
 <p>  将下载的 release 解压到 <code>/user/bin</code></p>
 </li>
 <li><p>服务端配置</p>
 <p>  <code>/etc/shadowsocks-libev/config.json</code></p>
-  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"localhost"</span>,</span><br><span class="line">    <span class="attr">"mode"</span>:<span class="string">"tcp_only"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:<span class="number">8008</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"***"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">5</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"chacha20-ietf-poly1305"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"v2ray-plugin"</span>,</span><br><span class="line">    <span class="attr">"plugin_opts"</span>:<span class="string">"server;host=mydomain.com;path=/ray"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-  <div class="note info">
-            <ul><li><code>server</code>设置为只允许从本地访问</li><li><code>server_port</code>要和Nginx配置文件中<code>proxy_pass</code>的端口一致</li><li>因为是通过 Ngxin 转发，同时也配置了HTTPS，所以<code>plugin_opts</code>就不需要再使用证书了</li><li>path 要和在 Nginx 配置里 location 中规定的一致</li></ul>
-          </div>
+  <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"server"</span><span class="token operator">:</span><span class="token string">"localhost"</span><span class="token punctuation">,</span>
+    <span class="token property">"mode"</span><span class="token operator">:</span><span class="token string">"tcp_only"</span><span class="token punctuation">,</span>
+    <span class="token property">"server_port"</span><span class="token operator">:</span><span class="token number">8008</span><span class="token punctuation">,</span>
+    <span class="token property">"local_port"</span><span class="token operator">:</span><span class="token number">1080</span><span class="token punctuation">,</span>
+    <span class="token property">"password"</span><span class="token operator">:</span><span class="token string">"***"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeout"</span><span class="token operator">:</span><span class="token number">5</span><span class="token punctuation">,</span>
+    <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"chacha20-ietf-poly1305"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin"</span><span class="token operator">:</span><span class="token string">"v2ray-plugin"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin_opts"</span><span class="token operator">:</span><span class="token string">"server;host=127.0.0.1;path=/ray"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <div class="note info"><ul>
+<li><code>server</code>设置为只允许从本地访问</li>
+<li><code>server_port</code>要和Nginx配置文件中<code>proxy_pass</code>的端口一致</li>
+<li>因为是通过 Ngxin 转发，同时也配置了HTTPS，所以<code>plugin_opts</code>就不需要再使用证书了</li>
+<li>path 要和在 Nginx 配置里 location 中规定的一致</li>
+</ul>
+</div>
 </li>
 <li><p>Windows 客户端配置</p>
 <p>  节选<code>gui-config.json</code></p>
-  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>: <span class="string">"mydomain.com"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>: <span class="number">443</span>,</span><br><span class="line">    <span class="attr">"password"</span>: <span class="string">"***"</span>,</span><br><span class="line">    <span class="attr">"method"</span>: <span class="string">"chacha20-ietf-poly1305"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>: <span class="string">"v2ray-plugin.exe"</span>,</span><br><span class="line">    <span class="attr">"plugin_opts"</span>: <span class="string">"tls;host=mydomain.com;path=/ray"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>: <span class="number">5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
+  <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"mydomain.com"</span><span class="token punctuation">,</span>
+    <span class="token property">"server_port"</span><span class="token operator">:</span> <span class="token number">443</span><span class="token punctuation">,</span>
+    <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"***"</span><span class="token punctuation">,</span>
+    <span class="token property">"method"</span><span class="token operator">:</span> <span class="token string">"chacha20-ietf-poly1305"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin"</span><span class="token operator">:</span> <span class="token string">"v2ray-plugin.exe"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin_opts"</span><span class="token operator">:</span> <span class="token string">"tls;host=mydomain.com;path=/ray"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeout"</span><span class="token operator">:</span> <span class="token number">5</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2></li>
 </ul>
-<h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2><p>最后一步，使用DNS解析服务，将你的域名解析到主机</p>
+<p>最后一步，使用DNS解析服务，将你的域名解析到主机</p>
 <hr>
 <p>参考</p>
-<p><a href="https://github.com/shadowsocks/v2ray-plugin/issues/48" target="_blank" rel="noopener">Use v2ray-plugin after Nginx · Issue #48 · shadowsocks/v2ray-plugin</a></p>
-<p><a href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">说明 · acmesh-official/acme.sh Wiki</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks/v2ray-plugin/issues/48">Use v2ray-plugin after Nginx · Issue #48 · shadowsocks/v2ray-plugin</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E">说明 · acmesh-official/acme.sh Wiki</a></p>
 
     </div>
 
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>ehye
+      <strong>本文作者： </strong>ehye
   </li>
   <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://ehye.github.io/2020/03/27/shadowsocks-over-tls/" title="Shadowsocks over websocket (HTTPS) 配置记录">https://ehye.github.io/2020/03/27/shadowsocks-over-tls/</a>
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2020/03/27/shadowsocks-over-tls/" title="Shadowsocks over websocket (HTTPS) 配置记录">https://ehye.github.io/2020/03/27/shadowsocks-over-tls/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
 
-
-      <footer class="post-footer">
-          
           <div class="post-tags">
-              <a href="/tags/Nginx/" rel="tag"><i class="fa fa-tag"></i> Nginx</a>
-              <a href="/tags/Shadowsocks/" rel="tag"><i class="fa fa-tag"></i> Shadowsocks</a>
-              <a href="/tags/SSL/" rel="tag"><i class="fa fa-tag"></i> SSL</a>
-              <a href="/tags/V2Ray/" rel="tag"><i class="fa fa-tag"></i> V2Ray</a>
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+              <a href="/tags/Shadowsocks/" rel="tag"># Shadowsocks</a>
+              <a href="/tags/SSL/" rel="tag"># SSL</a>
+              <a href="/tags/V2Ray/" rel="tag"># V2Ray</a>
           </div>
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/03/21/fastboot-press-any-key-to-shutdown/" rel="prev" title="如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误">
-      <i class="fa fa-chevron-left"></i> 如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/28/deploy-hexo-to-gh-pages-by-travis/" rel="next" title="使用 Travis 将 hexo 博客自动部署到 Github Pages">
-      使用 Travis 将 hexo 博客自动部署到 Github Pages <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/21/fastboot-press-any-key-to-shutdown/" rel="prev" title="如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误">
+                  <i class="fa fa-chevron-left"></i> 如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/28/deploy-hexo-to-gh-pages-by-travis/" rel="next" title="使用 Travis 将 hexo 博客自动部署到 Github Pages">
+                  使用 Travis 将 hexo 博客自动部署到 Github Pages <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-  
-  
-  
+</div>
 
 
 
-          </div>
-          
+
+
+
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-valine">Valine</a></li>
             <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane valine" id="comment-valine">
-              <div class="comments" id="valine-comments"></div>
-            </div>
             <div class="tab-pane disqusjs" id="comment-disqusjs">
               
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
             </div>
             <div class="tab-pane livere" id="comment-livere">
-              
-  <div class="comments">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
-  </div>
-  
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
             </div>
         </div>
       </div>
@@ -426,7 +515,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -435,116 +524,45 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原料"><span class="nav-number">1.</span> <span class="nav-text">原料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-Nginx-及证书"><span class="nav-number">2.</span> <span class="nav-text">配置 Nginx 及证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shadowsocks-配置"><span class="nav-number">3.</span> <span class="nav-text">Shadowsocks 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS解析"><span class="nav-number">4.</span> <span class="nav-text">DNS解析</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ehye"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">ehye</p>
-  <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">63</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">67</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">ehye</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
-        
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
 
+
+
+  
 
 
 <script>
@@ -555,15 +573,15 @@
     }
 
     function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
 
       Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length > 0) {
-            var counter = results[0];
+            const counter = results[0];
             leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .catch(error => {
@@ -586,8 +604,8 @@
     }
 
     function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
         return decodeURI(element.id);
       });
 
@@ -595,7 +613,7 @@
         .then(response => response.json())
         .then(({ results }) => {
           for (let url of entries) {
-            let target = results.find(item => item.url === url);
+            const target = results.find(item => item.url === url);
             leancloudSelector(url).innerText = target ? target.time : 0;
           }
         })
@@ -604,9 +622,9 @@
         });
     }
 
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
     function fetchData(api_server) {
-      var Counter = (method, url, data) => {
+      const Counter = (method, url, data) => {
         return fetch(`${api_server}/1.1${url}`, {
           method,
           headers: {
@@ -625,7 +643,7 @@
       }
     }
 
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+    const api_server = app_id.slice(-9) === '-MdYXbMMI' ? `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com` : server_url;
 
     if (api_server) {
       fetchData(api_server);
@@ -640,55 +658,14 @@
 </script>
 
 
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css">
 
 <script>
-NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+NexT.utils.loadComments('#disqus_thread', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js', () => {
     window.dsqjs = new DisqusJS({
       api       : '' || 'https://disqus.com/api/',
       apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
@@ -702,9 +679,9 @@ NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
 </script>
 
 <script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+NexT.utils.loadComments('#lv-container', () => {
   window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+    refer: "2020/03/27/shadowsocks-over-tls/"
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
@@ -714,35 +691,6 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
     j.async = true;
     e.parentNode.insertBefore(j, e);
   })(document, 'script');
-});
-</script>
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : '1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz',
-      appKey     : 'bFOfQNjmK9F4LGFJY7A5TSFl',
-      placeholder: "Just go go",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : '' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : false,
-      serverURLs : ''
-    });
-  }, window.Valine);
 });
 </script>
 

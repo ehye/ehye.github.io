@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,14 +17,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-<script id="hexo-configurations">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+
+<script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"disqusjs"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta name="description" content="在 Linux0.11 上实现进程运行轨迹的跟踪">
+<meta name="description" content="在 Linux0.11 上实现进程运行轨迹的跟踪">
 <meta property="og:type" content="article">
 <meta property="og:title" content="哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计">
 <meta property="og:url" content="https://ehye.github.io/2020/04/05/hit-oslab3/index.html">
@@ -30,14 +32,15 @@
 <meta property="og:description" content="在 Linux0.11 上实现进程运行轨迹的跟踪">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-05T10:53:50.000Z">
-<meta property="article:modified_time" content="2020-10-07T05:40:45.264Z">
+<meta property="article:modified_time" content="2021-01-31T10:43:27.241Z">
 <meta property="article:author" content="ehye">
 <meta name="twitter:card" content="summary">
+
 
 <link rel="canonical" href="https://ehye.github.io/2020/04/05/hit-oslab3/">
 
 
-<script id="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -45,9 +48,14 @@
     isPost : true,
     lang   : 'zh-CN'
   };
+</script><script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
 </script>
-
-  <title>哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计 | ehye's Blog</title>
+<title>哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计 | ehye's Blog</title>
   
     <script>
       function sendPageView() {
@@ -69,53 +77,63 @@
 
 
 
-
-
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container">
-    <div class="headband"></div>
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
+      <i class="logo-line"></i>
       <h1 class="site-title">ehye's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
     </a>
   </div>
 
@@ -128,34 +146,14 @@
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-sitemap">
-
-    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -166,23 +164,22 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="搜索..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
 
@@ -190,24 +187,105 @@
   </div>
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E6%A0%B7%E6%9C%AC%E7%A8%8B%E5%BA%8F-process-c"><span class="nav-number">1.</span> <span class="nav-text">编写样本程序(process.c)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">log 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80-log-%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">打开 log 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99-log-%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">写 log 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E7%8A%B6%E6%80%81%E5%88%87%E6%8D%A2%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">寻找状态切换点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%BC%80%E5%A7%8B"><span class="nav-number">3.1.</span> <span class="nav-text">进程的开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">调度算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E7%9D%A1%E7%9C%A0"><span class="nav-number">3.3.</span> <span class="nav-text">进入睡眠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9D%A1%E7%9C%A0%E5%88%B0%E5%B0%B1%E7%BB%AA"><span class="nav-number">3.4.</span> <span class="nav-text">睡眠到就绪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%93%E6%9D%9F"><span class="nav-number">3.5.</span> <span class="nav-text">进程结束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">数据统计</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
-  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+    <div class="main-inner post posts-expand">
 
-          <div class="content post posts-expand">
-            
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2020/04/05/hit-oslab3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -224,45 +302,33 @@
           哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-05 18:53:50" itemprop="dateCreated datePublished" datetime="2020-04-05T18:53:50+08:00">2020-04-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-07 13:40:45" itemprop="dateModified" datetime="2020-10-07T13:40:45+08:00">2020-10-07</time>
-              </span>
-
-          
-            <span id="/2020/04/05/hit-oslab3/" class="post-meta-item leancloud_visitors" data-flag-title="哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/04/05/hit-oslab3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/05/hit-oslab3/" itemprop="commentCount"></span>
-    </a>
-  </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-05 18:53:50" itemprop="dateCreated datePublished" datetime="2020-04-05T18:53:50+08:00">2020-04-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-31 18:43:27" itemprop="dateModified" datetime="2021-01-31T18:43:27+08:00">2021-01-31</time>
+      </span>
+
   
-  
+    <span id="/2020/04/05/hit-oslab3/" class="post-meta-item leancloud_visitors" data-flag-title="哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -271,8 +337,6 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <p>在 Linux0.11 上实现进程运行轨迹的跟踪<a id="more"></a></p>
 <blockquote>
 <p>进程从创建（Linux 下调用 fork()）到结束的整个过程就是进程的生命期，进程在其生命期中的运行轨迹实际上就表现为进程状态的多次切换，如进程创建以后会成为就绪态；当该进程被调度以后会切换到运行态；在运行的过程中如果启动了一个文件读写操作，操作系统会将该进程切换到阻塞态（等待态）从而让出 CPU；当文件读写完毕以后，操作系统会在将其切换成就绪态，等待进程调度算法来调度该进程执行……</p>
@@ -281,123 +345,347 @@
 <ul>
 <li>修改的文件</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">linux-0.11&#x2F;init&#x2F;main.c</span><br><span class="line">linux-0.11&#x2F;kernel&#x2F;fork.c</span><br><span class="line">linux-0.11&#x2F;kernel&#x2F;sched.c</span><br><span class="line">linux-0.11&#x2F;kernel&#x2F;exit.c</span><br><span class="line">~&#x2F;process.c</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">linux-0.11&#x2F;init&#x2F;main.c
+linux-0.11&#x2F;kernel&#x2F;fork.c
+linux-0.11&#x2F;kernel&#x2F;sched.c
+linux-0.11&#x2F;kernel&#x2F;exit.c
+~&#x2F;process.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="编写样本程序-process-c"><a href="#编写样本程序-process-c" class="headerlink" title="编写样本程序(process.c)"></a>编写样本程序(process.c)</h2><p>这个文件要在0.11下编译后运行，模拟运行一个多进程程序</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/times.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HZ 100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cpuio_bound</span><span class="params">(<span class="keyword">int</span> last, <span class="keyword">int</span> cpu_time, <span class="keyword">int</span> io_time)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 占用10秒的CPU时间</span></span><br><span class="line">    invoke(<span class="number">10</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 以I/O为主要任务</span></span><br><span class="line">    invoke(<span class="number">10</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// CPU和I/O各1秒钟轮回</span></span><br><span class="line">    invoke(<span class="number">10</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 较多的I/O，较少的CPU：</span></span><br><span class="line">    <span class="comment">// I/O时间是CPU时间的9倍</span></span><br><span class="line">    invoke(<span class="number">10</span>, <span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">    wait(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* fork()用法参考自CSAPP */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invoke</span><span class="params">(<span class="keyword">int</span> last, <span class="keyword">int</span> cpu_time, <span class="keyword">int</span> io_time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">0</span>) <span class="comment">/* child */</span></span><br><span class="line">    &#123;</span><br><span class="line">        cpuio_bound(last, cpu_time, io_time);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[Child] %d, parent is %d\n"</span>, getpid(), getppid());</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* parent */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[Parent] %d\n"</span>, getpid());</span><br><span class="line">    wait(<span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟一个持续时间last，cpu用时xx，io用时占xx的程序，last&gt;cpu+io则反复</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cpuio_bound</span><span class="params">(<span class="keyword">int</span> last, <span class="keyword">int</span> cpu_time, <span class="keyword">int</span> io_time)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/times.h></span></span>
 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">HZ</span> <span class="token expression"><span class="token number">100</span></span></span>
+
+<span class="token keyword">void</span> <span class="token function">cpuio_bound</span><span class="token punctuation">(</span><span class="token keyword">int</span> last<span class="token punctuation">,</span> <span class="token keyword">int</span> cpu_time<span class="token punctuation">,</span> <span class="token keyword">int</span> io_time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// 占用10秒的CPU时间</span>
+    <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 以I/O为主要任务</span>
+    <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// CPU和I/O各1秒钟轮回</span>
+    <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 较多的I/O，较少的CPU：</span>
+    <span class="token comment">// I/O时间是CPU时间的9倍</span>
+    <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* fork()用法参考自CSAPP */</span>
+<span class="token keyword">void</span> <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token keyword">int</span> last<span class="token punctuation">,</span> <span class="token keyword">int</span> cpu_time<span class="token punctuation">,</span> <span class="token keyword">int</span> io_time<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment">/* child */</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">cpuio_bound</span><span class="token punctuation">(</span>last<span class="token punctuation">,</span> cpu_time<span class="token punctuation">,</span> io_time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"[Child] %d, parent is %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/* parent */</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"[Parent] %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 模拟一个持续时间last，cpu用时xx，io用时占xx的程序，last>cpu+io则反复</span>
+<span class="token keyword">void</span> <span class="token function">cpuio_bound</span><span class="token punctuation">(</span><span class="token keyword">int</span> last<span class="token punctuation">,</span> <span class="token keyword">int</span> cpu_time<span class="token punctuation">,</span> <span class="token keyword">int</span> io_time<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>一开始不知道怎么写调用，翻CSAPP看了下，按照书中的例子实现了</p>
 <h2 id="log-文件"><a href="#log-文件" class="headerlink" title="log 文件"></a>log 文件</h2><p>记录操作系统在处理进程时进程状态改变的轨迹</p>
 <h3 id="打开-log-文件"><a href="#打开-log-文件" class="headerlink" title="打开 log 文件"></a>打开 log 文件</h3><blockquote>
 <p>为了能尽早开始记录，应当在内核启动时就打开 log 文件。</p>
 </blockquote>
 <p>按照实验指示修改<code>init/main.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//……</span></span><br><span class="line">move_to_user_mode();</span><br><span class="line"></span><br><span class="line"><span class="comment">/***************添加开始***************/</span></span><br><span class="line"><span class="built_in">setup</span>((<span class="keyword">void</span> *) &amp;drive_info);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立文件描述符0和/dev/tty0的关联</span></span><br><span class="line">(<span class="keyword">void</span>) <span class="built_in">open</span>(<span class="string">"/dev/tty0"</span>,O_RDWR,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//文件描述符1也和/dev/tty0关联</span></span><br><span class="line">(<span class="keyword">void</span>) dup(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件描述符2也和/dev/tty0关联</span></span><br><span class="line">(<span class="keyword">void</span>) dup(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">(<span class="keyword">void</span>) <span class="built_in">open</span>(<span class="string">"/var/process.log"</span>,O_CREAT|O_TRUNC|O_WRONLY,<span class="number">0666</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/***************添加结束***************/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!fork()) &#123;        <span class="comment">/* we count on this going ok */</span></span><br><span class="line">    init();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//……</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//……</span>
+<span class="token function">move_to_user_mode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+<span class="token comment">/***************添加开始***************/</span>
+<span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>drive_info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 建立文件描述符0和/dev/tty0的关联</span>
+<span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"/dev/tty0"</span><span class="token punctuation">,</span>O_RDWR<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//文件描述符1也和/dev/tty0关联</span>
+<span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token function">dup</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 文件描述符2也和/dev/tty0关联</span>
+<span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token function">dup</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"/var/process.log"</span><span class="token punctuation">,</span>O_CREAT<span class="token operator">|</span>O_TRUNC<span class="token operator">|</span>O_WRONLY<span class="token punctuation">,</span><span class="token number">0666</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/***************添加结束***************/</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>        <span class="token comment">/* we count on this going ok */</span>
+    <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//……</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="写-log-文件"><a href="#写-log-文件" class="headerlink" title="写 log 文件"></a>写 log 文件</h3><p>实验提供了例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向log文件输出跟踪进程运行轨迹</span></span><br><span class="line">fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'R'</span>, jiffies);</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 向log文件输出跟踪进程运行轨迹</span>
+<span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'R'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>修改这个语句，增加到进程管理的代码中，就可以实现写 log 文件了</p>
 <h2 id="寻找状态切换点"><a href="#寻找状态切换点" class="headerlink" title="寻找状态切换点"></a>寻找状态切换点</h2><blockquote>
 <p>总的来说，Linux 0.11 支持四种进程状态的转移：就绪到运行、运行到就绪、运行到睡眠和睡眠到就绪，此外还有新建和退出两种情况。其中就绪与运行间的状态转移是通过 schedule()（它亦是调度算法所在）完成的；运行到睡眠依靠的是 sleep_on() 和 interruptible_sleep_on()，还有进程主动睡觉的系统调用 sys_pause() 和 sys_waitpid()；睡眠到就绪的转移依靠的是 wake_up()。所以只要在这些函数的适当位置插入适当的处理语句就能完成进程运行轨迹的全面跟踪了。</p>
 </blockquote>
 <h3 id="进程的开始"><a href="#进程的开始" class="headerlink" title="进程的开始"></a>进程的开始</h3><p><code>kernel/fork.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">copy_process</span><span class="params">(<span class="keyword">int</span> nr,<span class="keyword">long</span> ebp,<span class="keyword">long</span> edi,<span class="keyword">long</span> esi,<span class="keyword">long</span> gs,<span class="keyword">long</span> none,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">long</span> ebx,<span class="keyword">long</span> ecx,<span class="keyword">long</span> edx,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">long</span> fs,<span class="keyword">long</span> es,<span class="keyword">long</span> ds,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">long</span> eip,<span class="keyword">long</span> cs,<span class="keyword">long</span> eflags,<span class="keyword">long</span> esp,<span class="keyword">long</span> ss)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        p-&gt;state = TASK_UNINTERRUPTIBLE;</span><br><span class="line">        p-&gt;pid = last_pid;</span><br><span class="line">        p-&gt;father = current-&gt;pid;</span><br><span class="line">        p-&gt;counter = p-&gt;priority;</span><br><span class="line">        p-&gt;signal = <span class="number">0</span>;</span><br><span class="line">        p-&gt;alarm = <span class="number">0</span>;</span><br><span class="line">        p-&gt;leader = <span class="number">0</span>;          <span class="comment">/* process leadership doesn't inherit */</span></span><br><span class="line">        p-&gt;utime = p-&gt;stime = <span class="number">0</span>;</span><br><span class="line">        p-&gt;cutime = p-&gt;cstime = <span class="number">0</span>;</span><br><span class="line">        p-&gt;start_time = jiffies;</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, p-&gt;pid, <span class="string">'N'</span>, jiffies);</span><br><span class="line">  ...</span><br><span class="line">        p-&gt;state = TASK_RUNNING;        <span class="comment">/* do this last, just in case */</span></span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, p-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">        <span class="keyword">return</span> last_pid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">copy_process</span><span class="token punctuation">(</span><span class="token keyword">int</span> nr<span class="token punctuation">,</span><span class="token keyword">long</span> ebp<span class="token punctuation">,</span><span class="token keyword">long</span> edi<span class="token punctuation">,</span><span class="token keyword">long</span> esi<span class="token punctuation">,</span><span class="token keyword">long</span> gs<span class="token punctuation">,</span><span class="token keyword">long</span> none<span class="token punctuation">,</span>
+                <span class="token keyword">long</span> ebx<span class="token punctuation">,</span><span class="token keyword">long</span> ecx<span class="token punctuation">,</span><span class="token keyword">long</span> edx<span class="token punctuation">,</span>
+                <span class="token keyword">long</span> fs<span class="token punctuation">,</span><span class="token keyword">long</span> es<span class="token punctuation">,</span><span class="token keyword">long</span> ds<span class="token punctuation">,</span>
+                <span class="token keyword">long</span> eip<span class="token punctuation">,</span><span class="token keyword">long</span> cs<span class="token punctuation">,</span><span class="token keyword">long</span> eflags<span class="token punctuation">,</span><span class="token keyword">long</span> esp<span class="token punctuation">,</span><span class="token keyword">long</span> ss<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_UNINTERRUPTIBLE<span class="token punctuation">;</span>
+        p<span class="token operator">-></span>pid <span class="token operator">=</span> last_pid<span class="token punctuation">;</span>
+        p<span class="token operator">-></span>father <span class="token operator">=</span> current<span class="token operator">-></span>pid<span class="token punctuation">;</span>
+        p<span class="token operator">-></span>counter <span class="token operator">=</span> p<span class="token operator">-></span>priority<span class="token punctuation">;</span>
+        p<span class="token operator">-></span>signal <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        p<span class="token operator">-></span>alarm <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        p<span class="token operator">-></span>leader <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>          <span class="token comment">/* process leadership doesn't inherit */</span>
+        p<span class="token operator">-></span>utime <span class="token operator">=</span> p<span class="token operator">-></span>stime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        p<span class="token operator">-></span>cutime <span class="token operator">=</span> p<span class="token operator">-></span>cstime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        p<span class="token operator">-></span>start_time <span class="token operator">=</span> jiffies<span class="token punctuation">;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> p<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'N'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_RUNNING<span class="token punctuation">;</span>        <span class="token comment">/* do this last, just in case */</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> p<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> last_pid<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h3><p><code>kernel/sched.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">schedule</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,next,c;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> ** <span class="title">p</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* check alarm, wake up any interruptible tasks that have got a signal */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)</span><br><span class="line">        <span class="keyword">if</span> (*p) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((*p)-&gt;alarm &amp;&amp; (*p)-&gt;alarm &lt; jiffies) &#123;</span><br><span class="line">                    (*p)-&gt;signal |= (<span class="number">1</span>&lt;&lt;(SIGALRM<span class="number">-1</span>));</span><br><span class="line">                    (*p)-&gt;alarm = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            <span class="keyword">if</span> (((*p)-&gt;signal &amp; ~(_BLOCKABLE &amp; (*p)-&gt;blocked)) &amp;&amp;</span><br><span class="line">            (*p)-&gt;state==TASK_INTERRUPTIBLE)</span><br><span class="line">                &#123;</span><br><span class="line">                    (*p)-&gt;state=TASK_RUNNING;</span><br><span class="line">                    fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, (*p)-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* this is the scheduler proper: */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        c = <span class="number">-1</span>;</span><br><span class="line">        next = <span class="number">0</span>;</span><br><span class="line">        i = NR_TASKS;</span><br><span class="line">        p = &amp;task[NR_TASKS];</span><br><span class="line">        <span class="keyword">while</span> (--i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!*--p)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)</span><br><span class="line">                c = (*p)-&gt;counter, next = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (c) <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">for</span>(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)</span><br><span class="line">            <span class="keyword">if</span> (*p)</span><br><span class="line">                (*p)-&gt;counter = ((*p)-&gt;counter &gt;&gt; <span class="number">1</span>) +</span><br><span class="line">                        (*p)-&gt;priority;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(current-&gt;pid != task[next] -&gt;pid)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(current-&gt;state == TASK_RUNNING)</span><br><span class="line">            fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, task[next]-&gt;pid, <span class="string">'R'</span>, jiffies);</span><br><span class="line">    &#125;</span><br><span class="line">    switch_to(next);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span>next<span class="token punctuation">,</span>c<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span><span class="token operator">*</span> p<span class="token punctuation">;</span>
 
+<span class="token comment">/* check alarm, wake up any interruptible tasks that have got a signal */</span>
+
+    <span class="token keyword">for</span><span class="token punctuation">(</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>LAST_TASK <span class="token punctuation">;</span> p <span class="token operator">></span> <span class="token operator">&amp;</span>FIRST_TASK <span class="token punctuation">;</span> <span class="token operator">--</span>p<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>alarm <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>alarm <span class="token operator">&lt;</span> jiffies<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>signal <span class="token operator">|=</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>SIGALRM<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>alarm <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>signal <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>_BLOCKABLE <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>blocked<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>state<span class="token operator">==</span>TASK_INTERRUPTIBLE<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>state<span class="token operator">=</span>TASK_RUNNING<span class="token punctuation">;</span>
+                    <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* this is the scheduler proper: */</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        c <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        next <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        i <span class="token operator">=</span> NR_TASKS<span class="token punctuation">;</span>
+        p <span class="token operator">=</span> <span class="token operator">&amp;</span>task<span class="token punctuation">[</span>NR_TASKS<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">--</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token operator">*</span><span class="token operator">--</span>p<span class="token punctuation">)</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>state <span class="token operator">==</span> TASK_RUNNING <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>counter <span class="token operator">></span> c<span class="token punctuation">)</span>
+                c <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>counter<span class="token punctuation">,</span> next <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>LAST_TASK <span class="token punctuation">;</span> p <span class="token operator">></span> <span class="token operator">&amp;</span>FIRST_TASK <span class="token punctuation">;</span> <span class="token operator">--</span>p<span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span>
+                <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>counter <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>counter <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span>
+                        <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>priority<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>current<span class="token operator">-></span>pid <span class="token operator">!=</span> task<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">-></span>pid<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>current<span class="token operator">-></span>state <span class="token operator">==</span> TASK_RUNNING<span class="token punctuation">)</span>
+            <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> task<span class="token punctuation">[</span>next<span class="token punctuation">]</span><span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'R'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">switch_to</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="进入睡眠"><a href="#进入睡眠" class="headerlink" title="进入睡眠"></a>进入睡眠</h3><p><code>kernel/sched.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sys_pause</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    current-&gt;state = TASK_INTERRUPTIBLE;</span><br><span class="line">    <span class="keyword">if</span>(current-&gt;pid != <span class="number">0</span>)</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'W'</span>, jiffies);</span><br><span class="line">    schedule();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">sys_pause</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    current<span class="token operator">-></span>state <span class="token operator">=</span> TASK_INTERRUPTIBLE<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>current<span class="token operator">-></span>pid <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'W'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="睡眠到就绪"><a href="#睡眠到就绪" class="headerlink" title="睡眠到就绪"></a>睡眠到就绪</h3><p><code>kernel/sched.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sleep_on</span><span class="params">(struct task_struct **p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">tmp</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (current == &amp;(init_task.task))</span><br><span class="line">        panic(<span class="string">"task[0] trying to sleep"</span>);</span><br><span class="line">    tmp = *p;</span><br><span class="line">    *p = current;</span><br><span class="line">    current-&gt;state = TASK_UNINTERRUPTIBLE;</span><br><span class="line">    fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'W'</span>, jiffies);</span><br><span class="line">    schedule();</span><br><span class="line">    <span class="keyword">if</span> (tmp)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp-&gt;state=<span class="number">0</span>;</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">interruptible_sleep_on</span><span class="params">(struct task_struct **p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">tmp</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (current == &amp;(init_task.task))</span><br><span class="line">        panic(<span class="string">"task[0] trying to sleep"</span>);</span><br><span class="line">    tmp=*p;</span><br><span class="line">    *p=current;</span><br><span class="line">repeat:    current-&gt;state = TASK_INTERRUPTIBLE;</span><br><span class="line">    fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'W'</span>, jiffies);</span><br><span class="line">    schedule();</span><br><span class="line">    <span class="keyword">if</span> (*p &amp;&amp; *p != current) &#123;</span><br><span class="line">        (**p).state=<span class="number">0</span>;</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, (*p)-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">        <span class="keyword">goto</span> repeat;</span><br><span class="line">    &#125;</span><br><span class="line">    *p=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (tmp)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp-&gt;state=<span class="number">0</span>;</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, (*p)-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wake_up</span><span class="params">(struct task_struct **p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p &amp;&amp; *p) &#123;</span><br><span class="line">        fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, (*p)-&gt;pid, <span class="string">'J'</span>, jiffies);</span><br><span class="line">        *p=<span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">sleep_on</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span><span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span>tmp<span class="token punctuation">;</span>
 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">)</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">==</span> <span class="token operator">&amp;</span><span class="token punctuation">(</span>init_task<span class="token punctuation">.</span>task<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"task[0] trying to sleep"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+    <span class="token operator">*</span>p <span class="token operator">=</span> current<span class="token punctuation">;</span>
+    current<span class="token operator">-></span>state <span class="token operator">=</span> TASK_UNINTERRUPTIBLE<span class="token punctuation">;</span>
+    <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'W'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        tmp<span class="token operator">-></span>state<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">interruptible_sleep_on</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span><span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span>tmp<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">)</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">==</span> <span class="token operator">&amp;</span><span class="token punctuation">(</span>init_task<span class="token punctuation">.</span>task<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"task[0] trying to sleep"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    tmp<span class="token operator">=</span><span class="token operator">*</span>p<span class="token punctuation">;</span>
+    <span class="token operator">*</span>p<span class="token operator">=</span>current<span class="token punctuation">;</span>
+repeat<span class="token operator">:</span>    current<span class="token operator">-></span>state <span class="token operator">=</span> TASK_INTERRUPTIBLE<span class="token punctuation">;</span>
+    <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'W'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>p <span class="token operator">&amp;&amp;</span> <span class="token operator">*</span>p <span class="token operator">!=</span> current<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">(</span><span class="token operator">*</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token punctuation">.</span>state<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">goto</span> repeat<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token operator">*</span>p<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        tmp<span class="token operator">-></span>state<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">wake_up</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">task_struct</span> <span class="token operator">*</span><span class="token operator">*</span>p<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">&amp;&amp;</span> <span class="token operator">*</span>p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'J'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>p<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="进程结束"><a href="#进程结束" class="headerlink" title="进程结束"></a>进程结束</h3><p><code>kernel/exit.c</code></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">do_exit</span><span class="params">(<span class="keyword">long</span> code)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    current-&gt;state = TASK_ZOMBIE;</span><br><span class="line">    fprintk(<span class="number">3</span>, <span class="string">"%ld\t%c\t%ld\n"</span>, current-&gt;pid, <span class="string">'E'</span>, jiffies);</span><br><span class="line">    current-&gt;exit_code = code;</span><br><span class="line">    tell_father(current-&gt;father);</span><br><span class="line">    schedule();</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">-1</span>);    <span class="comment">/* just to suppress warnings */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">do_exit</span><span class="token punctuation">(</span><span class="token keyword">long</span> code<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    current<span class="token operator">-></span>state <span class="token operator">=</span> TASK_ZOMBIE<span class="token punctuation">;</span>
+    <span class="token function">fprintk</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"%ld\t%c\t%ld\n"</span><span class="token punctuation">,</span> current<span class="token operator">-></span>pid<span class="token punctuation">,</span> <span class="token string">'E'</span><span class="token punctuation">,</span> jiffies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    current<span class="token operator">-></span>exit_code <span class="token operator">=</span> code<span class="token punctuation">;</span>
+    <span class="token function">tell_father</span><span class="token punctuation">(</span>current<span class="token operator">-></span>father<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">/* just to suppress warnings */</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="数据统计"><a href="#数据统计" class="headerlink" title="数据统计"></a>数据统计</h2><p>装载 0.11，执行 stat_log.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ python stat_log.py ..&#x2F;oslab&#x2F;hdc&#x2F;var&#x2F;process.log 12 -g | more</span><br><span class="line">(Unit: tick)</span><br><span class="line">Process   Turnaround   Waiting   CPU Burst   I&#x2F;O Burst</span><br><span class="line">     12         4031         1           6        4024</span><br><span class="line">Average:     4031.00      1.00</span><br><span class="line">Throughout: 0.02&#x2F;s</span><br><span class="line"></span><br><span class="line">Collect statisics by ehye</span><br><span class="line">-----&#x3D;&#x3D;&#x3D;&lt; COOL GRAPHIC OF SCHEDULER &gt;&#x3D;&#x3D;&#x3D;-----</span><br><span class="line"></span><br><span class="line">             [Symbol]   [Meaning]</span><br><span class="line">         ~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">             number   PID or tick</span><br><span class="line">              &quot;-&quot;     New or Exit</span><br><span class="line">              &quot;#&quot;       Running</span><br><span class="line">              &quot;|&quot;        Ready</span><br><span class="line">              &quot;:&quot;       Waiting</span><br><span class="line">                    &#x2F; Running with</span><br><span class="line">              &quot;+&quot; -|     Ready</span><br><span class="line">                    \and&#x2F;or Waiting</span><br><span class="line"></span><br><span class="line">-----&#x3D;&#x3D;&#x3D;&lt; !!!!!!!!!!!!!!!!!!!!!!!!! &gt;&#x3D;&#x3D;&#x3D;-----</span><br><span class="line"></span><br><span class="line">11667 -12</span><br><span class="line">11668 #12</span><br><span class="line">11669 #</span><br><span class="line">11670 :12</span><br><span class="line">11671 :</span><br><span class="line">11672 :</span><br><span class="line">11673 :</span><br><span class="line">11674 :</span><br><span class="line">11675 :</span><br><span class="line">11676 :</span><br><span class="line">11677 :</span><br><span class="line">11678 :</span><br><span class="line">11679 :</span><br><span class="line">11680 :</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">$ python stat_log.py ..&#x2F;oslab&#x2F;hdc&#x2F;var&#x2F;process.log 12 -g | more
+(Unit: tick)
+Process   Turnaround   Waiting   CPU Burst   I&#x2F;O Burst
+     12         4031         1           6        4024
+Average:     4031.00      1.00
+Throughout: 0.02&#x2F;s
 
+Collect statisics by ehye
+-----&#x3D;&#x3D;&#x3D;&lt; COOL GRAPHIC OF SCHEDULER &gt;&#x3D;&#x3D;&#x3D;-----
+
+             [Symbol]   [Meaning]
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             number   PID or tick
+              &quot;-&quot;     New or Exit
+              &quot;#&quot;       Running
+              &quot;|&quot;        Ready
+              &quot;:&quot;       Waiting
+                    &#x2F; Running with
+              &quot;+&quot; -|     Ready
+                    \and&#x2F;or Waiting
+
+-----&#x3D;&#x3D;&#x3D;&lt; !!!!!!!!!!!!!!!!!!!!!!!!! &gt;&#x3D;&#x3D;&#x3D;-----
+
+11667 -12
+11668 #12
+11669 #
+11670 :12
+11671 :
+11672 :
+11673 :
+11674 :
+11675 :
+11676 :
+11677 :
+11678 :
+11679 :
+11680 :
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
 <p>相关资源</p>
-<p><a href="https://www.icourse163.org/learn/HIT-1002531008" target="_blank" rel="noopener">操作系统 中国大学MOOC(慕课)</a><br><a href="https://www.shiyanlou.com/courses/115/learning/?id=570" target="_blank" rel="noopener">操作系统原理与实践 - 进程运行轨迹的跟踪与统计 - 实验楼</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.icourse163.org/learn/HIT-1002531008">操作系统 中国大学MOOC(慕课)</a><br><a target="_blank" rel="noopener" href="https://www.shiyanlou.com/courses/115/learning/?id=570">操作系统原理与实践 - 进程运行轨迹的跟踪与统计 - 实验楼</a></p>
 
     </div>
 
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>ehye
+      <strong>本文作者： </strong>ehye
   </li>
   <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://ehye.github.io/2020/04/05/hit-oslab3/" title="哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计">https://ehye.github.io/2020/04/05/hit-oslab3/</a>
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2020/04/05/hit-oslab3/" title="哈工大《操作系统》实验3 - 进程运行轨迹的跟踪与统计">https://ehye.github.io/2020/04/05/hit-oslab3/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
 
 
-      <footer class="post-footer">
-
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/04/01/hit-oslab2/" rel="prev" title="哈工大《操作系统》实验2 - 添加系统调用">
-      <i class="fa fa-chevron-left"></i> 哈工大《操作系统》实验2 - 添加系统调用
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/30/hit-oslab8/" rel="next" title="哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计">
-      哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/01/hit-oslab2/" rel="prev" title="哈工大《操作系统》实验2 - 添加系统调用">
+                  <i class="fa fa-chevron-left"></i> 哈工大《操作系统》实验2 - 添加系统调用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/30/hit-oslab8/" rel="next" title="哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计">
+                  哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-          
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-valine">Valine</a></li>
             <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane valine" id="comment-valine">
-              <div class="comments" id="valine-comments"></div>
-            </div>
             <div class="tab-pane disqusjs" id="comment-disqusjs">
               
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
             </div>
             <div class="tab-pane livere" id="comment-livere">
-              
-  <div class="comments">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
-  </div>
-  
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
             </div>
         </div>
       </div>
@@ -409,7 +697,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -418,116 +706,45 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写样本程序-process-c"><span class="nav-number">1.</span> <span class="nav-text">编写样本程序(process.c)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-文件"><span class="nav-number">2.</span> <span class="nav-text">log 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打开-log-文件"><span class="nav-number">2.1.</span> <span class="nav-text">打开 log 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写-log-文件"><span class="nav-number">2.2.</span> <span class="nav-text">写 log 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找状态切换点"><span class="nav-number">3.</span> <span class="nav-text">寻找状态切换点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的开始"><span class="nav-number">3.1.</span> <span class="nav-text">进程的开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调度算法"><span class="nav-number">3.2.</span> <span class="nav-text">调度算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入睡眠"><span class="nav-number">3.3.</span> <span class="nav-text">进入睡眠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#睡眠到就绪"><span class="nav-number">3.4.</span> <span class="nav-text">睡眠到就绪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程结束"><span class="nav-number">3.5.</span> <span class="nav-text">进程结束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据统计"><span class="nav-number">4.</span> <span class="nav-text">数据统计</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ehye"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">ehye</p>
-  <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">63</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">67</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">ehye</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
-        
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
 
+
+
+  
 
 
 <script>
@@ -538,15 +755,15 @@
     }
 
     function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
 
       Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length > 0) {
-            var counter = results[0];
+            const counter = results[0];
             leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .catch(error => {
@@ -569,8 +786,8 @@
     }
 
     function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
         return decodeURI(element.id);
       });
 
@@ -578,7 +795,7 @@
         .then(response => response.json())
         .then(({ results }) => {
           for (let url of entries) {
-            let target = results.find(item => item.url === url);
+            const target = results.find(item => item.url === url);
             leancloudSelector(url).innerText = target ? target.time : 0;
           }
         })
@@ -587,9 +804,9 @@
         });
     }
 
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
     function fetchData(api_server) {
-      var Counter = (method, url, data) => {
+      const Counter = (method, url, data) => {
         return fetch(`${api_server}/1.1${url}`, {
           method,
           headers: {
@@ -608,7 +825,7 @@
       }
     }
 
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+    const api_server = app_id.slice(-9) === '-MdYXbMMI' ? `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com` : server_url;
 
     if (api_server) {
       fetchData(api_server);
@@ -623,55 +840,14 @@
 </script>
 
 
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css">
 
 <script>
-NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+NexT.utils.loadComments('#disqus_thread', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js', () => {
     window.dsqjs = new DisqusJS({
       api       : '' || 'https://disqus.com/api/',
       apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
@@ -685,9 +861,9 @@ NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
 </script>
 
 <script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+NexT.utils.loadComments('#lv-container', () => {
   window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+    refer: "2020/04/05/hit-oslab3/"
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
@@ -697,35 +873,6 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
     j.async = true;
     e.parentNode.insertBefore(j, e);
   })(document, 'script');
-});
-</script>
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : '1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz',
-      appKey     : 'bFOfQNjmK9F4LGFJY7A5TSFl',
-      placeholder: "Just go go",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : '' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : false,
-      serverURLs : ''
-    });
-  }, window.Valine);
 });
 </script>
 

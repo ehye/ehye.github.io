@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,14 +17,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-<script id="hexo-configurations">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+
+<script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ehye.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":false,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"valine":{"text":"Valine","order":1},"disqusjs":{"text":"Disqus","order":2},"livere":{"text":"LiveRe","order":3}},"activeClass":"disqusjs"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-
-  <meta property="og:type" content="article">
+<meta property="og:type" content="article">
 <meta property="og:title" content="在 Ubuntu 上搭建 Insurgency 对战服务器">
 <meta property="og:url" content="https://ehye.github.io/2017/12/02/insurgency-server-build/index.html">
 <meta property="og:site_name" content="ehye&#39;s Blog">
@@ -30,7 +32,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/12/02/insurgency-server-build/Insurgency_2014.jpg">
 <meta property="og:image" content="https://ehye.github.io/2017/12/02/insurgency-server-build/20171202161412_1.jpg">
 <meta property="article:published_time" content="2017-12-02T12:01:00.000Z">
-<meta property="article:modified_time" content="2020-10-07T05:40:45.264Z">
+<meta property="article:modified_time" content="2021-01-31T10:43:27.241Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="Steam">
@@ -38,10 +40,11 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ehye.github.io/2017/12/02/insurgency-server-build/Insurgency_2014.jpg">
 
+
 <link rel="canonical" href="https://ehye.github.io/2017/12/02/insurgency-server-build/">
 
 
-<script id="page-configurations">
+<script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -49,9 +52,14 @@
     isPost : true,
     lang   : 'zh-CN'
   };
+</script><script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
 </script>
-
-  <title>在 Ubuntu 上搭建 Insurgency 对战服务器 | ehye's Blog</title>
+<title>在 Ubuntu 上搭建 Insurgency 对战服务器 | ehye's Blog</title>
   
     <script>
       function sendPageView() {
@@ -73,53 +81,63 @@
 
 
 
-
-
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container">
-    <div class="headband"></div>
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
+      <i class="logo-line"></i>
       <h1 class="site-title">ehye's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
     </a>
   </div>
 
@@ -132,34 +150,14 @@
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-sitemap">
-
-    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -170,23 +168,22 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="搜索..." spellcheck="false"
            type="search" class="search-input">
   </div>
-  <span class="popup-btn-close">
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
 
@@ -194,24 +191,105 @@
   </div>
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SteamCMD"><span class="nav-number">1.</span> <span class="nav-text">SteamCMD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%BD%95"><span class="nav-number">1.3.</span> <span class="nav-text">登录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Insurgency"><span class="nav-number">2.</span> <span class="nav-text">Insurgency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
-  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+    <div class="main-inner post posts-expand">
 
-          <div class="content post posts-expand">
-            
 
-    
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/12/02/insurgency-server-build/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,45 +306,33 @@
           在 Ubuntu 上搭建 Insurgency 对战服务器
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-02 20:01:00" itemprop="dateCreated datePublished" datetime="2017-12-02T20:01:00+08:00">2017-12-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-07 13:40:45" itemprop="dateModified" datetime="2020-10-07T13:40:45+08:00">2020-10-07</time>
-              </span>
-
-          
-            <span id="/2017/12/02/insurgency-server-build/" class="post-meta-item leancloud_visitors" data-flag-title="在 Ubuntu 上搭建 Insurgency 对战服务器" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2017/12/02/insurgency-server-build/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2017/12/02/insurgency-server-build/" itemprop="commentCount"></span>
-    </a>
-  </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-12-02 20:01:00" itemprop="dateCreated datePublished" datetime="2017-12-02T20:01:00+08:00">2017-12-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-31 18:43:27" itemprop="dateModified" datetime="2021-01-31T18:43:27+08:00">2021-01-31</time>
+      </span>
+
   
-  
+    <span id="/2017/12/02/insurgency-server-build/" class="post-meta-item leancloud_visitors" data-flag-title="在 Ubuntu 上搭建 Insurgency 对战服务器" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -275,52 +341,88 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <img src="/2017/12/02/insurgency-server-build/Insurgency_2014.jpg" class="">
 
 <a id="more"></a>
 
 <h1 id="SteamCMD"><a href="#SteamCMD" class="headerlink" title="SteamCMD"></a>SteamCMD</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ol>
 <li><p>官方不建议使用管理员账户运行SteamCMD，因此建立一个叫做steam的用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -m steam</span><br></pre></td></tr></table></figure>
-</li>
+<pre class="line-numbers language-none"><code class="language-none">sudo useradd -m steam<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>进入它的根目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;steam</span><br></pre></td></tr></table></figure>
-</li>
+<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;home&#x2F;steam<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>安装包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install steamcmd</span><br></pre></td></tr></table></figure>
-</li>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt-get install steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>链接生成可执行文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;usr&#x2F;games&#x2F;steamcmd steamcmd</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-none"><code class="language-none">ln -s &#x2F;usr&#x2F;games&#x2F;steamcmd steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><pre class="line-numbers language-none"><code class="language-none">cd ~
+steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>Insurgency 支持匿名登陆</p>
+<pre class="line-numbers language-none"><code class="language-none">login anonymous<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h1 id="Insurgency"><a href="#Insurgency" class="headerlink" title="Insurgency"></a>Insurgency</h1></li>
+<li><p>设置安装路径</p>
 </li>
 </ol>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">steamcmd</span><br></pre></td></tr></table></figure>
-
-<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>Insurgency 支持匿名登陆</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">login anonymous</span><br></pre></td></tr></table></figure>
-
-<h1 id="Insurgency"><a href="#Insurgency" class="headerlink" title="Insurgency"></a>Insurgency</h1><ol>
-<li>设置安装路径</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">force_install_dir &#x2F;usr&#x2F;games&#x2F;ins-ds&#x2F;</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">force_install_dir &#x2F;usr&#x2F;games&#x2F;ins-ds&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ol start="2">
 <li>查找服务器ID并下载</li>
 </ol>
 <p>Insurgency 服务器ID为237410，可加<code>validate</code>来检验下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app_update 237410 validate</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-none"><code class="language-none">app_update 237410 validate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ol start="3">
-<li><p>配置服务器<br>创建文件路径<code>/ins-ds/insurgency/cfg/server.cfg</code>写入以下配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; Server Info Options</span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">hostname &quot;&lt;YourServerName&gt;&quot;	&#x2F;&#x2F; server name</span><br><span class="line">rcon_password &quot;&lt;YourRemoteAdminPassword&gt;&quot;	&#x2F;&#x2F; rcon password</span><br><span class="line">sv_password &quot;&quot;		&#x2F;&#x2F; Server password for private servers</span><br><span class="line">sv_minrate 30000 &#x2F;&#x2F; recommended minimum rate</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; Server Download Options (Community made maps) </span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; sv_downloadurl &quot;&lt;type-url-here&gt;&quot;</span><br><span class="line">&#x2F;&#x2F; sv_allowdownload 1</span><br><span class="line">&#x2F;&#x2F; sv_allowupload 1</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; Server Logging Options</span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">log on</span><br><span class="line">sv_logbans 1</span><br><span class="line">sv_logecho 1</span><br><span class="line">sv_logfile 1</span><br><span class="line">sv_log_onefile 0</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; Game Mode Options (Change text with in the quotes)</span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle.txt&quot; - by default this contains the most popular options</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_all.txt&quot;  - all possible map&#x2F;mode combinations for PvP</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_ambush.txt&quot; - only ambush (VIP) mode</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_attackdefend.txt&quot; - mix of attack&#x2F;defend modes</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_cooperative.txt&quot; - checkpoint, outpost, hunt</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_firefight.txt&quot; - all firefight maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_flashpoint.txt&quot; - all flashpoint maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_infiltrate.txt&quot; - all infiltrate (CTF) maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_objrespawn.txt&quot; - all modes featuring respawning for completing objectives</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_occupy.txt&quot; - all occupy maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_push.txt&quot; - all push maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_singlelife.txt&quot; - mix of all single life modes</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_skirmish.txt&quot; - all skirmish maps</span><br><span class="line">&#x2F;&#x2F; &quot;mapcycle_workshop.txt&quot; - used by Workshop system</span><br><span class="line">mapcyclefile &quot;mapcycle.txt&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; Enabling Matchmaking (Change text with in the quotes)</span><br><span class="line">&#x2F;&#x2F; More info: http:&#x2F;&#x2F;steamcommunity.com&#x2F;app&#x2F;222880&#x2F;discussions&#x2F;2&#x2F;558746089590579609&#x2F;</span><br><span class="line">&#x2F;&#x2F; ---------------------------------------------------------------</span><br><span class="line">&#x2F;&#x2F; &quot;pvp&quot; (Player vs Player)</span><br><span class="line">&#x2F;&#x2F; &quot;custom&quot; (Custom rules and modded servers)</span><br><span class="line">&#x2F;&#x2F; &quot;coop&quot; (Cooperative)</span><br><span class="line">sv_playlist pvp</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>cd 到游戏目录建立以下脚本</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8</span><br></pre></td></tr></table></figure>
+<li>配置服务器<br>创建文件路径<code>/ins-ds/insurgency/cfg/server.cfg</code>写入以下配置<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; Server Info Options
+&#x2F;&#x2F; ---------------------------------------------------------------
+hostname &quot;&lt;YourServerName&gt;&quot;	&#x2F;&#x2F; server name
+rcon_password &quot;&lt;YourRemoteAdminPassword&gt;&quot;	&#x2F;&#x2F; rcon password
+sv_password &quot;&quot;		&#x2F;&#x2F; Server password for private servers
+sv_minrate 30000 &#x2F;&#x2F; recommended minimum rate
 
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; Server Download Options (Community made maps) 
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; sv_downloadurl &quot;&lt;type-url-here&gt;&quot;
+&#x2F;&#x2F; sv_allowdownload 1
+&#x2F;&#x2F; sv_allowupload 1
+
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; Server Logging Options
+&#x2F;&#x2F; ---------------------------------------------------------------
+log on
+sv_logbans 1
+sv_logecho 1
+sv_logfile 1
+sv_log_onefile 0
+
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; Game Mode Options (Change text with in the quotes)
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; &quot;mapcycle.txt&quot; - by default this contains the most popular options
+&#x2F;&#x2F; &quot;mapcycle_all.txt&quot;  - all possible map&#x2F;mode combinations for PvP
+&#x2F;&#x2F; &quot;mapcycle_ambush.txt&quot; - only ambush (VIP) mode
+&#x2F;&#x2F; &quot;mapcycle_attackdefend.txt&quot; - mix of attack&#x2F;defend modes
+&#x2F;&#x2F; &quot;mapcycle_cooperative.txt&quot; - checkpoint, outpost, hunt
+&#x2F;&#x2F; &quot;mapcycle_firefight.txt&quot; - all firefight maps
+&#x2F;&#x2F; &quot;mapcycle_flashpoint.txt&quot; - all flashpoint maps
+&#x2F;&#x2F; &quot;mapcycle_infiltrate.txt&quot; - all infiltrate (CTF) maps
+&#x2F;&#x2F; &quot;mapcycle_objrespawn.txt&quot; - all modes featuring respawning for completing objectives
+&#x2F;&#x2F; &quot;mapcycle_occupy.txt&quot; - all occupy maps
+&#x2F;&#x2F; &quot;mapcycle_push.txt&quot; - all push maps
+&#x2F;&#x2F; &quot;mapcycle_singlelife.txt&quot; - mix of all single life modes
+&#x2F;&#x2F; &quot;mapcycle_skirmish.txt&quot; - all skirmish maps
+&#x2F;&#x2F; &quot;mapcycle_workshop.txt&quot; - used by Workshop system
+mapcyclefile &quot;mapcycle.txt&quot;
+
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; Enabling Matchmaking (Change text with in the quotes)
+&#x2F;&#x2F; More info: http:&#x2F;&#x2F;steamcommunity.com&#x2F;app&#x2F;222880&#x2F;discussions&#x2F;2&#x2F;558746089590579609&#x2F;
+&#x2F;&#x2F; ---------------------------------------------------------------
+&#x2F;&#x2F; &quot;pvp&quot; (Player vs Player)
+&#x2F;&#x2F; &quot;custom&quot; (Custom rules and modded servers)
+&#x2F;&#x2F; &quot;coop&quot; (Cooperative)
+sv_playlist pvp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>cd 到游戏目录建立以下脚本</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ol start="4">
 <li>sh 运行脚本</li>
 </ol>
@@ -328,89 +430,76 @@
 <img src="/2017/12/02/insurgency-server-build/20171202161412_1.jpg" class="">
 
 <hr>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://developer.valvesoftware.com/wiki/SteamCMD" target="_blank" rel="noopener">https://developer.valvesoftware.com/wiki/SteamCMD</a><br><a href="https://developer.valvesoftware.com/wiki/Dedicated_Servers_List" target="_blank" rel="noopener">https://developer.valvesoftware.com/wiki/Dedicated_Servers_List</a><br><a href="https://developer.valvesoftware.com/wiki/Insurgency_2014_Dedicated_Server" target="_blank" rel="noopener">https://developer.valvesoftware.com/wiki/Insurgency_2014_Dedicated_Server</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://developer.valvesoftware.com/wiki/SteamCMD">https://developer.valvesoftware.com/wiki/SteamCMD</a><br><a target="_blank" rel="noopener" href="https://developer.valvesoftware.com/wiki/Dedicated_Servers_List">https://developer.valvesoftware.com/wiki/Dedicated_Servers_List</a><br><a target="_blank" rel="noopener" href="https://developer.valvesoftware.com/wiki/Insurgency_2014_Dedicated_Server">https://developer.valvesoftware.com/wiki/Insurgency_2014_Dedicated_Server</a></p>
 
     </div>
 
     
     
     
-        
 
-<div>
-<ul class="post-copyright">
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>ehye
+      <strong>本文作者： </strong>ehye
   </li>
   <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://ehye.github.io/2017/12/02/insurgency-server-build/" title="在 Ubuntu 上搭建 Insurgency 对战服务器">https://ehye.github.io/2017/12/02/insurgency-server-build/</a>
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2017/12/02/insurgency-server-build/" title="在 Ubuntu 上搭建 Insurgency 对战服务器">https://ehye.github.io/2017/12/02/insurgency-server-build/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
 
-
-      <footer class="post-footer">
-          
           <div class="post-tags">
-              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
-              <a href="/tags/Steam/" rel="tag"><i class="fa fa-tag"></i> Steam</a>
-              <a href="/tags/Insurgency/" rel="tag"><i class="fa fa-tag"></i> Insurgency</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Steam/" rel="tag"># Steam</a>
+              <a href="/tags/Insurgency/" rel="tag"># Insurgency</a>
           </div>
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2017/10/16/csgo-training-script/" rel="prev" title="如何设置 CSGO 训练脚本">
-      <i class="fa fa-chevron-left"></i> 如何设置 CSGO 训练脚本
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2017/12/04/alg4s-WordNet/" rel="next" title="Algorithms, Part II - Week 1 - WordNet">
-      Algorithms, Part II - Week 1 - WordNet <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/16/csgo-training-script/" rel="prev" title="如何设置 CSGO 训练脚本">
+                  <i class="fa fa-chevron-left"></i> 如何设置 CSGO 训练脚本
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/12/04/alg4s-WordNet/" rel="next" title="Algorithms, Part II - Week 1 - WordNet">
+                  Algorithms, Part II - Week 1 - WordNet <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-  
-  
-  
+</div>
 
 
 
-          </div>
-          
+
+
+
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-valine">Valine</a></li>
             <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane valine" id="comment-valine">
-              <div class="comments" id="valine-comments"></div>
-            </div>
             <div class="tab-pane disqusjs" id="comment-disqusjs">
               
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
             </div>
             <div class="tab-pane livere" id="comment-livere">
-              
-  <div class="comments">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
-  </div>
-  
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
             </div>
         </div>
       </div>
@@ -422,7 +511,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -431,116 +520,45 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
+      const commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SteamCMD"><span class="nav-number">1.</span> <span class="nav-text">SteamCMD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">1.2.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录"><span class="nav-number">1.3.</span> <span class="nav-text">登录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Insurgency"><span class="nav-number">2.</span> <span class="nav-text">Insurgency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ehye"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">ehye</p>
-  <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">63</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">67</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">ehye</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
-        
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
 
+
+
+  
 
 
 <script>
@@ -551,15 +569,15 @@
     }
 
     function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
 
       Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length > 0) {
-            var counter = results[0];
+            const counter = results[0];
             leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .catch(error => {
@@ -582,8 +600,8 @@
     }
 
     function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
         return decodeURI(element.id);
       });
 
@@ -591,7 +609,7 @@
         .then(response => response.json())
         .then(({ results }) => {
           for (let url of entries) {
-            let target = results.find(item => item.url === url);
+            const target = results.find(item => item.url === url);
             leancloudSelector(url).innerText = target ? target.time : 0;
           }
         })
@@ -600,9 +618,9 @@
         });
     }
 
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz","app_key":"bFOfQNjmK9F4LGFJY7A5TSFl","server_url":null,"security":false};
     function fetchData(api_server) {
-      var Counter = (method, url, data) => {
+      const Counter = (method, url, data) => {
         return fetch(`${api_server}/1.1${url}`, {
           method,
           headers: {
@@ -621,7 +639,7 @@
       }
     }
 
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+    const api_server = app_id.slice(-9) === '-MdYXbMMI' ? `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com` : server_url;
 
     if (api_server) {
       fetchData(api_server);
@@ -636,55 +654,14 @@
 </script>
 
 
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css">
 
 <script>
-NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+NexT.utils.loadComments('#disqus_thread', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js', () => {
     window.dsqjs = new DisqusJS({
       api       : '' || 'https://disqus.com/api/',
       apikey    : 'brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb',
@@ -698,9 +675,9 @@ NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
 </script>
 
 <script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+NexT.utils.loadComments('#lv-container', () => {
   window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+    refer: "2017/12/02/insurgency-server-build/"
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
@@ -710,35 +687,6 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
     j.async = true;
     e.parentNode.insertBefore(j, e);
   })(document, 'script');
-});
-</script>
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : '1Yc2IPngTLOX0uAfAgkqeR2A-gzGzoHsz',
-      appKey     : 'bFOfQNjmK9F4LGFJY7A5TSFl',
-      placeholder: "Just go go",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : '' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : false,
-      serverURLs : ''
-    });
-  }, window.Valine);
 });
 </script>
 
