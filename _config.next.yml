@@ -28,6 +28,9 @@ avatar:
 
 site_state: true
 
+custom_file_path:
+  head: source/_data/head.njk
+
 social:
   GitHub: https://github.com/ehye || fab fa-github
   E-Mail: mailto:yjw9610@hotmail.com || fa fa-envelope
