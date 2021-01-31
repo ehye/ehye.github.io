@@ -98,7 +98,7 @@ tags:
         "timeout":5,
         "method":"chacha20-ietf-poly1305",
         "plugin":"v2ray-plugin",
-        "plugin_opts":"server;host=mydomain.com;path=/ray"
+        "plugin_opts":"server;host=127.0.0.1;path=/ray"
     }
     ```
 
