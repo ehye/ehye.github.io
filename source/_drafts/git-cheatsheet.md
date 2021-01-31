@@ -71,6 +71,19 @@ ssh-add ~/.ssh/id_rsa
     proxy = socks5://127.0.0.1:7070
 ```
 
+- 修改仓库地址
+
+查看
+
+```bash
+git remote -v
+```
+
+改成用 SSH 免输密码
+```
+git remote set-url origin git@github.com:ehye/ehye.github.io.git
+```
+
 ## pull
 
 - 拉取单个文件夹

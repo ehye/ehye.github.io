@@ -59,16 +59,33 @@ tar -xvzf images.tar.gz -C my_images
 unzip file.zip -d destination_folder
 ```
 
+- 服务
+```bash 
+service shadowsocks-libev status
+```
+
 - 后台运行程序
 
 1. 不需要输入
 
 ```bash
-nohup dotnet ArchiSteamFarm.dll &
+nohup dotnet ArchiSteamFarm &
 ```
 2. 需要输入
 
 ctrl + z 暂停后，使用htop继续
+
+```
+配置账号
+
+chmod +x AFS
+
+输入密码、二次验证
+
+ctrl + z 挂到后台
+
+htop continue
+```
 
 - 查看进程
 
