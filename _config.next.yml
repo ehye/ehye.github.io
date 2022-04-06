@@ -1,0 +1,108 @@
+footer:
+  since: 2015
+
+  icon:
+    animated: true
+  powered: true
+
+creative_commons:
+  license: by-nc-sa
+  sidebar: false
+  post: true
+  language: zh-CN
+
+scheme: Gemini
+
+darkmode: true
+
+menu:
+  home: / || fa fa-home
+  about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+
+avatar:
+  url: /images/avatar.jpg
+
+site_state: true
+
+custom_file_path:
+  head: source/_data/head.njk
+
+social:
+  GitHub: https://github.com/ehye || fab fa-github
+  E-Mail: mailto:yjw9610@hotmail.com || fa fa-envelope
+
+social_icons:
+  icons_only: true
+  transition: true
+
+links_settings:
+  icon: fa fa-link
+
+chat:
+  enable: false
+  #service: chatra
+  #service: tidio
+
+read_more_btn: false
+
+post_meta:
+  updated_at:
+    enable: false
+    another_day: true
+  categories: true
+
+google_site_verification: rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs
+
+bing_site_verification: F1D4D412BCED9D8BDE4A8C660D147D15
+
+codeblock:
+  # All available themes: https://theme-next.js.org/highlight/
+  prism:
+    light: prism
+    dark: prism-okaidia
+  copy_button:
+    enable: true
+
+back2top:
+  sidebar: true
+  # Scroll percent label in b2t button.
+  scrollpercent: true
+
+math:
+  per_page: true
+
+  mathjax:
+    enable: true
+    mhchem: false
+
+comments:
+  active: disqusjs
+  storage: true
+  lazyload: true
+  nav:
+    disqusjs:
+     text: Disqus
+     order: 1
+    livere:
+     text: LiveRe
+     order: 2
+
+disqusjs:
+  enable: true
+  apikey: brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb  
+  shortname: ehye
+
+livere_uid: MTAyMC8zMDgyMy83Mzc1
+
+google_analytics:
+  tracking_id: UA-143510723-1
+  only_pageview: true
+
+local_search:
+  enable: true
+
+motion:
+  enable: false
