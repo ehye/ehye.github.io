@@ -9,7 +9,7 @@ tags:
     - V2Ray
 ---
 
-如何将 Shadowsocks 流量伪装成 HTTPS 请求
+将 Shadowsocks 流量伪装成 HTTPS 请求
 <!-- more -->
 
 ---
@@ -19,7 +19,7 @@ tags:
 
 - Shadowsocks-libev
 - Nginx
-- SSL 证书 [acme.sh](https://github.com/acmesh-official/acme.sh) （DNSpod 等免费 SSL 证书亦可）
+- SSL 证书 [acme.sh](https://github.com/acmesh-official/acme.sh)
 - DNS解析
 - V2Ray-plugin [release](https://github.com/shadowsocks/v2ray-plugin/releases)
 
@@ -48,7 +48,7 @@ tags:
 
         server_name mydomain.com;
 
-        location /ray { # 经此路径流量将转发给梯子
+        location /ray {
             proxy_redirect off;
             proxy_pass http://127.0.0.1:8008;
             proxy_set_header Host $http_host;
@@ -69,7 +69,7 @@ tags:
 
 - 安装 v2ray 插件
 
-    将下载的 release 解压到 `/user/bin`
+    将下载的 release 解压到 `/usr/bin`
 
 - 服务端配置
 
@@ -80,20 +80,16 @@ tags:
         "server":"localhost",
         "server_port":8008,
         "mode":"tcp_only",
-        "local_port":1080,
         "password":"***",
         "timeout":5,
         "method":"chacha20-ietf-poly1305",
         "plugin":"v2ray-plugin",
-        "plugin_opts":"server;host=127.0.0.1;path=/ray"
+        "plugin_opts":"server;host=mydomain.com;path=/ray"
     }
     ```
 
     {% note info %}
-  - `server`设置为只允许从本地访问
-  - `server_port`与`proxy_pass`一致
-  - `path`与`location`一致
-  - 因为是通过 Nginx 转发，同时也配置了HTTPS，所以`plugin_opts`不需要再填证书参数
+    因为是通过 Nginx 转发，同时也配置了HTTPS，所以`plugin_opts`不需要再填证书参数
     {% endnote %}
 
 - Windows 客户端配置
