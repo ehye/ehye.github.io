@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":1},"livere":{"text":"LiveRe","order":2}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Peter Norvig">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Teach Yourself Programming in Ten Years">
+<meta property="og:url" content="https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="Peter Norvig">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-12-22T04:51:58.000Z">
+<meta property="article:modified_time" content="2022-04-05T10:21:20.705Z">
+<meta property="article:author" content="ehye">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/","path":"2016/12/22/Teach-Yourself-Programming-in-Ten-Years/","title":"Teach Yourself Programming in Ten Years"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Teach Yourself Programming in Ten Years | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Why-is-everyone-in-such-a-rush"><span class="nav-number">1.</span> <span class="nav-text">Why is everyone in such a rush?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#So-You-Want-to-be-a-Programmer"><span class="nav-number">2.</span> <span class="nav-text">So You Want to be a Programmer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Answers"><span class="nav-number">4.</span> <span class="nav-text">Answers</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Appendix-Language-Choice"><span class="nav-number">5.</span> <span class="nav-text">Appendix: Language Choice</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Appendix-Books-and-Other-Resources"><span class="nav-number">6.</span> <span class="nav-text">Appendix: Books and Other Resources</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Notes"><span class="nav-number">7.</span> <span class="nav-text">Notes</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Teach Yourself Programming in Ten Years | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Teach Yourself Programming in Ten Years
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-12-22 12:51:58" itemprop="dateCreated datePublished" datetime="2016-12-22T12:51:58+08:00">2016-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Article/" itemprop="url" rel="index"><span itemprop="name">Article</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Peter Norvig</p>
+<span id="more"></span>
+<h1 id="Why-is-everyone-in-such-a-rush"><a href="#Why-is-everyone-in-such-a-rush" class="headerlink" title="Why is everyone in such a rush?"></a>Why is everyone in such a rush?</h1><p>Walk into any bookstore, and you’ll see how to Teach Yourself Java in 24 Hours alongside endless variations offering to teach C, SQL, Ruby, Algorithms, and so on in a few days or hours. The Amazon advanced search for [title: teach, yourself, hours, since: 2000 and found 512 such books. Of the top ten, nine are programming books (the other is about bookkeeping). Similar results come from replacing “teach yourself” with “learn” or “hours” with “days.”</p>
+<p>The conclusion is that either people are in a big rush to learn about programming, or that programming is somehow fabulously easier to learn than anything else. Felleisen et al. give a nod to this trend in their book How to Design Programs, when they say “Bad programming is easy. Idiots can learn it in 21 days, even if they are dummies.” The Abtruse Goose comic also had their take.</p>
+<p>Let’s analyze what a title like Teach Yourself C++ in 24 Hours could mean:</p>
+<ul>
+<li>Teach Yourself: In 24 hours you won’t have time to write several significant programs, and learn from your successes and failures with them. You won’t have time to work with an experienced programmer and understand what it is like to live in a C++ environment. In short, you won’t have time to learn much. So the book can only be talking about a superficial familiarity, not a deep understanding. As Alexander Pope said, a little learning is a dangerous thing.</li>
+<li>C++: In 24 hours you might be able to learn some of the syntax of C++ (if you already know another language), but you couldn’t learn much about how to use the language. In short, if you were, say, a Basic programmer, you could learn to write programs in the style of Basic using C++ syntax, but you couldn’t learn what C++ is actually good (and bad) for. So what’s the point? Alan Perlis once said: “A language that doesn’t affect the way you think about programming, is not worth knowing”. One possible point is that you have to learn a tiny bit of C++ (or more likely, something like JavaScript or Processing) because you need to interface with an existing tool to accomplish a specific task. But then you’re not learning how to program; you’re learning to accomplish that task.</li>
+<li><strong>in 24 Hours</strong>: Unfortunately, this is not enough, as the next section shows.<br>#Teach Yourself Programming in Ten Years#</li>
+</ul>
+<p>Researchers (Bloom (1985), Bryan &amp; Harter (1899), Hayes (1989), Simmon &amp; Chase (1973)) have shown it takes about ten years to develop expertise in any of a wide variety of areas, including chess playing, music composition, telegraph operation, painting, piano playing, swimming, tennis, and research in neuropsychology and topology. The key is deliberative practice: not just doing it again and again, but challenging yourself with a task that is just beyond your current ability, trying it, analyzing your performance while and after doing it, and correcting any mistakes. Then repeat. And repeat again. There appear to be no real shortcuts: even Mozart, who was a musical prodigy at age 4, took 13 more years before he began to produce world-class music. In another genre, the Beatles seemed to burst onto the scene with a string of #1 hits and an appearance on the Ed Sullivan show in 1964. But they had been playing small clubs in Liverpool and Hamburg since 1957, and while they had mass appeal early on, their first great critical success, Sgt. Peppers, was released in 1967.</p>
+<p>Malcolm Gladwell has popularized the idea, although he concentrates on 10,000 hours, not 10 years. Henri Cartier-Bresson (1908-2004) had another metric: “Your first 10,000 photographs are your worst.” (He didn’t anticipate that with digital cameras, some people can reach that mark in a week.) True expertise may take a lifetime: Samuel Johnson (1709-1784) said “Excellence in any department can be attained only by the labor of a lifetime; it is not to be purchased at a lesser price.” And Chaucer (1340-1400) complained “the lyf so short, the craft so long to lerne.” Hippocrates (c. 400BC) is known for the excerpt “ars longa, vita brevis”, which is part of the longer quotation “Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”, which in English renders as “Life is short, [the] craft long, opportunity fleeting, experiment treacherous, judgment difficult.” Of course, no single number can be the final answer: it doesn’t seem reasonable to assume that all skills (e.g., programming, chess playing, checkers playing, and music playing) could all require exactly the same amount of time to master, nor that all people will take exactly the same amount of time. As Prof. K. Anders Ericsson puts it, “In most domains it’s remarkable how much time even the most talented individuals need in order to reach the highest levels of performance. The 10,000 hour number just gives you a sense that we’re talking years of 10 to 20 hours a week which those who some people would argue are the most innately talented individuals still need to get to the highest level.”</p>
+<h1 id="So-You-Want-to-be-a-Programmer"><a href="#So-You-Want-to-be-a-Programmer" class="headerlink" title="So You Want to be a Programmer"></a>So You Want to be a Programmer</h1><p>Here’s my recipe for programming success:</p>
+<ul>
+<li>Get interested in programming, and do some because it is fun. Make sure that it keeps being enough fun so that you will be willing to put in your ten years&#x2F;10,000 hours.</li>
+<li>Program. The best kind of learning is learning by doing. To put it more technically, “the maximal level of performance for individuals in a given domain is not attained automatically as a function of extended experience, but the level of performance can be increased even by highly experienced individuals as a result of deliberate efforts to improve.” (p. 366) and “the most effective learning requires a well-defined task with an appropriate difficulty level for the particular individual, informative feedback, and opportunities for repetition and corrections of errors.” (p. 20-21) The book Cognition in Practice: Mind, Mathematics, and Culture in Everyday Life is an interesting reference for this viewpoint.</li>
+<li><strong>Talk with</strong> other programmers; read other programs. This is more important than any book or training course.</li>
+<li>If you want, put in four years at a <strong>college</strong> (or more at a graduate school). This will give you access to some jobs that require credentials, and it will give you a deeper understanding of the field, but if you don’t enjoy school, you can (with some dedication) get similar experience on your own or on the job. In any case, book learning alone won’t be enough. “Computer science education cannot make anybody an expert programmer any more than studying brushes and pigment can make somebody an expert painter” says Eric Raymond, author of The New Hacker’s Dictionary. One of the best programmers I ever hired had only a High School degree; he’s produced a lot of great software, has his own news group, and made enough in stock options to buy his own nightclub.</li>
+<li>Work on <strong>projects with</strong> other programmers. Be the best programmer on some projects; be the worst on some others. When you’re the best, you get to test your abilities to lead a project, and to inspire others with your vision. When you’re the worst, you learn what the masters do, and you learn what they don’t like to do (because they make you do it for them).</li>
+<li>Work on <strong>projects after</strong> other programmers. Understand a program written by someone else. See what it takes to understand and fix it when the original programmers are not around. Think about how to design your programs to make it easier for those who will maintain them after you.</li>
+<li>Learn at least a half dozen <strong>programming languages</strong>. Include one language that emphasizes class abstractions (like Java or C++), one that emphasizes functional abstraction (like Lisp or ML or Haskell), one that supports syntactic abstraction (like Lisp), one that supports declarative specifications (like Prolog or C++ templates), and one that emphasizes parallelism (like Clojure or Go).</li>
+<li>Remember that there is a <strong>“computer”</strong> in “computer science”. Know how long it takes your computer to execute an instruction, fetch a word from memory (with and without a cache miss), read consecutive words from disk, and seek to a new location on disk. (Answers here.)</li>
+<li>Get involved in a language <strong>standardization</strong> effort. It could be the ANSI C++ committee, or it could be deciding if your local coding style will have 2 or 4 space indentation levels. Either way, you learn about what other people like in a language, how deeply they feel so, and perhaps even a little about why they feel so.</li>
+<li>Have the good sense to <strong>get off</strong> the language standardization effort as quickly as possible.</li>
+</ul>
+<p>With all that in mind, its questionable how far you can get just by book learning. Before my first child was born, I read all the How To books, and still felt like a clueless novice. 30 Months later, when my second child was due, did I go back to the books for a refresher? No. Instead, I relied on my personal experience, which turned out to be far more useful and reassuring to me than the thousands of pages written by experts.</p>
+<p>Fred Brooks, in his essay No Silver Bullet identified a three-part plan for finding great software designers:</p>
+<ol>
+<li><p>Systematically identify top designers as early as possible.</p>
+</li>
+<li><p>Assign a career mentor to be responsible for the development of the prospect and carefully keep a career file.</p>
+</li>
+<li><p>Provide opportunities for growing designers to interact and stimulate each other.</p>
+</li>
+</ol>
+<p>This assumes that some people already have the qualities necessary for being a great designer; the job is to properly coax them along. Alan Perlis put it more succinctly: “Everyone can be taught to sculpt: Michelangelo would have had to be taught how not to. So it is with the great programmers”. Perlis is saying that the greats have some internal quality that transcends their training. But where does the quality come from? Is it innate? Or do they develop it through diligence? As Auguste Gusteau (the fictional chef in Ratatouille) puts it, “anyone can cook, but only the fearless can be great.” I think of it more as willingness to devote a large portion of one’s life to deliberative practice. But maybe fearless is a way to summarize that. Or, as Gusteau’s critic, Anton Ego, says: “Not everyone can become a great artist, but a great artist can come from anywhere.”</p>
+<p>So go ahead and buy that Java&#x2F;Ruby&#x2F;Javascript&#x2F;PHP book; you’ll probably get some use out of it. But you won’t change your life, or your real overall expertise as a programmer in 24 hours or 21 days. How about working hard to continually improve over 24 months? Well, now you’re starting to get somewhere…</p>
+<hr>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p>Bloom, Benjamin (ed.) Developing Talent in Young People, Ballantine, 1985.</p>
+<p>Brooks, Fred, No Silver Bullets, IEEE Computer, vol. 20, no. 4, 1987, p. 10-19.</p>
+<p>Bryan, W.L. &amp; Harter, N. “Studies on the telegraphic language: The acquisition of a hierarchy of habits. Psychology Review, 1899, 8, 345-375</p>
+<p>Hayes, John R., Complete Problem Solver Lawrence Erlbaum, 1989.</p>
+<p>Chase, William G. &amp; Simon, Herbert A. “Perception in Chess” Cognitive Psychology, 1973, 4, 55-81.</p>
+<p>Lave, Jean, Cognition in Practice: Mind, Mathematics, and Culture in Everyday Life, Cambridge University Press, 1988.</p>
+<hr>
+<h1 id="Answers"><a href="#Answers" class="headerlink" title="Answers"></a>Answers</h1><p>Approximate timing for various operations on a typical PC:</p>
+<table><tbody><tr><td align="left">execute typical instruction</td>  <td align="right">1/1,000,000,000 sec = 1 nanosec</td></tr><tr><td align="left">fetch from L1 cache memory</td>  <td align="right">0.5 nanosec</td></tr><tr><td align="left">branch misprediction</td>  <td align="right">5 nanosec</td></tr><tr><td align="left">fetch from L2 cache memory</td>  <td align="right">7 nanosec</td></tr><tr><td align="left">Mutex lock/unlock</td>  <td align="right">25 nanosec</td></tr><tr><td align="left">fetch from main memory</td>  <td align="right">100 nanosec</td></tr><tr><td align="left">send 2K bytes over 1Gbps network</td>  <td align="right">20,000 nanosec</td></tr><tr><td align="left">read 1MB sequentially from memory</td>  <td align="right">250,000 nanosec</td></tr><tr><td align="left">fetch from new disk location (seek)</td>  <td align="right">8,000,000 nanosec</td></tr><tr><td align="left">read 1MB sequentially from disk</td>  <td align="right">20,000,000 nanosec</td></tr><tr><td align="left">send packet US to Europe and back</td>  <td align="right">150 milliseconds = 150,000,000 nanosec</td></tr></tbody></table>
+
+<hr>
+<h1 id="Appendix-Language-Choice"><a href="#Appendix-Language-Choice" class="headerlink" title="Appendix: Language Choice"></a>Appendix: Language Choice</h1><p>Several people have asked what programming language they should learn first. There is no one answer, but consider these points:</p>
+<ul>
+<li>Use your friends. When asked “what operating system should I use, Windows, Unix, or Mac?”, my answer is usually: “use whatever your friends use.” The advantage you get from learning from your friends will offset any intrinsic difference between OS, or between programming languages. Also consider your future friends: the community of programmers that you will be a part of if you continue. Does your chosen language have a large growing community or a small dying one? Are there books, web sites, and online forums to get answers from? Do you like the people in those forums?</li>
+<li>Keep it simple. Programming languages such as C++ and Java are designed for professional development by large teams of experienced programmers who are concerned about the run-time efficiency of their code. As a result, these languages have complicated parts designed for these circumstances. You’re concerned with learning to program. You don’t need that complication. You want a language that was designed to be easy to learn and remember by a single new programmer.</li>
+<li>Play. Which way would you rather learn to play the piano: the normal, interactive way, in which you hear each note as soon as you hit a key, or “batch” mode, in which you only hear the notes after you finish a whole song? Clearly, interactive mode makes learning easier for the piano, and also for programming. Insist on a language with an interactive mode and use it.<br>Given these criteria, my recommendations for a first programming language would be Python or Scheme. Another choice is Javascript, not because it is perfectly well-designed for beginners, but because there are so many online tutorials for it, such as Khan Academy’s tutorial. But your circumstances may vary, and there are other good choices. If your age is a single-digit, you might prefer Alice or Squeak or Blockly (older learners might also enjoy these). The important thing is that you choose and get started.</li>
+</ul>
+<hr>
+<h1 id="Appendix-Books-and-Other-Resources"><a href="#Appendix-Books-and-Other-Resources" class="headerlink" title="Appendix: Books and Other Resources"></a>Appendix: Books and Other Resources</h1><p>Several people have asked what books and web pages they should learn from. I repeat that “book learning alone won’t be enough” but I can recommend the following:</p>
+<ul>
+<li>Scheme: Structure and Interpretation of Computer Programs (Abelson &amp; Sussman) is probably the best introduction to computer science, and it does teach programming as a way of understanding the computer science. You can see online videos of lectures on this book, as well as the complete text online. The book is challenging and will weed out some people who perhaps could be successful with another approach.</li>
+<li>Scheme: How to Design Programs (Felleisen et al.) is one of the best books on how to actually design programs in an elegant and functional way.</li>
+<li>Python: Python Programming: An Intro to CS (Zelle) is a good introduction using Python.</li>
+<li>Python: Several online tutorials are available at Python.org.</li>
+<li>Oz: Concepts, Techniques, and Models of Computer Programming (Van Roy &amp; Haridi) is seen by some as the modern-day successor to Abelson &amp; Sussman. It is a tour through the big ideas of programming, covering a wider range than Abelson &amp; Sussman while being perhaps easier to read and follow. It uses a language, Oz, that is not widely known but serves as a basis for learning other languages. &lt;</li>
+</ul>
+<hr>
+<h1 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h1><p>T. Capey points out that the Complete Problem Solver page on Amazon now has the “Teach Yourself Bengali in 21 days” and “Teach Yourself Grammar and Style” books under the “Customers who shopped for this item also shopped for these items” section. I guess that a large portion of the people who look at that book are coming from this page. Thanks to Ross Cohen for help with Hippocrates.<br>Translations</p>
+<hr>
+<p>Peter Norvig (Copyright 2001—2014)</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://norvig.com/21-days.html">https://norvig.com/21-days.html</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/" title="Teach Yourself Programming in Ten Years">https://ehye.github.io/2016/12/22/Teach-Yourself-Programming-in-Ten-Years/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/12/22/the-magpie-developer/" rel="prev" title="The Magpie Developer">
+                  <i class="fa fa-chevron-left"></i> The Magpie Developer
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/12/22/port-in-use-check/" rel="next" title="怎么查看端口占用">
+                  怎么查看端口占用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{"enable":true,"api":null,"apikey":"brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb","shortname":"ehye","js":{"url":"https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js","integrity":"sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw="}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>

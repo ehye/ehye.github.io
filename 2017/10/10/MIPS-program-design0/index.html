@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":1},"livere":{"text":"LiveRe","order":2}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="北京大学-计算机组成原理 第二讲 指令系统体系结构 互评作业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIPS汇编程序设计">
+<meta property="og:url" content="https://ehye.github.io/2017/10/10/MIPS-program-design0/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="北京大学-计算机组成原理 第二讲 指令系统体系结构 互评作业">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-10T07:27:12.000Z">
+<meta property="article:modified_time" content="2022-04-05T10:21:20.698Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="MIPS">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ehye.github.io/2017/10/10/MIPS-program-design0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2017/10/10/MIPS-program-design0/","path":"2017/10/10/MIPS-program-design0/","title":"MIPS汇编程序设计"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MIPS汇编程序设计 | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%A2%98%EF%BC%9A%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">第一题：用系统功能调用实现简单输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E7%AD%94"><span class="nav-number">1.2.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%A2%98%EF%BC%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E6%AF%94%E8%BE%83"><span class="nav-number">2.</span> <span class="nav-text">第二题：字符串查找比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E7%AD%94-1"><span class="nav-number">2.2.</span> <span class="nav-text">解答</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/10/10/MIPS-program-design0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MIPS汇编程序设计 | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIPS汇编程序设计
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-10-10 15:27:12" itemprop="dateCreated datePublished" datetime="2017-10-10T15:27:12+08:00">2017-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MOOC/" itemprop="url" rel="index"><span itemprop="name">MOOC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>北京大学-计算机组成原理 第二讲 指令系统体系结构 互评作业<span id="more"></span></p>
+<p>使用MARS（MIPS Assembler and Runtime Simulator）集成开发环境作为实验平台<br>考察MIPS汇编程序设计，要求熟悉MIPS指令系统的常见指令，掌握MARS集成开发环境基本使用方法，完成自编MIPS汇编语言程序的上机调试过程</p>
+<hr>
+<h1 id="第一题：用系统功能调用实现简单输入输出"><a href="#第一题：用系统功能调用实现简单输入输出" class="headerlink" title="第一题：用系统功能调用实现简单输入输出"></a>第一题：用系统功能调用实现简单输入输出</h1><p>利用系统功能调用从键盘输入，转换后在屏幕上显示，具体要求如下：</p>
+<ol>
+<li><p>如果输入的是字母（A<del>Z，区分大小写）或数字（0</del>9），则将其转换成对应的英文单词后在屏幕上显示，对应关系见下表</p>
+</li>
+<li><p>若输入的不是字母或数字，则在屏幕上输出字符<code>*</code></p>
+</li>
+<li><p>每输入一个字符，即时转换并在屏幕上显示</p>
+</li>
+<li><p>支持反复输入，直到按<code>?</code>键结束程序</p>
+</li>
+</ol>
+<table><tbody><tr><td><strong>A</strong></td><td>Alpha</td><td><strong>N</strong></td><td>November</td><td><strong>1</strong></td><td>First</td><td><strong>a</strong></td><td>alpha</td><td><strong>n</strong></td><td>november</td></tr><tr><td><strong>B</strong></td><td>Bravo</td><td><strong>O</strong></td><td>Oscar</td><td><strong>2</strong></td><td>Second</td><td><strong>b</strong></td><td>bravo</td><td><strong>o</strong></td><td>oscar</td></tr><tr><td><strong>C</strong></td><td>China</td><td><strong>P</strong></td><td>Paper</td><td><strong>3</strong></td><td>Third</td><td><strong>c</strong></td><td>china</td><td><strong>p</strong></td><td>paper</td></tr><tr><td><strong>D</strong></td><td>Delta</td><td><strong>Q</strong></td><td>Quebec</td><td><strong>4</strong></td><td>Fourth</td><td><strong>d</strong></td><td>delta</td><td><strong>q</strong></td><td>quebec</td></tr><tr><td><strong>E</strong></td><td>Echo</td><td><strong>R</strong></td><td>Research</td><td><strong>5</strong></td><td>Fifth</td><td><strong>e</strong></td><td>echo</td><td><strong>r</strong></td><td>research</td></tr><tr><td><strong>F</strong></td><td>Foxtrot</td><td><strong>S</strong></td><td>Sierra</td><td><strong>6</strong></td><td>Sixth</td><td><strong>f</strong></td><td>foxtrot</td><td><strong>s</strong></td><td>sierra</td></tr><tr><td><strong>G</strong></td><td>Golf</td><td><strong>T</strong></td><td>Tango</td><td><strong>7</strong></td><td>Seventh</td><td><strong>g</strong></td><td>golf</td><td><strong>t</strong></td><td>tango</td></tr><tr><td><strong>H</strong></td><td>Hotel</td><td><strong>U</strong></td><td>Uniform</td><td><strong>8</strong></td><td>Eighth</td><td><strong>h</strong></td><td>hotel</td><td><strong>u</strong></td><td>uniform</td></tr><tr><td><strong>I</strong></td><td>India</td><td><strong>V</strong></td><td>Victor</td><td><strong>9</strong></td><td>Ninth</td><td><strong>i</strong></td><td>india</td><td><strong>v</strong></td><td>victor</td></tr><tr><td><strong>J</strong></td><td>Juliet</td><td><strong>W</strong></td><td>Whisky</td><td><strong>0</strong></td><td>zero</td><td><strong>j</strong></td><td>juliet</td><td><strong>w</strong></td><td>whisky</td></tr><tr><td><strong>K</strong></td><td>Kilo</td><td><strong>X</strong></td><td>X-ray</td><td> </td><td> </td><td><strong>k</strong></td><td>kilo</td><td><strong>x</strong></td><td>x-ray</td></tr><tr><td><strong>L</strong></td><td>Lima</td><td><strong>Y</strong></td><td>Yankee</td><td> </td><td> </td><td><strong>l</strong></td><td>lima</td><td><strong>y</strong></td><td>yankee</td></tr><tr><td><strong>M</strong></td><td>Mary</td><td><strong>Z</strong></td><td>Zulu</td><td> </td><td> </td><td><strong>m</strong></td><td>mary</td><td><strong>z</strong></td><td>zulu</td></tr></tbody></table>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>由于 alphabet 中的字符串保存的时候将以<code>\0</code>结尾，我又在单词后面加了一个<code>\n</code><br>故可用<code>=</code>替换这些字符，将文本保存形似 <code> Alpha== Bravo== China</code> 的计算字符串<br>以计算空格的总数量来确定每个单词开头字母的位置，从而计算出偏移量</p>
+<p>为了算出每个单词的在数组里的位置，使用了Java编写一段用于计算偏移量的程序：</p>
+<p><em>args[0]：保存计算字符串的文本的路径</em></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">File</span> f <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">InputStreamReader</span> isr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">BufferedReader</span> br <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span>isr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> s <span class="token operator">=</span> br<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chars <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Integer</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> c <span class="token operator">:</span> chars<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            sum<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token char">' '</span><span class="token punctuation">)</span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>sum <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">+</span> <span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p><em><strong>用Java写汇编算作弊吗 <del>(￣▽￣)</del></strong></em></p>
+<pre class="line-numbers language-mips" data-language="mips"><code class="language-mips">.data
+alphabetU:
+    .asciiz &quot; Alpha\n&quot;,&quot; Bravo\n&quot;,&quot; China\n&quot;,&quot; Delta\n&quot;,&quot; Echo\n&quot;,&quot; Foxtrot\n&quot;,&quot; Golf\n&quot;,&quot; Hotel\n&quot;,
+    &quot; India\n&quot;,&quot; Juliet\n&quot;,&quot; Kilo\n&quot;,&quot; Lima\n&quot;,&quot; Mary\n&quot;,&quot; November\n&quot;,&quot; Oscar\n&quot;,&quot; Paper\n&quot;,&quot; Quebec\n&quot;,
+    &quot; Research\n&quot;,&quot; Sierra\n&quot;,&quot; Tango\n&quot;,&quot; Uniform\n&quot;,&quot; Victor\n&quot;,&quot; Whisky\n&quot;,&quot; X-ray\n&quot;,&quot; Yankee\n&quot;,&quot; Zulu\n&quot;
+alphabetL:
+    .asciiz &quot; alpha\n&quot;,&quot; bravo\n&quot;,&quot; china\n&quot;,&quot; delta\n&quot;,&quot; echo\n&quot;,&quot; foxtrot\n&quot;,&quot; golf\n&quot;,&quot; hotel\n&quot;,&quot; india\n&quot;,
+    &quot; juliet\n&quot;,&quot; kilo\n&quot;,&quot; lima\n&quot;,&quot; mary\n&quot;,&quot; november\n&quot;,&quot; oscar\n&quot;,&quot; paper\n&quot;,&quot; quebec\n&quot;,&quot; research\n&quot;,
+    &quot; sierra\n&quot;,&quot; tango\n&quot;,&quot; uniform\n&quot;,&quot; victor\n&quot;,&quot; whisky\n&quot;,&quot; x-ray\n&quot;,&quot; yankee\n&quot;,&quot; zulu\n&quot;
+al_offset:
+    .word 0,8,16,24,32,39,49,56,64,72,81,88,95,102,113,121,129,138,149,158,166,176,185,194,202,211
+	# 使用 Java 算出的偏移量
+number: 
+    .asciiz &quot; Zero\n&quot;,&quot; First\n&quot;,&quot; Second\n&quot;,&quot; Third\n&quot;,&quot; Fourth\n&quot;,&quot; Fifth\n&quot;,&quot; Sixth\n&quot;,&quot; Seventh\n&quot;,&quot; Eighth\n&quot;,&quot; Ninth\n&quot;
+n_offset:
+    .word 0,7,15,24,32,41,49,57,67,76
+exit_str: .asciiz &quot;#Stop program#&quot;
+
+.text
+.globl main
+main:
+    li $v0, 12                # $v0 contains character read
+    syscall
+    beq $v0, &#39;?&#39;, exit        # if (v0 &#x3D;&#x3D; &#39;?&#39;) then exit    
+
+    # is symble ?
+    sub $t1, $v0, &#39;0&#39;         # t1 &#x3D; v0 - &#39;0&#39;
+    blt $t1, $zero, symble    # if (t1 &lt; 0) then symble
+    
+    # is number ?
+    sub $t2, $t1, 10          # t2 &#x3D; t1 - 10
+    blt $t2, $zero, getnum    # if (t2 &lt; 0) then getnum
+
+    # is upper case?
+    sub $t2, $v0, 91
+    slt $s3, $t2, $0         # if (v0 &lt; &#39;Z&#39;) then s3 &#x3D; 1
+    sub $t3, $v0, 64
+    sgt $s4, $t3, $0         # if (v0 &gt; &#39;A&#39;) then s4 &#x3D; 1
+    and $s0, $s3, $s4        # s0 &#x3D; s3 &amp;&amp; s4
+    bnez $s0, getuword       # if (s0 &#x3D;&#x3D; 1) then getword
+
+    # is lower case?
+    sub $t2, $v0, 123
+    slt $s3, $t2, $0         # if (v0 &lt;&#x3D; &#39;z&#39;) then s3 &#x3D; 1
+    sub $t3, $v0, 96  
+    sgt $s4, $t3, $0         # if (v0 &gt;&#x3D; &#39;a&#39;) then s4 &#x3D; 1
+    and $s0, $s3, $s4        # s0 &#x3D; s3 &amp;&amp; s4
+    bnez $s0, getlword       # if (s0 &#x3D;&#x3D; 1) then getword
+    j symble
+
+getnum:
+    
+    add $t2, $t2, 10        # judge during [is number ?] 补回判断时减去的ASCII
+    sll $t2, $t2, 2         # every word use 1 byte (no.9 at address of 9&lt;&lt;2)
+    #
+    #add $a0, $t2, $zero
+    #li $v0, 1
+    #syscall
+    #
+    la $s0, n_offset        # load address to s0
+    add $s0, $s0, $t2       # s0 &#x3D; s0 + offset
+    lw $s1, ($s0)           # Load Word at address of s0
+    add $a0, $0, &#39;*&#39;        # &#39;*&#39; ascii
+    li $v0, 11
+    la $a0, number          # load address to a0
+    add $a0, $a0, $s1    
+    li $v0, 4
+    syscall
+    j main
+
+getuword:
+    # a0: alphabet
+    # s1: offset
+    sub $t3, $t3, 1
+    sll $t3, $t3, 2
+    la $s0, al_offset        # load address
+    add $s0, $s0, $t3
+    lw $s1, ($s0)            # load word
+    la $a0, alphabetU        # load address
+    add $a0, $s1, $a0
+    li $v0, 4                # print null-terminated string string at $a0
+    syscall
+    j main
+
+getlword:
+    # a0: alphabet
+    # s1: offset
+    sub $t3, $t3, 1
+    sll $t3, $t3, 2
+    la $s0, al_offset        # load address
+    add $s0, $s0, $t3
+    lw $s1, ($s0)            # load word
+    la $a0, alphabetL        # load address
+    add $a0, $s1, $a0
+    li $v0, 4                # print null-terminated string string at $a0
+    syscall
+    j main
+
+symble:
+    li  $v0, 11             # $a0 &#x3D; char to print
+    add $a0, $t0, 32        # load value into argument register $a0
+    syscall
+    add $a0, $a0, 10        # 32 + 10 &#x3D; &#39;*&#39;
+    syscall
+    sub $a0, $a0, 32        # &#39;*&#39; - 32 &#x3D;&#x3D; &#39;\n&#39;
+    syscall
+    j main
+
+exit:
+    add $a0, $0, &#39;\n&#39;
+    li $v0, 11
+    syscall
+    la $a0, exit_str
+    li $v0, 4
+    syscall
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="第二题：字符串查找比较"><a href="#第二题：字符串查找比较" class="headerlink" title="第二题：字符串查找比较"></a>第二题：字符串查找比较</h1><p>利用系统功能调用从键盘输入一个字符串，然后输入单个字符，查找该字符串中是否有该字符（区分大小写）。具体要求如下：</p>
+<ol>
+<li><p>如果找到，则在屏幕上显示：</p>
+<p> <code>Success! Location: X</code></p>
+<p> 其中，X为该字符在字符串中第一次出现的位置</p>
+</li>
+<li><p>如果没找到，则在屏幕上显示：</p>
+<p> <code>Fail!</code></p>
+</li>
+<li><p>输入一个字符串后，可以反复输入希望查询的字符，直到按<code>?</code>键结束程序</p>
+</li>
+<li><p>每个输入字符独占一行，输出查找结果独占一行，位置编码从1开始。</p>
+</li>
+</ol>
+<p>提示：为避免歧义，字符串内不包含<code>?</code>符号</p>
+<p>格式示例如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">abcdefgh
+
+a
+
+Success! Location: 1
+
+x
+
+Fail!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>因为只是查找一个字符串中的一个字符，因此可以直接遍历每个字符串，进行字符匹配，具体到实现，就是高级语言中的 if-else 以及 for 所实现的功能。</p>
+<h2 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h2><pre class="line-numbers language-mips" data-language="mips"><code class="language-mips">.data
+    suces_str: .asciiz &quot;\nSuccess! Location: &quot;
+    fail_str: .asciiz &quot;\nFail!&quot;
+    buffer: .space 20
+    exit_str: .asciiz &quot;\n#Stop program#&quot;
+    str1:  .asciiz &quot;Enter string: &quot;
+    str2:  .asciiz &quot;Enter char: &quot;
+
+.text
+.globl main
+main:
+    # a0 &#x3D; input&#x2F;result string
+    # a1 &#x3D; input string length
+    # a2 &#x3D; input char
+    # a3 &#x3D; loop donefail
+
+    # initialize
+    add $a3, $zero, $zero
+    add $t0, $zero, $zero    # i &#x3D; 0
+    # take string
+    la $a0, buffer           # load byte address
+    li $a1, 20               # length of string
+    li $v0, 8                # read string at a0
+    syscall
+
+takechar:
+    li $v0, 12               # char read to v0
+    syscall
+    beq $v0, &#39;?&#39;, exit       # if (v0 &#x3D;&#x3D; &#39;?&#39;) then exit
+    move $a2, $v0            # a2 &#x3D; char
+    
+search:
+    # t0 &#x3D; int i
+    beq $t0, $a1, donefail   # if (i &#x3D; length) then donefail
+    la $a0, buffer           # else load byte
+    add $t2, $a0, $t0        # t2 &#x3D; &amp;str + offset
+    lb $s1, ($t2)            # s1 &#x3D; *t2
+    beq $s1, $a2, sucess     # if (this.char &#x3D; char) then sucess
+    add $t0, $t0, 1          # else i++
+    j search
+
+fail:
+    la $a0, fail_str
+    li $v0, 4
+    syscall
+    li $v0, 11
+    add $a0, $zero, &#39;\n&#39;
+    syscall
+    j takechar
+      
+sucess:
+    la $a0, suces_str
+    li $v0, 4
+    syscall
+    li $v0, 1
+    add $a0, $t0, 1          # print index begin from 1    
+    syscall
+    li $v0, 11
+    add $a0, $zero, &#39;\n&#39;
+    syscall
+    j takechar
+
+donefail:
+    add $a3, $zero, 1        # flag donefail &#x3D; 1
+    add $t0, $zero, $zero    # reset int i &#x3D; 0
+    j fail
+
+exit:
+    la $a0, exit_str
+    li $v0, 4
+    syscall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2017/10/10/MIPS-program-design0/" title="MIPS汇编程序设计">https://ehye.github.io/2017/10/10/MIPS-program-design0/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MIPS/" rel="tag"># MIPS</a>
+              <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/09/26/debug-on-win10x64/" rel="prev" title="在 Win10 64位上使用 debug.exe">
+                  <i class="fa fa-chevron-left"></i> 在 Win10 64位上使用 debug.exe
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/16/csgo-training-script/" rel="next" title="如何设置 CSGO 训练脚本">
+                  如何设置 CSGO 训练脚本 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{"enable":true,"api":null,"apikey":"brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb","shortname":"ehye","js":{"url":"https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js","integrity":"sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw="}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>

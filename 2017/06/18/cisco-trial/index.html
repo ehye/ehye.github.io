@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":1},"livere":{"text":"LiveRe","order":2}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本题所用的操作：路由、单臂路由、VLAN、ACL、NAT、无线网络等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cisco 网络实验室期末测试B组">
+<meta property="og:url" content="https://ehye.github.io/2017/06/18/cisco-trial/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="本题所用的操作：路由、单臂路由、VLAN、ACL、NAT、无线网络等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/outline.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/web-ftp-pass1.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/web-ftp-pass2.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/web-ftp-pass3.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/deny-ftp.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/deny-web.png">
+<meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/telnet.png">
+<meta property="article:published_time" content="2017-06-18T11:28:30.000Z">
+<meta property="article:modified_time" content="2022-04-05T10:21:20.732Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="Cisco">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ehye.github.io/2017/06/18/cisco-trial/outline.png">
+
+
+<link rel="canonical" href="https://ehye.github.io/2017/06/18/cisco-trial/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2017/06/18/cisco-trial/","path":"2017/06/18/cisco-trial/","title":"Cisco 网络实验室期末测试B组"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Cisco 网络实验室期末测试B组 | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">实践内容：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">路由和单臂路由配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">配置过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81NAT"><span class="nav-number">3.</span> <span class="nav-text">配置静态NAT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B-1"><span class="nav-number">3.1.</span> <span class="nav-text">配置过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A6%81%E6%AD%A2B%E9%83%A8%E9%97%A8%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">禁止B部门访问FTP服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B-2"><span class="nav-number">4.1.</span> <span class="nav-text">配置过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C-1"><span class="nav-number">4.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A6%81%E6%AD%A2%E2%80%9C%E6%81%B6%E6%84%8F%E5%85%A5%E4%BE%B5%E2%80%9D%E8%80%85%E8%AE%BF%E9%97%AE-Web"><span class="nav-number">5.</span> <span class="nav-text">禁止“恶意入侵”者访问 Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B-3"><span class="nav-number">5.1.</span> <span class="nav-text">配置过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C-2"><span class="nav-number">5.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#telnet-%E7%99%BB%E5%BD%95R1%E8%B7%AF%E7%94%B1%E5%99%A8%E8%BF%9B%E8%A1%8C%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">telnet 登录R1路由器进行管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B-4"><span class="nav-number">6.1.</span> <span class="nav-text">配置过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C-3"><span class="nav-number">6.2.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">实践总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/06/18/cisco-trial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Cisco 网络实验室期末测试B组 | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cisco 网络实验室期末测试B组
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-06-18 19:28:30" itemprop="dateCreated datePublished" datetime="2017-06-18T19:28:30+08:00">2017-06-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MOOC/" itemprop="url" rel="index"><span itemprop="name">MOOC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本题所用的操作：路由、单臂路由、VLAN、ACL、NAT、无线网络等</p>
+<span id="more"></span>
+<img src="/2017/06/18/cisco-trial/outline.png" class="">
+
+<h1 id="实践内容："><a href="#实践内容：" class="headerlink" title="实践内容："></a>实践内容：</h1><ul>
+<li>路由和单臂路由配置，实现A、B、C部门计算机能访问Web、FTP服务</li>
+<li>Web、FTP服务器配置静态NAT，实现A、B、C部门计算机能访问Web、FTP服务</li>
+<li>配置安全性，禁止B部门的计算机访问FTP服务器</li>
+<li>配置安全性，禁止B部门“恶意入侵”者访问Web服务</li>
+<li>管理员计算机能telnet登录R1路由器进行管理</li>
+</ul>
+<h1 id="路由和单臂路由配置"><a href="#路由和单臂路由配置" class="headerlink" title="路由和单臂路由配置"></a>路由和单臂路由配置</h1><h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><p>S0</p>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config)#vlan 5
+Switch(config-vlan)#name vlan5
+Switch(config)#interface FastEthernet0&#x2F;1
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;2
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;24
+Switch(config-if)#switchport access vlan 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>S1</p>
+<pre class="line-numbers language-none"><code class="language-none">Switch(config)#vlan 5
+Switch(config-vlan)#name vlan5
+Switch(config)#vlan 10
+Switch(config-vlan)#name vlan10
+Switch(config)#interface FastEthernet0&#x2F;24
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;1
+Switch(config-if)#switchport access vlan 10
+Switch(config)#interface FastEthernet0&#x2F;2
+Switch(config-if)#switchport access vlan 10
+Switch(config)#interface FastEthernet0&#x2F;23
+Switch(config-if)#switchport mode trunk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>R1</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#int fa1&#x2F;0.1
+Router(config-subif)#en do 5
+Router(config-subif)#ip add 192.168.222.1 255.255.255.0
+Router(config-subif)#int fa1&#x2F;0.2
+Router(config-subif)#en do 10
+Router(config-subif)#ip add 192.168.29.1 255.255.255.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="配置静态NAT"><a href="#配置静态NAT" class="headerlink" title="配置静态NAT"></a>配置静态NAT</h1><h2 id="配置过程-1"><a href="#配置过程-1" class="headerlink" title="配置过程"></a>配置过程</h2><hr>
+<p>R1</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#router ospf 1
+Router(config-router)#netw 172.16.29.0 0.0.0.255 area 0
+Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.223.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.222.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.29.0 0.0.0.255 area 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>R2</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#router ospf 1
+Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0
+Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>R3</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#ip nat in sour st 172.20.29.2 200.200.29.3
+Router(config)#ip nat in sour st 172.21.29.2 200.200.29.4
+Router(config-if)#ip nat in
+Router(config-if)#int fa0&#x2F;1
+Router(config-if)#ip nat in
+Router(config-if)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip nat out
+Router(config)#route ospf 1
+Router(config-router)#netw 172.20.29.0 0.0.0.255 area 0
+Router(config-router)#netw 172.21.29.0 0.0.0.255 area 0
+Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/web-ftp-pass1.png" class="">
+
+<img src="/2017/06/18/cisco-trial/web-ftp-pass2.png" class="">
+
+<img src="/2017/06/18/cisco-trial/web-ftp-pass3.png" class="">
+
+<h1 id="禁止B部门访问FTP服务器"><a href="#禁止B部门访问FTP服务器" class="headerlink" title="禁止B部门访问FTP服务器"></a>禁止B部门访问FTP服务器</h1><h2 id="配置过程-2"><a href="#配置过程-2" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#access-list 110 remark NO FTP
+Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 21
+Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 20
+Router(config)#access-list 110 permit ip any any 
+Router(config)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip access-group 110 in<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/deny-ftp.png" class="">
+
+<h1 id="禁止“恶意入侵”者访问-Web"><a href="#禁止“恶意入侵”者访问-Web" class="headerlink" title="禁止“恶意入侵”者访问 Web"></a>禁止“恶意入侵”者访问 Web</h1><h2 id="配置过程-3"><a href="#配置过程-3" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
+<pre class="line-numbers language-none"><code class="language-none">Router(config)#access-list 111 remark NO HTTP
+Router(config)#access-list 111 deny tcp 192.168.29.3 0.0.0.0 200.200.29.3 0.0.0.0 eq  www
+Router(config)#access-list 111 permit ip any any 
+Router(config)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip access-group 111 in<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测试结果-2"><a href="#测试结果-2" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/deny-web.png" class="">
+
+<h1 id="telnet-登录R1路由器进行管理"><a href="#telnet-登录R1路由器进行管理" class="headerlink" title="telnet 登录R1路由器进行管理"></a>telnet 登录R1路由器进行管理</h1><h2 id="配置过程-4"><a href="#配置过程-4" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
+<pre class="line-numbers language-none"><code class="language-none">Router#configure terminal 
+Router(config)#line vty 0 4
+Router(config-line)#password cisco
+Router(config-line)#login
+Router(config-line)#exit
+Router(config)#enable password cisco
+Router(config)#end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测试结果-3"><a href="#测试结果-3" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/telnet.png" class="">
+
+<h1 id="实践总结"><a href="#实践总结" class="headerlink" title="实践总结"></a>实践总结</h1><p>本次实践并不一帆风顺，在实际操作中遇到了一些问题：</p>
+<ul>
+<li>不清楚在哪台路由器上配置 NAT ——其实只要把两台服务器映射给到公网就行了</li>
+<li>单臂路由和 VLAN 配置语句不熟练——由于模拟器版本，一些封装语句和课本不一样</li>
+<li>ACL 添加出错——课本上的简写语句并不能直接使用，如 host 需写成 0.0.0.0</li>
+</ul>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2017/06/18/cisco-trial/" title="Cisco 网络实验室期末测试B组">https://ehye.github.io/2017/06/18/cisco-trial/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"># Cisco</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/21/alg4s-KdTrees/" rel="prev" title="Algorithms, Part I - Week 5 - Kd-Trees">
+                  <i class="fa fa-chevron-left"></i> Algorithms, Part I - Week 5 - Kd-Trees
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/09/12/hexo_branch_backup/" rel="next" title="使用 branch 对 hexo 备份">
+                  使用 branch 对 hexo 备份 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{"enable":true,"api":null,"apikey":"brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb","shortname":"ehye","js":{"url":"https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js","integrity":"sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw="}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>

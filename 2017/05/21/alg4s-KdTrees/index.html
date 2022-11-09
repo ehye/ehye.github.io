@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":1},"livere":{"text":"LiveRe","order":2}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业Kd-Trees">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithms, Part I - Week 5 - Kd-Trees">
+<meta property="og:url" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业Kd-Trees">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/RectHV.png">
+<meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/kdtree-insert.png">
+<meta property="article:published_time" content="2017-05-21T09:26:13.000Z">
+<meta property="article:modified_time" content="2022-04-05T10:21:20.715Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="KdTree">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/RectHV.png">
+
+
+<link rel="canonical" href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2017/05/21/alg4s-KdTrees/","path":"2017/05/21/alg4s-KdTrees/","title":"Algorithms, Part I - Week 5 - Kd-Trees"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Algorithms, Part I - Week 5 - Kd-Trees | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-data-type"><span class="nav-number">1.1.</span> <span class="nav-text">Node data type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-KdTree"><span class="nav-number">1.2.</span> <span class="nav-text">Writing KdTree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">答案</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Algorithms, Part I - Week 5 - Kd-Trees | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Algorithms, Part I - Week 5 - Kd-Trees
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-21 17:26:13" itemprop="dateCreated datePublished" datetime="2017-05-21T17:26:13+08:00">2017-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MOOC/" itemprop="url" rel="index"><span itemprop="name">MOOC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业<a target="_blank" rel="noopener" href="http://coursera.cs.princeton.edu/algs4/assignments/kdtree.html">Kd-Trees</a><span id="more"></span></p>
+<hr>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>编写数据类型以表示单位正方形中的一组点 (所有点都具有0和1之间的 x 和 y 坐标)</p>
+<p>使用2维树进行范围搜索 (查找查询矩形中包含的所有点) 和最近的邻居搜索 (查找与查询点最近的点)</p>
+<p>2维树有许多应用，从将天文物体分类到计算机动画，再到加速神经网络，挖掘数据到图像检索。</p>
+
+
+<p><strong>Geometric primitives.</strong> 定义了图元的坐标表示方法</p>
+<img src="/2017/05/21/alg4s-KdTrees/RectHV.png" class="">
+
+<p>主要是完成 API 里的 draw(), range(), nearest() 方法</p>
+<p>题目给了 Point2D, RectHV 这两种数据类型以使用，要提交的 PointSET.java 使用蛮力运算，KdTree.java 则使用 2d-Trees 来运算，题目就是完成这两个文件</p>
+<h3 id="Node-data-type"><a href="#Node-data-type" class="headerlink" title="Node data type"></a>Node data type</h3><p>根据<a target="_blank" rel="noopener" href="http://coursera.cs.princeton.edu/algs4/checklists/kdtree.html">CheckList</a>所给的结点参考模型进行一些修改</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> isVertical<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Point2D</span> p<span class="token punctuation">;</span>
+    <span class="token comment">// the left/bottom subtree</span>
+    <span class="token keyword">private</span> <span class="token class-name">Node</span> lb<span class="token punctuation">;</span>
+    <span class="token comment">// the right/top subtree</span>
+    <span class="token keyword">private</span> <span class="token class-name">Node</span> rt<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">,</span> <span class="token keyword">boolean</span> isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>p <span class="token operator">=</span> p<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isVertical <span class="token operator">=</span> isVertical<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>lb <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>rt <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Writing-KdTree"><a href="#Writing-KdTree" class="headerlink" title="Writing KdTree"></a>Writing KdTree</h3><p>可以从编写 isEmpty() 和 size() 开始，再写 insert()，再 写 contains() 并测试 insert()是否可用<br>要注意的是, insert() 和 contains() 的写法要使用 <em>private helper methods</em>（书399页），并增加一个 <em>boolean orientation</em> 作为这些帮助器方法的参数</p>
+<p><strong>2d-tree implementation.</strong> 编写一个可变数据类型 KdTree, 它使用2维树实现和蛮力运算相同的 api</p>
+<img src="/2017/05/21/alg4s-KdTrees/kdtree-insert.png" class="">
+
+<p>注意的是，垂直分割线段是红色，垂直分割线段是蓝色，第一条一定是垂直分割，所以用一个布尔变量 isVertical 来识别线段颜色</p>
+<p><strong>Range search.</strong> 思想在课件里给出了，主要就是递归以，而且要分4种情况（垂直线左，垂直线右，水平线下，水平线上）进行回溯剪枝，这样可以排除不可能的子树</p>
+<p><strong>Nearest neighbor search.</strong> 从根结点开始递归搜索，更新候选点，同样使用剪枝</p>
+<h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>PointSET.java</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PointSET</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> SET<span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> set<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> result<span class="token punctuation">;</span>
+
+    <span class="token comment">// construct an empty set of points</span>
+    <span class="token keyword">public</span> <span class="token class-name">PointSET</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        set <span class="token operator">=</span> <span class="token keyword">new</span> SET<span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// is the set empty?</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> set<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// number of points in the set</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> set<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// add the point to the set (if it is not already in the set)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>             <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span></span>NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span> set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// does the set contain point p?</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">contains</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span></span>NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// draw all points to standard draw</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// drawing the points</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenColor</span><span class="token punctuation">(</span><span class="token class-name">StdDraw</span><span class="token punctuation">.</span>BLACK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenRadius</span><span class="token punctuation">(</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Point2D</span> point <span class="token operator">:</span> set<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">point</span><span class="token punctuation">(</span>point<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> point<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// all points that are inside the rectangle</span>
+    <span class="token keyword">public</span> <span class="token class-name">Iterable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token class-name">RectHV</span> rect<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>rect <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span></span>NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Point2D</span> point <span class="token operator">:</span> set<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>point<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>point<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// a nearest neighbor in the set to point p; null if the set is empty</span>
+    <span class="token keyword">public</span> <span class="token class-name">Point2D</span> <span class="token function">nearest</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>         <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span></span>NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>set<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>     <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">double</span> min <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        <span class="token class-name">Point2D</span> result <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Point2D</span> point <span class="token operator">:</span> set<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">double</span> distence <span class="token operator">=</span> <span class="token class-name">Point</span><span class="token punctuation">.</span><span class="token function">distanceSq</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> point<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> point<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>distence <span class="token operator">&lt;</span> min<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                min <span class="token operator">=</span> distence<span class="token punctuation">;</span>
+                result <span class="token operator">=</span> point<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// unit testing of the methods (optional)</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>PointSET.java</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">KdTree</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">private</span> <span class="token keyword">boolean</span> isVertical<span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token class-name">Point2D</span> p<span class="token punctuation">;</span>
+        <span class="token comment">// the left/bottom subtree</span>
+        <span class="token keyword">private</span> <span class="token class-name">Node</span> lb<span class="token punctuation">;</span>
+        <span class="token comment">// the right/top subtree</span>
+        <span class="token keyword">private</span> <span class="token class-name">Node</span> rt<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">,</span> <span class="token keyword">boolean</span> isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>p <span class="token operator">=</span> p<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>isVertical <span class="token operator">=</span> isVertical<span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>lb <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>rt <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Node</span> root<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">RectHV</span> RECT <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// construct an empty set of points</span>
+    <span class="token keyword">public</span> <span class="token class-name">KdTree</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>root <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// is the set empty?</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// number of points in the set</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// add the point to the set (if it is not already in the set)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span></span>NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>root <span class="token operator">=</span> <span class="token function">insert</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Node</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token class-name">Point2D</span> p<span class="token punctuation">,</span> <span class="token keyword">boolean</span> isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// if it is not in the set, create new node</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            size<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> isVertical<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// already in, return it</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+
+        <span class="token comment">// else insert it</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span>node<span class="token punctuation">.</span>isVertical <span class="token operator">&amp;&amp;</span> p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            node<span class="token punctuation">.</span>lb <span class="token operator">=</span> <span class="token function">insert</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token operator">!</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            node<span class="token punctuation">.</span>rt <span class="token operator">=</span> <span class="token function">insert</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token operator">!</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// does the set contain point p?</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">contains</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span><span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">contains</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">contains</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token class-name">Point2D</span> p<span class="token punctuation">,</span> <span class="token keyword">boolean</span> orientation<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> cmp <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span>      <span class="token punctuation">(</span>cmp <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">contains</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token operator">!</span>orientation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>cmp <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">contains</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> p<span class="token punctuation">,</span> <span class="token operator">!</span>orientation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// draw all points to standard draw</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setScale</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenColor</span><span class="token punctuation">(</span><span class="token class-name">StdDraw</span><span class="token punctuation">.</span>BLACK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenRadius</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        RECT<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">draw</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> RECT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token class-name">RectHV</span> rect<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// drawing the points</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenColor</span><span class="token punctuation">(</span><span class="token class-name">StdDraw</span><span class="token punctuation">.</span>BLACK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenRadius</span><span class="token punctuation">(</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">point</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// drawing the splitting lines</span>
+        <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenRadius</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// vertical</span>
+            <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenColor</span><span class="token punctuation">(</span><span class="token class-name">StdDraw</span><span class="token punctuation">.</span>RED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">line</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// horizontal</span>
+            <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">setPenColor</span><span class="token punctuation">(</span><span class="token class-name">StdDraw</span><span class="token punctuation">.</span>BLUE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">StdDraw</span><span class="token punctuation">.</span><span class="token function">line</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// recursively draw children</span>
+        <span class="token function">draw</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> <span class="token function">leftRect</span><span class="token punctuation">(</span>rect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">draw</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> <span class="token function">rightRect</span><span class="token punctuation">(</span>rect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">RectHV</span> <span class="token function">leftRect</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">RectHV</span> rect<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">RectHV</span> <span class="token function">rightRect</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">RectHV</span> rect<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// all points that are inside the rectangle</span>
+    <span class="token keyword">public</span> <span class="token class-name">Iterable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token class-name">RectHV</span> rect<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">final</span> <span class="token class-name">TreeSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> rangeSet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">range</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> RECT<span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> rangeSet<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">RectHV</span> qrect<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">RectHV</span> rect<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">TreeSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Point2D</span><span class="token punctuation">></span></span> rangeSet<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">intersects</span><span class="token punctuation">(</span>qrect<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>                                    <span class="token comment">// if query rect is in rectangle</span>
+            <span class="token keyword">final</span> <span class="token class-name">Point2D</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point2D</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span> rangeSet<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>                <span class="token comment">// find the point</span>
+
+            <span class="token comment">// pruning rule</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> <span class="token function">leftRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> <span class="token function">rightRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> <span class="token function">leftRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> <span class="token function">rightRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> <span class="token function">leftRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> <span class="token function">rightRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>qrect<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> <span class="token function">leftRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">range</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> <span class="token function">rightRect</span><span class="token punctuation">(</span>qrect<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">,</span> rangeSet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// a nearest neighbor in the set to point p; null if the set is empty</span>
+    <span class="token keyword">public</span> <span class="token class-name">Point2D</span> <span class="token function">nearest</span><span class="token punctuation">(</span><span class="token class-name">Point2D</span> p<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">Point2D</span> retp <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> mindis <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+        <span class="token class-name">Queue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Node</span><span class="token punctuation">></span></span> queue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Queue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Node</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        queue<span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>queue<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Node</span> x <span class="token operator">=</span> queue<span class="token punctuation">.</span><span class="token function">dequeue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">double</span> dis <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>dis <span class="token operator">&lt;</span> mindis<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                retp <span class="token operator">=</span> x<span class="token punctuation">.</span>p<span class="token punctuation">;</span>
+                mindis <span class="token operator">=</span> dis<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token punctuation">.</span>lb <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> x<span class="token punctuation">.</span>lb<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">&lt;</span> mindis<span class="token punctuation">)</span>
+                queue<span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>lb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token punctuation">.</span>rt <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> x<span class="token punctuation">.</span>rt<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span> <span class="token operator">&lt;</span> mindis<span class="token punctuation">)</span>
+                queue<span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>rt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> retp<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Point2D</span> <span class="token function">nearest</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">RectHV</span> rect<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">Point2D</span> p<span class="token punctuation">,</span> <span class="token class-name">Point2D</span> candidate<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> candidate<span class="token punctuation">;</span>
+
+        <span class="token keyword">double</span> dqn <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> drq <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+        <span class="token class-name">RectHV</span> leftRect <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">RectHV</span> rigtRect <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> <span class="token class-name">Point2D</span> query <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point2D</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>candidate <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            dqn <span class="token operator">=</span> query<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            drq <span class="token operator">=</span> rect<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>candidate <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> dqn <span class="token operator">></span> drq<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">final</span> <span class="token class-name">Point2D</span> point <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Point2D</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>candidate <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> dqn <span class="token operator">></span> query<span class="token punctuation">.</span><span class="token function">distanceSquaredTo</span><span class="token punctuation">(</span>point<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                candidate <span class="token operator">=</span> point<span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>isVertical<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// only p.x() changes</span>
+                leftRect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                rigtRect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> leftRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> rigtRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> rigtRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> leftRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// only p.y() changes</span>
+                leftRect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                rigtRect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RectHV</span><span class="token punctuation">(</span>rect<span class="token punctuation">.</span><span class="token function">xmin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">xmax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rect<span class="token punctuation">.</span><span class="token function">ymax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> node<span class="token punctuation">.</span>p<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> leftRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> rigtRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> rigtRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    candidate <span class="token operator">=</span> <span class="token function">nearest</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>lb<span class="token punctuation">,</span> leftRect<span class="token punctuation">,</span> p<span class="token punctuation">,</span> candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> candidate<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/" title="Algorithms, Part I - Week 5 - Kd-Trees">https://ehye.github.io/2017/05/21/alg4s-KdTrees/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/KdTree/" rel="tag"># KdTree</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/13/alg4s-8Puzzle/" rel="prev" title="Algorithms, Part I - Week 4 - 8 Puzzle">
+                  <i class="fa fa-chevron-left"></i> Algorithms, Part I - Week 4 - 8 Puzzle
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/06/18/cisco-trial/" rel="next" title="Cisco 网络实验室期末测试B组">
+                  Cisco 网络实验室期末测试B组 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{"enable":true,"api":null,"apikey":"brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb","shortname":"ehye","js":{"url":"https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js","integrity":"sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw="}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>

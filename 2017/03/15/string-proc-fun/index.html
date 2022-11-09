@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":1},"livere":{"text":"LiveRe","order":2}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="常见的字符串处理函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一波字符串处理函数（C语言）">
+<meta property="og:url" content="https://ehye.github.io/2017/03/15/string-proc-fun/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="常见的字符串处理函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-14T16:02:51.000Z">
+<meta property="article:modified_time" content="2022-04-05T10:21:20.757Z">
+<meta property="article:author" content="ehye">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ehye.github.io/2017/03/15/string-proc-fun/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2017/03/15/string-proc-fun/","path":"2017/03/15/string-proc-fun/","title":"一波字符串处理函数（C语言）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一波字符串处理函数（C语言） | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%81%BA%E6%92%92%E5%8A%A0%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">恺撒加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%BD%AC%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">矩阵转置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%8D%E8%BD%AC%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">字符串反转函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9C%80%E5%A4%A7%E6%9C%80%E5%B0%8F%E5%85%83%E7%B4%A0"><span class="nav-number">4.</span> <span class="nav-text">求数组中最大最小元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E6%95%B4%E6%95%B0%E6%98%AF%E5%90%A6%E4%B8%BA%E7%B4%A0%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">判断一个整数是否为素数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B1%E6%96%87%E5%8F%A5%E5%AD%90%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D%E4%B8%AA%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">英文句子中的单词个数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E6%AF%8D%E8%BD%AC%E6%8D%A2"><span class="nav-number">7.</span> <span class="nav-text">字母转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%8A%A0%E5%AF%86"><span class="nav-number">8.</span> <span class="nav-text">插入加密</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/03/15/string-proc-fun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一波字符串处理函数（C语言） | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一波字符串处理函数（C语言）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-15 00:02:51" itemprop="dateCreated datePublished" datetime="2017-03-15T00:02:51+08:00">2017-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>常见的字符串处理函数<span id="more"></span></p>
+<hr>
+<h2 id="恺撒加密"><a href="#恺撒加密" class="headerlink" title="恺撒加密"></a>恺撒加密</h2><p><em>恺撒加密法加密规则是：将原来的小写字母用字母表中其后面的第3个字母的大写形式来替换，大写字母按同样规则用小写字母替换，对于字母表中最后的三个字母，可将字母表看成是首未衔接的。</em>  </p>
+<p><strong>输入样例：</strong><br>AMDxyzXYZ</p>
+<p><strong>输出样例：</strong><br>dpgABCabc</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">char epy(char input)
+&#123;
+    char epy_mess;
+    int input_asc &#x3D; (int)input;
+    if (input_asc &gt;&#x3D; 97 &amp;&amp; input_asc &lt;&#x3D; 122) &#123;
+        switch (input_asc) &#123;
+            case 120:
+                input_asc &#x3D; 65;
+                break;
+            case 121:
+                input_asc &#x3D; 66;
+                break;
+            case 122:
+                input_asc &#x3D; 67;
+                break;
+            default:
+                input_asc -&#x3D; 29;
+                break;
+        &#125;
+    &#125;
+    else if (input_asc &gt;&#x3D; 65 &amp;&amp; input_asc &lt;&#x3D; 90) &#123;
+        switch (input_asc) &#123;
+            case 88:
+                input_asc &#x3D; 97;
+                break;
+            case 89:
+                input_asc &#x3D; 98;
+                break;
+            case 90:
+                input_asc &#x3D; 99;
+                break;
+            default:
+                input_asc +&#x3D; 35;
+                break;
+        &#125;
+    &#125;
+    else &#123;
+        return input;
+    &#125;
+    return (char)input_asc;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="矩阵转置"><a href="#矩阵转置" class="headerlink" title="矩阵转置"></a>矩阵转置</h2><p><em>输入矩阵阶数，然后按行输入所有矩阵元素（整数），将该矩阵转置输出。</em>  </p>
+<p><strong>输入：</strong><br>4<br>4 6 8 9<br>2 7 4 5<br>3 8 16 15<br>1 5 7 11<br><strong>输出：</strong><br>4 2 3 1<br>6 7 8 5<br>8 4 16 7<br>9 5 15 11</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void transfer(int(*m)[5][5], int(*t)[5][5], int rank)
+&#123;
+    for (int i &#x3D; 0; i &lt; rank; i++) &#123;
+        for (int j &#x3D; 0; j &lt; rank; j++) &#123;
+            if (i !&#x3D; j) &#123;
+                (*t)[i][j] &#x3D; (*m)[j][i];
+            &#125;
+            else &#123;
+                (*t)[i][j] &#x3D; (*m)[i][j];
+            &#125;
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="字符串反转函数"><a href="#字符串反转函数" class="headerlink" title="字符串反转函数"></a>字符串反转函数</h2><p><em>输入一个字符串，将其反序输出</em>  </p>
+<p><strong>输入样例：</strong><br>Hello,everyone</p>
+<p><strong>输出样例：</strong><br>enoyreve,olleH</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include&lt;cstring&gt; 
+using namespace std;
+
+const int ArrSize &#x3D; 100;
+void mystrrev(char str[]);
+
+int main()
+&#123;
+    char str[ArrSize] &#x3D; &#123;&#125;;
+    cin.getline(str, ArrSize);
+    int empty_length &#x3D; ArrSize - strlen(str);
+
+    mystrrev(str);
+    for (int i &#x3D; empty_length; i &lt; ArrSize; i++) &#123;
+        cout &lt;&lt; str[i];
+    &#125;
+
+    return 0;
+&#125;
+
+void mystrrev(char str[])
+&#123;
+    for (int i &#x3D; 0; i &lt; ArrSize &#x2F; 2; i++) &#123;
+        char temp &#x3D; str[ArrSize - 1 - i];
+        str[ArrSize - 1 - i] &#x3D; str[i];
+        str[i] &#x3D; temp;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="求数组中最大最小元素"><a href="#求数组中最大最小元素" class="headerlink" title="求数组中最大最小元素"></a>求数组中最大最小元素</h2><p><strong>输入样例：</strong><br>5<br>90 89 30 45 55</p>
+<p><strong>输出样例：</strong><br>90<br>30</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int imax(int array[], int count)
+&#123;
+    int max &#x3D; -32767;
+    for (int i&#x3D;0; i&lt;count; i++) &#123;
+        if (array[i] &gt; max) &#123;
+            max &#x3D; array[i];
+        &#125;
+    &#125;
+    return max;
+&#125;
+
+int imin(int array[], int count)
+&#123;
+    int min &#x3D; 32767;
+    for (int i&#x3D;0; i&lt;count; i++) &#123;
+        if (array[i] &lt; min) &#123;
+            min &#x3D; array[i];
+        &#125;
+    &#125;
+    return min;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="判断一个整数是否为素数"><a href="#判断一个整数是否为素数" class="headerlink" title="判断一个整数是否为素数"></a>判断一个整数是否为素数</h2><p><em>1不是素数</em>  </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int isprime(int a)
+&#123;
+    if (a &lt;&#x3D; 1) &#123;
+        return 0;
+    &#125;
+    int Prime &#x3D; 1;
+    
+    for ( int k &#x3D; 2; k &lt; a-1; k++) &#123;
+        if ( a % k &#x3D;&#x3D; 0 ) &#123;
+            Prime &#x3D; 0;
+            break;
+        &#125;
+    &#125;
+    return Prime;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="英文句子中的单词个数"><a href="#英文句子中的单词个数" class="headerlink" title="英文句子中的单词个数"></a>英文句子中的单词个数</h2><p><em>It’s 是一个单词</em></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int countWords(char* p)
+&#123;
+    int count &#x3D; 0;
+    bool isWord &#x3D; false;
+
+    while(*p)
+    &#123;
+        char c &#x3D; *p;
+
+          if ((c &gt;&#x3D; &#39;A&#39; &amp;&amp; c &lt;&#x3D; &#39;Z&#39;) ||
+              (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) || 
+              (c &#x3D;&#x3D; &#39;\&#39;&#39;))
+        &#123;
+            isWord &#x3D; true;
+        &#125;
+        else if (isWord)
+        &#123;
+            count++;
+            isWord &#x3D; false;
+        &#125;
+        p++;
+    &#125;
+    return count;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="字母转换"><a href="#字母转换" class="headerlink" title="字母转换"></a>字母转换</h2><p><em>除字符串中包含的非字母字符(不包括空格)，并将小写字母转换成大写字母</em>  </p>
+<p><strong>输入样例：</strong><br>hAppy new year!</p>
+<p><strong>输出样例：</strong><br>HAPPY NEW YEAR</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main()
+&#123;
+    char str[200]; char arr[201] &#x3D; &#123;&#125;;
+    cin.getline(str, 200);
+    myGetchar(str, arr);
+    for (int i &#x3D; 0; i &lt; strlen(arr); i++) &#123;
+        cout &lt;&lt; arr[i];
+    &#125;
+    return 0;
+&#125;
+
+void myGetchar(char str[200], char (&amp;arr)[201])
+&#123;
+    int count &#x3D; 0; int j &#x3D; 0;
+    for (int i &#x3D; 0; i &lt; 200; i++) &#123;
+        char c &#x3D; str[i];
+
+        &#x2F;&#x2F; add lowwer case to upper case
+        if (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) &#123; c -&#x3D; (char)(97 - 65); arr[j++] &#x3D; c; &#125;
+
+        &#x2F;&#x2F; add upper case
+        else if (c &gt;&#x3D; &#39;A&#39;&amp;&amp;c &lt;&#x3D; &#39;Z&#39;) &#123; arr[j++] &#x3D; c; &#125;
+
+        &#x2F;&#x2F; add blankspace
+        else if (c &#x3D;&#x3D; &#39; &#39;) &#123; arr[j++] &#x3D; c; continue; &#125;
+
+        &#x2F;&#x2F; add end of line
+        else if (c &#x3D;&#x3D; &#39;\0&#39;) &#123; arr[j] &#x3D; c; break; &#125;
+
+        &#x2F;&#x2F; ignore some char between
+        else if (c &gt; &#39;Z&#39; &amp;&amp; c &lt; &#39;a&#39;) &#123; continue; &#125;
+        else if (c &lt; &#39;A&#39; || c &gt; &#39;z&#39;) &#123; continue; &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="插入加密"><a href="#插入加密" class="headerlink" title="插入加密"></a>插入加密</h2><p><em>插入式加密是在明文字母中按照指定间隔插入另一些字母以形成密文。例如对明文china，在间隔为1的位置插入其它字母序列中的字母a,b,c,d,e，就变成密文cahbicndae；如果其它字母序列的字母取完，则从头再取，要求密文中最后一个字母一定是其它字母序列中的字母。</em>  </p>
+<p><strong>输入样例：</strong><br>china<br>1</p>
+<p><strong>输出样例：</strong><br>cahbicndae</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main()
+&#123;
+    int interval;
+    char source[30] &#x3D; &#123;&#125;;
+    char arr[60] &#x3D; &#123;&#125;;
+    cin.getline(source, 60);
+    cin &gt;&gt; interval;
+    epy(source, arr, interval);
+    for (int i &#x3D; 0; i &lt; strlen(arr); i++)
+    &#123;
+        cout &lt;&lt; arr[i];
+    &#125;
+    return 0;
+&#125;
+
+void epy(char source[], char(&amp;arr)[60], int interval)
+&#123;
+    int length &#x3D; strlen(source);
+    int k &#x3D; 0, flag &#x3D; 0;
+    for (int i &#x3D; 0; i &lt; length; )
+    &#123;
+        arr[k++] &#x3D; source[i++];
+        flag++;
+        if (flag &#x3D;&#x3D; interval)
+        &#123;
+            arr[k++] &#x3D; getSerial();
+            flag &#x3D; 0;
+        &#125;
+        &#x2F;&#x2F; when reach the end
+        if (source[i] &#x3D;&#x3D; &#39;\0&#39;) &#123;
+            &#x2F;&#x2F; and from the last character to last serial less than one interval
+            if (flag &gt; 0) &#123;
+                arr[k] &#x3D; getSerial();
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+char getSerial()
+&#123;
+    static int index &#x3D; 0;
+    char temp;
+    const char serial[] &#x3D; &#123; &#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39; &#125;;
+    temp &#x3D; serial[index];
+    if (index &#x3D;&#x3D; 4)
+    &#123;
+        index &#x3D; 0;
+    &#125;
+    else
+    &#123;
+        index++;
+    &#125;
+    return temp;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2017/03/15/string-proc-fun/" title="一波字符串处理函数（C语言）">https://ehye.github.io/2017/03/15/string-proc-fun/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/01/26/uwp-get-location/" rel="prev" title="UWP开发笔记 获取定位信息">
+                  <i class="fa fa-chevron-left"></i> UWP开发笔记 获取定位信息
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/04/21/alg4s-Percolation/" rel="next" title="Algorithms, Part I - Week 1 - Percolation">
+                  Algorithms, Part I - Week 1 - Percolation <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqusjs">Disqus</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqusjs" id="comment-disqusjs">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMDgyMy83Mzc1"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{"enable":true,"api":null,"apikey":"brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb","shortname":"ehye","js":{"url":"https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqus.js","integrity":"sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw="}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>
