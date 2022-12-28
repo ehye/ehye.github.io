@@ -1,19 +1,18 @@
 ---
-title: Setting up a Shadowsocks-rust server with v2ray plugin and Cloudflare CDN on Oracle cloud
+title: Setting up a Shadowsocks server with v2ray plugin and CDN on Oracle cloud
 date: 2022-10-30 22:51:08
 categories: Tips
 tags: 
-    - Oracle cloud
     - shadowsocks-rust
     - v2ray
 ---
 
-Every free account could create two instance with mutable IP address
+Build a proxy server using Oracle cloud free plan with CDN.
 <!-- more -->
 
 ---
 
-## Conver private key form oracle cloud
+## Conver private key
 
 Download private key file from panel
 
@@ -32,30 +31,6 @@ sudo apt install snapd
 
 ```bash
 snap install shadowsocks-rust
-```
-
-## Open firewall
-
-```bash
-sudo firewall-cmd  --permanent --zone=public --add-port=8081/tcp
-sudo firewall-cmd  --reload
-```
-
-## Nginx Configuration
-
-```bash
-vim /etc/nginx/sites-enabled/default
-```
-
-```nginx
-location  /ladder {
-    proxy_redirect              off;
-    proxy_pass                  http://127.0.0.1:8081;
-    proxy_http_version          1.1;
-    proxy_set_header Host       $http_host;
-    proxy_set_header Upgrade    $http_upgrade;
-    proxy_set_header Connection "upgrade";
-}
 ```
 
 ## Install V2ray plugin
@@ -85,6 +60,30 @@ sudo vim /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
   "plugin": "v2ray-plugin",
   "plugin_opts": "server;path=/ladder;"
 }
+```
+
+## Nginx Configuration
+
+```bash
+vim /etc/nginx/sites-enabled/default
+```
+
+```nginx
+location  /ladder {
+    proxy_redirect              off;
+    proxy_pass                  http://127.0.0.1:8081;
+    proxy_http_version          1.1;
+    proxy_set_header Host       $http_host;
+    proxy_set_header Upgrade    $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+```
+
+## Open firewall
+
+```bash
+sudo firewall-cmd  --permanent --zone=public --add-port=8081/tcp
+sudo firewall-cmd  --reload
 ```
 
 ## Start the daemon
