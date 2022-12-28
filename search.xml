@@ -4806,6 +4806,83 @@ iptables -t nat -A OUTPUT -p tcp -m <span class="token builtin class-name">set</
       </tags>
   </entry>
   <entry>
+    <title>Setting up a Shadowsocks server with v2ray plugin and CDN on Oracle cloud</title>
+    <url>/2022/10/30/oracle-cloud-shadowsocks-rust-server-with-v2ray/</url>
+    <content><![CDATA[<p>Build a proxy server using Oracle cloud free plan with CDN.</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="Conver-private-key"><a href="#Conver-private-key" class="headerlink" title="Conver private key"></a>Conver private key</h2><p>Download private key file from panel</p>
+<p>Use PuTTYgen load the private key and save the private key as putty’s format</p>
+<hr>
+<h2 id="Install-snap"><a href="#Install-snap" class="headerlink" title="Install snap"></a>Install snap</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> snapd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="Install-shadowsocks-rust"><a href="#Install-shadowsocks-rust" class="headerlink" title="Install shadowsocks-rust"></a>Install shadowsocks-rust</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">snap <span class="token function">install</span> shadowsocks-rust<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="Install-V2ray-plugin"><a href="#Install-V2ray-plugin" class="headerlink" title="Install V2ray plugin"></a>Install V2ray plugin</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> -xzvf v2ray-plugin-linux-amd64-v1.2.0.tar.gz
+<span class="token function">sudo</span> <span class="token function">cp</span> v2ray-plugin_linux_386 /var/snap/shadowsocks-rust/common/v2ray-plugin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="Shadowsocks-Configuration"><a href="#Shadowsocks-Configuration" class="headerlink" title="Shadowsocks Configuration"></a>Shadowsocks Configuration</h2><p>The path of config.json for shadowsocks-rust is <code>/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"localhost"</span><span class="token punctuation">,</span>
+  <span class="token property">"server_port"</span><span class="token operator">:</span> <span class="token number">8081</span><span class="token punctuation">,</span>
+  <span class="token property">"method"</span><span class="token operator">:</span> <span class="token string">"chacha20-ietf-poly1305"</span><span class="token punctuation">,</span>
+  <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"********"</span><span class="token punctuation">,</span>
+  <span class="token property">"mode"</span><span class="token operator">:</span> <span class="token string">"tcp_only"</span><span class="token punctuation">,</span>
+  <span class="token property">"fast_open"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token property">"timeout"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  <span class="token property">"plugin"</span><span class="token operator">:</span> <span class="token string">"v2ray-plugin"</span><span class="token punctuation">,</span>
+  <span class="token property">"plugin_opts"</span><span class="token operator">:</span> <span class="token string">"server;path=/ladder;"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> /etc/nginx/sites-enabled/default<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">location</span>  /ladder</span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">proxy_redirect</span>              <span class="token boolean">off</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_pass</span>                  http://127.0.0.1:8081</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_http_version</span>          1.1</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> Host       <span class="token variable">$http_host</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> Upgrade    <span class="token variable">$http_upgrade</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> Connection <span class="token string">"upgrade"</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> firewall-cmd  --permanent --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span><span class="token number">8081</span>/tcp
+<span class="token function">sudo</span> firewall-cmd  --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="Start-the-daemon"><a href="#Start-the-daemon" class="headerlink" title="Start the daemon"></a>Start the daemon</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> snap start --enable shadowsocks-rust.ssserver-daemon
+<span class="token function">sudo</span> snap logs shadowsocks-rust.ssserver-daemon<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><p>SSL&#x2F;TLS -&gt; Overview -&gt; Full</p>
+<h2 id="Client-Configuration"><a href="#Client-Configuration" class="headerlink" title="Client Configuration"></a>Client Configuration</h2><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"mydomain.com"</span><span class="token punctuation">,</span>
+    <span class="token property">"server_port"</span><span class="token operator">:</span> <span class="token number">443</span><span class="token punctuation">,</span>
+    <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"***"</span><span class="token punctuation">,</span>
+    <span class="token property">"method"</span><span class="token operator">:</span> <span class="token string">"chacha20-ietf-poly1305"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin"</span><span class="token operator">:</span> <span class="token string">"v2ray-plugin"</span><span class="token punctuation">,</span>
+    <span class="token property">"plugin_opts"</span><span class="token operator">:</span> <span class="token string">"tls;host=mydomain.com;path=/ray"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeout"</span><span class="token operator">:</span> <span class="token number">5</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin</a><br><a href="https://stackoverflow.com/questions/70851543/why-do-i-have-to-change-from-flexible-to-full-to-solve-my-too-many-redirects-p">https://stackoverflow.com/questions/70851543/why-do-i-have-to-change-from-flexible-to-full-to-solve-my-too-many-redirects-p</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Tips</category>
+      </categories>
+      <tags>
+        <tag>shadowsocks-rust</tag>
+        <tag>v2ray</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>怎么查看端口占用</title>
     <url>/2016/12/22/port-in-use-check/</url>
     <content><![CDATA[<p>比如要查看端口4000占用的情况</p>
@@ -4827,7 +4904,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
   <entry>
     <title>How to set Shadowsocks over HTTPS With Nginx</title>
     <url>/2020/03/27/shadowsocks-over-tls/</url>
-    <content><![CDATA[<p>如何将 Shadowsocks 流量伪装成 HTTPS 请求</p>
+    <content><![CDATA[<p>将 Shadowsocks 流量伪装成 HTTPS 请求</p>
 <span id="more"></span>
 
 <hr>
@@ -4835,7 +4912,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 <h2 id="原料"><a href="#原料" class="headerlink" title="原料"></a>原料</h2><ul>
 <li>Shadowsocks-libev</li>
 <li>Nginx</li>
-<li>SSL 证书 <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a> （DNSpod 等免费 SSL 证书亦可）</li>
+<li>SSL 证书 <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a></li>
 <li>DNS解析</li>
 <li>V2Ray-plugin <a href="https://github.com/shadowsocks/v2ray-plugin/releases">release</a></li>
 </ul>
@@ -4857,7 +4934,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 
     <span class="token directive"><span class="token keyword">server_name</span> mydomain.com</span><span class="token punctuation">;</span>
 
-    <span class="token directive"><span class="token keyword">location</span> /ray</span> <span class="token punctuation">&#123;</span> <span class="token comment"># 经此路径流量将转发给梯子</span>
+    <span class="token directive"><span class="token keyword">location</span> /ray</span> <span class="token punctuation">&#123;</span>
         <span class="token directive"><span class="token keyword">proxy_redirect</span> <span class="token boolean">off</span></span><span class="token punctuation">;</span>
         <span class="token directive"><span class="token keyword">proxy_pass</span> http://127.0.0.1:8008</span><span class="token punctuation">;</span>
         <span class="token directive"><span class="token keyword">proxy_set_header</span> Host <span class="token variable">$http_host</span></span><span class="token punctuation">;</span>
@@ -4872,7 +4949,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 </ol>
 <h2 id="Shadowsocks-配置"><a href="#Shadowsocks-配置" class="headerlink" title="Shadowsocks 配置"></a>Shadowsocks 配置</h2><ul>
 <li><p>安装 v2ray 插件</p>
-<p>  将下载的 release 解压到 <code>/user/bin</code></p>
+<p>  将下载的 release 解压到 <code>/usr/bin</code></p>
 </li>
 <li><p>服务端配置</p>
 <p>  <code>/etc/shadowsocks-libev/config.json</code></p>
@@ -4880,20 +4957,14 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     <span class="token property">"server"</span><span class="token operator">:</span><span class="token string">"localhost"</span><span class="token punctuation">,</span>
     <span class="token property">"server_port"</span><span class="token operator">:</span><span class="token number">8008</span><span class="token punctuation">,</span>
     <span class="token property">"mode"</span><span class="token operator">:</span><span class="token string">"tcp_only"</span><span class="token punctuation">,</span>
-    <span class="token property">"local_port"</span><span class="token operator">:</span><span class="token number">1080</span><span class="token punctuation">,</span>
     <span class="token property">"password"</span><span class="token operator">:</span><span class="token string">"***"</span><span class="token punctuation">,</span>
     <span class="token property">"timeout"</span><span class="token operator">:</span><span class="token number">5</span><span class="token punctuation">,</span>
     <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"chacha20-ietf-poly1305"</span><span class="token punctuation">,</span>
     <span class="token property">"plugin"</span><span class="token operator">:</span><span class="token string">"v2ray-plugin"</span><span class="token punctuation">,</span>
-    <span class="token property">"plugin_opts"</span><span class="token operator">:</span><span class="token string">"server;host=127.0.0.1;path=/ray"</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    <span class="token property">"plugin_opts"</span><span class="token operator">:</span><span class="token string">"server;host=mydomain.com;path=/ray"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-  <div class="note info"><ul>
-<li><code>server</code>设置为只允许从本地访问</li>
-<li><code>server_port</code>与<code>proxy_pass</code>一致</li>
-<li><code>path</code>与<code>location</code>一致</li>
-<li>因为是通过 Nginx 转发，同时也配置了HTTPS，所以<code>plugin_opts</code>不需要再填证书参数</li>
-</ul>
+  <div class="note info"><p>因为是通过 Nginx 转发，同时也配置了HTTPS，所以<code>plugin_opts</code>不需要再填证书参数</p>
 </div>
 </li>
 <li><p>Windows 客户端配置</p>

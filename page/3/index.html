@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -171,7 +171,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-count">69</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -200,6 +200,110 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2018/01/18/PuTTY-Auto-login/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/01/18/PuTTY-Auto-login/" class="post-title-link" itemprop="url">PuTTY 自动登录设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-19 00:18:32" itemprop="dateCreated datePublished" datetime="2018-01-19T00:18:32+08:00">2018-01-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>打开 PuTTYgen，点击 generate ，不断在进度条下空白区域移动鼠标，直到生成密匙。</p>
+</li>
+<li><p>点击 Save private key 将私匙保存起来</p>
+</li>
+<li><p>安装ssh</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>登陆到远程节点，在 <code>/home/&lt;username&gt;</code> 路径下创建 <code>.ssh</code> 文件夹，确保这个文件夹只有自己拥有操作权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">mkdir</span> -m <span class="token number">700</span> .ssh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>进入文件夹，创建文件”authorized_keys”，将PuTTYgen文本框中生成的公匙粘贴过来：（公钥以 ssh-rsa 开头并只有一行）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token builtin class-name">cd</span> .ssh
+$ <span class="token function">vi</span> authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>关闭密码验证，打开 ssh 配置文件<code>vim /etc/config/dropbear</code>增加一行<code>option PasswordAuth &#39;off&#39;</code></p>
+</li>
+<li><p>打开PuTTY，进入 Connection&#x2F;SSH&#x2F;Auth 选项卡，在 Private key file for authentication 中选择私匙文件</p>
+</li>
+<li><p>定位到 Connection&#x2F;Data 在 Auto-login username 填入要自动登入的用户名</p>
+</li>
+<li><p>回到 Session 选项卡，将更改保存一下，搞定。</p>
+</li>
+</ol>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://sfau.lt/b5cQwW">http://sfau.lt/b5cQwW</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -944,90 +1048,6 @@ mp_restartgame 1<span aria-hidden="true" class="line-numbers-rows"><span></span>
           <!--noindex-->
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2017/09/26/debug-on-win10x64/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ehye">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ehye's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ehye's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/09/26/debug-on-win10x64/" class="post-title-link" itemprop="url">在 Win10 64位上使用 debug.exe</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-09-26 13:42:36" itemprop="dateCreated datePublished" datetime="2017-09-26T13:42:36+08:00">2017-09-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>下载<a target="_blank" rel="noopener" href="http://www.dosbox.com/download.php?main=1">DOSBox</a></p>
-<p>从32位机上复制 debug.exe 放到E盘</p>
-<p>在 DOSBox 中输入<code>mount c e:\</code></p>
-<blockquote>
-<p>这步让 DOSBox 用盘符 C 代替访问主机的 E盘</p>
-</blockquote>
-<p>切换到 C 盘，运行</p>
-
       
     </div>
 
