@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -171,7 +171,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -200,135 +200,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/12/31/IMAP-diff-POP3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ehye">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ehye's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ehye's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/12/31/IMAP-diff-POP3/" class="post-title-link" itemprop="url">IMAP和POP3有什么区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-12-31 13:31:15" itemprop="dateCreated datePublished" datetime="2016-12-31T13:31:15+08:00">2016-12-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>POP3</strong>协议允许电子邮件客户端下载服务器上的邮件，但是在客户端的操作（如移动邮件、标记已读等），不会反馈到服务器上，比如通过客户端收取了邮箱中的3封邮件并移动到其他文件夹，邮箱服务器上的这些邮件是没有同时被移动的 。</p>
-<p>而<strong>IMAP</strong>提供webmail 与电子邮件客户端之间的双向通信，客户端的操作都会反馈到服务器上，对邮件进行的操作，服务器上的邮件也会做相应的动作。<br>同时，<strong>IMAP</strong>像<strong>POP3</strong>那样提供了方便的邮件下载服务，让用户能进行离线阅读。<strong>IMAP</strong>提供的摘要浏览功能可以让你在阅读完所有的邮件到达时间、主题、发件人、大小等信息后才作出是否下载的决定。此外，<strong>IMAP</strong> 更好地支持了从多个不同设备中随时访问新邮件。</p>
-<table>
-<thead>
-<tr>
-<th align="center">操作位置</th>
-<th align="left">操作内容</th>
-<th align="center">IMAP</th>
-<th align="center">POP3</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><strong>收件箱</strong></td>
-<td align="left">阅读、标记、移动、删除等</td>
-<td align="center">客户端与邮箱更新同步</td>
-<td align="center">仅客户端内</td>
-</tr>
-<tr>
-<td align="center"><strong>发件箱</strong></td>
-<td align="left">保存到已发送</td>
-<td align="center">客户端与邮箱更新同步</td>
-<td align="center">仅客户端内</td>
-</tr>
-<tr>
-<td align="center"><strong>创建文件夹</strong></td>
-<td align="left">新建自定义的文件夹</td>
-<td align="center">客户端与邮箱更新同步</td>
-<td align="center">仅客户端内</td>
-</tr>
-<tr>
-<td align="center"><strong>草稿</strong></td>
-<td align="left">保存到草稿</td>
-<td align="center">客户端与邮箱更新同步</td>
-<td align="center">仅客户端内</td>
-</tr>
-<tr>
-<td align="center"><strong>垃圾文件夹</strong></td>
-<td align="left">接受误移入垃圾文件夹的邮件</td>
-<td align="center">支持</td>
-<td align="center">不支持</td>
-</tr>
-<tr>
-<td align="center"><strong>广告邮件</strong></td>
-<td align="left">接受被移入广告邮件夹的邮件</td>
-<td align="center">支持</td>
-<td align="center">不支持</td>
-</tr>
-</tbody></table>
-<p>总之，<strong>IMAP</strong> 整体上为用户带来更为便捷和可靠的体验。<strong>POP3</strong> 更易丢失邮件或多次下载相同的邮件，但 <strong>IMAP</strong> 通过邮件客户端与webmail 之间的双向同步功能很好地避免了这些问题。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="http://help.163.com/10/0203/13/5UJONJ4I00753VB8.html?servCode=6010237">http://help.163.com/10/0203/13/5UJONJ4I00753VB8.html?servCode=6010237</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -860,7 +731,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/10/26/Saving%20James%20Bond%20-%20Easy%20Version/">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/09/25/Reverse%20Linked%20List%20II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -878,7 +749,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/10/26/Saving%20James%20Bond%20-%20Easy%20Version/" class="post-title-link" itemprop="url">数据结构题目集 - Saving James Bond(Easy Version)</a>
+          <a href="/2016/09/25/Reverse%20Linked%20List%20II/" class="post-title-link" itemprop="url">LeetCode 92.Reverse Linked List II</a>
         </h2>
 
         <div class="post-meta-container">
@@ -889,7 +760,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-10-26 17:49:43" itemprop="dateCreated datePublished" datetime="2016-10-26T17:49:43+08:00">2016-10-26</time>
+      <time title="创建时间：2016-09-25 22:49:41" itemprop="dateCreated datePublished" datetime="2016-09-25T22:49:41+08:00">2016-09-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -911,7 +782,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>This time let us consider the situation in the movie “Live and Let Die”
+          <p>Reverse a linked list from position m to n. Do it in-place and in one-pass.</p>
           <!--noindex-->
           <!--/noindex-->
         
@@ -940,7 +811,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/10/22/%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E7%9A%84%E8%80%83%E8%AF%95/">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/09/04/uwp-hamburger/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -958,7 +829,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/10/22/%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E7%9A%84%E8%80%83%E8%AF%95/" class="post-title-link" itemprop="url">数据结构题目集 - 哈利·波特的考试</a>
+          <a href="/2016/09/04/uwp-hamburger/" class="post-title-link" itemprop="url">UWP开发笔记 汉堡菜单</a>
         </h2>
 
         <div class="post-meta-container">
@@ -969,7 +840,143 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-10-22 17:50:12" itemprop="dateCreated datePublished" datetime="2016-10-22T17:50:12+08:00">2016-10-22</time>
+      <time title="创建时间：2016-09-04 13:12:33" itemprop="dateCreated datePublished" datetime="2016-09-04T13:12:33+08:00">2016-09-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>先画出汉堡菜单按钮或返回按钮</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RelativePanel</span><span class="token punctuation">></span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HamburgerButton<span class="token punctuation">"</span></span>
+		<span class="token attr-name">FontFamily</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Segoe MDL2 Assets<span class="token punctuation">"</span></span>
+		<span class="token attr-name">Content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token entity" title="&#xE700;">&amp;#xE700;</span><span class="token punctuation">"</span></span>
+		<span class="token attr-name">Click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HamburgerButton_Click<span class="token punctuation">"</span></span>
+		<span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>36<span class="token punctuation">"</span></span>
+		<span class="token attr-name">Background</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LightGray<span class="token punctuation">"</span></span>
+		<span class="token attr-name">RelativePanel.AlignLeftWithPanel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>True<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Back<span class="token punctuation">"</span></span>
+		<span class="token attr-name">Visibility</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Collapsed<span class="token punctuation">"</span></span>
+		<span class="token attr-name">FontFamily</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Segoe MDL2 Assets<span class="token punctuation">"</span></span>
+		<span class="token attr-name">Content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token entity" title="&#xE7EA;">&amp;#xE7EA;</span><span class="token punctuation">"</span></span>
+		<span class="token attr-name">Click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Back_Click<span class="token punctuation">"</span></span>
+		<span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>36<span class="token punctuation">"</span></span>
+		<span class="token attr-name">Background</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>White<span class="token punctuation">"</span></span>
+		<span class="token attr-name">RelativePanel.RightOf</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HamburgerButton<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>RelativePanel</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后是菜单列表</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>SplitView</span> <span class="token attr-name">Grid.Row</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>
+	   <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HamburgerMeun<span class="token punctuation">"</span></span> 
+	   <span class="token attr-name">DisplayMode</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>CompactOverlay<span class="token punctuation">"</span></span>
+	   <span class="token attr-name">OpenPaneLength</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span>
+	   <span class="token attr-name">CompactPaneLength</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>56<span class="token punctuation">"</span></span> 
+	   <span class="token attr-name">IsPaneOpen</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>False<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>SplitView.Pane</span><span class="token punctuation">></span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ListBox</span> <span class="token attr-name">SelectionMode</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Single<span class="token punctuation">"</span></span>
+		<span class="token attr-name">SelectionChanged</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ListBox_SelectionChanged<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ListBoxItem</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Financial<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>StackPanel</span> <span class="token attr-name">Orientation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Horizontal<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token entity" title="&#xE10F;">&amp;#xE10F;</span><span class="token punctuation">"</span></span>
+				   <span class="token attr-name">FontFamily</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Segoe MDL2 Assets<span class="token punctuation">"</span></span>
+				   <span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>36<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TextBlock</span><span class="token punctuation">></span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Home<span class="token punctuation">"</span></span> 
+				   <span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>24<span class="token punctuation">"</span></span>
+				   <span class="token attr-name">Margin</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>20,0,0,0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TextBlock</span><span class="token punctuation">></span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>StackPanel</span><span class="token punctuation">></span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ListBoxItem</span><span class="token punctuation">></span></span>
+
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ListBoxItem</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Food<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>StackPanel</span> <span class="token attr-name">Orientation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Horizontal<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token entity" title="&#xE1CE;">&amp;#xE1CE;</span><span class="token punctuation">"</span></span>
+					<span class="token attr-name">FontFamily</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Segoe MDL2 Assets<span class="token punctuation">"</span></span>
+					<span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>36<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TextBlock</span><span class="token punctuation">></span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Food<span class="token punctuation">"</span></span>
+					<span class="token attr-name">FontSize</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>24<span class="token punctuation">"</span></span>
+					<span class="token attr-name">Margin</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>20,0,0,0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TextBlock</span><span class="token punctuation">></span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>StackPanel</span><span class="token punctuation">></span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ListBoxItem</span><span class="token punctuation">></span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ListBox</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>SplitView.Pane</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接下来是点击事件</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">HamburgerButton_Click</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">RoutedEventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	HamburgerMeun<span class="token punctuation">.</span>IsPaneOpen <span class="token operator">=</span> <span class="token operator">!</span>HamburgerMeun<span class="token punctuation">.</span>IsPaneOpen<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><em>Bob Tabord 的汉堡菜单弹出写法</em></p>
+<p>第一次看到这样写按钮，很巧妙</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/08/31/Reverse%20String/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/31/Reverse%20String/" class="post-title-link" itemprop="url">LeetCode 344.Reverse String</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-31 21:08:38" itemprop="dateCreated datePublished" datetime="2016-08-31T21:08:38+08:00">2016-08-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -991,7 +998,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>哈利·波特要考试了，他需要你的帮助。
+          <p>Write a function that takes a string as input and returns the string reversed.
           <!--noindex-->
           <!--/noindex-->
         
@@ -1020,7 +1027,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/10/14/%E5%88%97%E5%87%BA%E8%BF%9E%E9%80%9A%E9%9B%86/">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2016/08/31/Nim%20Game/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -1038,7 +1045,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/10/14/%E5%88%97%E5%87%BA%E8%BF%9E%E9%80%9A%E9%9B%86/" class="post-title-link" itemprop="url">数据结构题目集 - 列出连通集</a>
+          <a href="/2016/08/31/Nim%20Game/" class="post-title-link" itemprop="url">LeetCode 292.Nim Game</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1049,7 +1056,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-10-14 21:15:28" itemprop="dateCreated datePublished" datetime="2016-10-14T21:15:28+08:00">2016-10-14</time>
+      <time title="创建时间：2016-08-31 20:41:21" itemprop="dateCreated datePublished" datetime="2016-08-31T20:41:21+08:00">2016-08-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1071,7 +1078,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>给定一个有<strong>N</strong>个顶点和<strong>E</strong>条边的无向图，请用DFS和BFS分别列出其所有的连通集。假设顶点从<strong>0</strong>到<strong>N-1</strong>编号。进行搜索时，假设我们总是从编号最小的顶点出发，按编号递增的顺序访问邻接点。
+          <p>You are playing the following Nim Game with your friend:
           <!--noindex-->
           <!--/noindex-->
         
@@ -1093,7 +1100,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
   </nav>
 
 </div>
@@ -1105,7 +1112,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 
 <div class="copyright">
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
