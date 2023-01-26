@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="制作一个通过 WIFI 控制的 LED 灯带，布置于显示器后方，改善环境光">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ESP8266 搭建 WLED project">
+<meta property="og:url" content="https://ehye.github.io/2022/08/06/wled-ws2812b/index.html">
+<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:description" content="制作一个通过 WIFI 控制的 LED 灯带，布置于显示器后方，改善环境光">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kno.wled.ge/assets/images/ui/headers/wled_logo_akemi.png">
+<meta property="article:published_time" content="2022-08-06T05:29:41.000Z">
+<meta property="article:modified_time" content="2023-01-26T08:11:17.334Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="WLED">
+<meta property="article:tag" content="ESP8266">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kno.wled.ge/assets/images/ui/headers/wled_logo_akemi.png">
+
+
+<link rel="canonical" href="https://ehye.github.io/2022/08/06/wled-ws2812b/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2022/08/06/wled-ws2812b/","path":"2022/08/06/wled-ws2812b/","title":"使用 ESP8266 搭建 WLED project"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 ESP8266 搭建 WLED project | ehye's Blog</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%9D%90%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">准备材料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E5%85%A5%E5%9B%BA%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">刷入固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E7%81%AF%E5%B8%A6"><span class="nav-number">3.</span> <span class="nav-text">连接灯带</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">连接方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9B%E7%94%B5"><span class="nav-number">3.2.</span> <span class="nav-text">供电</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E5%8E%8B%E8%A1%B0%E5%87%8F"><span class="nav-number">3.3.</span> <span class="nav-text">电压衰减</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2022/08/06/wled-ws2812b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 ESP8266 搭建 WLED project | ehye's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 ESP8266 搭建 WLED project
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-06 13:29:41" itemprop="dateCreated datePublished" datetime="2022-08-06T13:29:41+08:00">2022-08-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>制作一个通过 WIFI 控制的 LED 灯带，布置于显示器后方，改善环境光</p>
+<span id="more"></span>
+
+<hr>
+<img src="https://kno.wled.ge/assets/images/ui/headers/wled_logo_akemi.png" class="full-image" />
+
+<h2 id="准备材料"><a href="#准备材料" class="headerlink" title="准备材料"></a>准备材料</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP8266</td>
+<td>CH340G&#x2F;CP2102</td>
+</tr>
+<tr>
+<td>WS2812B LED 灯条</td>
+<td>2米</td>
+</tr>
+<tr>
+<td>LED 3P公母对接线</td>
+<td>连接每段 LED</td>
+</tr>
+<tr>
+<td>公对母杜邦线</td>
+<td>连接 LED 灯带与 ESP</td>
+</tr>
+<tr>
+<td>一进二出对接头 或 电工胶带</td>
+<td>连接电源线及杜邦线</td>
+</tr>
+<tr>
+<td>DC 5.5*2.5MM 转接母头</td>
+<td></td>
+</tr>
+<tr>
+<td>USB 转 DC 2.5 公头电源线</td>
+<td></td>
+</tr>
+<tr>
+<td>电源</td>
+<td>一个常见的 5V3A DC USB 电源即可</td>
+</tr>
+</tbody></table>
+<h2 id="刷入固件"><a href="#刷入固件" class="headerlink" title="刷入固件"></a>刷入固件</h2><ol>
+<li><p>下载 <a target="_blank" rel="noopener" href="https://github.com/espressif/esptool/releases">esptool</a></p>
+<p> 解压出 <code>esptool</code></p>
+</li>
+<li><p>下载 <a target="_blank" rel="noopener" href="https://github.com/Aircoookie/WLED/releases">WLED</a></p>
+<p> 选择以 <code>ESP8266.bin</code> 结尾的文件</p>
+</li>
+<li><p>使用 micro USB 数据线连接，并使用 esptool 将固件刷入 ESP</p>
+<p> <code>esptool write_flash 0x0 ./WLED_0.13.1_ESP8266.bin</code></p>
+</li>
+<li><p>连接 WLED</p>
+<p> 使用 WiFi 设备连接 <code>WLED-AP</code>，默认密码 <code>wled1234</code></p>
+</li>
+</ol>
+<h2 id="连接灯带"><a href="#连接灯带" class="headerlink" title="连接灯带"></a>连接灯带</h2><h3 id="连接方式"><a href="#连接方式" class="headerlink" title="连接方式"></a>连接方式</h3><table>
+<thead>
+<tr>
+<th>针脚</th>
+<th>接线颜色</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vin &#x2F; +5V</td>
+<td>红</td>
+<td>正极</td>
+</tr>
+<tr>
+<td>D4 &#x2F; Di</td>
+<td>绿</td>
+<td>数据</td>
+</tr>
+<tr>
+<td>GND &#x2F; G</td>
+<td>白</td>
+<td>负极</td>
+</tr>
+</tbody></table>
+<p>连接时需要注意电流方向，在灯带上会有标明</p>
+<h3 id="供电"><a href="#供电" class="headerlink" title="供电"></a>供电</h3><p>一颗 WS2812B 灯珠 的最大电流为 60 mA，如有 100 颗 LED，最大功率为 5V × 60 mA × 100 &#x3D; 30 W。</p>
+<p>因此当灯珠较多时，单纯地使用 USB 供电无法稳定的输出最高亮度的白光。</p>
+<p>一般而言，一个常见的 5V3A 充电头就可以点亮50颗左右的 LED 灯珠。</p>
+<h3 id="电压衰减"><a href="#电压衰减" class="headerlink" title="电压衰减"></a>电压衰减</h3><p>灯珠在 DC 电源远端可能会变暗，需要将两端灯带上的备用电源线相连接</p>
+<hr>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://kno.wled.ge/">WLED Project</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2022/08/06/wled-ws2812b/" title="使用 ESP8266 搭建 WLED project">https://ehye.github.io/2022/08/06/wled-ws2812b/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/WLED/" rel="tag"># WLED</a>
+              <a href="/tags/ESP8266/" rel="tag"># ESP8266</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/30/hit-oslab8/" rel="prev" title="哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计">
+                  <i class="fa fa-chevron-left"></i> 哈工大《操作系统》实验8 - 进程运行轨迹的跟踪与统计
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/" rel="next" title="Setting up a Shadowsocks-rust server with v2ray plugin and Cloudflare CDN">
+                  Setting up a Shadowsocks-rust server with v2ray plugin and Cloudflare CDN <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments">
+    <script src="https://giscus.app/client.js"
+        data-repo="ehye/ehye.github.io" 
+        data-repo-id="R_kgDOHIPhOg" 
+        data-category="Comments"
+        data-category-id="DIC_kwDOHIPhOs4CTSmJ"
+        data-mapping="og:title" 
+        data-reactions-enabled="1" 
+        data-emit-metadata="0" 
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        data-input-position="top"
+        data-loading="lazy"
+        async>
+    </script>
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
