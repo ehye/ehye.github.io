@@ -4367,10 +4367,10 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 <h2 id="Conver-private-key-form-oracle-cloud"><a href="#Conver-private-key-form-oracle-cloud" class="headerlink" title="Conver private key form oracle cloud"></a>Conver private key form oracle cloud</h2><p>Use PuTTYgen load the private key and save the private key as putty’s format</p>
 <ol>
 <li><p>Open <strong>Console connection</strong></p>
-
+<img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/ssh0.png" class="">
 </li>
 <li><p>Download private key file from panel</p>
-
+<img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/ssh1.png" class="">
 </li>
 <li><p>Open PuTTYgen.</p>
 </li>
@@ -4421,7 +4421,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0<span aria-
 
 <h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> snap logs shadowsocks-rust.ssserver-daemon<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2>
+<h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/cdn0.png" class="">
 
 <p>Find the SSL&#x2F;TLS -&gt; Overview, Set the encryption mode to <strong>Full</strong></p>
 <blockquote><p>If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a>, then set the encryption mode to <strong>FULL</strong>, otherwise you will get <code>TOO MANY REDIERCTS</code>.</p>
