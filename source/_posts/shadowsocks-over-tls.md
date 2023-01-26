@@ -13,15 +13,15 @@ tags:
 <!-- more -->
 
 ---
-借助 Nginx 并配合 V2Ray 插件，根据路由判断是否为梯子的数据，将其转发到梯子程序，则可实现 HTTPS 与梯子共用443端口
+借助 Nginx 并配合 V2ray 插件，根据路由配置判断，将流量转发到代理程序，实现 HTTPS 与代理共用443端口
 
 ## 原料
 
 - Shadowsocks-libev
 - Nginx
-- SSL 证书 [acme.sh](https://github.com/acmesh-official/acme.sh)
+- [acme.sh](https://github.com/acmesh-official/acme.sh)
 - DNS解析
-- V2Ray-plugin [release](https://github.com/shadowsocks/v2ray-plugin/releases)
+- [V2Ray-plugin](https://github.com/shadowsocks/v2ray-plugin/releases)
 
 ## 配置 Nginx 及证书
 
