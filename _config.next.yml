@@ -41,11 +41,6 @@ social_icons:
 links_settings:
   icon: fa fa-link
 
-chat:
-  enable: false
-  #service: chatra
-  #service: tidio
-
 read_more_btn: false
 
 post_meta:
@@ -60,11 +55,12 @@ bing_site_verification: F1D4D412BCED9D8BDE4A8C660D147D15
 
 codeblock:
   # All available themes: https://theme-next.js.org/highlight/
-  prism:
-    light: prism
-    dark: prism-okaidia
-  copy_button:
-    enable: true
+  # prism:
+  #   light: prism.min
+  #   dark: prism-tomorrow.min
+  theme:
+    light: github
+    dark: github-dark-dimmed
 
 back2top:
   sidebar: true
@@ -78,24 +74,13 @@ math:
     enable: true
     mhchem: false
 
+toc:
+  expand_all: true
+
 comments:
   active: giscus
   storage: true
   lazyload: false
-  # nav:
-  #   disqusjs:
-  #    text: Disqus
-  #    order: 1
-  #   livere:
-  #    text: LiveRe
-  #    order: 2
-
-disqusjs:
-  enable: false
-  apikey: brEp0asTRNdmkkNgP7JpbV4xExyS6utQhopuZh439bGZqyeVRoGZnQTJUIo3D5fb  
-  shortname: ehye
-
-# livere_uid: MTAyMC8zMDgyMy83Mzc1
 
 giscus:
   enable: true
