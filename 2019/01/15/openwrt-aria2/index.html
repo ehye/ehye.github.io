@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="路由器+转接线+旧硬盘&#x3D;私有云存储">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="路由器+转接线+旧硬盘&#x3D;私有云存储">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-01-15T04:28:41.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="OpenWrt">
 <meta property="article:tag" content="aria2">
@@ -168,7 +168,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -179,7 +179,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -274,43 +274,32 @@
 <h1 id="挂载移动硬盘"><a href="#挂载移动硬盘" class="headerlink" title="挂载移动硬盘"></a>挂载移动硬盘</h1><h2 id="安装驱动"><a href="#安装驱动" class="headerlink" title="安装驱动"></a>安装驱动</h2><ul>
 <li>硬件驱动</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">opkg <span class="token function">install</span> kmod-usb-core
-opkg <span class="token function">install</span> kmod-usb-uhci kmod-usb-ohci <span class="token comment"># USB 1.1</span>
-opkg <span class="token function">install</span> kmod-usb2
-opkg <span class="token function">install</span> kmod-usb3 <span class="token comment"># 实测就算路由器上的接口是2.0，但用了3.0的线也要这个包</span>
-opkg <span class="token function">install</span> kmod-usb-storage <span class="token comment"># USB存储设备</span>
-opkg <span class="token function">install</span> kmod-usb-storage-extras <span class="token comment"># 读卡器</span>
-opkg <span class="token function">install</span> kmod-scsi-core <span class="token comment"># SCSI协议支持</span>
-opkg <span class="token function">install</span> kmod-scsi-generic<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-usb-core</span><br><span class="line">opkg install kmod-usb-uhci kmod-usb-ohci <span class="comment"># USB 1.1</span></span><br><span class="line">opkg install kmod-usb2</span><br><span class="line">opkg install kmod-usb3 <span class="comment"># 实测就算路由器上的接口是2.0，但用了3.0的线也要这个包</span></span><br><span class="line">opkg install kmod-usb-storage <span class="comment"># USB存储设备</span></span><br><span class="line">opkg install kmod-usb-storage-extras <span class="comment"># 读卡器</span></span><br><span class="line">opkg install kmod-scsi-core <span class="comment"># SCSI协议支持</span></span><br><span class="line">opkg install kmod-scsi-generic</span><br></pre></td></tr></table></figure>
 
 <p>因为连接的是硬盘而不是U盘，连接线是某联的sata转usb线，走的是SCSI协议，因此还要额外安装 <code>kmod-usb-storage-uas</code>，网上帖子都没有提到，最后在官方文档找到</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">opkg <span class="token function">install</span> kmod-usb-storage-uas<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-usb-storage-uas</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>文件系统驱动</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">opkg <span class="token function">install</span> kmod-fs-ext2
-opkg <span class="token function">install</span> kmod-fs-ext3
-opkg <span class="token function">install</span> kmod-fs-ext4
-opkg <span class="token function">install</span> kmod-fs-ntfs
-opkg <span class="token function">install</span> kmod-fs-vfat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fs-ext2</span><br><span class="line">opkg install kmod-fs-ext3</span><br><span class="line">opkg install kmod-fs-ext4</span><br><span class="line">opkg install kmod-fs-ntfs</span><br><span class="line">opkg install kmod-fs-vfat</span><br></pre></td></tr></table></figure>
 
 <h2 id="挂载硬盘"><a href="#挂载硬盘" class="headerlink" title="挂载硬盘"></a>挂载硬盘</h2><p>安装挂载点</p>
-<pre class="line-numbers language-none"><code class="language-none">opkg install block-mount<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install block-mount</span><br></pre></td></tr></table></figure>
 
 <p>新建目录</p>
-<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">mkdir &#x2F;mnt&#x2F;sda1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /mnt/sda1</span><br></pre></td></tr></table></figure>
 
 <p>挂载硬盘</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mount</span> /dev/sda1 /mnt/sda1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount /dev/sda1 /mnt/sda1</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>使用Diskgenius将硬盘格式化为ext4，Windows上装Ext2Fsd即可像普通分区一样对ext4分区进行操作<br>卸载分区要先在Ext2Fsd里进行，最后在Windows正常卸载，否则不能关机</p>
 </blockquote>
 <p>接上路由，使用mount命令或在挂载点进行挂载</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mount</span> -o anon <span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token number">192.168</span>.1.1<span class="token punctuation">\</span>mnt<span class="token punctuation">\</span>sda1 Z:<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o anon \\192.168.1.1\mnt\sda1 Z:</span><br></pre></td></tr></table></figure>
 
-<h1 id="Aria2下载工具"><a href="#Aria2下载工具" class="headerlink" title="Aria2下载工具"></a>Aria2下载工具</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">opkg <span class="token function">install</span> aria2 luci-app-aria2 luci-i18n-aria2-zh-cn<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h1 id="Aria2下载工具"><a href="#Aria2下载工具" class="headerlink" title="Aria2下载工具"></a>Aria2下载工具</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install aria2 luci-app-aria2 luci-i18n-aria2-zh-cn</span><br></pre></td></tr></table></figure>
 
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
 <li><strong>以此用户权限运行</strong>选<code>root</code></li>
@@ -321,28 +310,26 @@ opkg <span class="token function">install</span> kmod-fs-vfat<span aria-hidden="
 <li><strong>添加额外的Tracker</strong>，<a target="_blank" rel="noopener" href="https://github.com/ngosang/trackerslist">附加 Bt tracker 列表</a></li>
 </ul>
 <h2 id="安装前端"><a href="#安装前端" class="headerlink" title="安装前端"></a>安装前端</h2><p>这里选择 webui-aria2</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">opkg <span class="token function">install</span> webui-aria2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install webui-aria2</span><br></pre></td></tr></table></figure>
 
 <h2 id="启用HTTPS"><a href="#启用HTTPS" class="headerlink" title="启用HTTPS"></a>启用HTTPS</h2><p>先为 uHTTPd 添加 https 证书</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings">https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings</a></p>
 </blockquote>
 <p>配置文件是每次自动生成的，因此直接修改无效，通过 UCI 增加参数反而更简单</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">rpc-secure&#x3D;true
-rpc-certificate&#x3D;&#x2F;etc&#x2F;ssl&#x2F;mycert.pem
-rpc-private-key&#x3D;&#x2F;etc&#x2F;ssl&#x2F;mycert.key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpc-secure=<span class="literal">true</span></span><br><span class="line">rpc-certificate=/etc/ssl/mycert.pem</span><br><span class="line">rpc-private-key=/etc/ssl/mycert.key</span><br></pre></td></tr></table></figure>
 
 <p>证书要pem格式，就用uHTTPd的crt格式证书转换了</p>
-<pre class="line-numbers language-none"><code class="language-none">openssl x509 -in mycert.crt -out mycert.pem -outform PEM<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in mycert.crt -out mycert.pem -outform PEM</span><br></pre></td></tr></table></figure>
 
 <p>端口都设置为6800，在webui勾选<code>启用 SSL/TLS 加密</code>，reload 之后就可以通过HTTPS访问了</p>
 <h1 id="NFS服务"><a href="#NFS服务" class="headerlink" title="NFS服务"></a>NFS服务</h1><h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><ol>
 <li><p>安装nfs-kernel-server，这会自动下载所有需要的包</p>
- <pre class="line-numbers language-none"><code class="language-none">opkg install nfs-kernel-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install nfs-kernel-server</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>服务端配置</p>
 <p> 编辑<code>/etc/exports</code>，指定匿名用户的uid和gid，方便Windows客户端访问</p>
- <pre class="line-numbers language-none"><code class="language-none">&#x2F;mnt&#x2F;sda1       *(rw,no_root_squash,no_subtree_check,sync,insecure,anonuid&#x3D;0,anongid&#x3D;0)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/mnt/sda1       *(rw,no_root_squash,no_subtree_check,sync,insecure,anonuid=0,anongid=0)</span><br></pre></td></tr></table></figure>
 <p> 保存后执行<code>service nfsd reload</code>重启NFS</p>
 </li>
 </ol>
@@ -350,20 +337,11 @@ rpc-private-key&#x3D;&#x2F;etc&#x2F;ssl&#x2F;mycert.key<span aria-hidden="true" 
 <li><p>启用或关闭Windows功能中启用NSF服务</p>
 </li>
 <li><p>使用cmd挂载网络存储</p>
- <pre class="line-numbers language-none"><code class="language-none">mount -o anon \\192.168.1.1\mnt\sda1 Z:<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o anon \\192.168.1.1\mnt\sda1 Z:</span><br></pre></td></tr></table></figure>
 <p> 计算机中出现了一个Z盘，此时访问会出现权限限制</p>
 </li>
 <li><p>cmd 运行 mount 命令</p>
- <pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">本地    远程                                 属性
--------------------------------------------------------------------------------
-Z:       \\192.168.1.1\mnt\sda1                 UID&#x3D;-2, GID&#x3D;-2
-                                                rsize&#x3D;16384, wsize&#x3D;16384
-                                                mount&#x3D;soft, timeout&#x3D;10.0
-                                                retry&#x3D;1, locking&#x3D;yes
-                                                fileaccess&#x3D;755, lang&#x3D;GB2312-80
-                                                casesensitive&#x3D;no
-                                                sec&#x3D;sys
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">本地    远程                                 属性</span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line"><span class="function">Z:       \\192.168.1.1\<span class="title">mnt</span>\<span class="title">sda1</span>                 <span class="title">UID</span>=-2, <span class="title">GID</span>=-2</span></span><br><span class="line"><span class="function">                                                <span class="title">rsize</span>=16384, <span class="title">wsize</span>=16384</span></span><br><span class="line"><span class="function">                                                <span class="title">mount</span>=<span class="title">soft</span>, <span class="title">timeout</span>=10.0</span></span><br><span class="line"><span class="function">                                                <span class="title">retry</span>=1, <span class="title">locking</span>=<span class="title">yes</span></span></span><br><span class="line"><span class="function">                                                <span class="title">fileaccess</span>=755, <span class="title">lang</span>=<span class="title">GB2312</span>-80</span></span><br><span class="line"><span class="function">                                                <span class="title">casesensitive</span>=<span class="title">no</span></span></span><br><span class="line"><span class="function">                                                <span class="title">sec</span>=<span class="title">sys</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure>
 <p> 记下uid和gid，Z盘属性-NFS属性，填入uid和gid</p>
 </li>
 <li><p>使用UTF8编码，解决中文乱码<br> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46254792">一个小设置，让Win10 NFS正常显示中文UTF-8</a></p>

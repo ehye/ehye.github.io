@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="只需要考虑写作本身，将部署的事情交给程序处理吧">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="只需要考虑写作本身，将部署的事情交给程序处理吧">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-28T10:39:19.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="Travis">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -273,35 +273,7 @@
 <p>到 <a target="_blank" rel="noopener" href="https://github.com/settings/tokens">Developer settings</a> 生成 <code>Personal access tokens</code>，要勾选<code>repo</code>这整个分支</p>
 <p>记下生成的密钥，到 Pages 的 Travis 设置页面找到 <code>Environment Variables</code>，新增一个 name 为 <code>GH_TOKEN</code>， value 为这个密钥的值</p>
 <p>在你的 hexo 跟目录下创建 <code>.travis.yml</code></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">sudo</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-<span class="token key atrule">language</span><span class="token punctuation">:</span> node_js
-<span class="token key atrule">node_js</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> <span class="token number">10</span> <span class="token comment"># use nodejs v10 LTS</span>
-<span class="token key atrule">cache</span><span class="token punctuation">:</span> npm
-<span class="token key atrule">branches</span><span class="token punctuation">:</span>
-  <span class="token key atrule">only</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> hexo
-<span class="token key atrule">install</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> npm install <span class="token punctuation">-</span>g hexo
-  <span class="token punctuation">-</span> npm install
-<span class="token key atrule">before_script</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> mkdir themes/next
-  <span class="token comment"># clone next theme</span>
-  <span class="token punctuation">-</span> curl <span class="token punctuation">-</span>s https<span class="token punctuation">:</span>//api.github.com/repos/theme<span class="token punctuation">-</span>next/hexo<span class="token punctuation">-</span>theme<span class="token punctuation">-</span>next/releases/latest <span class="token punctuation">|</span> grep tarball_url <span class="token punctuation">|</span> cut <span class="token punctuation">-</span>d '"' <span class="token punctuation">-</span>f 4 <span class="token punctuation">|</span> wget <span class="token punctuation">-</span>i <span class="token punctuation">-</span> <span class="token punctuation">-</span>O<span class="token punctuation">-</span> <span class="token punctuation">|</span> tar <span class="token punctuation">-</span>zx <span class="token punctuation">-</span>C themes/next <span class="token punctuation">-</span><span class="token punctuation">-</span>strip<span class="token punctuation">-</span>components=1
-  <span class="token comment"># copy the custom next theme config file</span>
-  <span class="token punctuation">-</span> no <span class="token punctuation">|</span> mv themes/next/* <span class="token punctuation">-</span>i themes/hexo<span class="token punctuation">-</span>theme<span class="token punctuation">-</span>next/
-<span class="token key atrule">script</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> hexo clean
-  <span class="token punctuation">-</span> hexo generate
-<span class="token key atrule">deploy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">provider</span><span class="token punctuation">:</span> pages
-  <span class="token key atrule">skip-cleanup</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-  <span class="token key atrule">github-token</span><span class="token punctuation">:</span> $GH_TOKEN
-  <span class="token key atrule">keep-history</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-  <span class="token key atrule">on</span><span class="token punctuation">:</span>
-    <span class="token key atrule">branch</span><span class="token punctuation">:</span> hexo
-  <span class="token key atrule">target_branch</span><span class="token punctuation">:</span> master
-  <span class="token key atrule">local-dir</span><span class="token punctuation">:</span> public<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sudo:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">10</span> <span class="comment"># use nodejs v10 LTS</span></span><br><span class="line"><span class="attr">cache:</span> <span class="string">npm</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">hexo</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">mkdir</span> <span class="string">themes/next</span></span><br><span class="line">  <span class="comment"># clone next theme</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">curl</span> <span class="string">-s</span> <span class="string">https://api.github.com/repos/theme-next/hexo-theme-next/releases/latest</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">tarball_url</span> <span class="string">|</span> <span class="string">cut</span> <span class="string">-d</span> <span class="string">&#x27;&quot;&#x27;</span> <span class="string">-f</span> <span class="number">4</span> <span class="string">|</span> <span class="string">wget</span> <span class="string">-i</span> <span class="bullet">-</span> <span class="string">-O-</span> <span class="string">|</span> <span class="string">tar</span> <span class="string">-zx</span> <span class="string">-C</span> <span class="string">themes/next</span> <span class="string">--strip-components=1</span></span><br><span class="line">  <span class="comment"># copy the custom next theme config file</span></span><br><span class="line">  <span class="bullet">-</span> <span class="literal">no</span> <span class="string">|</span> <span class="string">mv</span> <span class="string">themes/next/*</span> <span class="string">-i</span> <span class="string">themes/hexo-theme-next/</span></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">clean</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">provider:</span> <span class="string">pages</span></span><br><span class="line">  <span class="attr">skip-cleanup:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">github-token:</span> <span class="string">$GH_TOKEN</span></span><br><span class="line">  <span class="attr">keep-history:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">on:</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">hexo</span></span><br><span class="line">  <span class="attr">target_branch:</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">local-dir:</span> <span class="string">public</span></span><br></pre></td></tr></table></figure>
 
 <p>因为 next 主题我是单独上传一个 <code>_config.yml</code> 主题配置文件，所以多了一个 <code>before_script</code> 阶段，用于替换自己配置文件</p>
 <div class="note default"><p>默认的 <code>provider: pages</code> 会将生成的html推送到 gh-pages 分支<br>但是 Github Pages 已不可绑定除了默认的 master 以外的分支<br>因此要指定手动指定 <code>target_branch: master</code></p>

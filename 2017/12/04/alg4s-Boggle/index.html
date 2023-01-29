@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="根据规则找出尽可能多的单词，编写 Boggle 游戏的AI部分">
 <meta property="og:type" content="article">
@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ehye.github.io/2017/12/04/alg4s-Boggle/boggle-gui.png">
 <meta property="article:published_time" content="2017-12-04T08:52:35.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.456Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.594Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="TST">
 <meta property="article:tag" content="Tries">
@@ -169,7 +169,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,7 +180,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -274,16 +274,7 @@
 <img src="/2017/12/04/alg4s-Boggle/boggle-gui.png" class="">
 
 <p>使用 DFS 解决</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Iterable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">getAllValidWords</span><span class="token punctuation">(</span><span class="token class-name">BoggleBoard</span> board<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">TreeSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> words <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreeSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> board<span class="token punctuation">.</span><span class="token function">rows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> board<span class="token punctuation">.</span><span class="token function">cols</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> visited <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">boolean</span><span class="token punctuation">[</span>board<span class="token punctuation">.</span><span class="token function">rows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">[</span>board<span class="token punctuation">.</span><span class="token function">cols</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token function">dfs</span><span class="token punctuation">(</span>board<span class="token punctuation">,</span> i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> words<span class="token punctuation">,</span> visited<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> words<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Iterable&lt;String&gt; <span class="title function_">getAllValidWords</span><span class="params">(BoggleBoard board)</span> &#123;</span><br><span class="line">    TreeSet&lt;String&gt; words = <span class="keyword">new</span> <span class="title class_">TreeSet</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; board.rows(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; board.cols(); j++) &#123;</span><br><span class="line">            <span class="type">boolean</span>[][] visited = <span class="keyword">new</span> <span class="title class_">boolean</span>[board.rows()][board.cols()];</span><br><span class="line">            dfs(board, i, j, words, visited, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> words;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 

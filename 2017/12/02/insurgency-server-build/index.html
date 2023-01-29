@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="article">
 <meta property="og:title" content="在 Ubuntu 上搭建 Insurgency 对战服务器">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/12/02/insurgency-server-build/Insurgency_2014.jpg">
 <meta property="og:image" content="https://ehye.github.io/2017/12/02/insurgency-server-build/20171202161412_1.jpg">
 <meta property="article:published_time" content="2017-12-02T12:01:00.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="Steam">
@@ -169,7 +169,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,7 +180,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -276,92 +276,41 @@
 
 <h1 id="SteamCMD"><a href="#SteamCMD" class="headerlink" title="SteamCMD"></a>SteamCMD</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ol>
 <li><p>官方不建议使用管理员账户运行SteamCMD，因此建立一个叫做steam的用户</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo useradd -m steam<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -m steam</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>进入它的根目录</p>
-<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;home&#x2F;steam<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /home/steam</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装包</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo apt-get install steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install steamcmd</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>链接生成可执行文件</p>
-<pre class="line-numbers language-none"><code class="language-none">ln -s &#x2F;usr&#x2F;games&#x2F;steamcmd steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/games/steamcmd steamcmd</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><pre class="line-numbers language-none"><code class="language-none">cd ~
-steamcmd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">steamcmd</span><br></pre></td></tr></table></figure>
 
 <h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>Insurgency 支持匿名登陆</p>
-<pre class="line-numbers language-none"><code class="language-none">login anonymous<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">login anonymous</span><br></pre></td></tr></table></figure>
 
 <h1 id="Insurgency"><a href="#Insurgency" class="headerlink" title="Insurgency"></a>Insurgency</h1><ol>
 <li>设置安装路径</li>
 </ol>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">force_install_dir /usr/games/ins-ds/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">force_install_dir /usr/games/ins-ds/</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>查找服务器ID并下载</li>
 </ol>
 <p>Insurgency 服务器ID为237410，可加<code>validate</code>来检验下载</p>
-<pre class="line-numbers language-none"><code class="language-none">app_update 237410 validate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app_update 237410 validate</span><br></pre></td></tr></table></figure>
 
 <ol start="3">
 <li><p>配置服务器<br>创建文件路径<code>/ins-ds/insurgency/cfg/server.cfg</code>写入以下配置</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; Server Info Options
-&#x2F;&#x2F; ---------------------------------------------------------------
-hostname &quot;&lt;YourServerName&gt;&quot;	&#x2F;&#x2F; server name
-rcon_password &quot;&lt;YourRemoteAdminPassword&gt;&quot;	&#x2F;&#x2F; rcon password
-sv_password &quot;&quot;		&#x2F;&#x2F; Server password for private servers
-sv_minrate 30000 &#x2F;&#x2F; recommended minimum rate
-
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; Server Download Options (Community made maps) 
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; sv_downloadurl &quot;&lt;type-url-here&gt;&quot;
-&#x2F;&#x2F; sv_allowdownload 1
-&#x2F;&#x2F; sv_allowupload 1
-
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; Server Logging Options
-&#x2F;&#x2F; ---------------------------------------------------------------
-log on
-sv_logbans 1
-sv_logecho 1
-sv_logfile 1
-sv_log_onefile 0
-
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; Game Mode Options (Change text with in the quotes)
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; &quot;mapcycle.txt&quot; - by default this contains the most popular options
-&#x2F;&#x2F; &quot;mapcycle_all.txt&quot;  - all possible map&#x2F;mode combinations for PvP
-&#x2F;&#x2F; &quot;mapcycle_ambush.txt&quot; - only ambush (VIP) mode
-&#x2F;&#x2F; &quot;mapcycle_attackdefend.txt&quot; - mix of attack&#x2F;defend modes
-&#x2F;&#x2F; &quot;mapcycle_cooperative.txt&quot; - checkpoint, outpost, hunt
-&#x2F;&#x2F; &quot;mapcycle_firefight.txt&quot; - all firefight maps
-&#x2F;&#x2F; &quot;mapcycle_flashpoint.txt&quot; - all flashpoint maps
-&#x2F;&#x2F; &quot;mapcycle_infiltrate.txt&quot; - all infiltrate (CTF) maps
-&#x2F;&#x2F; &quot;mapcycle_objrespawn.txt&quot; - all modes featuring respawning for completing objectives
-&#x2F;&#x2F; &quot;mapcycle_occupy.txt&quot; - all occupy maps
-&#x2F;&#x2F; &quot;mapcycle_push.txt&quot; - all push maps
-&#x2F;&#x2F; &quot;mapcycle_singlelife.txt&quot; - mix of all single life modes
-&#x2F;&#x2F; &quot;mapcycle_skirmish.txt&quot; - all skirmish maps
-&#x2F;&#x2F; &quot;mapcycle_workshop.txt&quot; - used by Workshop system
-mapcyclefile &quot;mapcycle.txt&quot;
-
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; Enabling Matchmaking (Change text with in the quotes)
-&#x2F;&#x2F; More info: http:&#x2F;&#x2F;steamcommunity.com&#x2F;app&#x2F;222880&#x2F;discussions&#x2F;2&#x2F;558746089590579609&#x2F;
-&#x2F;&#x2F; ---------------------------------------------------------------
-&#x2F;&#x2F; &quot;pvp&quot; (Player vs Player)
-&#x2F;&#x2F; &quot;custom&quot; (Custom rules and modded servers)
-&#x2F;&#x2F; &quot;coop&quot; (Cooperative)
-sv_playlist pvp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// Server Info Options</span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">hostname &quot;&lt;YourServerName&gt;&quot;    // server name</span><br><span class="line">rcon_password &quot;&lt;YourRemoteAdminPassword&gt;&quot;    // rcon password</span><br><span class="line">sv_password &quot;&quot;        // Server password for private servers</span><br><span class="line">sv_minrate 30000 // recommended minimum rate</span><br><span class="line"></span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// Server Download Options (Community made maps) </span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// sv_downloadurl &quot;&lt;type-url-here&gt;&quot;</span><br><span class="line">// sv_allowdownload 1</span><br><span class="line">// sv_allowupload 1</span><br><span class="line"></span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// Server Logging Options</span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">log on</span><br><span class="line">sv_logbans 1</span><br><span class="line">sv_logecho 1</span><br><span class="line">sv_logfile 1</span><br><span class="line">sv_log_onefile 0</span><br><span class="line"></span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// Game Mode Options (Change text with in the quotes)</span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// &quot;mapcycle.txt&quot; - by default this contains the most popular options</span><br><span class="line">// &quot;mapcycle_all.txt&quot;  - all possible map/mode combinations for PvP</span><br><span class="line">// &quot;mapcycle_ambush.txt&quot; - only ambush (VIP) mode</span><br><span class="line">// &quot;mapcycle_attackdefend.txt&quot; - mix of attack/defend modes</span><br><span class="line">// &quot;mapcycle_cooperative.txt&quot; - checkpoint, outpost, hunt</span><br><span class="line">// &quot;mapcycle_firefight.txt&quot; - all firefight maps</span><br><span class="line">// &quot;mapcycle_flashpoint.txt&quot; - all flashpoint maps</span><br><span class="line">// &quot;mapcycle_infiltrate.txt&quot; - all infiltrate (CTF) maps</span><br><span class="line">// &quot;mapcycle_objrespawn.txt&quot; - all modes featuring respawning for completing objectives</span><br><span class="line">// &quot;mapcycle_occupy.txt&quot; - all occupy maps</span><br><span class="line">// &quot;mapcycle_push.txt&quot; - all push maps</span><br><span class="line">// &quot;mapcycle_singlelife.txt&quot; - mix of all single life modes</span><br><span class="line">// &quot;mapcycle_skirmish.txt&quot; - all skirmish maps</span><br><span class="line">// &quot;mapcycle_workshop.txt&quot; - used by Workshop system</span><br><span class="line">mapcyclefile &quot;mapcycle.txt&quot;</span><br><span class="line"></span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// Enabling Matchmaking (Change text with in the quotes)</span><br><span class="line">// More info: http://steamcommunity.com/app/222880/discussions/2/558746089590579609/</span><br><span class="line">// ---------------------------------------------------------------</span><br><span class="line">// &quot;pvp&quot; (Player vs Player)</span><br><span class="line">// &quot;custom&quot; (Custom rules and modded servers)</span><br><span class="line">// &quot;coop&quot; (Cooperative)</span><br><span class="line">sv_playlist pvp</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>cd 到游戏目录建立以下脚本</p>
 </li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">.&#x2F;srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./srcds_run -console -ip YourIP -port 27015 +map market_coop +maxplayers 8</span><br></pre></td></tr></table></figure>
 
 <ol start="4">
 <li>sh 运行脚本</li>

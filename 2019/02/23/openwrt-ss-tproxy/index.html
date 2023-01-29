@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Openwrt+shadowsocks透明代理，实现路由器科学上网">
 <meta property="og:type" content="article">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ehye.github.io/2019/02/23/openwrt-ss-tproxy/custom-dns.png">
 <meta property="og:image" content="https://ehye.github.io/2019/02/23/openwrt-ss-tproxy/dnsmasq-dns-forward.png">
 <meta property="article:published_time" content="2019-02-23T06:03:56.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="OpenWrt">
 <meta property="article:tag" content="shadowsocks">
@@ -173,7 +173,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -184,7 +184,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -279,34 +279,18 @@
 <hr>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>一些东西在镜像源里是没有的</p>
 <p>添加用于验证的 gpg key</p>
-<pre class="line-numbers language-none"><code class="language-none">wget http:&#x2F;&#x2F;openwrt-dist.sourceforge.net&#x2F;packages&#x2F;openwrt-dist.pub -O &#x2F;tmp&#x2F;openwrt-dist.pub
-opkg-key add &#x2F;tmp&#x2F;openwrt-dist.pub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://openwrt-dist.sourceforge.net/packages/openwrt-dist.pub -O /tmp/openwrt-dist.pub</span><br><span class="line">opkg-key add /tmp/openwrt-dist.pub</span><br></pre></td></tr></table></figure>
 <p>新增feeds</p>
-<pre class="line-numbers language-none"><code class="language-none">src&#x2F;gz openwrt_dist http:&#x2F;&#x2F;openwrt-dist.sourceforge.net&#x2F;packages&#x2F;base&#x2F;mipsel_24kc
-src&#x2F;gz openwrt_dist_luci http:&#x2F;&#x2F;openwrt-dist.sourceforge.net&#x2F;packages&#x2F;luci<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src/gz openwrt_dist http://openwrt-dist.sourceforge.net/packages/base/mipsel_24kc</span><br><span class="line">src/gz openwrt_dist_luci http://openwrt-dist.sourceforge.net/packages/luci</span><br></pre></td></tr></table></figure>
 <p>更新并安装</p>
-<pre class="line-numbers language-none"><code class="language-none">opkg update
-opkg install dns-forwarder
-opkg install luci-app-dns-forwarder
-opkg install shadowsocks-libev
-opkg install luci-app-shadowsocks<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install dns-forwarder</span><br><span class="line">opkg install luci-app-dns-forwarder</span><br><span class="line">opkg install shadowsocks-libev</span><br><span class="line">opkg install luci-app-shadowsocks</span><br></pre></td></tr></table></figure>
 
 <p>这个ss客户端和镜像源里的ss不同</p>
 <h1 id="配置shadowsocks"><a href="#配置shadowsocks" class="headerlink" title="配置shadowsocks"></a>配置shadowsocks</h1><h2 id="shadowsocks-json"><a href="#shadowsocks-json" class="headerlink" title="shadowsocks.json"></a>shadowsocks.json</h2><p>通过luci配置或者自定义shadowsocks配置文件</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
-    <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"*.*.*.*"</span><span class="token punctuation">,</span>
-    <span class="token property">"server_port"</span><span class="token operator">:</span> <span class="token number">1080</span><span class="token punctuation">,</span>
-    <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"****"</span><span class="token punctuation">,</span>
-    <span class="token property">"method"</span><span class="token operator">:</span> <span class="token string">"aes-128-cfb"</span><span class="token punctuation">,</span>
-    <span class="token property">"local_address"</span><span class="token operator">:</span> <span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span>
-    <span class="token property">"timeout"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
-    <span class="token property">"reuse_port"</span><span class="token operator">:</span> <span class="token boolean">true</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*.*.*.*&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;server_port&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;****&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;aes-128-cfb&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;local_address&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;reuse_port&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="配置dnsmasq和ipset"><a href="#配置dnsmasq和ipset" class="headerlink" title="配置dnsmasq和ipset"></a>配置dnsmasq和ipset</h2><p>将如下规则加入到防火墙自定义规则中，最后的1234是shadowsocks的透明代理端口</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ipset -N gfwlist iphash
-iptables -t nat -A PREROUTING -p tcp -m <span class="token builtin class-name">set</span> --match-set gfwlist dst -j REDIRECT --to-port <span class="token number">1234</span>
-iptables -t nat -A OUTPUT -p tcp -m <span class="token builtin class-name">set</span> --match-set gfwlist dst -j REDIRECT --to-port <span class="token number">1234</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ipset -N gfwlist iphash</span><br><span class="line">iptables -t nat -A PREROUTING -p tcp -m <span class="built_in">set</span> --match-set gfwlist dst -j REDIRECT --to-port 1234</span><br><span class="line">iptables -t nat -A OUTPUT -p tcp -m <span class="built_in">set</span> --match-set gfwlist dst -j REDIRECT --to-port 1234</span><br></pre></td></tr></table></figure>
 
 <h2 id="添加gfwlist配置文件"><a href="#添加gfwlist配置文件" class="headerlink" title="添加gfwlist配置文件"></a>添加gfwlist配置文件</h2><p>新建并进入目录<code>/etc/dnsmasq.d</code>，下载 <a target="_blank" rel="noopener" href="https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist_ipset.conf">dnsmasq_gfwlist_ipset.conf</a><br><em>在这个列表就是墙列表，里面的域名将走127.0.0.1:5353，稍后对这个端口配置转发，转发到谷歌DNS进行解析</em></p>
 <h2 id="修改dnsmasq配置"><a href="#修改dnsmasq配置" class="headerlink" title="修改dnsmasq配置"></a>修改dnsmasq配置</h2><p>修改 <code>/etc/dnsmasq.conf</code>，在最后加入 <code>conf-dir=/etc/dnsmasq.d</code></p>
@@ -317,7 +301,7 @@ iptables -t nat -A OUTPUT -p tcp -m <span class="token builtin class-name">set</
 <p>5353是多播DNS(mDNS)的端口</p>
 </blockquote>
 <p>最后需要在自定义防火墙规则里再增加一句，来确保8.8.8.8是走代理的：</p>
-<pre class="line-numbers language-none"><code class="language-none">ipset add gfwlist 8.8.8.8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipset add gfwlist 8.8.8.8</span><br></pre></td></tr></table></figure>
 
 <h2 id="自定义DNS"><a href="#自定义DNS" class="headerlink" title="自定义DNS"></a>自定义DNS</h2><p>对WAN口进行如图配置，将DNS手动指定为127.0.0.1，将域名解析交给dnsmasq</p>
 <img src="/2019/02/23/openwrt-ss-tproxy/custom-dns.png" class="">

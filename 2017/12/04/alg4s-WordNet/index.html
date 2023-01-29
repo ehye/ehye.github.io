@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="突然开课的 Part II，难度大增">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/12/04/alg4s-WordNet/wordnet-fig1.png">
 <meta property="og:image" content="https://ehye.github.io/2017/12/04/alg4s-WordNet/wordnet-sap.png">
 <meta property="article:published_time" content="2017-12-04T02:26:07.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.460Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.598Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="DFS">
 <meta property="article:tag" content="DAG">
@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -182,7 +182,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -278,10 +278,7 @@
 <img src="/2017/12/04/alg4s-WordNet/wordnet-fig1.png" class="">
 
 <h2 id="DeluxeDFS-java"><a href="#DeluxeDFS-java" class="headerlink" title="DeluxeDFS.java"></a>DeluxeDFS.java</h2><p>先从SAP入手，新建一个叫DeluxeDFS的类，增加一个<code>getMark()</code>方法，得到<code>boolean[] marked</code></p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">getMarked</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-    <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span> marked <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>marked<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> marked<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span>[] getMarked()&#123;</span><br><span class="line">    <span class="type">boolean</span>[] marked = <span class="built_in">this</span>.marked;</span><br><span class="line">    <span class="keyword">return</span> marked;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="SAP-java"><a href="#SAP-java" class="headerlink" title="SAP.java"></a>SAP.java</h2><p>什么是 shortest ancestor path ？给了一个简单的例子。</p>
 <blockquote>
@@ -290,39 +287,11 @@
 <img src="/2017/12/04/alg4s-WordNet/wordnet-sap.png" class="">
 
 <p>读入 synsets*.txt 进行测试，第三个字段为词语解释，这个作业不需要<br>因此，用 DeluxeDFS 访问 boolean[] marked ，修改讲义P20的 relax()</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> vMarked<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>vMarked<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> wMarked<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>                     <span class="token comment">// is same ancestral</span>
-        currentPath <span class="token operator">=</span> vBFS<span class="token punctuation">.</span><span class="token function">distTo</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> wBFS<span class="token punctuation">.</span><span class="token function">distTo</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// update shortest path</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>currentPath <span class="token operator">&lt;</span> shortestPath<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            shortestPath <span class="token operator">=</span> currentPath<span class="token punctuation">;</span>
-            shortestAncestor <span class="token operator">=</span> i<span class="token punctuation">;</span>                       <span class="token comment">// update shortest path</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vMarked.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (vMarked[i] &amp;&amp; wMarked[i]) &#123;                     <span class="comment">// is same ancestral</span></span><br><span class="line">        currentPath = vBFS.distTo(i) + wBFS.distTo(i);  <span class="comment">// update shortest path</span></span><br><span class="line">        <span class="keyword">if</span> (currentPath &lt; shortestPath) &#123;</span><br><span class="line">            shortestPath = currentPath;</span><br><span class="line">            shortestAncestor = i;                       <span class="comment">// update shortest path</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="WordNet-java"><a href="#WordNet-java" class="headerlink" title="WordNet.java"></a>WordNet.java</h2><p>提供测试的 main 方法读入的两个参数分别是同义词和这个词的上位词(hypernyms)<br>构造函数把同义词加入一个 list，用上位词创建DAG</p>
 <p>设计 一个 Hypernym 类，用 ArrayList 来记录上位词(hypernyms)ID</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">Hypernym</span> <span class="token keyword">implements</span> <span class="token class-name">Comparable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Hypernym</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> nounId<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> hypernymsId<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">Hypernym</span><span class="token punctuation">(</span><span class="token class-name">String</span> nounId<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>nounId <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        hypernymsId <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>nounId <span class="token operator">=</span> nounId<span class="token punctuation">;</span> 
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">compareTo</span><span class="token punctuation">(</span><span class="token class-name">Hypernym</span> that<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>nounId<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>that<span class="token punctuation">.</span>nounId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">addId</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>hypernymsId<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Hypernym</span> <span class="keyword">implements</span> <span class="title class_">Comparable</span>&lt;Hypernym&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String nounId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;Integer&gt; hypernymsId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Hypernym</span><span class="params">(String nounId)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nounId == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>();</span><br><span class="line">        hypernymsId = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="built_in">this</span>.nounId = nounId; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Hypernym that)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.nounId.compareTo(that.nounId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addId</span><span class="params">(<span class="type">int</span> id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.hypernymsId.add(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Outcast-java"><a href="#Outcast-java" class="headerlink" title="Outcast.java"></a>Outcast.java</h2><blockquote>
 <p>Given a list of wordnet nouns A1, A2, …, An, which noun is the least related to the others?</p>

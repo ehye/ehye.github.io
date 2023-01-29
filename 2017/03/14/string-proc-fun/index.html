@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="常见的字符串处理函数">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="常见的字符串处理函数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-03-14T16:02:51.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.468Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.606Z">
 <meta property="article:author" content="ehye">
 <meta name="twitter:card" content="summary">
 
@@ -165,7 +165,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -176,7 +176,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -271,266 +271,43 @@
 <h2 id="恺撒加密"><a href="#恺撒加密" class="headerlink" title="恺撒加密"></a>恺撒加密</h2><p><em>恺撒加密法加密规则是：将原来的小写字母用字母表中其后面的第3个字母的大写形式来替换，大写字母按同样规则用小写字母替换，对于字母表中最后的三个字母，可将字母表看成是首未衔接的。</em>  </p>
 <p><strong>输入样例：</strong><br>AMDxyzXYZ</p>
 <p><strong>输出样例：</strong><br>dpgABCabc</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">char epy(char input)
-&#123;
-    char epy_mess;
-    int input_asc &#x3D; (int)input;
-    if (input_asc &gt;&#x3D; 97 &amp;&amp; input_asc &lt;&#x3D; 122) &#123;
-        switch (input_asc) &#123;
-            case 120:
-                input_asc &#x3D; 65;
-                break;
-            case 121:
-                input_asc &#x3D; 66;
-                break;
-            case 122:
-                input_asc &#x3D; 67;
-                break;
-            default:
-                input_asc -&#x3D; 29;
-                break;
-        &#125;
-    &#125;
-    else if (input_asc &gt;&#x3D; 65 &amp;&amp; input_asc &lt;&#x3D; 90) &#123;
-        switch (input_asc) &#123;
-            case 88:
-                input_asc &#x3D; 97;
-                break;
-            case 89:
-                input_asc &#x3D; 98;
-                break;
-            case 90:
-                input_asc &#x3D; 99;
-                break;
-            default:
-                input_asc +&#x3D; 35;
-                break;
-        &#125;
-    &#125;
-    else &#123;
-        return input;
-    &#125;
-    return (char)input_asc;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span> <span class="title">epy</span><span class="params">(<span class="type">char</span> input)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> epy_mess;</span><br><span class="line">    <span class="type">int</span> input_asc = (<span class="type">int</span>)input;</span><br><span class="line">    <span class="keyword">if</span> (input_asc &gt;= <span class="number">97</span> &amp;&amp; input_asc &lt;= <span class="number">122</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (input_asc) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">120</span>:</span><br><span class="line">                input_asc = <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">121</span>:</span><br><span class="line">                input_asc = <span class="number">66</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">122</span>:</span><br><span class="line">                input_asc = <span class="number">67</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                input_asc -= <span class="number">29</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input_asc &gt;= <span class="number">65</span> &amp;&amp; input_asc &lt;= <span class="number">90</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (input_asc) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">88</span>:</span><br><span class="line">                input_asc = <span class="number">97</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">89</span>:</span><br><span class="line">                input_asc = <span class="number">98</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">90</span>:</span><br><span class="line">                input_asc = <span class="number">99</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                input_asc += <span class="number">35</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> input;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">char</span>)input_asc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="矩阵转置"><a href="#矩阵转置" class="headerlink" title="矩阵转置"></a>矩阵转置</h2><p><em>输入矩阵阶数，然后按行输入所有矩阵元素（整数），将该矩阵转置输出。</em>  </p>
 <p><strong>输入：</strong><br>4<br>4 6 8 9<br>2 7 4 5<br>3 8 16 15<br>1 5 7 11<br><strong>输出：</strong><br>4 2 3 1<br>6 7 8 5<br>8 4 16 7<br>9 5 15 11</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void transfer(int(*m)[5][5], int(*t)[5][5], int rank)
-&#123;
-    for (int i &#x3D; 0; i &lt; rank; i++) &#123;
-        for (int j &#x3D; 0; j &lt; rank; j++) &#123;
-            if (i !&#x3D; j) &#123;
-                (*t)[i][j] &#x3D; (*m)[j][i];
-            &#125;
-            else &#123;
-                (*t)[i][j] &#x3D; (*m)[i][j];
-            &#125;
-        &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">transfer</span><span class="params">(<span class="type">int</span>(*m)[<span class="number">5</span>][<span class="number">5</span>], <span class="type">int</span>(*t)[<span class="number">5</span>][<span class="number">5</span>], <span class="type">int</span> rank)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; rank; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; rank; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">                (*t)[i][j] = (*m)[j][i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                (*t)[i][j] = (*m)[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="字符串反转函数"><a href="#字符串反转函数" class="headerlink" title="字符串反转函数"></a>字符串反转函数</h2><p><em>输入一个字符串，将其反序输出</em>  </p>
 <p><strong>输入样例：</strong><br>Hello,everyone</p>
 <p><strong>输出样例：</strong><br>enoyreve,olleH</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include&lt;cstring&gt; 
-using namespace std;
-
-const int ArrSize &#x3D; 100;
-void mystrrev(char str[]);
-
-int main()
-&#123;
-    char str[ArrSize] &#x3D; &#123;&#125;;
-    cin.getline(str, ArrSize);
-    int empty_length &#x3D; ArrSize - strlen(str);
-
-    mystrrev(str);
-    for (int i &#x3D; empty_length; i &lt; ArrSize; i++) &#123;
-        cout &lt;&lt; str[i];
-    &#125;
-
-    return 0;
-&#125;
-
-void mystrrev(char str[])
-&#123;
-    for (int i &#x3D; 0; i &lt; ArrSize &#x2F; 2; i++) &#123;
-        char temp &#x3D; str[ArrSize - 1 - i];
-        str[ArrSize - 1 - i] &#x3D; str[i];
-        str[i] &#x3D; temp;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> ArrSize = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mystrrev</span><span class="params">(<span class="type">char</span> str[])</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> str[ArrSize] = &#123;&#125;;</span><br><span class="line">    cin.<span class="built_in">getline</span>(str, ArrSize);</span><br><span class="line">    <span class="type">int</span> empty_length = ArrSize - <span class="built_in">strlen</span>(str);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">mystrrev</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = empty_length; i &lt; ArrSize; i++) &#123;</span><br><span class="line">        cout &lt;&lt; str[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mystrrev</span><span class="params">(<span class="type">char</span> str[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; ArrSize / <span class="number">2</span>; i++) &#123;</span><br><span class="line">        <span class="type">char</span> temp = str[ArrSize - <span class="number">1</span> - i];</span><br><span class="line">        str[ArrSize - <span class="number">1</span> - i] = str[i];</span><br><span class="line">        str[i] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="求数组中最大最小元素"><a href="#求数组中最大最小元素" class="headerlink" title="求数组中最大最小元素"></a>求数组中最大最小元素</h2><p><strong>输入样例：</strong><br>5<br>90 89 30 45 55</p>
 <p><strong>输出样例：</strong><br>90<br>30</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int imax(int array[], int count)
-&#123;
-    int max &#x3D; -32767;
-    for (int i&#x3D;0; i&lt;count; i++) &#123;
-        if (array[i] &gt; max) &#123;
-            max &#x3D; array[i];
-        &#125;
-    &#125;
-    return max;
-&#125;
-
-int imin(int array[], int count)
-&#123;
-    int min &#x3D; 32767;
-    for (int i&#x3D;0; i&lt;count; i++) &#123;
-        if (array[i] &lt; min) &#123;
-            min &#x3D; array[i];
-        &#125;
-    &#125;
-    return min;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imax</span><span class="params">(<span class="type">int</span> array[], <span class="type">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> max = <span class="number">-32767</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array[i] &gt; max) &#123;</span><br><span class="line">            max = array[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">imin</span><span class="params">(<span class="type">int</span> array[], <span class="type">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> min = <span class="number">32767</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array[i] &lt; min) &#123;</span><br><span class="line">            min = array[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="判断一个整数是否为素数"><a href="#判断一个整数是否为素数" class="headerlink" title="判断一个整数是否为素数"></a>判断一个整数是否为素数</h2><p><em>1不是素数</em>  </p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int isprime(int a)
-&#123;
-    if (a &lt;&#x3D; 1) &#123;
-        return 0;
-    &#125;
-    int Prime &#x3D; 1;
-    
-    for ( int k &#x3D; 2; k &lt; a-1; k++) &#123;
-        if ( a % k &#x3D;&#x3D; 0 ) &#123;
-            Prime &#x3D; 0;
-            break;
-        &#125;
-    &#125;
-    return Prime;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">isprime</span><span class="params">(<span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> Prime = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> ( <span class="type">int</span> k = <span class="number">2</span>; k &lt; a<span class="number">-1</span>; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( a % k == <span class="number">0</span> ) &#123;</span><br><span class="line">            Prime = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Prime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="英文句子中的单词个数"><a href="#英文句子中的单词个数" class="headerlink" title="英文句子中的单词个数"></a>英文句子中的单词个数</h2><p><em>It’s 是一个单词</em></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int countWords(char* p)
-&#123;
-    int count &#x3D; 0;
-    bool isWord &#x3D; false;
-
-    while(*p)
-    &#123;
-        char c &#x3D; *p;
-
-          if ((c &gt;&#x3D; &#39;A&#39; &amp;&amp; c &lt;&#x3D; &#39;Z&#39;) ||
-              (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) || 
-              (c &#x3D;&#x3D; &#39;\&#39;&#39;))
-        &#123;
-            isWord &#x3D; true;
-        &#125;
-        else if (isWord)
-        &#123;
-            count++;
-            isWord &#x3D; false;
-        &#125;
-        p++;
-    &#125;
-    return count;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">countWords</span><span class="params">(<span class="type">char</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="type">bool</span> isWord = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(*p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> c = *p;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> ((c &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; c &lt;= <span class="string">&#x27;Z&#x27;</span>) ||</span><br><span class="line">              (c &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; c &lt;= <span class="string">&#x27;z&#x27;</span>) || </span><br><span class="line">              (c == <span class="string">&#x27;\&#x27;&#x27;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            isWord = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (isWord)</span><br><span class="line">        &#123;</span><br><span class="line">            count++;</span><br><span class="line">            isWord = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="字母转换"><a href="#字母转换" class="headerlink" title="字母转换"></a>字母转换</h2><p><em>除字符串中包含的非字母字符(不包括空格)，并将小写字母转换成大写字母</em>  </p>
 <p><strong>输入样例：</strong><br>hAppy new year!</p>
 <p><strong>输出样例：</strong><br>HAPPY NEW YEAR</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main()
-&#123;
-    char str[200]; char arr[201] &#x3D; &#123;&#125;;
-    cin.getline(str, 200);
-    myGetchar(str, arr);
-    for (int i &#x3D; 0; i &lt; strlen(arr); i++) &#123;
-        cout &lt;&lt; arr[i];
-    &#125;
-    return 0;
-&#125;
-
-void myGetchar(char str[200], char (&amp;arr)[201])
-&#123;
-    int count &#x3D; 0; int j &#x3D; 0;
-    for (int i &#x3D; 0; i &lt; 200; i++) &#123;
-        char c &#x3D; str[i];
-
-        &#x2F;&#x2F; add lowwer case to upper case
-        if (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) &#123; c -&#x3D; (char)(97 - 65); arr[j++] &#x3D; c; &#125;
-
-        &#x2F;&#x2F; add upper case
-        else if (c &gt;&#x3D; &#39;A&#39;&amp;&amp;c &lt;&#x3D; &#39;Z&#39;) &#123; arr[j++] &#x3D; c; &#125;
-
-        &#x2F;&#x2F; add blankspace
-        else if (c &#x3D;&#x3D; &#39; &#39;) &#123; arr[j++] &#x3D; c; continue; &#125;
-
-        &#x2F;&#x2F; add end of line
-        else if (c &#x3D;&#x3D; &#39;\0&#39;) &#123; arr[j] &#x3D; c; break; &#125;
-
-        &#x2F;&#x2F; ignore some char between
-        else if (c &gt; &#39;Z&#39; &amp;&amp; c &lt; &#39;a&#39;) &#123; continue; &#125;
-        else if (c &lt; &#39;A&#39; || c &gt; &#39;z&#39;) &#123; continue; &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">200</span>]; <span class="type">char</span> arr[<span class="number">201</span>] = &#123;&#125;;</span><br><span class="line">    cin.<span class="built_in">getline</span>(str, <span class="number">200</span>);</span><br><span class="line">    <span class="built_in">myGetchar</span>(str, arr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(arr); i++) &#123;</span><br><span class="line">        cout &lt;&lt; arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">myGetchar</span><span class="params">(<span class="type">char</span> str[<span class="number">200</span>], <span class="type">char</span> (&amp;arr)[<span class="number">201</span>])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> count = <span class="number">0</span>; <span class="type">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">        <span class="type">char</span> c = str[i];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add lowwer case to upper case</span></span><br><span class="line">        <span class="keyword">if</span> (c &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; c &lt;= <span class="string">&#x27;z&#x27;</span>) &#123; c -= (<span class="type">char</span>)(<span class="number">97</span> - <span class="number">65</span>); arr[j++] = c; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add upper case</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= <span class="string">&#x27;A&#x27;</span>&amp;&amp;c &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123; arr[j++] = c; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add blankspace</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27; &#x27;</span>) &#123; arr[j++] = c; <span class="keyword">continue</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add end of line</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;\0&#x27;</span>) &#123; arr[j] = c; <span class="keyword">break</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ignore some char between</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="string">&#x27;Z&#x27;</span> &amp;&amp; c &lt; <span class="string">&#x27;a&#x27;</span>) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c &lt; <span class="string">&#x27;A&#x27;</span> || c &gt; <span class="string">&#x27;z&#x27;</span>) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="插入加密"><a href="#插入加密" class="headerlink" title="插入加密"></a>插入加密</h2><p><em>插入式加密是在明文字母中按照指定间隔插入另一些字母以形成密文。例如对明文china，在间隔为1的位置插入其它字母序列中的字母a,b,c,d,e，就变成密文cahbicndae；如果其它字母序列的字母取完，则从头再取，要求密文中最后一个字母一定是其它字母序列中的字母。</em>  </p>
 <p><strong>输入样例：</strong><br>china<br>1</p>
 <p><strong>输出样例：</strong><br>cahbicndae</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main()
-&#123;
-    int interval;
-    char source[30] &#x3D; &#123;&#125;;
-    char arr[60] &#x3D; &#123;&#125;;
-    cin.getline(source, 60);
-    cin &gt;&gt; interval;
-    epy(source, arr, interval);
-    for (int i &#x3D; 0; i &lt; strlen(arr); i++)
-    &#123;
-        cout &lt;&lt; arr[i];
-    &#125;
-    return 0;
-&#125;
-
-void epy(char source[], char(&amp;arr)[60], int interval)
-&#123;
-    int length &#x3D; strlen(source);
-    int k &#x3D; 0, flag &#x3D; 0;
-    for (int i &#x3D; 0; i &lt; length; )
-    &#123;
-        arr[k++] &#x3D; source[i++];
-        flag++;
-        if (flag &#x3D;&#x3D; interval)
-        &#123;
-            arr[k++] &#x3D; getSerial();
-            flag &#x3D; 0;
-        &#125;
-        &#x2F;&#x2F; when reach the end
-        if (source[i] &#x3D;&#x3D; &#39;\0&#39;) &#123;
-            &#x2F;&#x2F; and from the last character to last serial less than one interval
-            if (flag &gt; 0) &#123;
-                arr[k] &#x3D; getSerial();
-            &#125;
-        &#125;
-    &#125;
-&#125;
-
-char getSerial()
-&#123;
-    static int index &#x3D; 0;
-    char temp;
-    const char serial[] &#x3D; &#123; &#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39; &#125;;
-    temp &#x3D; serial[index];
-    if (index &#x3D;&#x3D; 4)
-    &#123;
-        index &#x3D; 0;
-    &#125;
-    else
-    &#123;
-        index++;
-    &#125;
-    return temp;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> interval;</span><br><span class="line">    <span class="type">char</span> source[<span class="number">30</span>] = &#123;&#125;;</span><br><span class="line">    <span class="type">char</span> arr[<span class="number">60</span>] = &#123;&#125;;</span><br><span class="line">    cin.<span class="built_in">getline</span>(source, <span class="number">60</span>);</span><br><span class="line">    cin &gt;&gt; interval;</span><br><span class="line">    <span class="built_in">epy</span>(source, arr, interval);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(arr); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">epy</span><span class="params">(<span class="type">char</span> source[], <span class="type">char</span>(&amp;arr)[<span class="number">60</span>], <span class="type">int</span> interval)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> length = <span class="built_in">strlen</span>(source);</span><br><span class="line">    <span class="type">int</span> k = <span class="number">0</span>, flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; length; )</span><br><span class="line">    &#123;</span><br><span class="line">        arr[k++] = source[i++];</span><br><span class="line">        flag++;</span><br><span class="line">        <span class="keyword">if</span> (flag == interval)</span><br><span class="line">        &#123;</span><br><span class="line">            arr[k++] = <span class="built_in">getSerial</span>();</span><br><span class="line">            flag = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// when reach the end</span></span><br><span class="line">        <span class="keyword">if</span> (source[i] == <span class="string">&#x27;\0&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// and from the last character to last serial less than one interval</span></span><br><span class="line">            <span class="keyword">if</span> (flag &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                arr[k] = <span class="built_in">getSerial</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span> <span class="title">getSerial</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span> temp;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> serial[] = &#123; <span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;e&#x27;</span> &#125;;</span><br><span class="line">    temp = serial[index];</span><br><span class="line">    <span class="keyword">if</span> (index == <span class="number">4</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        index = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        index++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 

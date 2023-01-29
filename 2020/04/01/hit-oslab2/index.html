@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="在 Linux 0.11上添加两个系统调用，并编写两个简单的应用程序测试它们">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="在 Linux 0.11上添加两个系统调用，并编写两个简单的应用程序测试它们">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-01T08:02:48.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta name="twitter:card" content="summary">
 
@@ -165,7 +165,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -176,7 +176,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -274,83 +274,22 @@
 <ul>
 <li>修改的的文件</li>
 </ul>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">linux-0.11/include/linux/sys.h
-linux-0.11/kernel/system_call.s
-linux-0.11/kernel/who.c
-linux-0.11/kernel/Makefile
-/usr/root/include/unistd.h
-~/iam.c
-~/whoami.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">linux-0.11/include/linux/sys.h</span><br><span class="line">linux-0.11/kernel/system_call.s</span><br><span class="line">linux-0.11/kernel/who.c</span><br><span class="line">linux-0.11/kernel/Makefile</span><br><span class="line">/usr/root/include/unistd.h</span><br><span class="line">~/iam.c</span><br><span class="line">~/whoami.c</span><br></pre></td></tr></table></figure>
 
 <h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
 <li><p>增加系统调用声明</p>
 <p>  <code>linux-0.11/include/linux/sys.h</code></p>
-  <pre class="line-numbers language-h" data-language="h"><code class="language-h">extern int sys_whoami();
-extern int sys_iam();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+  <figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">sys_whoami</span><span class="params">()</span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">sys_iam</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
 
 <p>  然后下方的 sys_call_table 增加 <code>sys_whoami</code> 和 <code>sys_iam</code></p>
-  <pre class="line-numbers language-h" data-language="h"><code class="language-h">fn_ptr sys_call_table[] &#x3D; &#123; sys_setup, sys_exit, sys_fork, sys_read,
-***
-sys_setreuid,sys_setregid, sys_whoami, sys_iam &#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fn_ptr sys_call_table[] = &#123; sys_setup, sys_exit, sys_fork, sys_read,</span><br><span class="line">***</span><br><span class="line">sys_setreuid,sys_setregid, sys_whoami, sys_iam &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>  <code>linux-0.11/kernel/system_call.s</code></p>
-  <pre class="line-numbers language-x86asm" data-language="x86asm"><code class="language-x86asm">nr_system_calls &#x3D; 74 #这是系统调用总数。如果增删了系统调用，必须做相应修改<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+  <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nr_system_calls = <span class="number">74</span> #这是系统调用总数。如果增删了系统调用，必须做相应修改</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>实现系统调用函数</p>
 <p>  <code>linux-0.11/include/kernal/who.c</code></p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;asm/segment.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;errno.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string.h></span></span>
-
-<span class="token keyword">char</span> _myname<span class="token punctuation">[</span><span class="token number">24</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-<span class="token keyword">int</span> <span class="token function">sys_iam</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>name<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">do</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token comment">// get char from user input</span>
-        str<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">get_fs_byte</span><span class="token punctuation">(</span>name <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> <span class="token number">25</span> <span class="token operator">&amp;&amp;</span> str<span class="token punctuation">[</span>i<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token char">'\0'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> <span class="token number">24</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        errno <span class="token operator">=</span> EINVAL<span class="token punctuation">;</span>
-        i <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token comment">// copy from user mode to kernel mode</span>
-        <span class="token function">strcpy</span><span class="token punctuation">(</span>_myname<span class="token punctuation">,</span> str<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">return</span> i<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">int</span> <span class="token function">sys_whoami</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>name<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> size<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> length <span class="token operator">=</span> <span class="token function">strlen</span><span class="token punctuation">(</span>_myname<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printk</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> _myname<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>size <span class="token operator">&lt;</span> length<span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        errno <span class="token operator">=</span> EINVAL<span class="token punctuation">;</span>
-        length <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token comment">// copy from kernel mode to user mode</span>
-            <span class="token function">put_fs_byte</span><span class="token punctuation">(</span>_myname<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> name <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">return</span> length<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;asm/segment.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">char</span> _myname[<span class="number">24</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">sys_iam</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">25</span>];</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// get char from user input</span></span><br><span class="line">        str[i] = get_fs_byte(name + i);</span><br><span class="line">    &#125; <span class="keyword">while</span> (i &lt;= <span class="number">25</span> &amp;&amp; str[i++] != <span class="string">&#x27;\0&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i &gt; <span class="number">24</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        errno = EINVAL;</span><br><span class="line">        i = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// copy from user mode to kernel mode</span></span><br><span class="line">        <span class="built_in">strcpy</span>(_myname, str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">sys_whoami</span><span class="params">(<span class="type">char</span> *name, <span class="type">unsigned</span> <span class="type">int</span> size)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> length = <span class="built_in">strlen</span>(_myname);</span><br><span class="line">    printk(<span class="string">&quot;%s\n&quot;</span>, _myname);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size &lt; length)</span><br><span class="line">    &#123;</span><br><span class="line">        errno = EINVAL;</span><br><span class="line">        length = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// copy from kernel mode to user mode</span></span><br><span class="line">            put_fs_byte(_myname[i], name + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>  关键点在于如何在核心态同用户态进行数据交换，别误以为可以直接访问全局变量<code>_myname</code>，这个是核心态的变量，因此要用 <code>get_fs_byte()</code> 和 <code>put_fs_byte()</code> 进行读写</p>
 </li>
@@ -358,18 +297,10 @@ sys_setreuid,sys_setregid, sys_whoami, sys_iam &#125;;<span aria-hidden="true" c
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><ul>
 <li><p>修改 kernel&#x2F;Makefile</p>
 <p>  增加 who.o</p>
-  <pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile">OBJS  <span class="token operator">=</span> sched.o system_call.o traps.o asm.o fork.o \
-    panic.o printk.o vsprintf.o sys.o exit.o \
-    signal.o mktime.o who.o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OBJS  = sched.o system_call.o traps.o asm.o fork.o \</span><br><span class="line">    panic.o printk.o vsprintf.o sys.o exit.o \</span><br><span class="line">    signal.o mktime.o who.o</span><br></pre></td></tr></table></figure>
 
 <p>  添加 who.s who.o: who.c ..&#x2F;include&#x2F;linux&#x2F;kernel.h ..&#x2F;include&#x2F;unistd.h</p>
-  <pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile"><span class="token comment">#### Dependencies:</span>
-<span class="token target symbol">who.s who.o</span><span class="token punctuation">:</span> who.c ../<span class="token keyword">include</span>/linux/kernel.h ../<span class="token keyword">include</span>/unistd.h
-<span class="token target symbol">exit.s exit.o</span><span class="token punctuation">:</span> exit.c ../<span class="token keyword">include</span>/errno.h ../<span class="token keyword">include</span>/signal.h \
-../<span class="token keyword">include</span>/sys/types.h ../<span class="token keyword">include</span>/sys/wait.h ../<span class="token keyword">include</span>/linux/sched.h \
-../<span class="token keyword">include</span>/linux/head.h ../<span class="token keyword">include</span>/linux/fs.h ../<span class="token keyword">include</span>/linux/mm.h \
-../<span class="token keyword">include</span>/linux/kernel.h ../<span class="token keyword">include</span>/linux/tty.h ../<span class="token keyword">include</span>/termios.h \
-../<span class="token keyword">include</span>/asm/segment.h<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Dependencies:</span></span><br><span class="line">who.s who.o: who.c ../<span class="keyword">include</span>/linux/kernel.h ../<span class="keyword">include</span>/unistd.h</span><br><span class="line">exit.s exit.o: exit.c ../<span class="keyword">include</span>/errno.h ../<span class="keyword">include</span>/signal.h \</span><br><span class="line">../<span class="keyword">include</span>/sys/types.h ../<span class="keyword">include</span>/sys/wait.h ../<span class="keyword">include</span>/linux/sched.h \</span><br><span class="line">../<span class="keyword">include</span>/linux/head.h ../<span class="keyword">include</span>/linux/fs.h ../<span class="keyword">include</span>/linux/mm.h \</span><br><span class="line">../<span class="keyword">include</span>/linux/kernel.h ../<span class="keyword">include</span>/linux/tty.h ../<span class="keyword">include</span>/termios.h \</span><br><span class="line">../<span class="keyword">include</span>/asm/segment.h</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>Makefile 修改后，和往常一样 make all 就能自动把 who.c 加入到内核中了。</p>
@@ -377,62 +308,27 @@ sys_setreuid,sys_setregid, sys_whoami, sys_iam &#125;;<span aria-hidden="true" c
 </li>
 <li><p>增加系统调用号</p>
 <p>  <code>/usr/root/include/unistd.h</code></p>
-  <pre class="line-numbers language-h" data-language="h"><code class="language-h">#define __NR_whoami 72
-#define __NR_iam  73<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+  <figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> __NR_whoami 72</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __NR_iam  73</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul>
 <li><p>编写测试程序</p>
 <p>  <code>~/whoami.c</code></p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* 有它，_syscall1 等才有效。详见unistd.h */</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">__LIBRARY__</span></span>
-
-<span class="token comment">/* 有它，编译器才能获知自定义的系统调用的编号 */</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"unistd.h"</span></span>
-
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;errno.h></span></span>
-
-<span class="token comment">/* whoami()在用户空间的接口函数 */</span>
-<span class="token function">_syscall2</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">,</span> whoami<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span>name<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token punctuation">,</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">char</span> myname<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token function">whoami</span><span class="token punctuation">(</span>myname<span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 有它，_syscall1 等才有效。详见unistd.h */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __LIBRARY__</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 有它，编译器才能获知自定义的系统调用的编号 */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;unistd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* whoami()在用户空间的接口函数 */</span></span><br><span class="line">_syscall2(<span class="type">int</span>, whoami,<span class="type">char</span>*,name,<span class="type">unsigned</span> <span class="type">int</span>,size);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">char</span> *arg)</span> &#123;</span><br><span class="line">    <span class="type">char</span> myname[<span class="number">50</span>];</span><br><span class="line">    whoami(myname, <span class="number">50</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
   <div class="note info"><p>myname 长度只要大于 who.c 里 _myname 的长度就行</p>
 </div>
 
 <p>  <code>~/iam.c</code></p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* 有它，_syscall1 等才有效。详见unistd.h */</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">__LIBRARY__</span></span>
-
-<span class="token comment">/* 有它，编译器才能获知自定义的系统调用的编号 */</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"unistd.h"</span></span>
-
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;errno.h></span></span>
-
-<span class="token comment">/* iam()在用户空间的接口函数 */</span>
-<span class="token function">_syscall1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">,</span> iam<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">iam</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 有它，_syscall1 等才有效。详见unistd.h */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __LIBRARY__</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 有它，编译器才能获知自定义的系统调用的编号 */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;unistd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* iam()在用户空间的接口函数 */</span></span><br><span class="line">_syscall1(<span class="type">int</span>, iam, <span class="type">const</span> <span class="type">char</span>*, name);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> &#123;</span><br><span class="line">    iam(argv[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
   <div class="note info"><p>注意是取第二个参数</p>
 </div>
 </li>
 <li><p>编译</p>
-  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc -o iam iam.c
-gcc -o <span class="token function">whoami</span> whoami.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -o iam iam.c</span><br><span class="line">gcc -o whoami whoami.c</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>运行测试</p>
-  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>/usr/root<span class="token punctuation">]</span><span class="token comment"># ./iam ehye</span>
-<span class="token punctuation">[</span>/usr/root<span class="token punctuation">]</span><span class="token comment"># ./whoami</span>
-ehye<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">[/usr/root]# </span><span class="language-bash">./iam ehye</span></span><br><span class="line"><span class="meta prompt_">[/usr/root]# </span><span class="language-bash">./whoami</span></span><br><span class="line">ehye</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以总结出向 Linux 0.11 添加一个系统调用 foo() 的步骤</p>
 <ol>

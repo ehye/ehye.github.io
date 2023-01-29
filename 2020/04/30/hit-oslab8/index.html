@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="修改 Linux 0.11 的终端设备处理代码，对键盘输入和字符显示进行非常规的控制">
 <meta property="og:type" content="article">
@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ehye.github.io/2020/04/30/hit-oslab8/switch_f12.jpg">
 <meta property="article:published_time" content="2020-04-30T10:50:39.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ehye.github.io/2020/04/30/hit-oslab8/switch_f12.jpg">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -274,104 +274,45 @@
 </blockquote>
 <p>以 ls 命令为例：</p>
 <p>正常情况：</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text"># ls
-hello.c hello.o hello<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ls</span><br><span class="line">hello.c hello.o hello</span><br></pre></td></tr></table></figure>
 
 <p>第一次按 F12，然后输入 ls：</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text"># **
-*****.* *****.* *****<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># **</span><br><span class="line">*****.* *****.* *****</span><br></pre></td></tr></table></figure>
 
 <p>第二次按 F12，然后输入 ls：</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text"># ls
-hello.c hello.o hello<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ls</span><br><span class="line">hello.c hello.o hello</span><br></pre></td></tr></table></figure>
 
 <p>第三次按 F12，然后输入 ls：</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text"># **
-*****.* *****.* *****<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># **</span><br><span class="line">*****.* *****.* *****</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>相对简单的一次实验，根据F12键盘中断，设置一个开关，再更改输出即可</p>
 <ul>
 <li>修改的文件</li>
 </ul>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">include/linux/sched.h
-kernel/sched.c
-kernel/chr_drv/keyboard.S
-kernel/chr_drv/console.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">include/linux/sched.h</span><br><span class="line">kernel/sched.c</span><br><span class="line">kernel/chr_drv/keyboard.S</span><br><span class="line">kernel/chr_drv/console.c</span><br></pre></td></tr></table></figure>
 
 <h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><ul>
 <li><p>sched.h</p>
 <p>  添加一个全局变量作为开关</p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> f12_flag<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> f12_flag;</span><br></pre></td></tr></table></figure>
 
 <p>  因为 console.c 引用 sched.h ，所以不能在 sched.c 里定义</p>
 </li>
 <li><p>sched.c</p>
 <p>  没错又是 sched.c</p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c">f12_flag <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token keyword">void</span> <span class="token function">switch_f12</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>f12_flag<span class="token punctuation">)</span> f12_flag <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">else</span> f12_flag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f12_flag = <span class="number">0</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">switch_f12</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(f12_flag) f12_flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> f12_flag = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>  一个开关函数，课件里有提示了</p>
 </li>
 <li><p>keyboard.S</p>
 <p>  修改功能键扫描码处理块，参考自《Linux 内核 0.11 详细注释》</p>
-  <pre class="line-numbers language-as" data-language="as"><code class="language-as">&#x2F;*
-* this routine handles function keys
-*&#x2F;
-func:
-    subb $0x3B,%al
-    jb end_func
-    cmpb $9,%al
-    jbe ok_func
-    subb $18,%al &#x2F;&#x2F; 是功能键F11、F12？
-    cmpb $10,%al &#x2F;&#x2F; 是功能键F11？
-    jb end_func  &#x2F;&#x2F; 不是，则不处理，返回
-    cmpb $11,%al &#x2F;&#x2F; 是功能键F12？
-    ja end_func  &#x2F;&#x2F; 不是，则不处理，返回
-    call switch_f12<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight as"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* this routine handles function keys</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">func:</span><br><span class="line">    subb $<span class="number">0x3B</span>,%al</span><br><span class="line">    jb end_func</span><br><span class="line">    cmpb $<span class="number">9</span>,%al</span><br><span class="line">    jbe ok_func</span><br><span class="line">    subb $<span class="number">18</span>,%al <span class="comment">// 是功能键F11、F12？</span></span><br><span class="line">    cmpb $<span class="number">10</span>,%al <span class="comment">// 是功能键F11？</span></span><br><span class="line">    jb end_func  <span class="comment">// 不是，则不处理，返回</span></span><br><span class="line">    cmpb $<span class="number">11</span>,%al <span class="comment">// 是功能键F12？</span></span><br><span class="line">    ja end_func  <span class="comment">// 不是，则不处理，返回</span></span><br><span class="line">    call switch_f12</span><br></pre></td></tr></table></figure>
 
 <p>  增加跳转<code>switch_f12</code>的语句</p>
 </li>
 <li><p>console.c</p>
-  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">con_write</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">tty_struct</span> <span class="token operator">*</span> tty<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> nr<span class="token punctuation">;</span>
-    <span class="token keyword">char</span> c<span class="token punctuation">;</span>
-
-    nr <span class="token operator">=</span> <span class="token function">CHARS</span><span class="token punctuation">(</span>tty<span class="token operator">-></span>write_q<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>nr<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token function">GETCH</span><span class="token punctuation">(</span>tty<span class="token operator">-></span>write_q<span class="token punctuation">,</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">switch</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">case</span> <span class="token number">0</span><span class="token operator">:</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span>c<span class="token operator">></span><span class="token number">31</span> <span class="token operator">&amp;&amp;</span> c<span class="token operator">&lt;</span><span class="token number">127</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                    <span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token operator">>=</span>video_num_columns<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                        x <span class="token operator">-=</span> video_num_columns<span class="token punctuation">;</span>
-                        pos <span class="token operator">-=</span> video_size_row<span class="token punctuation">;</span>
-                        <span class="token function">lf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    <span class="token punctuation">&#125;</span>
-                    <span class="token comment">/* 只针对字母 */</span>
-                    <span class="token keyword">if</span><span class="token punctuation">(</span>f12_flag <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>c<span class="token operator">></span><span class="token number">64</span> <span class="token operator">&amp;&amp;</span> c<span class="token operator">&lt;</span><span class="token number">91</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>c<span class="token operator">></span><span class="token number">96</span> <span class="token operator">&amp;&amp;</span> c<span class="token operator">&lt;</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-                        c<span class="token operator">=</span><span class="token char">'*'</span><span class="token punctuation">;</span>
-                    <span class="token function">__asm__</span><span class="token punctuation">(</span><span class="token string">"movb attr,%%ah\n\t"</span>
-                        <span class="token string">"movw %%ax,%1\n\t"</span>
-                        <span class="token operator">::</span><span class="token string">"a"</span> <span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">short</span> <span class="token operator">*</span><span class="token punctuation">)</span>pos<span class="token punctuation">)</span>
-                        <span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    pos <span class="token operator">+=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-                    x<span class="token operator">++</span><span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span> 
-                <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-            <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-            <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-            <span class="token keyword">case</span> <span class="token number">3</span><span class="token operator">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-            <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token function">set_cursor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">con_write</span><span class="params">(<span class="keyword">struct</span> tty_struct * tty)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> nr;</span><br><span class="line">    <span class="type">char</span> c;</span><br><span class="line"></span><br><span class="line">    nr = CHARS(tty-&gt;write_q);</span><br><span class="line">    <span class="keyword">while</span> (nr--) &#123;</span><br><span class="line">        GETCH(tty-&gt;write_q,c);</span><br><span class="line">        <span class="keyword">switch</span>(state) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> (c&gt;<span class="number">31</span> &amp;&amp; c&lt;<span class="number">127</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (x&gt;=video_num_columns) &#123;</span><br><span class="line">                        x -= video_num_columns;</span><br><span class="line">                        pos -= video_size_row;</span><br><span class="line">                        lf();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">/* 只针对字母 */</span></span><br><span class="line">                    <span class="keyword">if</span>(f12_flag &amp;&amp; ((c&gt;<span class="number">64</span> &amp;&amp; c&lt;<span class="number">91</span>) || (c&gt;<span class="number">96</span> &amp;&amp; c&lt;<span class="number">123</span>)))</span><br><span class="line">                        c=<span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">                    __asm__(<span class="string">&quot;movb attr,%%ah\n\t&quot;</span></span><br><span class="line">                        <span class="string">&quot;movw %%ax,%1\n\t&quot;</span></span><br><span class="line">                        ::<span class="string">&quot;a&quot;</span> (c),<span class="string">&quot;m&quot;</span> (*(<span class="type">short</span> *)pos)</span><br><span class="line">                        );</span><br><span class="line">                    pos += <span class="number">2</span>;</span><br><span class="line">                    x++;</span><br><span class="line">                &#125; </span><br><span class="line">                ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>: ...</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>: ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    set_cursor();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>  在con_write，真正写显示器前根据 flag 改变输出字符</p>
 </li>

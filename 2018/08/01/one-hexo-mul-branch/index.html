@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="GitHub Pages 在国内访问会不可避免的慢，因此可以使用国内类似的平台提供的服务，来加快从国内访问的速度">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="GitHub Pages 在国内访问会不可避免的慢，因此可以使用国内类似的平台提供的服务，来加快从国内访问的速度">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-08-01T04:39:36.000Z">
-<meta property="article:modified_time" content="2023-01-26T08:20:48.464Z">
+<meta property="article:modified_time" content="2023-01-29T06:57:30.602Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="git">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">71</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -271,23 +271,14 @@
         <p>GitHub Pages 在国内访问会不可避免的慢，因此可以使用国内类似的平台提供的服务，来加快从国内访问的速度<span id="more"></span></p>
 <hr>
 <h1 id="Hexo-设置"><a href="#Hexo-设置" class="headerlink" title="Hexo 设置"></a>Hexo 设置</h1><p>在 <code>_config.yml</code> 中修改参数，添加仓库地址</p>
-<pre class="line-numbers language-none"><code class="language-none">deploy:
-- type: git
-  repo:
-- type: git
-  repo:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">- type: git</span><br><span class="line">  repo:</span><br><span class="line">- type: git</span><br><span class="line">  repo:</span><br></pre></td></tr></table></figure>
 
 <h1 id="git-设置"><a href="#git-设置" class="headerlink" title="git 设置"></a>git 设置</h1><p>打开 Hexo 生成后的 <code>public\.git\config</code> 文件<br>添加一个叫做 all 的 remote，将每个仓库的地址添加到下方，并保持 hexo 备份分支不变</p>
-<pre class="line-numbers language-none"><code class="language-none">[remote &quot;all&quot;]
-	url &#x3D; git@github.com:&#123;user_name&#125;&#x2F;&#123;user_name&#125;.github.io.git
-	url &#x3D; git@git.coding.net:&#123;user_name&#125;&#x2F;&#123;user_name&#125;.coding.me.git
-[branch &quot;hexo&quot;]
-	remote &#x3D; all
-	merge &#x3D; refs&#x2F;heads&#x2F;hexo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[remote &quot;all&quot;]</span><br><span class="line">    url = git@github.com:&#123;user_name&#125;/&#123;user_name&#125;.github.io.git</span><br><span class="line">    url = git@git.coding.net:&#123;user_name&#125;/&#123;user_name&#125;.coding.me.git</span><br><span class="line">[branch &quot;hexo&quot;]</span><br><span class="line">    remote = all</span><br><span class="line">    merge = refs/heads/hexo</span><br></pre></td></tr></table></figure>
 
 <p>然后在第二仓库添加你使用的 SSH KEY ，具体查看各平台的帮助文档</p>
 <h1 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h1><p>设置上游分支并推送，这里使用之前定义的名为<code>all</code>的 remote 配置，后面跟随分支名<code>hexo</code></p>
-<pre class="line-numbers language-none"><code class="language-none">git push --set-upstream all hexo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --set-upstream all hexo</span><br></pre></td></tr></table></figure>
 
 <p>到此，每个远程仓库就有两个 branch 了</p>
 <p>后续只要正常地使用<code>hexo d</code>和<code>git push</code>即可完成博客部署以及备份分支的推送</p>
