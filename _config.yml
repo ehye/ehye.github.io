@@ -38,6 +38,7 @@ post_asset_folder: true # 资源文件夹
 relative_link: false
 future: true
 auto_spacing: true # 在中文和英文之间加入空格
+
 highlight:
   enable: true
   line_number: true

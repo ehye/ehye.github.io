@@ -55,12 +55,12 @@ bing_site_verification: F1D4D412BCED9D8BDE4A8C660D147D15
 
 codeblock:
   # All available themes: https://theme-next.js.org/highlight/
-  # prism:
-  #   light: prism.min
-  #   dark: prism-tomorrow.min
   theme:
     light: github
     dark: github-dark-dimmed
+  # prism:
+  #   light: prism-a11y-dark
+  #   dark: prism-a11y-dark
 
 back2top:
   sidebar: true
