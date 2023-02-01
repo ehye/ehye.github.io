@@ -40,17 +40,17 @@ future: true
 auto_spacing: true # 在中文和英文之间加入空格
 
 highlight:
-  enable: true
-  line_number: true
-  auto_detect: false
-  tab_replace: '    '
-  wrap: false
-  hljs: false
-prismjs:
   enable: false
-  preprocess: true
-  line_number: true
-  tab_replace: '    '
+  line_number: false
+  auto_detect: false
+  tab_replace: '  '
+  wrap: false
+  hljs: true
+prismjs:
+  enable: true
+  preprocess: false
+  line_number: false
+  tab_replace: '  '
 
 # Category & Tag
 default_category: uncategorized
