@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="突然开课的 Part II，难度大增">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/12/04/alg4s-WordNet/wordnet-fig1.png">
 <meta property="og:image" content="https://ehye.github.io/2017/12/04/alg4s-WordNet/wordnet-sap.png">
 <meta property="article:published_time" content="2017-12-04T02:26:07.000Z">
-<meta property="article:modified_time" content="2023-01-30T03:59:09.913Z">
+<meta property="article:modified_time" content="2023-02-01T07:49:30.958Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="DFS">
 <meta property="article:tag" content="DAG">
@@ -191,17 +191,10 @@
       <span class="links-of-author-item">
         <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
   </div>
 
         </div>
       </div>
-        <div class="back-to-top animated" role="button" aria-label="返回顶部">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
     </div>
 
     
@@ -278,7 +271,10 @@
 <img src="/2017/12/04/alg4s-WordNet/wordnet-fig1.png" class="">
 
 <h2 id="DeluxeDFS-java"><a href="#DeluxeDFS-java" class="headerlink" title="DeluxeDFS.java"></a>DeluxeDFS.java</h2><p>先从SAP入手，新建一个叫DeluxeDFS的类，增加一个<code>getMark()</code>方法，得到<code>boolean[] marked</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span>[] getMarked()&#123;</span><br><span class="line">    <span class="type">boolean</span>[] marked = <span class="built_in">this</span>.marked;</span><br><span class="line">    <span class="keyword">return</span> marked;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">public boolean[] getMarked()&#123;
+    boolean[] marked &#x3D; this.marked;
+    return marked;  
+&#125;</code></pre>
 
 <h2 id="SAP-java"><a href="#SAP-java" class="headerlink" title="SAP.java"></a>SAP.java</h2><p>什么是 shortest ancestor path ？给了一个简单的例子。</p>
 <blockquote>
@@ -287,11 +283,39 @@
 <img src="/2017/12/04/alg4s-WordNet/wordnet-sap.png" class="">
 
 <p>读入 synsets*.txt 进行测试，第三个字段为词语解释，这个作业不需要<br>因此，用 DeluxeDFS 访问 boolean[] marked ，修改讲义P20的 relax()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vMarked.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (vMarked[i] &amp;&amp; wMarked[i]) &#123;                     <span class="comment">// is same ancestral</span></span><br><span class="line">        currentPath = vBFS.distTo(i) + wBFS.distTo(i);  <span class="comment">// update shortest path</span></span><br><span class="line">        <span class="keyword">if</span> (currentPath &lt; shortestPath) &#123;</span><br><span class="line">            shortestPath = currentPath;</span><br><span class="line">            shortestAncestor = i;                       <span class="comment">// update shortest path</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">for (int i &#x3D; 0; i &lt; vMarked.length; i++) &#123;
+    if (vMarked[i] &amp;&amp; wMarked[i]) &#123;                     &#x2F;&#x2F; is same ancestral
+        currentPath &#x3D; vBFS.distTo(i) + wBFS.distTo(i);  &#x2F;&#x2F; update shortest path
+        if (currentPath &lt; shortestPath) &#123;
+            shortestPath &#x3D; currentPath;
+            shortestAncestor &#x3D; i;                       &#x2F;&#x2F; update shortest path
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <h2 id="WordNet-java"><a href="#WordNet-java" class="headerlink" title="WordNet.java"></a>WordNet.java</h2><p>提供测试的 main 方法读入的两个参数分别是同义词和这个词的上位词(hypernyms)<br>构造函数把同义词加入一个 list，用上位词创建DAG</p>
 <p>设计 一个 Hypernym 类，用 ArrayList 来记录上位词(hypernyms)ID</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Hypernym</span> <span class="keyword">implements</span> <span class="title class_">Comparable</span>&lt;Hypernym&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String nounId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;Integer&gt; hypernymsId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Hypernym</span><span class="params">(String nounId)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nounId == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>();</span><br><span class="line">        hypernymsId = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="built_in">this</span>.nounId = nounId; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Hypernym that)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.nounId.compareTo(that.nounId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addId</span><span class="params">(<span class="type">int</span> id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.hypernymsId.add(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">private class Hypernym implements Comparable&lt;Hypernym&gt; &#123;
+
+    private final String nounId;
+    private final ArrayList&lt;Integer&gt; hypernymsId;
+
+    public Hypernym(String nounId) &#123;
+        if (nounId &#x3D;&#x3D; null)
+            throw new IllegalArgumentException();
+        hypernymsId &#x3D; new ArrayList&lt;&gt;();
+        this.nounId &#x3D; nounId; 
+    &#125;
+
+    @Override
+    public int compareTo(Hypernym that) &#123;
+        return this.nounId.compareTo(that.nounId);
+    &#125;
+
+    private void addId(int id) &#123;
+        this.hypernymsId.add(id);
+    &#125;
+&#125;</code></pre>
 
 <h2 id="Outcast-java"><a href="#Outcast-java" class="headerlink" title="Outcast.java"></a>Outcast.java</h2><blockquote>
 <p>Given a list of wordnet nouns A1, A2, …, An, which noun is the least related to the others?</p>
@@ -319,7 +343,7 @@
       <a href="https://ehye.github.io/2017/12/04/alg4s-WordNet/" title="Algorithms, Part II - Week 1 - WordNet">https://ehye.github.io/2017/12/04/alg4s-WordNet/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -355,22 +379,7 @@
 
     
   
-  <div class="comments">
-    <script src="https://giscus.app/client.js"
-        data-repo="ehye/ehye.github.io" 
-        data-repo-id="R_kgDOHIPhOg" 
-        data-category="Comments"
-        data-category-id="DIC_kwDOHIPhOs4CTSmJ"
-        data-mapping="og:title" 
-        data-reactions-enabled="1" 
-        data-emit-metadata="0" 
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        data-input-position="top"
-        data-loading="lazy"
-        async>
-    </script>
+  <div class="comments giscus-container">
   </div>
   
   
@@ -396,6 +405,11 @@
   </footer>
 
   
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -404,6 +418,8 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
@@ -420,10 +436,37 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
 
 </body>
 </html>

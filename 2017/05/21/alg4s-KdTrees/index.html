@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第五周编程作业Kd-Trees">
 <meta property="og:type" content="article">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/RectHV.png">
 <meta property="og:image" content="https://ehye.github.io/2017/05/21/alg4s-KdTrees/kdtree-insert.png">
 <meta property="article:published_time" content="2017-05-21T09:26:13.000Z">
-<meta property="article:modified_time" content="2023-01-30T03:59:09.913Z">
+<meta property="article:modified_time" content="2023-02-01T07:49:30.954Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="KdTree">
 <meta name="twitter:card" content="summary">
@@ -189,17 +189,10 @@
       <span class="links-of-author-item">
         <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
   </div>
 
         </div>
       </div>
-        <div class="back-to-top animated" role="button" aria-label="返回顶部">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
     </div>
 
     
@@ -283,7 +276,21 @@
 <p>主要是完成 API 里的 draw(), range(), nearest() 方法</p>
 <p>题目给了 Point2D, RectHV 这两种数据类型以使用，要提交的 PointSET.java 使用蛮力运算，KdTree.java 则使用 2d-Trees 来运算，题目就是完成这两个文件</p>
 <h3 id="Node-data-type"><a href="#Node-data-type" class="headerlink" title="Node data type"></a>Node data type</h3><p>根据<a target="_blank" rel="noopener" href="http://coursera.cs.princeton.edu/algs4/checklists/kdtree.html">CheckList</a>所给的结点参考模型进行一些修改</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isVertical;</span><br><span class="line">    <span class="keyword">private</span> Point2D p;</span><br><span class="line">    <span class="comment">// the left/bottom subtree</span></span><br><span class="line">    <span class="keyword">private</span> Node lb;</span><br><span class="line">    <span class="comment">// the right/top subtree</span></span><br><span class="line">    <span class="keyword">private</span> Node rt;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(Point2D p, <span class="type">boolean</span> isVertical)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.p = p;</span><br><span class="line">        <span class="built_in">this</span>.isVertical = isVertical;</span><br><span class="line">        <span class="built_in">this</span>.lb = <span class="literal">null</span>;</span><br><span class="line">        <span class="built_in">this</span>.rt = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">private static class Node &#123;
+    private boolean isVertical;
+    private Point2D p;
+    &#x2F;&#x2F; the left&#x2F;bottom subtree
+    private Node lb;
+    &#x2F;&#x2F; the right&#x2F;top subtree
+    private Node rt;
+
+    public Node(Point2D p, boolean isVertical) &#123;
+        this.p &#x3D; p;
+        this.isVertical &#x3D; isVertical;
+        this.lb &#x3D; null;
+        this.rt &#x3D; null;
+    &#125;
+&#125;</code></pre>
 
 <h3 id="Writing-KdTree"><a href="#Writing-KdTree" class="headerlink" title="Writing KdTree"></a>Writing KdTree</h3><p>可以从编写 isEmpty() 和 size() 开始，再写 insert()，再 写 contains() 并测试 insert()是否可用<br>要注意的是, insert() 和 contains() 的写法要使用 <em>private helper methods</em>（书399页），并增加一个 <em>boolean orientation</em> 作为这些帮助器方法的参数</p>
 <p><strong>2d-tree implementation.</strong> 编写一个可变数据类型 KdTree, 它使用2维树实现和蛮力运算相同的 api</p>
@@ -293,10 +300,328 @@
 <p><strong>Range search.</strong> 思想在课件里给出了，主要就是递归以，而且要分4种情况（垂直线左，垂直线右，水平线下，水平线上）进行回溯剪枝，这样可以排除不可能的子树</p>
 <p><strong>Nearest neighbor search.</strong> 从根结点开始递归搜索，更新候选点，同样使用剪枝</p>
 <h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>PointSET.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PointSET</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SET&lt;Point2D&gt; set;</span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;Point2D&gt; result;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// construct an empty set of points</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">PointSET</span><span class="params">()</span> &#123;</span><br><span class="line">        set = <span class="keyword">new</span> <span class="title class_">SET</span>&lt;Point2D&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is the set empty?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> set.size() == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// number of points in the set</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">size</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> set.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add the point to the set (if it is not already in the set)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="literal">null</span>)             <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.NullPointerException();</span><br><span class="line">        <span class="keyword">if</span> (!set.contains(p)) set.add(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// does the set contain point p?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.NullPointerException();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> set.contains(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// draw all points to standard draw</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">draw</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// drawing the points</span></span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius(<span class="number">0.01</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            StdDraw.point(point.x(), point.y());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// all points that are inside the rectangle</span></span><br><span class="line">    <span class="keyword">public</span> Iterable&lt;Point2D&gt; <span class="title function_">range</span><span class="params">(RectHV rect)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (rect == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.NullPointerException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Point2D&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (rect.contains(point))</span><br><span class="line">                result.add(point);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a nearest neighbor in the set to point p; null if the set is empty</span></span><br><span class="line">    <span class="keyword">public</span> Point2D <span class="title function_">nearest</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="literal">null</span>)         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.NullPointerException();</span><br><span class="line">        <span class="keyword">if</span> (set.isEmpty())     <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">double</span> <span class="variable">min</span> <span class="operator">=</span> Double.MAX_VALUE;</span><br><span class="line">        <span class="type">Point2D</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Point2D point : set) &#123;</span><br><span class="line">            <span class="type">double</span> <span class="variable">distence</span> <span class="operator">=</span> Point.distanceSq(p.x(), p.y(), point.x(), point.y());</span><br><span class="line">            <span class="keyword">if</span> (distence &lt; min) &#123;</span><br><span class="line">                min = distence;</span><br><span class="line">                result = point;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// unit testing of the methods (optional)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">public class PointSET &#123;
+
+    private SET&lt;Point2D&gt; set;
+    private ArrayList&lt;Point2D&gt; result;
+
+    &#x2F;&#x2F; construct an empty set of points
+    public PointSET() &#123;
+        set &#x3D; new SET&lt;Point2D&gt;();
+    &#125;
+
+    &#x2F;&#x2F; is the set empty?
+    public boolean isEmpty() &#123;
+        return set.size() &#x3D;&#x3D; 0;
+    &#125;
+
+    &#x2F;&#x2F; number of points in the set
+    public int size() &#123;
+        return set.size();
+    &#125;
+
+    &#x2F;&#x2F; add the point to the set (if it is not already in the set)
+    public void insert(Point2D p) &#123;
+        if (p &#x3D;&#x3D; null)             throw new java.lang.NullPointerException();
+        if (!set.contains(p)) set.add(p);
+    &#125;
+
+    &#x2F;&#x2F; does the set contain point p?
+    public boolean contains(Point2D p) &#123;
+        if (p &#x3D;&#x3D; null)
+            throw new java.lang.NullPointerException();
+
+        return set.contains(p);
+    &#125;
+
+    &#x2F;&#x2F; draw all points to standard draw
+    public void draw() &#123;
+        &#x2F;&#x2F; drawing the points
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.01);
+
+        for (Point2D point : set) &#123;
+            StdDraw.point(point.x(), point.y());
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; all points that are inside the rectangle
+    public Iterable&lt;Point2D&gt; range(RectHV rect) &#123;
+        if (rect &#x3D;&#x3D; null) &#123;
+            throw new java.lang.NullPointerException();
+        &#125;
+
+        result &#x3D; new ArrayList&lt;Point2D&gt;();
+
+        for (Point2D point : set) &#123;
+            if (rect.contains(point))
+                result.add(point);
+        &#125;
+        return result;
+    &#125;
+
+    &#x2F;&#x2F; a nearest neighbor in the set to point p; null if the set is empty
+    public Point2D nearest(Point2D p) &#123;
+        if (p &#x3D;&#x3D; null)         throw new java.lang.NullPointerException();
+        if (set.isEmpty())     return null;
+
+        double min &#x3D; Double.MAX_VALUE;
+        Point2D result &#x3D; null;
+
+        for (Point2D point : set) &#123;
+            double distence &#x3D; Point.distanceSq(p.x(), p.y(), point.x(), point.y());
+            if (distence &lt; min) &#123;
+                min &#x3D; distence;
+                result &#x3D; point;
+            &#125;
+        &#125;
+        return result;
+    &#125;
+
+    &#x2F;&#x2F; unit testing of the methods (optional)
+    public static void main(String[] args) &#123;&#125;
+&#125;</code></pre>
 
 <p>PointSET.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KdTree</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="type">boolean</span> isVertical;</span><br><span class="line">        <span class="keyword">private</span> Point2D p;</span><br><span class="line">        <span class="comment">// the left/bottom subtree</span></span><br><span class="line">        <span class="keyword">private</span> Node lb;</span><br><span class="line">        <span class="comment">// the right/top subtree</span></span><br><span class="line">        <span class="keyword">private</span> Node rt;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(Point2D p, <span class="type">boolean</span> isVertical)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.p = p;</span><br><span class="line">            <span class="built_in">this</span>.isVertical = isVertical;</span><br><span class="line">            <span class="built_in">this</span>.lb = <span class="literal">null</span>;</span><br><span class="line">            <span class="built_in">this</span>.rt = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> size;</span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">RectHV</span> <span class="variable">RECT</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RectHV</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// construct an empty set of points</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">KdTree</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.root = <span class="literal">null</span>;</span><br><span class="line">        <span class="built_in">this</span>.size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is the set empty?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.size == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// number of points in the set</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">size</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add the point to the set (if it is not already in the set)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="literal">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.NullPointerException();</span><br><span class="line">        <span class="built_in">this</span>.root = insert(root, p, <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Node <span class="title function_">insert</span><span class="params">(Node node, Point2D p, <span class="type">boolean</span> isVertical)</span> &#123;</span><br><span class="line">        <span class="comment">// if it is not in the set, create new node</span></span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            size++;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Node</span>(p, isVertical);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// already in, return it</span></span><br><span class="line">        <span class="keyword">if</span> (node.p.equals(p))</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// else insert it</span></span><br><span class="line">        <span class="keyword">if</span> (node.isVertical &amp;&amp; p.x() &lt; node.p.x() || !node.isVertical &amp;&amp; p.y() &lt; node.p.y()) &#123;</span><br><span class="line">            node.lb = insert(node.lb, p, !node.isVertical);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            node.rt = insert(node.rt, p, !node.isVertical);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// does the set contain point p?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (p ==<span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> contains(root, p, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(Node node, Point2D p, <span class="type">boolean</span> orientation)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">cmp</span> <span class="operator">=</span> p.compareTo(node.p);</span><br><span class="line">        <span class="keyword">if</span>      (cmp &lt; <span class="number">0</span>) <span class="keyword">return</span> contains(node.lb, p, !orientation);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) <span class="keyword">return</span> contains(node.rt, p, !orientation);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// draw all points to standard draw</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">draw</span><span class="params">()</span> &#123;</span><br><span class="line">        StdDraw.setScale(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius();</span><br><span class="line"></span><br><span class="line">        RECT.draw();</span><br><span class="line">        draw(root, RECT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">draw</span><span class="params">(Node node, RectHV rect)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// drawing the points</span></span><br><span class="line">        StdDraw.setPenColor(StdDraw.BLACK);</span><br><span class="line">        StdDraw.setPenRadius(<span class="number">0.01</span>);</span><br><span class="line">        StdDraw.point(node.p.x(), node.p.y());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// drawing the splitting lines</span></span><br><span class="line">        StdDraw.setPenRadius();</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="comment">// vertical</span></span><br><span class="line">            StdDraw.setPenColor(StdDraw.RED);</span><br><span class="line">            StdDraw.line(node.p.x(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// horizontal</span></span><br><span class="line">            StdDraw.setPenColor(StdDraw.BLUE);</span><br><span class="line">            StdDraw.line(rect.xmin(), node.p.y(), rect.xmax(), node.p.y());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// recursively draw children</span></span><br><span class="line">        draw(node.lb, leftRect(rect, node));</span><br><span class="line">        draw(node.rt, rightRect(rect, node));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RectHV <span class="title function_">leftRect</span><span class="params">(<span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Node node)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RectHV <span class="title function_">rightRect</span><span class="params">(<span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Node node)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RectHV</span>(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// all points that are inside the rectangle</span></span><br><span class="line">    <span class="keyword">public</span> Iterable&lt;Point2D&gt; <span class="title function_">range</span><span class="params">(RectHV rect)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> TreeSet&lt;Point2D&gt; rangeSet = <span class="keyword">new</span> <span class="title class_">TreeSet</span>&lt;Point2D&gt;();</span><br><span class="line">        range(root, RECT, rect, rangeSet);</span><br><span class="line">        <span class="keyword">return</span> rangeSet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">range</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">final</span> RectHV qrect, <span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> TreeSet&lt;Point2D&gt; rangeSet)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (rect.intersects(qrect)) &#123;                                    <span class="comment">// if query rect is in rectangle</span></span><br><span class="line">            <span class="keyword">final</span> <span class="type">Point2D</span> <span class="variable">p</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Point2D</span>(node.p.x(), node.p.y());</span><br><span class="line">            <span class="keyword">if</span> (rect.contains(p)) rangeSet.add(p);                <span class="comment">// find the point</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// pruning rule</span></span><br><span class="line">            <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">                <span class="keyword">if</span> (qrect.xmax() &lt; p.x())</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.xmax() &gt; p.x())</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.contains(p)) &#123;</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (qrect.ymax() &lt; p.y())</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.ymax() &gt; p.y())</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                <span class="keyword">if</span> (qrect.contains(p)) &#123;</span><br><span class="line">                    range(node.lb, leftRect(qrect, node), rect, rangeSet);</span><br><span class="line">                    range(node.rt, rightRect(qrect, node), rect, rangeSet);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a nearest neighbor in the set to point p; null if the set is empty</span></span><br><span class="line">    <span class="keyword">public</span> Point2D <span class="title function_">nearest</span><span class="params">(Point2D p)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">Point2D</span> <span class="variable">retp</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">mindis</span> <span class="operator">=</span> Double.MAX_VALUE;</span><br><span class="line">        Queue&lt;Node&gt; queue = <span class="keyword">new</span> <span class="title class_">Queue</span>&lt;Node&gt;();</span><br><span class="line">        queue.enqueue(root);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">x</span> <span class="operator">=</span> queue.dequeue();</span><br><span class="line">            <span class="type">double</span> <span class="variable">dis</span> <span class="operator">=</span> p.distanceSquaredTo(x.p);</span><br><span class="line">            <span class="keyword">if</span> (dis &lt; mindis) &#123;</span><br><span class="line">                retp = x.p;</span><br><span class="line">                mindis = dis;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (x.lb != <span class="literal">null</span> &amp;&amp; x.lb.p.distanceSquaredTo(p) &lt; mindis)</span><br><span class="line">                queue.enqueue(x.lb);</span><br><span class="line">            <span class="keyword">if</span> (x.rt != <span class="literal">null</span> &amp;&amp; x.rt.p.distanceSquaredTo(p) &lt; mindis)</span><br><span class="line">                queue.enqueue(x.rt);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> retp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Point2D <span class="title function_">nearest</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">final</span> RectHV rect, <span class="keyword">final</span> Point2D p, Point2D candidate)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span> candidate;</span><br><span class="line"></span><br><span class="line">        <span class="type">double</span> <span class="variable">dqn</span> <span class="operator">=</span> <span class="number">0.0</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">drq</span> <span class="operator">=</span> <span class="number">0.0</span>;</span><br><span class="line">        <span class="type">RectHV</span> <span class="variable">leftRect</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">RectHV</span> <span class="variable">rigtRect</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Point2D</span> <span class="variable">query</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Point2D</span>(p.x(), p.y());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (candidate != <span class="literal">null</span>) &#123;</span><br><span class="line">            dqn = query.distanceSquaredTo(candidate);</span><br><span class="line">            drq = rect.distanceSquaredTo(query);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (candidate == <span class="literal">null</span> || dqn &gt; drq) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Point2D</span> <span class="variable">point</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Point2D</span>(node.p.x(), node.p.y());</span><br><span class="line">            <span class="keyword">if</span> (candidate == <span class="literal">null</span> || dqn &gt; query.distanceSquaredTo(point))</span><br><span class="line">                candidate = point;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (node.isVertical) &#123;</span><br><span class="line">                <span class="comment">// only p.x() changes</span></span><br><span class="line">                leftRect = <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());</span><br><span class="line">                rigtRect = <span class="keyword">new</span> <span class="title class_">RectHV</span>(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (p.x() &lt; node.p.x()) &#123;</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// only p.y() changes</span></span><br><span class="line">                leftRect = <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());</span><br><span class="line">                rigtRect = <span class="keyword">new</span> <span class="title class_">RectHV</span>(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (p.y() &lt; node.p.y()) &#123;</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    candidate = nearest(node.rt, rigtRect, p, candidate);</span><br><span class="line">                    candidate = nearest(node.lb, leftRect, p, candidate);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> candidate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">public class KdTree &#123;
+
+    private static class Node &#123;
+        private boolean isVertical;
+        private Point2D p;
+        &#x2F;&#x2F; the left&#x2F;bottom subtree
+        private Node lb;
+        &#x2F;&#x2F; the right&#x2F;top subtree
+        private Node rt;
+
+        public Node(Point2D p, boolean isVertical) &#123;
+            this.p &#x3D; p;
+            this.isVertical &#x3D; isVertical;
+            this.lb &#x3D; null;
+            this.rt &#x3D; null;
+        &#125;
+    &#125;
+
+    private int size;
+    private Node root;
+    private final RectHV RECT &#x3D; new RectHV(0, 0, 1, 1);
+
+    &#x2F;&#x2F; construct an empty set of points
+    public KdTree() &#123;
+        this.root &#x3D; null;
+        this.size &#x3D; 0;
+    &#125;
+
+    &#x2F;&#x2F; is the set empty?
+    public boolean isEmpty() &#123;
+        return this.size &#x3D;&#x3D; 0;
+    &#125;
+
+    &#x2F;&#x2F; number of points in the set
+    public int size() &#123;
+        return this.size;
+    &#125;
+
+    &#x2F;&#x2F; add the point to the set (if it is not already in the set)
+    public void insert(Point2D p) &#123;
+        if (p &#x3D;&#x3D; null) throw new java.lang.NullPointerException();
+        this.root &#x3D; insert(root, p, true);
+    &#125;
+
+    private Node insert(Node node, Point2D p, boolean isVertical) &#123;
+        &#x2F;&#x2F; if it is not in the set, create new node
+        if (node &#x3D;&#x3D; null) &#123;
+            size++;
+            return new Node(p, isVertical);
+        &#125;
+
+        &#x2F;&#x2F; already in, return it
+        if (node.p.equals(p))
+            return node;
+
+        &#x2F;&#x2F; else insert it
+        if (node.isVertical &amp;&amp; p.x() &lt; node.p.x() || !node.isVertical &amp;&amp; p.y() &lt; node.p.y()) &#123;
+            node.lb &#x3D; insert(node.lb, p, !node.isVertical);
+        &#125; else &#123;
+            node.rt &#x3D; insert(node.rt, p, !node.isVertical);
+        &#125;
+        return node;
+    &#125;
+
+    &#x2F;&#x2F; does the set contain point p?
+    public boolean contains(Point2D p) &#123;
+        if (p &#x3D;&#x3D;null) return false;
+        return contains(root, p, false);
+    &#125;
+
+    private boolean contains(Node node, Point2D p, boolean orientation) &#123;
+        int cmp &#x3D; p.compareTo(node.p);
+        if      (cmp &lt; 0) return contains(node.lb, p, !orientation);
+        else if (cmp &gt; 0) return contains(node.rt, p, !orientation);
+        else return true;
+    &#125;
+
+    &#x2F;&#x2F; draw all points to standard draw
+    public void draw() &#123;
+        StdDraw.setScale(0, 1);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius();
+
+        RECT.draw();
+        draw(root, RECT);
+    &#125;
+
+    private void draw(Node node, RectHV rect) &#123;
+        if (node &#x3D;&#x3D; null) return;
+
+        &#x2F;&#x2F; drawing the points
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.01);
+        StdDraw.point(node.p.x(), node.p.y());
+
+        &#x2F;&#x2F; drawing the splitting lines
+        StdDraw.setPenRadius();
+        if (node.isVertical) &#123;
+            &#x2F;&#x2F; vertical
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.line(node.p.x(), rect.ymin(), node.p.x(), rect.ymax());
+        &#125;
+        else &#123;
+            &#x2F;&#x2F; horizontal
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.line(rect.xmin(), node.p.y(), rect.xmax(), node.p.y());
+        &#125;
+
+        &#x2F;&#x2F; recursively draw children
+        draw(node.lb, leftRect(rect, node));
+        draw(node.rt, rightRect(rect, node));
+    &#125;
+
+    private RectHV leftRect(final RectHV rect, final Node node) &#123;
+        if (node.isVertical) &#123;
+            return new RectHV(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());
+        &#125; else &#123;
+            return new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());
+        &#125;
+    &#125;
+
+    private RectHV rightRect(final RectHV rect, final Node node) &#123;
+        if (node.isVertical) &#123;
+            return new RectHV(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());
+        &#125; else &#123;
+            return new RectHV(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; all points that are inside the rectangle
+    public Iterable&lt;Point2D&gt; range(RectHV rect) &#123;
+        final TreeSet&lt;Point2D&gt; rangeSet &#x3D; new TreeSet&lt;Point2D&gt;();
+        range(root, RECT, rect, rangeSet);
+        return rangeSet;
+    &#125;
+
+    private void range(final Node node, final RectHV qrect, final RectHV rect, final TreeSet&lt;Point2D&gt; rangeSet) &#123;
+        if (node &#x3D;&#x3D; null) return;
+
+        if (rect.intersects(qrect)) &#123;                                    &#x2F;&#x2F; if query rect is in rectangle
+            final Point2D p &#x3D; new Point2D(node.p.x(), node.p.y());
+            if (rect.contains(p)) rangeSet.add(p);                &#x2F;&#x2F; find the point
+
+            &#x2F;&#x2F; pruning rule
+            if (node.isVertical) &#123;
+                if (qrect.xmax() &lt; p.x())
+                    range(node.lb, leftRect(qrect, node), rect, rangeSet);
+                if (qrect.xmax() &gt; p.x())
+                    range(node.rt, rightRect(qrect, node), rect, rangeSet);
+                if (qrect.contains(p)) &#123;
+                    range(node.lb, leftRect(qrect, node), rect, rangeSet);
+                    range(node.rt, rightRect(qrect, node), rect, rangeSet);
+                &#125;
+            &#125;
+            else &#123;
+                if (qrect.ymax() &lt; p.y())
+                    range(node.lb, leftRect(qrect, node), rect, rangeSet);
+                if (qrect.ymax() &gt; p.y())
+                    range(node.rt, rightRect(qrect, node), rect, rangeSet);
+                if (qrect.contains(p)) &#123;
+                    range(node.lb, leftRect(qrect, node), rect, rangeSet);
+                    range(node.rt, rightRect(qrect, node), rect, rangeSet);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; a nearest neighbor in the set to point p; null if the set is empty
+    public Point2D nearest(Point2D p) &#123;
+        if (root &#x3D;&#x3D; null) return null;
+        Point2D retp &#x3D; null;
+        double mindis &#x3D; Double.MAX_VALUE;
+        Queue&lt;Node&gt; queue &#x3D; new Queue&lt;Node&gt;();
+        queue.enqueue(root);
+        while (!queue.isEmpty()) &#123;
+            Node x &#x3D; queue.dequeue();
+            double dis &#x3D; p.distanceSquaredTo(x.p);
+            if (dis &lt; mindis) &#123;
+                retp &#x3D; x.p;
+                mindis &#x3D; dis;
+            &#125;
+            if (x.lb !&#x3D; null &amp;&amp; x.lb.p.distanceSquaredTo(p) &lt; mindis)
+                queue.enqueue(x.lb);
+            if (x.rt !&#x3D; null &amp;&amp; x.rt.p.distanceSquaredTo(p) &lt; mindis)
+                queue.enqueue(x.rt);
+        &#125;
+        return retp;
+    &#125;
+
+    private Point2D nearest(final Node node, final RectHV rect, final Point2D p, Point2D candidate) &#123;
+        if (node &#x3D;&#x3D; null) return candidate;
+
+        double dqn &#x3D; 0.0;
+        double drq &#x3D; 0.0;
+        RectHV leftRect &#x3D; null;
+        RectHV rigtRect &#x3D; null;
+        final Point2D query &#x3D; new Point2D(p.x(), p.y());
+
+        if (candidate !&#x3D; null) &#123;
+            dqn &#x3D; query.distanceSquaredTo(candidate);
+            drq &#x3D; rect.distanceSquaredTo(query);
+        &#125;
+
+        if (candidate &#x3D;&#x3D; null || dqn &gt; drq) &#123;
+            final Point2D point &#x3D; new Point2D(node.p.x(), node.p.y());
+            if (candidate &#x3D;&#x3D; null || dqn &gt; query.distanceSquaredTo(point))
+                candidate &#x3D; point;
+
+            if (node.isVertical) &#123;
+                &#x2F;&#x2F; only p.x() changes
+                leftRect &#x3D; new RectHV(rect.xmin(), rect.ymin(), node.p.x(), rect.ymax());
+                rigtRect &#x3D; new RectHV(node.p.x(), rect.ymin(), rect.xmax(), rect.ymax());
+
+                if (p.x() &lt; node.p.x()) &#123;
+                    candidate &#x3D; nearest(node.lb, leftRect, p, candidate);
+                    candidate &#x3D; nearest(node.rt, rigtRect, p, candidate);
+                &#125;
+                else &#123;
+                    candidate &#x3D; nearest(node.rt, rigtRect, p, candidate);
+                    candidate &#x3D; nearest(node.lb, leftRect, p, candidate);
+                &#125;
+            &#125;
+            else &#123;
+                &#x2F;&#x2F; only p.y() changes
+                leftRect &#x3D; new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), node.p.y());
+                rigtRect &#x3D; new RectHV(rect.xmin(), node.p.y(), rect.xmax(), rect.ymax());
+
+                if (p.y() &lt; node.p.y()) &#123;
+                    candidate &#x3D; nearest(node.lb, leftRect, p, candidate);
+                    candidate &#x3D; nearest(node.rt, rigtRect, p, candidate);
+                &#125; else &#123;
+                    candidate &#x3D; nearest(node.rt, rigtRect, p, candidate);
+                    candidate &#x3D; nearest(node.lb, leftRect, p, candidate);
+                &#125;
+            &#125;
+        &#125;
+        return candidate;
+    &#125;
+&#125;</code></pre>
 
     </div>
 
@@ -317,7 +642,7 @@
       <a href="https://ehye.github.io/2017/05/21/alg4s-KdTrees/" title="Algorithms, Part I - Week 5 - Kd-Trees">https://ehye.github.io/2017/05/21/alg4s-KdTrees/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -351,22 +676,7 @@
 
     
   
-  <div class="comments">
-    <script src="https://giscus.app/client.js"
-        data-repo="ehye/ehye.github.io" 
-        data-repo-id="R_kgDOHIPhOg" 
-        data-category="Comments"
-        data-category-id="DIC_kwDOHIPhOs4CTSmJ"
-        data-mapping="og:title" 
-        data-reactions-enabled="1" 
-        data-emit-metadata="0" 
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        data-input-position="top"
-        data-loading="lazy"
-        async>
-    </script>
+  <div class="comments giscus-container">
   </div>
   
   
@@ -392,6 +702,11 @@
   </footer>
 
   
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -400,6 +715,8 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
@@ -416,10 +733,37 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
 
 </body>
 </html>

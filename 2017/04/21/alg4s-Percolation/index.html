@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第一周编程作业Percolation">
 <meta property="og:type" content="article">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/04/21/alg4s-Percolation/percolates-no.png">
 <meta property="og:image" content="https://ehye.github.io/2017/04/21/alg4s-Percolation/percolation-threshold20.png">
 <meta property="article:published_time" content="2017-04-21T13:07:49.000Z">
-<meta property="article:modified_time" content="2023-01-30T03:59:09.913Z">
+<meta property="article:modified_time" content="2023-02-01T07:49:30.958Z">
 <meta property="article:author" content="ehye">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ehye.github.io/2017/04/21/alg4s-Percolation/percolates-yes.png">
@@ -189,17 +189,10 @@
       <span class="links-of-author-item">
         <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
   </div>
 
         </div>
       </div>
-        <div class="back-to-top animated" role="button" aria-label="返回顶部">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
     </div>
 
     
@@ -297,16 +290,246 @@
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>课程提供 <em><strong>Visualization client</strong></em> 和 <em><strong>InteractiveVisualization client</strong></em> 进行测试，具体查看<a target="_blank" rel="noopener" href="http://coursera.cs.princeton.edu/algs4/checklists/percolation.html">Checklist</a></p>
 <h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><p>使用课程提供的 algs4.jar 的 StdIn, StdOut, StdRandom, StdStats, WeightedQuickUnionUF 库函数完成两个类文件</p>
 <p><strong>Percolation data type.</strong> To model a percolation system, create a data type <em><strong>Percolation</strong></em> with the following API:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Percolation</span> &#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="title function_">Percolation</span><span class="params">(<span class="type">int</span> n)</span>                <span class="comment">// create n-by-n grid, with all sites blocked</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span>       <span class="comment">// open site (row, col) if it is not open already</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isOpen</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span>  <span class="comment">// is site (row, col) open?</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isFull</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span>  <span class="comment">// is site (row, col) full?</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numberOfOpenSites</span><span class="params">()</span>           <span class="comment">// number of open sites</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">percolates</span><span class="params">()</span>              <span class="comment">// does the system percolate?</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>   <span class="comment">// test client (optional)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">public class Percolation &#123;
+   public Percolation(int n)                &#x2F;&#x2F; create n-by-n grid, with all sites blocked
+   public void open(int row, int col)       &#x2F;&#x2F; open site (row, col) if it is not open already
+   public boolean isOpen(int row, int col)  &#x2F;&#x2F; is site (row, col) open?
+   public boolean isFull(int row, int col)  &#x2F;&#x2F; is site (row, col) full?
+   public int numberOfOpenSites()           &#x2F;&#x2F; number of open sites
+   public boolean percolates()              &#x2F;&#x2F; does the system percolate?
+
+   public static void main(String[] args)   &#x2F;&#x2F; test client (optional)
+&#125;</code></pre>
 
 <p>To perform a series of computational experiments, create a data type <em><strong>PercolationStats</strong></em> with the following API.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PercolationStats</span> &#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="title function_">PercolationStats</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> trials)</span>    <span class="comment">// perform trials independent experiments on an n-by-n grid</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">mean</span><span class="params">()</span>                          <span class="comment">// sample mean of percolation threshold</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">stddev</span><span class="params">()</span>                        <span class="comment">// sample standard deviation of percolation threshold</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">confidenceLo</span><span class="params">()</span>                  <span class="comment">// low  endpoint of 95% confidence interval</span></span><br><span class="line">   <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">confidenceHi</span><span class="params">()</span>                  <span class="comment">// high endpoint of 95% confidence interval</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>        <span class="comment">// test client (described below)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">public class PercolationStats &#123;
+   public PercolationStats(int n, int trials)    &#x2F;&#x2F; perform trials independent experiments on an n-by-n grid
+   public double mean()                          &#x2F;&#x2F; sample mean of percolation threshold
+   public double stddev()                        &#x2F;&#x2F; sample standard deviation of percolation threshold
+   public double confidenceLo()                  &#x2F;&#x2F; low  endpoint of 95% confidence interval
+   public double confidenceHi()                  &#x2F;&#x2F; high endpoint of 95% confidence interval
+
+   public static void main(String[] args)        &#x2F;&#x2F; test client (described below)
+&#125;</code></pre>
 
 <h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>Percolation.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.plaf.synth.Region;</span><br><span class="line"><span class="keyword">import</span> javax.xml.ws.EndpointReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> edu.princeton.cs.algs4.WeightedQuickUnionUF;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Percolation</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">countOpen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span>[][] grid;</span><br><span class="line">    <span class="keyword">private</span> WeightedQuickUnionUF uf;</span><br><span class="line">    <span class="keyword">private</span> WeightedQuickUnionUF uf1;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create n-by-n grid, with all sites blocked</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Percolation</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.IllegalArgumentException();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.n = n;</span><br><span class="line">        grid = <span class="keyword">new</span> <span class="title class_">boolean</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        uf = <span class="keyword">new</span> <span class="title class_">WeightedQuickUnionUF</span>(n*n + <span class="number">2</span>); <span class="comment">// pdf 58</span></span><br><span class="line">        uf1 = <span class="keyword">new</span> <span class="title class_">WeightedQuickUnionUF</span>(n*n + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// open site (row, col) if it is not open already</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">open</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (row &lt; <span class="number">1</span> || col &lt; <span class="number">1</span> || row &gt; n || col &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.IndexOutOfBoundsException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!isOpen(row, col))</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="comment">// first row</span></span><br><span class="line">        <span class="keyword">if</span> (row == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union(<span class="number">0</span>, col);</span><br><span class="line">            uf1.union(<span class="number">0</span>, col);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// last row</span></span><br><span class="line">        <span class="keyword">if</span> (row == n)</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union(n * n + <span class="number">1</span>, (row - <span class="number">1</span>) * n + col);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// else, set this site open</span></span><br><span class="line">        grid[row][col] = <span class="literal">true</span>;</span><br><span class="line">        countOpen++;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;*-&quot;</span>+countOpen+<span class="string">&quot;-*&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;*-&quot;</span>+numberOfOpenSites()+<span class="string">&quot;-*&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">///// and see if its neighbors is full ////</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// left neighbor</span></span><br><span class="line">        <span class="keyword">if</span> (col &gt; <span class="number">1</span> &amp;&amp; isOpen(row, col-<span class="number">1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">1</span>) * n + col - <span class="number">1</span>);</span><br><span class="line">            uf1.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">1</span>) * n + col - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// right neighbor</span></span><br><span class="line">        <span class="keyword">if</span> (col &lt; n &amp;&amp; grid[row][col+<span class="number">1</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">1</span>) * n + col + <span class="number">1</span>);</span><br><span class="line">            uf1.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">1</span>) * n + col + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// up neighbor</span></span><br><span class="line">        <span class="keyword">if</span> (row &gt; <span class="number">1</span> &amp;&amp; isOpen(row-<span class="number">1</span>, col))</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">2</span>) * n + col);</span><br><span class="line">            uf1.union((row-<span class="number">1</span>) * n + col, (row-<span class="number">2</span>) * n + col);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// down neighbor</span></span><br><span class="line">        <span class="keyword">if</span> (row &lt; n &amp;&amp; isOpen(row+<span class="number">1</span>, col))</span><br><span class="line">        &#123;</span><br><span class="line">            uf.union((row-<span class="number">1</span>) * n + col, row * n + col);</span><br><span class="line">            uf1.union((row-<span class="number">1</span>) * n + col, row * n + col);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is site (row, col) open?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isOpen</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (row &lt; <span class="number">1</span> || col &lt; <span class="number">1</span> || row &gt; n || col &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">             <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.IndexOutOfBoundsException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (grid[row][col])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// is site (row, col) full?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isFull</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (row &lt; <span class="number">1</span> || col &lt; <span class="number">1</span> || row &gt; n || col &gt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.IndexOutOfBoundsException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (grid[row][col])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (uf1.connected(<span class="number">0</span>, (row-<span class="number">1</span>) * n + col))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// number of open sites</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numberOfOpenSites</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> countOpen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// does the system percolate?</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">percolates</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> uf.connected(<span class="number">0</span>, n * n + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">import javax.swing.plaf.synth.Region;
+import javax.xml.ws.EndpointReference;
+
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
+public class Percolation &#123;
+    private int n;
+    private int countOpen &#x3D; 0;
+    private boolean[][] grid;
+    private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf1;
+
+    &#x2F;&#x2F; create n-by-n grid, with all sites blocked
+    public Percolation(int n)
+    &#123;
+        if (n &lt; 1)
+        &#123;
+            throw new java.lang.IllegalArgumentException();
+        &#125;
+        this.n &#x3D; n;
+        grid &#x3D; new boolean[n+1][n+1];
+        uf &#x3D; new WeightedQuickUnionUF(n*n + 2); &#x2F;&#x2F; pdf 58
+        uf1 &#x3D; new WeightedQuickUnionUF(n*n + 1);
+    &#125;
+
+    &#x2F;&#x2F; open site (row, col) if it is not open already
+    public void open(int row, int col)
+    &#123;
+        if (row &lt; 1 || col &lt; 1 || row &gt; n || col &gt; n)
+        &#123;
+            throw new java.lang.IndexOutOfBoundsException();
+        &#125;
+
+        if(!isOpen(row, col))
+        &#123;
+        &#x2F;&#x2F; first row
+        if (row &#x3D;&#x3D; 1)
+        &#123;
+            uf.union(0, col);
+            uf1.union(0, col);
+        &#125;
+        &#x2F;&#x2F; last row
+        if (row &#x3D;&#x3D; n)
+        &#123;
+            uf.union(n * n + 1, (row - 1) * n + col);
+        &#125;
+        &#x2F;&#x2F; else, set this site open
+        grid[row][col] &#x3D; true;
+        countOpen++;
+
+        System.out.println(&quot;*-&quot;+countOpen+&quot;-*&quot;);
+        System.out.println(&quot;*-&quot;+numberOfOpenSites()+&quot;-*&quot;);
+
+        &#x2F;&#x2F;&#x2F;&#x2F;&#x2F; and see if its neighbors is full &#x2F;&#x2F;&#x2F;&#x2F;
+
+        &#x2F;&#x2F; left neighbor
+        if (col &gt; 1 &amp;&amp; isOpen(row, col-1))
+        &#123;
+            uf.union((row-1) * n + col, (row-1) * n + col - 1);
+            uf1.union((row-1) * n + col, (row-1) * n + col - 1);
+        &#125;
+        &#x2F;&#x2F; right neighbor
+        if (col &lt; n &amp;&amp; grid[row][col+1])
+        &#123;
+            uf.union((row-1) * n + col, (row-1) * n + col + 1);
+            uf1.union((row-1) * n + col, (row-1) * n + col + 1);
+        &#125;
+        &#x2F;&#x2F; up neighbor
+        if (row &gt; 1 &amp;&amp; isOpen(row-1, col))
+        &#123;
+            uf.union((row-1) * n + col, (row-2) * n + col);
+            uf1.union((row-1) * n + col, (row-2) * n + col);
+        &#125;
+        &#x2F;&#x2F; down neighbor
+        if (row &lt; n &amp;&amp; isOpen(row+1, col))
+        &#123;
+            uf.union((row-1) * n + col, row * n + col);
+            uf1.union((row-1) * n + col, row * n + col);
+        &#125;
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; is site (row, col) open?
+    public boolean isOpen(int row, int col)
+    &#123;
+        if (row &lt; 1 || col &lt; 1 || row &gt; n || col &gt; n)
+        &#123;
+             throw new java.lang.IndexOutOfBoundsException();
+        &#125;
+
+        if (grid[row][col])
+        &#123;
+            return true;
+        &#125;
+        else
+        &#123;
+            return false;
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; is site (row, col) full?
+    public boolean isFull(int row, int col)
+    &#123;
+        if (row &lt; 1 || col &lt; 1 || row &gt; n || col &gt; n)
+        &#123;
+            throw new java.lang.IndexOutOfBoundsException();
+        &#125;
+
+        if (grid[row][col])
+        &#123;
+            if (uf1.connected(0, (row-1) * n + col))
+            &#123;
+                return true;
+            &#125;
+        &#125;
+        return false;
+    &#125;
+
+    &#x2F;&#x2F; number of open sites
+    public int numberOfOpenSites()
+    &#123;
+        return countOpen;
+    &#125;
+
+    &#x2F;&#x2F; does the system percolate?
+    public boolean percolates()
+    &#123;
+        return uf.connected(0, n * n + 1);
+    &#125;
+&#125;</code></pre>
 
 <p>PercolationStats.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> edu.princeton.cs.algs4.StdRandom;</span><br><span class="line"><span class="keyword">import</span> edu.princeton.cs.algs4.StdStats;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PercolationStats</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span>[] results;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> <span class="variable">mean</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> <span class="variable">stddev</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> <span class="variable">confidenceHi</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> <span class="variable">confidenceLo</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> Percolation perc;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// perform trials independent experiments on an n-by-n grid</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">PercolationStats</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> trials)</span>  </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">0</span> || trials &lt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">java</span>.lang.IllegalArgumentException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        results = <span class="keyword">new</span> <span class="title class_">double</span>[trials];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; trials; i++, count = <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            perc = <span class="keyword">new</span> <span class="title class_">Percolation</span>(n);</span><br><span class="line">            <span class="keyword">while</span> (!perc.percolates())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">row</span> <span class="operator">=</span> StdRandom.uniform(n)+<span class="number">1</span>;</span><br><span class="line">                <span class="type">int</span> <span class="variable">col</span> <span class="operator">=</span> StdRandom.uniform(n)+<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (perc.isOpen(row, col))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// regenerate random</span></span><br><span class="line">                    row = StdRandom.uniform(n)+<span class="number">1</span>;</span><br><span class="line">                    col = StdRandom.uniform(n)+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                perc.open(row, col);</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">            perc = <span class="literal">null</span>;</span><br><span class="line">            results[i] = count/(n * n * <span class="number">1.0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mean = StdStats.mean(results);</span><br><span class="line">        stddev = StdStats.stddev(results);</span><br><span class="line">        confidenceLo = mean - <span class="number">1.96</span> * stddev / Math.sqrt(trials);</span><br><span class="line">        confidenceHi = mean + <span class="number">1.96</span> * stddev / Math.sqrt(trials);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sample mean of peration threshold</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">mean</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> mean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sample standard deviation of percolation threshold</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">stddev</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> stddev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// low  endpoint of 95% confidence interval</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">confidenceLo</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> confidenceLo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// high endpoint of 95% confidence interval</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">confidenceHi</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> confidenceHi;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">        <span class="type">int</span> <span class="variable">trials</span> <span class="operator">=</span> Integer.parseInt(args[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="type">PercolationStats</span> <span class="variable">stats</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PercolationStats</span>(n, trials);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;mean\t= &quot;</span> + stats.mean());</span><br><span class="line">        System.out.println(<span class="string">&quot;stddev\t= &quot;</span> + stats.stddev());</span><br><span class="line">        System.out.println(<span class="string">&quot;95% confidence interval = [&quot;</span> + stats.confidenceLo() + <span class="string">&quot;, &quot;</span> + stats.confidenceHi() + <span class="string">&quot;]&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-java" data-language="java"><code class="language-java">import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
+
+public class PercolationStats &#123;
+    private double[] results;
+    private int count &#x3D; 0;
+    private double mean &#x3D; 0;
+    private double stddev &#x3D; 0;
+    private double confidenceHi &#x3D; 0;
+    private double confidenceLo &#x3D; 0;
+    private Percolation perc;
+
+    &#x2F;&#x2F; perform trials independent experiments on an n-by-n grid
+    public PercolationStats(int n, int trials)  
+    &#123;
+        if (n &lt;&#x3D; 0 || trials &lt;&#x3D; 0)
+        &#123;
+            throw new java.lang.IllegalArgumentException();
+        &#125;
+
+        results &#x3D; new double[trials];
+
+        for (int i &#x3D; 0; i &lt; trials; i++, count &#x3D; 0)
+        &#123;
+            perc &#x3D; new Percolation(n);
+            while (!perc.percolates())
+            &#123;
+                int row &#x3D; StdRandom.uniform(n)+1;
+                int col &#x3D; StdRandom.uniform(n)+1;
+                while (perc.isOpen(row, col))
+                &#123;
+                    &#x2F;&#x2F; regenerate random
+                    row &#x3D; StdRandom.uniform(n)+1;
+                    col &#x3D; StdRandom.uniform(n)+1;
+                &#125;
+                perc.open(row, col);
+                count++;
+            &#125;
+            perc &#x3D; null;
+            results[i] &#x3D; count&#x2F;(n * n * 1.0);
+        &#125;
+
+        mean &#x3D; StdStats.mean(results);
+        stddev &#x3D; StdStats.stddev(results);
+        confidenceLo &#x3D; mean - 1.96 * stddev &#x2F; Math.sqrt(trials);
+        confidenceHi &#x3D; mean + 1.96 * stddev &#x2F; Math.sqrt(trials);
+    &#125;
+
+    &#x2F;&#x2F; sample mean of peration threshold
+    public double mean()
+    &#123;
+        return mean;
+    &#125;
+
+    &#x2F;&#x2F; sample standard deviation of percolation threshold
+    public double stddev()
+    &#123;
+        return stddev;
+    &#125;
+
+    &#x2F;&#x2F; low  endpoint of 95% confidence interval
+    public double confidenceLo()
+    &#123;
+        return confidenceLo;
+    &#125;
+
+    &#x2F;&#x2F; high endpoint of 95% confidence interval
+    public double confidenceHi()
+    &#123;
+        return confidenceHi;
+    &#125;
+
+    public static void main(String[] args)
+    &#123;
+        int n &#x3D; Integer.parseInt(args[0]);
+        int trials &#x3D; Integer.parseInt(args[1]);
+
+        PercolationStats stats &#x3D; new PercolationStats(n, trials);
+
+        System.out.println(&quot;mean\t&#x3D; &quot; + stats.mean());
+        System.out.println(&quot;stddev\t&#x3D; &quot; + stats.stddev());
+        System.out.println(&quot;95% confidence interval &#x3D; [&quot; + stats.confidenceLo() + &quot;, &quot; + stats.confidenceHi() + &quot;]&quot;);
+
+    &#125;
+&#125;</code></pre>
 
     </div>
 
@@ -327,7 +550,7 @@
       <a href="https://ehye.github.io/2017/04/21/alg4s-Percolation/" title="Algorithms, Part I - Week 1 - Percolation">https://ehye.github.io/2017/04/21/alg4s-Percolation/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -358,22 +581,7 @@
 
     
   
-  <div class="comments">
-    <script src="https://giscus.app/client.js"
-        data-repo="ehye/ehye.github.io" 
-        data-repo-id="R_kgDOHIPhOg" 
-        data-category="Comments"
-        data-category-id="DIC_kwDOHIPhOs4CTSmJ"
-        data-mapping="og:title" 
-        data-reactions-enabled="1" 
-        data-emit-metadata="0" 
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        data-input-position="top"
-        data-loading="lazy"
-        async>
-    </script>
+  <div class="comments giscus-container">
   </div>
   
   
@@ -399,6 +607,11 @@
   </footer>
 
   
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -407,6 +620,8 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
@@ -423,10 +638,37 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
 
 </body>
 </html>

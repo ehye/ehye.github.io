@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="本题所用的操作：路由、单臂路由、VLAN、ACL、NAT、无线网络等">
 <meta property="og:type" content="article">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/deny-web.png">
 <meta property="og:image" content="https://ehye.github.io/2017/06/18/cisco-trial/telnet.png">
 <meta property="article:published_time" content="2017-06-18T11:28:30.000Z">
-<meta property="article:modified_time" content="2023-01-30T03:59:09.917Z">
+<meta property="article:modified_time" content="2023-02-01T07:49:30.962Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Cisco">
 <meta name="twitter:card" content="summary">
@@ -194,17 +194,10 @@
       <span class="links-of-author-item">
         <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
-      <span class="links-of-author-item">
-        <a href="mailto:yjw9610@hotmail.com" title="E-Mail → mailto:yjw9610@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
   </div>
 
         </div>
       </div>
-        <div class="back-to-top animated" role="button" aria-label="返回顶部">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
     </div>
 
     
@@ -287,19 +280,59 @@
 <li>管理员计算机能telnet登录R1路由器进行管理</li>
 </ul>
 <h1 id="路由和单臂路由配置"><a href="#路由和单臂路由配置" class="headerlink" title="路由和单臂路由配置"></a>路由和单臂路由配置</h1><h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><p>S0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)#vlan 5</span><br><span class="line">Switch(config-vlan)#name vlan5</span><br><span class="line">Switch(config)#interface FastEthernet0/1</span><br><span class="line">Switch(config-if)#switchport access vlan 5</span><br><span class="line">Switch(config)#interface FastEthernet0/2</span><br><span class="line">Switch(config-if)#switchport access vlan 5</span><br><span class="line">Switch(config)#interface FastEthernet0/24</span><br><span class="line">Switch(config-if)#switchport access vlan 5</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Switch(config)#vlan 5
+Switch(config-vlan)#name vlan5
+Switch(config)#interface FastEthernet0&#x2F;1
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;2
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;24
+Switch(config-if)#switchport access vlan 5</code></pre>
 <p>S1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)#vlan 5</span><br><span class="line">Switch(config-vlan)#name vlan5</span><br><span class="line">Switch(config)#vlan 10</span><br><span class="line">Switch(config-vlan)#name vlan10</span><br><span class="line">Switch(config)#interface FastEthernet0/24</span><br><span class="line">Switch(config-if)#switchport access vlan 5</span><br><span class="line">Switch(config)#interface FastEthernet0/1</span><br><span class="line">Switch(config-if)#switchport access vlan 10</span><br><span class="line">Switch(config)#interface FastEthernet0/2</span><br><span class="line">Switch(config-if)#switchport access vlan 10</span><br><span class="line">Switch(config)#interface FastEthernet0/23</span><br><span class="line">Switch(config-if)#switchport mode trunk</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Switch(config)#vlan 5
+Switch(config-vlan)#name vlan5
+Switch(config)#vlan 10
+Switch(config-vlan)#name vlan10
+Switch(config)#interface FastEthernet0&#x2F;24
+Switch(config-if)#switchport access vlan 5
+Switch(config)#interface FastEthernet0&#x2F;1
+Switch(config-if)#switchport access vlan 10
+Switch(config)#interface FastEthernet0&#x2F;2
+Switch(config-if)#switchport access vlan 10
+Switch(config)#interface FastEthernet0&#x2F;23
+Switch(config-if)#switchport mode trunk</code></pre>
 <p>R1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#int fa1/0.1</span><br><span class="line">Router(config-subif)#en do 5</span><br><span class="line">Router(config-subif)#ip add 192.168.222.1 255.255.255.0</span><br><span class="line">Router(config-subif)#int fa1/0.2</span><br><span class="line">Router(config-subif)#en do 10</span><br><span class="line">Router(config-subif)#ip add 192.168.29.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#int fa1&#x2F;0.1
+Router(config-subif)#en do 5
+Router(config-subif)#ip add 192.168.222.1 255.255.255.0
+Router(config-subif)#int fa1&#x2F;0.2
+Router(config-subif)#en do 10
+Router(config-subif)#ip add 192.168.29.1 255.255.255.0</code></pre>
 
 <h1 id="配置静态NAT"><a href="#配置静态NAT" class="headerlink" title="配置静态NAT"></a>配置静态NAT</h1><h2 id="配置过程-1"><a href="#配置过程-1" class="headerlink" title="配置过程"></a>配置过程</h2><hr>
 <p>R1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#router ospf 1</span><br><span class="line">Router(config-router)#netw 172.16.29.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 192.168.223.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 192.168.222.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 192.168.29.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#router ospf 1
+Router(config-router)#netw 172.16.29.0 0.0.0.255 area 0
+Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.223.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.222.0 0.0.0.255 area 0
+Router(config-router)#netw 192.168.29.0 0.0.0.255 area 0</code></pre>
 <p>R2</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#router ospf 1</span><br><span class="line">Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#router ospf 1
+Router(config-router)#netw 220.220.29.0 0.0.0.255 area 0
+Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0</code></pre>
 <p>R3</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#ip nat in sour st 172.20.29.2 200.200.29.3</span><br><span class="line">Router(config)#ip nat in sour st 172.21.29.2 200.200.29.4</span><br><span class="line">Router(config-if)#ip nat in</span><br><span class="line">Router(config-if)#int fa0/1</span><br><span class="line">Router(config-if)#ip nat in</span><br><span class="line">Router(config-if)#int se0/2/0</span><br><span class="line">Router(config-if)#ip nat out</span><br><span class="line">Router(config)#route ospf 1</span><br><span class="line">Router(config-router)#netw 172.20.29.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 172.21.29.0 0.0.0.255 area 0</span><br><span class="line">Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#ip nat in sour st 172.20.29.2 200.200.29.3
+Router(config)#ip nat in sour st 172.21.29.2 200.200.29.4
+Router(config-if)#ip nat in
+Router(config-if)#int fa0&#x2F;1
+Router(config-if)#ip nat in
+Router(config-if)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip nat out
+Router(config)#route ospf 1
+Router(config-router)#netw 172.20.29.0 0.0.0.255 area 0
+Router(config-router)#netw 172.21.29.0 0.0.0.255 area 0
+Router(config-router)#netw 200.200.29.0 0.0.0.255 area 0</code></pre>
 
 <h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/web-ftp-pass1.png" class="">
 
@@ -308,17 +341,32 @@
 <img src="/2017/06/18/cisco-trial/web-ftp-pass3.png" class="">
 
 <h1 id="禁止B部门访问FTP服务器"><a href="#禁止B部门访问FTP服务器" class="headerlink" title="禁止B部门访问FTP服务器"></a>禁止B部门访问FTP服务器</h1><h2 id="配置过程-2"><a href="#配置过程-2" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#access-list 110 remark NO FTP</span><br><span class="line">Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 21</span><br><span class="line">Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 20</span><br><span class="line">Router(config)#access-list 110 permit ip any any </span><br><span class="line">Router(config)#int se0/2/0</span><br><span class="line">Router(config-if)#ip access-group 110 in</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#access-list 110 remark NO FTP
+Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 21
+Router(config)#access-list 110 deny tcp 192.168.29.0 0.0.0.255 host 200.200.29.4 eq 20
+Router(config)#access-list 110 permit ip any any 
+Router(config)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip access-group 110 in</code></pre>
 
 <h2 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/deny-ftp.png" class="">
 
 <h1 id="禁止“恶意入侵”者访问-Web"><a href="#禁止“恶意入侵”者访问-Web" class="headerlink" title="禁止“恶意入侵”者访问 Web"></a>禁止“恶意入侵”者访问 Web</h1><h2 id="配置过程-3"><a href="#配置过程-3" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#access-list 111 remark NO HTTP</span><br><span class="line">Router(config)#access-list 111 deny tcp 192.168.29.3 0.0.0.0 200.200.29.3 0.0.0.0 eq  www</span><br><span class="line">Router(config)#access-list 111 permit ip any any </span><br><span class="line">Router(config)#int se0/2/0</span><br><span class="line">Router(config-if)#ip access-group 111 in</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router(config)#access-list 111 remark NO HTTP
+Router(config)#access-list 111 deny tcp 192.168.29.3 0.0.0.0 200.200.29.3 0.0.0.0 eq  www
+Router(config)#access-list 111 permit ip any any 
+Router(config)#int se0&#x2F;2&#x2F;0
+Router(config-if)#ip access-group 111 in</code></pre>
 
 <h2 id="测试结果-2"><a href="#测试结果-2" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/deny-web.png" class="">
 
 <h1 id="telnet-登录R1路由器进行管理"><a href="#telnet-登录R1路由器进行管理" class="headerlink" title="telnet 登录R1路由器进行管理"></a>telnet 登录R1路由器进行管理</h1><h2 id="配置过程-4"><a href="#配置过程-4" class="headerlink" title="配置过程"></a>配置过程</h2><p>R2</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Router#configure terminal </span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#password cisco</span><br><span class="line">Router(config-line)#login</span><br><span class="line">Router(config-line)#exit</span><br><span class="line">Router(config)#enable password cisco</span><br><span class="line">Router(config)#end</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">Router#configure terminal 
+Router(config)#line vty 0 4
+Router(config-line)#password cisco
+Router(config-line)#login
+Router(config-line)#exit
+Router(config)#enable password cisco
+Router(config)#end</code></pre>
 
 <h2 id="测试结果-3"><a href="#测试结果-3" class="headerlink" title="测试结果"></a>测试结果</h2><img src="/2017/06/18/cisco-trial/telnet.png" class="">
 
@@ -349,7 +397,7 @@
       <a href="https://ehye.github.io/2017/06/18/cisco-trial/" title="Cisco 网络实验室期末测试B组">https://ehye.github.io/2017/06/18/cisco-trial/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -383,22 +431,7 @@
 
     
   
-  <div class="comments">
-    <script src="https://giscus.app/client.js"
-        data-repo="ehye/ehye.github.io" 
-        data-repo-id="R_kgDOHIPhOg" 
-        data-category="Comments"
-        data-category-id="DIC_kwDOHIPhOs4CTSmJ"
-        data-mapping="og:title" 
-        data-reactions-enabled="1" 
-        data-emit-metadata="0" 
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        data-input-position="top"
-        data-loading="lazy"
-        async>
-    </script>
+  <div class="comments giscus-container">
   </div>
   
   
@@ -424,6 +457,11 @@
   </footer>
 
   
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -432,6 +470,8 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
@@ -448,10 +488,37 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","mhchem":false,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
 
 </body>
 </html>
