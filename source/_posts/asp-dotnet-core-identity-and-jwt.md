@@ -7,83 +7,163 @@ tags:
     - JWT
 ---
 
-利用 Clean Architecture 模板和 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<!-- more -->
+利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<!-- more -->
 
 ---
 
-## 创建数据表
+## 使用 Clean Architecture
 
-1. 安装依赖包
+1. 安装模板 [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture)
 
-    在 `Infrastructure` 项目中添加以下依赖
+```cmd
+dotnet new install Clean.Architecture.Solution.Template
 
-    ```shell
+dotnet new ca-sln
+```
+
+2. 删除配置文件中前端相关的配置信息
+
+    - src/WebUI/WebUI.csproj
+    - src/WebUI/appsettings.json
+    - src/WebUI/Properties/launchSettings.json
+
+3. 删除前端文件
+
+    ```bash
+    WebUI/
+    ├── ClientApp *
+    ├── Controllers
+    ├── Filters
+    ├── Pages *
+    ├── Properties
+    ├── Services
+    └── wwwroot *
+    ```
+
+4. 删除依赖
+
+    - Microsoft.AspNetCore.ApiAuthorization.IdentityServer
+    - Microsoft.AspNetCore.Identity.UI
+    - Microsoft.AspNetCore.SpaProxy
+    - NSwag.MSBuild
+
+5. 更新、增加依赖
+
+    在 `Infrastructure` 项目中添加 `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 和 `Microsoft.AspNetCore.Authentication.JwtBearer`
+
+    ```cmd
     dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
     dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
     ```
 
-2. 新建 `User` 类，继承于 `IdentityUser`，使用 Guid 类型作为主键
+    在 `Api` 项目中添加 `Microsoft.EntityFrameworkCore.Design`
 
-    ```csharp
+    ```cmd
+    dotnet add package Microsoft.EntityFrameworkCore.Design
+    ```
+
+## 生成 Identity 数据表
+
+1. 新建 `User` 类，继承于 `IdentityUser`，使用 Guid 类型作为主键
+
+    ```cs
     public class User : IdentityUser<Guid>
     {
+        // Custom fields goes here
     }
     ```
 
-3. 让 `ApplicationDbContext` 继承 `IdentityUserContext<User, Guid>`
+2. 让 `ApplicationDbContext` 继承 `IdentityDbContext<TUser,TRole,TKey>`
 
-    ```csharp
-    public class ApplicationDbContext : IdentityUserContext<User, Guid>, IApplicationDbContext
+    ```cs src/Infrastructure/Persistence/ApplicationDbContext.cs
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IApplicationDbContext
     {
     }
     ```
 
-4. 在 `OnModelCreating` 中，可自定义 Identity 所用到的表名，同时要显示地加上主键
+3. 在 `OnModelCreating` 中，可自定义 Identity 所用到的表名，同时要显示地加上主键
 
-    ```csharp
+    ```cs
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         base.OnModelCreating(builder);
         
-        builder.Entity<User>().ToTable("Users");
-        builder.Entity<IdentityRole<Guid>>().ToTable("Roles").HasKey(x => x.Id);
-        builder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
-        builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims").HasKey(x => x.Id);
-        builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);
-        builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(x => x.UserId);
+        builder.Entity<User>()
+               .ToTable("Users");
+        
+        builder.Entity<IdentityRole<Guid>>()
+               .ToTable("Roles")
+               .HasKey(x => x.Id);
+        
+        builder.Entity<IdentityUserRole<Guid>>()
+               .ToTable("UserRoles")
+               .HasKey(x => new { x.UserId, x.RoleId });
+        
+        builder.Entity<IdentityUserClaim<Guid>>()
+               .ToTable("UserClaims")
+               .HasKey(x => x.Id);
+        
+        builder.Entity<IdentityUserLogin<Guid>>()
+               .ToTable("UserLogins")
+               .HasKey(x => x.UserId);
+        
+        builder.Entity<IdentityUserToken<Guid>>()
+               .ToTable("UserTokens")
+               .HasKey(x => x.UserId);
     }
     ```
 
-5. 在 `src/Infrastructure/ConfigureServices.cs` 中配置 Identity Service，使用自定义的用户类 `User`，和内置的角色类 `IdentityRole`，并使用 Guid 类型作为主键
+4. 在 `src/Infrastructure/ConfigureServices.cs` 中注入 Identity Service
 
-    ```csharp
+    使用自定义的用户类 `User`，和默认的角色类 `IdentityRole`，并使用 `Guid` 类型作为主键；
+    
+    可以使用 options 参数来配置 Identity
+
+    `AddEntityFrameworkStores()` 用于生成 Identity 使用的表
+
+    ```cs src/Infrastructure/ConfigureServices.cs
     services.AddIdentity<User, IdentityRole<Guid>>(options =>
         {
-            options.Password.RequiredLength = 6;
+            options.Password.RequiredLength = 4;
             options.Password.RequireDigit = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
+
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            options.Lockout.MaxFailedAccessAttempts = 7;
         })
         .AddEntityFrameworkStores<ApplicationDbContext>();
     ```
 
-6. 在 `Program.cs` 中启用验证与授权
+5. 执行数据库迁移
 
-    ```csharp
-    app.UseAuthentication();
-    app.UseAuthorization();
-    ```
+    语法为 `dotnet ef migrations add Init -s <ApiProjectFile> -c <DbContextClassName> -o <MigrationsFolder> --verbose`
 
-7. 执行数据库迁移
+    ```cmd
+    cd src\Infrastructure\
 
-    ```bash
-    dotnet ef migrations add Init -s ..\Api\Api.csproj -o .\Persistence\Migrations\
-
+    dotnet ef migrations add Init -s ..\Api\Api.csproj -c ApplicationDbContext -o Persistence\Migrations --verbose
+    
     dotnet ef database update
     ```
 
+    {% note info %} 
+
+    可以使用使用 `dotnet ef migrations remove -s <ApiProjectFile> -c <DbContextClassName>` 移除迁移记录
+
+    ```cmd
+    cd src\Infrastructure\
+
+    dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbose
+    ```
+    {% endnote %}
+
 最终生成以下数据表
 
+- RoleClaims
 - Roles
 - UserClaims
 - UserLogins
@@ -93,20 +173,78 @@ tags:
 
 ## 创建验证授权服务
 
-### 配置 JWT 验证服务
+### 生成 JWT
+
+1. 定义接口 `src/Application/Common/Interfaces/ITokenService.cs` 
+
+    ```cs
+    public interface ITokenService
+    {
+        Task<string> CreateToken(string userName);
+
+        // ...
+    }
+    ```
+
+2. 实现 `src/Api/Services/TokenService.cs`, 从这里生成 JWT
+
+    ```cs src/Api/Services/TokenService.cs
+    public async Task<string> CreateToken(string userName)
+    {
+        var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, userName), 
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        };
+
+        var user = await _userManager.FindByNameAsync(userName);
+
+        if (user is null)
+        {
+            throw new InvalidOperationException();
+        }
+        
+        authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
+            expires: _dateTime.Now.AddDays(7),
+            claims: authClaims,
+            signingCredentials: new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])),
+                SecurityAlgorithms.HmacSha256Signature)
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    ```
+
+3. 在 `src/Api/ConfigureServices.cs` 中注入 `ITokenService`
+
+    ```cs
+    services.AddScoped<ITokenService, TokenService>();
+    ```
+
+### 验证 JWT
 
 - 在 `appsettings.json` 中配置 JWT 
 
     ```json
-    "JWT": {
-        "ValidAudience": "CleanIdentity",
-        "ValidIssuer": "CleanIdentity"
-      },
+    "Jwt": {
+        "Audience": "Valid.Audience",
+        "Issuer": "Valid.Issuer",
+        "Key": "8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy"
+    },
     ```
 
 - 在 `src/Infrastructure/ConfigureServices.cs` 中启用 JWT 验证
 
-    ```csharp
+    ```cs
     services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -121,15 +259,15 @@ tags:
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidAudience = configuration["JWT:ValidAudience"],
-                ValidIssuer = configuration["JWT:ValidIssuer"]
+                ValidAudience = configuration["JWT:Audience"],
+                ValidIssuer = configuration["JWT:Issuer"]
             };
         });
     ```
 
 - 让 Swagger 可以使用 JWT
 
-    ```csharp
+    ```cs
     services.AddOpenApiDocument(configure =>
     {
         configure.AddSecurity("JWT", Enumerable.Empty<string>(),
@@ -145,11 +283,13 @@ tags:
     });
     ```
 
-### 实现 IIdentityService
+## 身份管理服务
+
+实现 IIdentityService
 
 1. 定义接口 `src/Application/Common/Interfaces/IIdentityService.cs` 
 
-    ```csharp
+    ```cs
     public interface IIdentityService
     {
         Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
@@ -166,7 +306,7 @@ tags:
 
 2. 实现 `src/Infrastructure/Identity/IdentityService.cs`, 在这里调用 `UserManager` 和 `RoleManager` 的方法
 
-    ```csharp
+    ```cs
     namespace Infrastructure.Identity;
 
     public class IdentityService : IIdentityService
@@ -222,91 +362,32 @@ tags:
 
 3. 在 `src/Infrastructure/ConfigureServices.cs` 中注入 `IdentityService`
 
-    ```csharp
+    ```cs
     services.AddTransient<IIdentityService, IdentityService>();
     ```
 
-### 实现 ITokenService
+4. 在 `Program.cs` 中启用验证与授权
 
-1. 定义接口 `src/Application/Common/Interfaces/ITokenService.cs` 
+    {% codeblock lang:cs mark:3,4 %}
+    app.UseRouting();
 
-    ```csharp
-    public interface ITokenService
-    {
-        Task<string> CreateToken(string userName);
+    app.UseAuthentication();
+    app.UseAuthorization();
 
-        // ...
-    }
-    ```
+    app.MapControllers();
 
-2. 实现 `src/Api/Services/TokenService.cs`, 从这里生成 JWT
-
-    ```csharp
-    public class TokenService : ITokenService
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IConfiguration _configuration;
-        private readonly IDateTime _dateTime;
-        private readonly UserManager<User> _userManager;
-
-        public TokenService(
-            IHttpContextAccessor httpContextAccessor,
-            UserManager<User> userManager,
-            IDateTime dateTime,
-            IConfiguration configuration)
-        {
-            _httpContextAccessor = httpContextAccessor;
-            _userManager = userManager;
-            _dateTime = dateTime;
-            _configuration = configuration;
-        }
-
-        public async Task<string> CreateToken(string userName)
-        {
-            var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, userName), 
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if (user is null)
-            {
-                throw new InvalidOperationException();
-            }
-            
-            authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: _dateTime.Now.AddDays(7),
-                claims: authClaims
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-    }
-    ```
-
-3. 在 `src/Api/ConfigureServices.cs` 中注入 `ITokenService`
-
-    ```csharp
-    services.AddScoped<ITokenService, TokenService>();
-    ```
+    app.Run();
+    {% endcodeblock %}
 
 ## 实现接口
 
 ### 应用层(Application)
 
+实现用户注册和登录
+
 - RegistryCommand.cs
 
-    ```csharp
+    ```cs RegistryCommand.cs
     namespace Application.Authentication.Commands;
 
     public record RegistryCommand : IRequest<Result>
@@ -336,7 +417,7 @@ tags:
 
 - LoginCommand.cs
 
-    ```csharp
+    ```cs RegistryCommand.cs
     namespace Application.Authentication.Commands;
 
     public record LoginCommand : IRequest<string>
@@ -372,30 +453,51 @@ tags:
 
 ### 接口层(Api)
 
-然后在 Api 项目中调用它们
+然后在 Api 项目中使用它们
 
-- AuthenticateController.cs
+```cs AuthenticateController.cs
+namespace Api.Controllers;
 
-    ```csharp
-    namespace Api.Controllers;
-
-    [AllowAnonymous]
-    public class AuthenticateController : ApiControllerBase
+[AllowAnonymous]
+public class AuthenticateController : ApiControllerBase
+{
+    [HttpPost]
+    public async Task<IActionResult> Login([FromBody] LoginCommand command)
     {
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginCommand command)
-        {
-            var token = await Mediator.Send(command);
+        var token = await Mediator.Send(command);
 
-            return string.IsNullOrEmpty(token) ? Unauthorized() : Ok(token);
-        }
-
-        [HttpPost]
-        public async Task<Result> Registry([FromBody] RegistryCommand command)
-        {
-            return await Mediator.Send(command);
-        }
+        return string.IsNullOrEmpty(token) ? Unauthorized() : Ok(token);
     }
+
+    [HttpPost]
+    public async Task<Result> Registry([FromBody] RegistryCommand command)
+    {
+        return await Mediator.Send(command);
+    }
+}
+```
+
+## 访问接口
+
+- 登录获得 Token
+
+    ```http Request
+    POST /api/authenticate/login HTTP/1.1
+    Host: localhost:5001
+    Content-Type: application/json
+    Content-Length: 48
+    {
+      "username": "root",
+      "password": "admin"
+    }
+    ```
+
+- 访问需要验证的 API
+
+    ```http Request
+    GET /api/TodoLists HTTP/1.1
+    Host: localhost:5001
+    Authorization: Bearer xxxxxx
     ```
 
 ---
@@ -405,3 +507,5 @@ tags:
 - [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture)
 
 - [Overview of ASP.NET Core authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/)
+
+- [Change the primary key type - Identity model customization in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0#change-the-primary-key-type)
