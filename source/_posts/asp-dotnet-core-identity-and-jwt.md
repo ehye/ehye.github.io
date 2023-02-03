@@ -11,15 +11,17 @@ tags:
 
 ---
 
+[项目地址](https://github.com/ehye/CleanIdentity)
+
 ## 使用 Clean Architecture
 
 1. 安装模板 [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture)
 
-```cmd
-dotnet new install Clean.Architecture.Solution.Template
+    ```cmd
+    dotnet new install Clean.Architecture.Solution.Template
 
-dotnet new ca-sln
-```
+    dotnet new ca-sln
+    ```
 
 2. 删除配置文件中前端相关的配置信息
 
@@ -28,6 +30,8 @@ dotnet new ca-sln
     - src/WebUI/Properties/launchSettings.json
 
 3. 删除前端文件
+
+    删除接口项目不要需要的前端文件夹 `ClientApp` `Pages` `wwroot`
 
     ```bash
     WebUI/
@@ -52,13 +56,15 @@ dotnet new ca-sln
     在 `Infrastructure` 项目中添加 `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 和 `Microsoft.AspNetCore.Authentication.JwtBearer`
 
     ```cmd
+    cd \src\Infrastructure
     dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
     dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
     ```
 
-    在 `Api` 项目中添加 `Microsoft.EntityFrameworkCore.Design`
+    在 `WebUI` 项目中添加 `Microsoft.EntityFrameworkCore.Design`
 
     ```cmd
+    \src\WebUI
     dotnet add package Microsoft.EntityFrameworkCore.Design
     ```
 
@@ -81,7 +87,7 @@ dotnet new ca-sln
     }
     ```
 
-3. 在 `OnModelCreating` 中，可自定义 Identity 所用到的表名，同时要显示地加上主键
+3. 在 `OnModelCreating` 中，可自定义 Identity 所用到的表名
 
     ```cs
     protected override void OnModelCreating(ModelBuilder builder)
@@ -90,28 +96,13 @@ dotnet new ca-sln
 
         base.OnModelCreating(builder);
         
-        builder.Entity<User>()
-               .ToTable("Users");
-        
-        builder.Entity<IdentityRole<Guid>>()
-               .ToTable("Roles")
-               .HasKey(x => x.Id);
-        
-        builder.Entity<IdentityUserRole<Guid>>()
-               .ToTable("UserRoles")
-               .HasKey(x => new { x.UserId, x.RoleId });
-        
-        builder.Entity<IdentityUserClaim<Guid>>()
-               .ToTable("UserClaims")
-               .HasKey(x => x.Id);
-        
-        builder.Entity<IdentityUserLogin<Guid>>()
-               .ToTable("UserLogins")
-               .HasKey(x => x.UserId);
-        
-        builder.Entity<IdentityUserToken<Guid>>()
-               .ToTable("UserTokens")
-               .HasKey(x => x.UserId);
+        builder.Entity<ApplicationUser>().ToTable("Users");
+        builder.Entity<IdentityRole>().ToTable("Roles");
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
+        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
     }
     ```
 
@@ -138,16 +129,14 @@ dotnet new ca-sln
         .AddEntityFrameworkStores<ApplicationDbContext>();
     ```
 
-5. 执行数据库迁移
+5. 生成数据库迁移
 
     语法为 `dotnet ef migrations add Init -s <ApiProjectFile> -c <DbContextClassName> -o <MigrationsFolder> --verbose`
 
     ```cmd
     cd src\Infrastructure\
 
-    dotnet ef migrations add Init -s ..\Api\Api.csproj -c ApplicationDbContext -o Persistence\Migrations --verbose
-    
-    dotnet ef database update
+    dotnet ef migrations add Init -s ..\WebUI\ -o .\Persistence\Migrations\ -v
     ```
 
     {% note info %} 
@@ -157,11 +146,11 @@ dotnet new ca-sln
     ```cmd
     cd src\Infrastructure\
 
-    dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbose
+    dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v
     ```
     {% endnote %}
 
-最终生成以下数据表
+执行 `ef database update ` 生成以下数据表
 
 - RoleClaims
 - Roles
@@ -186,9 +175,9 @@ dotnet new ca-sln
     }
     ```
 
-2. 实现 `src/Api/Services/TokenService.cs`, 从这里生成 JWT
+2. 实现 `src/WebUI/Services/TokenService.cs`, 从这里生成 JWT
 
-    ```cs src/Api/Services/TokenService.cs
+    ```cs src/WebUI/Services/TokenService.cs
     public async Task<string> CreateToken(string userName)
     {
         var authClaims = new List<Claim>
@@ -224,7 +213,7 @@ dotnet new ca-sln
     }
     ```
 
-3. 在 `src/Api/ConfigureServices.cs` 中注入 `ITokenService`
+3. 在 `src/WebUI/ConfigureServices.cs` 中注入 `ITokenService`
 
     ```cs
     services.AddScoped<ITokenService, TokenService>();
@@ -285,7 +274,7 @@ dotnet new ca-sln
 
 ## 身份管理服务
 
-实现 IIdentityService
+实现 `IIdentityService`
 
 1. 定义接口 `src/Application/Common/Interfaces/IIdentityService.cs` 
 
@@ -451,12 +440,12 @@ dotnet new ca-sln
     }
     ```
 
-### 接口层(Api)
+### 接口层(WebUI)
 
-然后在 Api 项目中使用它们
+然后在 WebUI 项目中使用它们
 
 ```cs AuthenticateController.cs
-namespace Api.Controllers;
+namespace WebUI.Controllers;
 
 [AllowAnonymous]
 public class AuthenticateController : ApiControllerBase
@@ -484,11 +473,13 @@ public class AuthenticateController : ApiControllerBase
     ```http Request
     POST /api/authenticate/login HTTP/1.1
     Host: localhost:5001
+    accept: application/octet-stream
     Content-Type: application/json
-    Content-Length: 48
+    Content-Length: 77
+
     {
-      "username": "root",
-      "password": "admin"
+      "username": "administrator@localhost",
+      "password": "Administrator1!"
     }
     ```
 
@@ -509,3 +500,4 @@ public class AuthenticateController : ApiControllerBase
 - [Overview of ASP.NET Core authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/)
 
 - [Change the primary key type - Identity model customization in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0#change-the-primary-key-type)
+
