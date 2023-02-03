@@ -2525,14 +2525,13 @@ location &#x2F;asf&#x2F; &#123;
     <url>/2023/01/28/asp-dotnet-core-identity-and-jwt/</url>
     <content><![CDATA[<p>利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<span id="more"></span></p>
 <hr>
+<p><a href="https://github.com/ehye/CleanIdentity">项目地址</a></p>
 <h2 id="使用-Clean-Architecture"><a href="#使用-Clean-Architecture" class="headerlink" title="使用 Clean Architecture"></a>使用 Clean Architecture</h2><ol>
-<li>安装模板 <a href="https://github.com/jasontaylordev/CleanArchitecture">Clean Architecture Solution Template</a></li>
-</ol>
-<pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet new install Clean.Architecture.Solution.Template
+<li><p>安装模板 <a href="https://github.com/jasontaylordev/CleanArchitecture">Clean Architecture Solution Template</a></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet new install Clean.Architecture.Solution.Template
 
 dotnet new ca-sln</code></pre>
-
-<ol start="2">
+</li>
 <li><p>删除配置文件中前端相关的配置信息</p>
 <ul>
 <li>src&#x2F;WebUI&#x2F;WebUI.csproj</li>
@@ -2541,6 +2540,7 @@ dotnet new ca-sln</code></pre>
 </ul>
 </li>
 <li><p>删除前端文件</p>
+<p> 删除接口项目不要需要的前端文件夹 <code>ClientApp</code> <code>Pages</code> <code>wwroot</code></p>
  <pre class="language-bash" data-language="bash"><code class="language-bash">WebUI&#x2F;
 ├── ClientApp *
 ├── Controllers
@@ -2560,11 +2560,13 @@ dotnet new ca-sln</code></pre>
 </li>
 <li><p>更新、增加依赖</p>
 <p> 在 <code>Infrastructure</code> 项目中添加 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 和 <code>Microsoft.AspNetCore.Authentication.JwtBearer</code></p>
- <pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd \src\Infrastructure
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer</code></pre>
 
-<p> 在 <code>Api</code> 项目中添加 <code>Microsoft.EntityFrameworkCore.Design</code></p>
- <pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre></li>
+<p> 在 <code>WebUI</code> 项目中添加 <code>Microsoft.EntityFrameworkCore.Design</code></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">\src\WebUI
+dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre></li>
 </ol>
 <h2 id="生成-Identity-数据表"><a href="#生成-Identity-数据表" class="headerlink" title="生成 Identity 数据表"></a>生成 Identity 数据表</h2><ol>
 <li><p>新建 <code>User</code> 类，继承于 <code>IdentityUser</code>，使用 Guid 类型作为主键</p>
@@ -2578,35 +2580,20 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer</code></pre>
 &#123;
 &#125;</code></pre>
 </li>
-<li><p>在 <code>OnModelCreating</code> 中，可自定义 Identity 所用到的表名，同时要显示地加上主键</p>
+<li><p>在 <code>OnModelCreating</code> 中，可自定义 Identity 所用到的表名</p>
  <pre class="language-csharp" data-language="csharp"><code class="language-csharp">protected override void OnModelCreating(ModelBuilder builder)
 &#123;
     builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
     base.OnModelCreating(builder);
     
-    builder.Entity&lt;User&gt;()
-           .ToTable(&quot;Users&quot;);
-    
-    builder.Entity&lt;IdentityRole&lt;Guid&gt;&gt;()
-           .ToTable(&quot;Roles&quot;)
-           .HasKey(x &#x3D;&gt; x.Id);
-    
-    builder.Entity&lt;IdentityUserRole&lt;Guid&gt;&gt;()
-           .ToTable(&quot;UserRoles&quot;)
-           .HasKey(x &#x3D;&gt; new &#123; x.UserId, x.RoleId &#125;);
-    
-    builder.Entity&lt;IdentityUserClaim&lt;Guid&gt;&gt;()
-           .ToTable(&quot;UserClaims&quot;)
-           .HasKey(x &#x3D;&gt; x.Id);
-    
-    builder.Entity&lt;IdentityUserLogin&lt;Guid&gt;&gt;()
-           .ToTable(&quot;UserLogins&quot;)
-           .HasKey(x &#x3D;&gt; x.UserId);
-    
-    builder.Entity&lt;IdentityUserToken&lt;Guid&gt;&gt;()
-           .ToTable(&quot;UserTokens&quot;)
-           .HasKey(x &#x3D;&gt; x.UserId);
+    builder.Entity&lt;ApplicationUser&gt;().ToTable(&quot;Users&quot;);
+    builder.Entity&lt;IdentityRole&gt;().ToTable(&quot;Roles&quot;);
+    builder.Entity&lt;IdentityRoleClaim&lt;string&gt;&gt;().ToTable(&quot;RoleClaim&quot;);
+    builder.Entity&lt;IdentityUserRole&lt;string&gt;&gt;().ToTable(&quot;UserRoles&quot;);
+    builder.Entity&lt;IdentityUserClaim&lt;string&gt;&gt;().ToTable(&quot;UserClaims&quot;);
+    builder.Entity&lt;IdentityUserLogin&lt;string&gt;&gt;().ToTable(&quot;UserLogins&quot;);
+    builder.Entity&lt;IdentityUserToken&lt;string&gt;&gt;().ToTable(&quot;UserTokens&quot;);
 &#125;</code></pre>
 </li>
 <li><p>在 <code>src/Infrastructure/ConfigureServices.cs</code> 中注入 Identity Service</p>
@@ -2626,20 +2613,18 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer</code></pre>
     &#125;)
     .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;();</code></pre>
 </li>
-<li><p>执行数据库迁移</p>
+<li><p>生成数据库迁移</p>
 <p> 语法为 <code>dotnet ef migrations add Init -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt; -o &lt;MigrationsFolder&gt; --verbose</code></p>
  <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd src\Infrastructure\
 
-dotnet ef migrations add Init -s ..\Api\Api.csproj -c ApplicationDbContext -o Persistence\Migrations --verbose
-
-dotnet ef database update</code></pre>
+dotnet ef migrations add Init -s ..\WebUI\ -o .\Persistence\Migrations\ -v</code></pre>
 
  <div class="note info"><p>可以使用使用 <code>dotnet ef migrations remove -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt;</code> 移除迁移记录</p>
 <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd src\Infrastructure\
 
-dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbose</code></pre></div></li>
+dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre></div></li>
 </ol>
-<p>最终生成以下数据表</p>
+<p>执行 <code>ef database update </code> 生成以下数据表</p>
 <ul>
 <li>RoleClaims</li>
 <li>Roles</li>
@@ -2658,8 +2643,8 @@ dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbo
     &#x2F;&#x2F; ...
 &#125;</code></pre>
 </li>
-<li><p>实现 <code>src/Api/Services/TokenService.cs</code>, 从这里生成 JWT</p>
- <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Api/Services/TokenService.cs</span></div><code class="language-csharp">public async Task&lt;string&gt; CreateToken(string userName)
+<li><p>实现 <code>src/WebUI/Services/TokenService.cs</code>, 从这里生成 JWT</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/WebUI/Services/TokenService.cs</span></div><code class="language-csharp">public async Task&lt;string&gt; CreateToken(string userName)
 &#123;
     var authClaims &#x3D; new List&lt;Claim&gt;
     &#123;
@@ -2693,7 +2678,7 @@ dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbo
     return new JwtSecurityTokenHandler().WriteToken(token);
 &#125;</code></pre>
 </li>
-<li><p>在 <code>src/Api/ConfigureServices.cs</code> 中注入 <code>ITokenService</code></p>
+<li><p>在 <code>src/WebUI/ConfigureServices.cs</code> 中注入 <code>ITokenService</code></p>
  <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddScoped&lt;ITokenService, TokenService&gt;();</code></pre></li>
 </ol>
 <h3 id="验证-JWT"><a href="#验证-JWT" class="headerlink" title="验证 JWT"></a>验证 JWT</h3><ul>
@@ -2739,7 +2724,7 @@ dotnet ef migrations remove -s ..\Api\Api.csproj -c ApplicationDbContext --verbo
     configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor(&quot;JWT&quot;));
 &#125;);</code></pre></li>
 </ul>
-<h2 id="身份管理服务"><a href="#身份管理服务" class="headerlink" title="身份管理服务"></a>身份管理服务</h2><p>实现 IIdentityService</p>
+<h2 id="身份管理服务"><a href="#身份管理服务" class="headerlink" title="身份管理服务"></a>身份管理服务</h2><p>实现 <code>IIdentityService</code></p>
 <ol>
 <li><p>定义接口 <code>src/Application/Common/Interfaces/IIdentityService.cs</code> </p>
  <pre class="language-csharp" data-language="csharp"><code class="language-csharp">public interface IIdentityService
@@ -2883,8 +2868,8 @@ public class LoginHandler : IRequestHandler&lt;LoginCommand, string&gt;
     &#125;
 &#125;</code></pre></li>
 </ul>
-<h3 id="接口层-Api"><a href="#接口层-Api" class="headerlink" title="接口层(Api)"></a>接口层(Api)</h3><p>然后在 Api 项目中使用它们</p>
-<pre class="language-csharp" data-language="csharp"><div class="caption"><span>AuthenticateController.cs</span></div><code class="language-csharp">namespace Api.Controllers;
+<h3 id="接口层-WebUI"><a href="#接口层-WebUI" class="headerlink" title="接口层(WebUI)"></a>接口层(WebUI)</h3><p>然后在 WebUI 项目中使用它们</p>
+<pre class="language-csharp" data-language="csharp"><div class="caption"><span>AuthenticateController.cs</span></div><code class="language-csharp">namespace WebUI.Controllers;
 
 [AllowAnonymous]
 public class AuthenticateController : ApiControllerBase
@@ -2908,11 +2893,13 @@ public class AuthenticateController : ApiControllerBase
 <li><p>登录获得 Token</p>
   <pre class="language-http" data-language="http"><div class="caption"><span>Request</span></div><code class="language-http">POST &#x2F;api&#x2F;authenticate&#x2F;login HTTP&#x2F;1.1
 Host: localhost:5001
+accept: application&#x2F;octet-stream
 Content-Type: application&#x2F;json
-Content-Length: 48
+Content-Length: 77
+
 &#123;
-  &quot;username&quot;: &quot;root&quot;,
-  &quot;password&quot;: &quot;admin&quot;
+  &quot;username&quot;: &quot;administrator@localhost&quot;,
+  &quot;password&quot;: &quot;Administrator1!&quot;
 &#125;</code></pre>
 </li>
 <li><p>访问需要验证的 API</p>
