@@ -1,9 +1,10 @@
 ---
-title: csharp_cheatsheet
+title: C# Cheatsheet
+categorties: Note
 tags:
     - C#
     - Linq
-    - lambda
+    - Lambda expression
 ---
 
 C# Cheatsheet
