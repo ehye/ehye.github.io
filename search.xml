@@ -2580,8 +2580,8 @@ dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre></li>
 &#123;
 &#125;</code></pre>
 </li>
-<li><p>在 <code>OnModelCreating</code> 中，可自定义 Identity 所用到的表名</p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">protected override void OnModelCreating(ModelBuilder builder)
+<li><p>在 <code>OnModelCreating()</code> 中，可自定义 Identity 所用到的表名</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/Persistence/ApplicationDbContext.cs</span></div><code class="language-csharp">protected override void OnModelCreating(ModelBuilder builder)
 &#123;
     builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -2619,7 +2619,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre></li>
 
 dotnet ef migrations add Init -s ..\WebUI\ -o .\Persistence\Migrations\ -v</code></pre>
 
- <div class="note info"><p>可以使用使用 <code>dotnet ef migrations remove -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt;</code> 移除迁移记录</p>
+ <div class="note info"><p>可以使用 <code>dotnet ef migrations remove -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt;</code> 移除迁移记录</p>
 <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd src\Infrastructure\
 
 dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre></div></li>
@@ -2635,15 +2635,15 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
 <li>Users</li>
 </ul>
 <h2 id="创建验证授权服务"><a href="#创建验证授权服务" class="headerlink" title="创建验证授权服务"></a>创建验证授权服务</h2><h3 id="生成-JWT"><a href="#生成-JWT" class="headerlink" title="生成 JWT"></a>生成 JWT</h3><ol>
-<li><p>定义接口 <code>src/Application/Common/Interfaces/ITokenService.cs</code> </p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">public interface ITokenService
+<li><p>定义接口 <code>ITokenService.cs</code> </p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Application/Common/Interfaces/ITokenService.cs</span></div><code class="language-csharp">public interface ITokenService
 &#123;
     Task&lt;string&gt; CreateToken(string userName);
 
     &#x2F;&#x2F; ...
 &#125;</code></pre>
 </li>
-<li><p>实现 <code>src/WebUI/Services/TokenService.cs</code>, 从这里生成 JWT</p>
+<li><p>实现 <code>TokenService.cs</code>, 从这里生成 JWT</p>
  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/WebUI/Services/TokenService.cs</span></div><code class="language-csharp">public async Task&lt;string&gt; CreateToken(string userName)
 &#123;
     var authClaims &#x3D; new List&lt;Claim&gt;
@@ -2678,8 +2678,8 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
     return new JwtSecurityTokenHandler().WriteToken(token);
 &#125;</code></pre>
 </li>
-<li><p>在 <code>src/WebUI/ConfigureServices.cs</code> 中注入 <code>ITokenService</code></p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddScoped&lt;ITokenService, TokenService&gt;();</code></pre></li>
+<li><p>在 <code>ConfigureServices.cs</code> 中注入 <code>ITokenService</code></p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/WebUI/ConfigureServices.cs</span></div><code class="language-csharp">services.AddScoped&lt;ITokenService, TokenService&gt;();</code></pre></li>
 </ol>
 <h3 id="验证-JWT"><a href="#验证-JWT" class="headerlink" title="验证 JWT"></a>验证 JWT</h3><ul>
 <li><p>在 <code>appsettings.json</code> 中配置 JWT </p>
@@ -2689,8 +2689,8 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
     &quot;Key&quot;: &quot;8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy&quot;
 &#125;,</code></pre>
 </li>
-<li><p>在 <code>src/Infrastructure/ConfigureServices.cs</code> 中启用 JWT 验证</p>
-  <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddAuthentication(options &#x3D;&gt;
+<li><p>在 <code>ConfigureServices.cs</code> 中启用 JWT 验证</p>
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/ConfigureServices.cs</span></div><code class="language-csharp">services.AddAuthentication(options &#x3D;&gt;
     &#123;
         options.DefaultAuthenticateScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
@@ -2710,7 +2710,7 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
     &#125;);</code></pre>
 </li>
 <li><p>让 Swagger 可以使用 JWT</p>
-  <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddOpenApiDocument(configure &#x3D;&gt;
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/ConfigureServices.cs</span></div><code class="language-csharp">services.AddOpenApiDocument(configure &#x3D;&gt;
 &#123;
     configure.AddSecurity(&quot;JWT&quot;, Enumerable.Empty&lt;string&gt;(),
         new OpenApiSecurityScheme
@@ -2726,8 +2726,8 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
 </ul>
 <h2 id="身份管理服务"><a href="#身份管理服务" class="headerlink" title="身份管理服务"></a>身份管理服务</h2><p>实现 <code>IIdentityService</code></p>
 <ol>
-<li><p>定义接口 <code>src/Application/Common/Interfaces/IIdentityService.cs</code> </p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">public interface IIdentityService
+<li><p>定义接口 <code>IIdentityService.cs</code> </p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Application/Common/Interfaces/IIdentityService</span></div><code class="language-csharp">public interface 
 &#123;
     Task&lt;(Result Result, string UserId)&gt; CreateUserAsync(string userName, string password);
 
@@ -2740,8 +2740,8 @@ dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre
     &#x2F;&#x2F; ...
 &#125;</code></pre>
 </li>
-<li><p>实现 <code>src/Infrastructure/Identity/IdentityService.cs</code>, 在这里调用 <code>UserManager</code> 和 <code>RoleManager</code> 的方法</p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">namespace Infrastructure.Identity;
+<li><p>实现 <code>IdentityService.cs</code>, 在这里调用 <code>UserManager</code> 和 <code>RoleManager</code> 的方法</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/Identity/IdentityService.cs</span></div><code class="language-csharp">namespace Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 &#123;
@@ -4444,6 +4444,63 @@ Z:       \\192.168.1.1\mnt\sda1                 UID&#x3D;-2, GID&#x3D;-2
       </tags>
   </entry>
   <entry>
+    <title>OpenWrt折腾记录06</title>
+    <url>/2023/02/13/openwrt-build/</url>
+    <content><![CDATA[<hr>
+<p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
+<h1 id="WSL-安装必要软件"><a href="#WSL-安装必要软件" class="headerlink" title="WSL 安装必要软件"></a>WSL 安装必要软件</h1><p>以 Ubuntu 为例</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">sudo apt update
+sudo apt install build-essential clang flex bison g++ gawk gcc-multilib gettext \
+git libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev \
+file wget</code></pre>
+
+<h1 id="SDK"><a href="#SDK" class="headerlink" title="SDK"></a>SDK</h1><p>使用 SDK 编译目标平台所需要的 package</p>
+<p>从 release 获取 SDK，要下载的文件名为 <code>openwrt-sdk-*.tar.xz</code></p>
+<p>解压到工作文件夹</p>
+<p><code>tar -xf openwrt-sdk-*.tar.xz -C &lt;dir_path&gt;/openwrt-sdk</code></p>
+<p><code>cd openwrt-sdk</code></p>
+<h2 id="更新-feeds"><a href="#更新-feeds" class="headerlink" title="更新 feeds"></a>更新 feeds</h2><p>获取最新的 feeds: <code>./scripts/feeds update -a</code></p>
+<h2 id="获取-package"><a href="#获取-package" class="headerlink" title="获取 package"></a>获取 package</h2><p>使用脚本： <code>./scripts/feeds install &lt;PACKAGENAME&gt;</code></p>
+<p>使用 git： <code>git clone https://github.com/*/&lt;repo_name&gt;.git package/&lt;repo_name&gt;</code></p>
+<h2 id="配置-package"><a href="#配置-package" class="headerlink" title="配置 package"></a>配置 package</h2><p><code>make menuconfig</code>  选择要编译的包</p>
+<p>当 package 没出现在列表时，尝试清除临时文件夹</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;openwrt&#x2F;
+rm -rf tmp
+make menuconfig</code></pre>
+
+<h2 id="生成-package"><a href="#生成-package" class="headerlink" title="生成 package"></a>生成 package</h2><p><code>make package/shadowsocks-rust/compile V=99</code></p>
+<p>构建成功的 package 位于 <code>bin/</code></p>
+<h1 id="Image-Builder"><a href="#Image-Builder" class="headerlink" title="Image Builder"></a>Image Builder</h1><p>使用 Image Builder 来生成自己的可刷镜像文件</p>
+<p>删除 WSL 中 Windows 的环境变量</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">sudo tee -a &#x2F;etc&#x2F;wsl.conf &lt;&lt; EOF &gt; &#x2F;dev&#x2F;null
+[interop]
+appendWindowsPath &#x3D; false
+EOF
+exit</code></pre>
+
+<p>重启以应用</p>
+<p><code>wsl --shutdown</code></p>
+<p>验证 PATH 中不包含 Windows 的路径</p>
+<p><code>echo $&#123;PATH&#125;</code></p>
+<h2 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h2><pre class="language-bash" data-language="bash"><code class="language-bash">tar -J -x -f openwrt-imagebuilder-*.tar.xz
+cd openwrt-imagebuilder-*&#x2F;</code></pre>
+
+<p>执行 <code>make info</code> 获取目标平台 profile</p>
+<h3 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h3><p><code>make image PROFILE=&quot;profile-name&quot; PACKAGES=&quot;pkg1&quot;</code></p>
+<p>构建成功的镜像位于 <code>bin/</code></p>
+<hr>
+<p><strong>参考</strong></p>
+<p><a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem#build_system_setup">Build system setup</a><br><a href="https://oldwiki.archive.openwrt.org/doc/howto/build#updating_feeds">OpenWrt build system – Usage</a><br><a href="https://openwrt.org/docs/guide-user/additional-software/imagebuilder">Using the Image Builder</a></p>
+]]></content>
+      <categories>
+        <category>Router</category>
+      </categories>
+      <tags>
+        <tag>OpenWrt</tag>
+        <tag>WSL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenWrt折腾记录02</title>
     <url>/2019/01/31/openwrt-godaddy-ddns/</url>
     <content><![CDATA[<p>配置动态域名解析，在外网通过域名来访问路由器<span id="more"></span></p>
@@ -4762,7 +4819,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0</code></pr
       </tags>
   </entry>
   <entry>
-    <title>Setting up a Shadowsocks-rust server with v2ray plugin and Cloudflare CDN</title>
+    <title>Setting up a Shadowsocks-rust server with v2ray plugin and CDN</title>
     <url>/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/</url>
     <content><![CDATA[<p>One Oracle Cloud account could create two free instance with mutable IP address.</p>
 <span id="more"></span>
@@ -4789,20 +4846,6 @@ sudo apt install snapd</code></pre>
 
 <h2 id="Install-shadowsocks-rust"><a href="#Install-shadowsocks-rust" class="headerlink" title="Install shadowsocks-rust"></a>Install shadowsocks-rust</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap install shadowsocks-rust</code></pre>
 
-<h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd  --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
-sudo firewall-cmd  --reload</code></pre>
-
-<h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default</code></pre>
-
-<pre class="language-nginx" data-language="nginx"><code class="language-nginx">location  &#x2F;ladder &#123;
-    proxy_redirect              off;
-    proxy_pass                  http:&#x2F;&#x2F;127.0.0.1:8081;
-    proxy_http_version          1.1;
-    proxy_set_header Host       $http_host;
-    proxy_set_header Upgrade    $http_upgrade;
-    proxy_set_header Connection &quot;upgrade&quot;;
-&#125;</code></pre>
-
 <h2 id="Install-V2ray-plugin"><a href="#Install-V2ray-plugin" class="headerlink" title="Install V2ray plugin"></a>Install V2ray plugin</h2><pre class="language-bash" data-language="bash"><code class="language-bash">tar -xzvf v2ray-plugin-linux-amd64-v1.2.0.tar.gz
 sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;v2ray-plugin</code></pre>
 
@@ -4821,15 +4864,31 @@ sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;co
   &quot;plugin_opts&quot;: &quot;server;path&#x3D;&#x2F;ladder;&quot;
 &#125;</code></pre>
 
+<h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd  --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
+sudo firewall-cmd  --reload</code></pre>
+
+<h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default</code></pre>
+
+<pre class="language-nginx" data-language="nginx"><code class="language-nginx">location  &#x2F;ladder &#123;
+    proxy_redirect              off;
+    proxy_pass                  http:&#x2F;&#x2F;127.0.0.1:8081;
+    proxy_http_version          1.1;
+    proxy_set_header Host       $http_host;
+    proxy_set_header Upgrade    $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+&#125;</code></pre>
+
+<p>Use <code>ngingx -t</code> to check</p>
 <h2 id="Start-the-daemon"><a href="#Start-the-daemon" class="headerlink" title="Start the daemon"></a>Start the daemon</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap start --enable shadowsocks-rust.ssserver-daemon</code></pre>
 
 <h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap logs shadowsocks-rust.ssserver-daemon</code></pre>
 
-<h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/cdn0.png" class="">
-
+<h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><p>Login into Cloudflare dashboard</p>
 <p>Find the SSL&#x2F;TLS -&gt; Overview, Set the encryption mode to <strong>Full</strong></p>
-<blockquote><p>If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a>, then set the encryption mode to <strong>FULL</strong>, otherwise you will get <code>TOO MANY REDIERCTS</code>.</p>
-</blockquote>
+<img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/cdn0.png" class="">
+
+<div class="note warning"><p>If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a>, then set the encryption mode to <strong>FULL</strong>, otherwise you will get <code>TOO MANY REDIERCTS</code>.</p>
+</div>
 
 
 <p>You can check the CDN whether it is taking effects by using tool like <code>ping</code> or <code>nslookup</code>. </p>
@@ -4843,11 +4902,11 @@ sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;co
   &quot;timeout&quot;: 5
 &#125;</code></pre>
 
+<p><strong>Then you are connected to the Internet !</strong></p>
 <hr>
-<p>Ref</p>
+<p><a href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node</a></p>
 <p><a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin</a></p>
 <p><a href="https://stackoverflow.com/q/70851543">Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare?</a></p>
-<p><a href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node</a></p>
 ]]></content>
       <categories>
         <category>Tips</category>
