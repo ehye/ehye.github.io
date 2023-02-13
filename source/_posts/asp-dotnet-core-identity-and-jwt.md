@@ -87,9 +87,9 @@ tags:
     }
     ```
 
-3. 在 `OnModelCreating` 中，可自定义 Identity 所用到的表名
+3. 在 `OnModelCreating()` 中，可自定义 Identity 所用到的表名
 
-    ```cs
+    ```cs src/Infrastructure/Persistence/ApplicationDbContext.cs
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -141,7 +141,7 @@ tags:
 
     {% note info %} 
 
-    可以使用使用 `dotnet ef migrations remove -s <ApiProjectFile> -c <DbContextClassName>` 移除迁移记录
+    可以使用 `dotnet ef migrations remove -s <ApiProjectFile> -c <DbContextClassName>` 移除迁移记录
 
     ```cmd
     cd src\Infrastructure\
@@ -164,9 +164,9 @@ tags:
 
 ### 生成 JWT
 
-1. 定义接口 `src/Application/Common/Interfaces/ITokenService.cs` 
+1. 定义接口 `ITokenService.cs` 
 
-    ```cs
+    ```cs src/Application/Common/Interfaces/ITokenService.cs
     public interface ITokenService
     {
         Task<string> CreateToken(string userName);
@@ -175,7 +175,7 @@ tags:
     }
     ```
 
-2. 实现 `src/WebUI/Services/TokenService.cs`, 从这里生成 JWT
+2. 实现 `TokenService.cs`, 从这里生成 JWT
 
     ```cs src/WebUI/Services/TokenService.cs
     public async Task<string> CreateToken(string userName)
@@ -213,9 +213,9 @@ tags:
     }
     ```
 
-3. 在 `src/WebUI/ConfigureServices.cs` 中注入 `ITokenService`
+3. 在 `ConfigureServices.cs` 中注入 `ITokenService`
 
-    ```cs
+    ```cs src/WebUI/ConfigureServices.cs
     services.AddScoped<ITokenService, TokenService>();
     ```
 
@@ -231,9 +231,9 @@ tags:
     },
     ```
 
-- 在 `src/Infrastructure/ConfigureServices.cs` 中启用 JWT 验证
+- 在 `ConfigureServices.cs` 中启用 JWT 验证
 
-    ```cs
+    ```cs src/Infrastructure/ConfigureServices.cs
     services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -256,7 +256,7 @@ tags:
 
 - 让 Swagger 可以使用 JWT
 
-    ```cs
+    ```cs src/Infrastructure/ConfigureServices.cs
     services.AddOpenApiDocument(configure =>
     {
         configure.AddSecurity("JWT", Enumerable.Empty<string>(),
@@ -276,10 +276,10 @@ tags:
 
 实现 `IIdentityService`
 
-1. 定义接口 `src/Application/Common/Interfaces/IIdentityService.cs` 
+1. 定义接口 `IIdentityService.cs` 
 
-    ```cs
-    public interface IIdentityService
+    ```cs src/Application/Common/Interfaces/IIdentityService
+    public interface 
     {
         Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
 
@@ -293,9 +293,9 @@ tags:
     }
     ```
 
-2. 实现 `src/Infrastructure/Identity/IdentityService.cs`, 在这里调用 `UserManager` 和 `RoleManager` 的方法
+2. 实现 `IdentityService.cs`, 在这里调用 `UserManager` 和 `RoleManager` 的方法
 
-    ```cs
+    ```cs src/Infrastructure/Identity/IdentityService.cs
     namespace Infrastructure.Identity;
 
     public class IdentityService : IIdentityService

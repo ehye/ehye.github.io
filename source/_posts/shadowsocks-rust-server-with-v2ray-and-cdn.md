@@ -1,5 +1,5 @@
 ---
-title: Setting up a Shadowsocks-rust server with v2ray plugin and Cloudflare CDN
+title: Setting up a Shadowsocks-rust server with v2ray plugin and CDN
 date: 2022-10-30 22:51:08
 categories: Tips
 tags:
@@ -46,30 +46,6 @@ sudo apt install snapd
 sudo snap install shadowsocks-rust
 ```
 
-## Open firewall
-
-```bash
-sudo firewall-cmd  --permanent --zone=public --add-port=8081/tcp
-sudo firewall-cmd  --reload
-```
-
-## Nginx Configuration
-
-```bash
-sudo vim /etc/nginx/sites-enabled/default
-```
-
-```nginx
-location  /ladder {
-    proxy_redirect              off;
-    proxy_pass                  http://127.0.0.1:8081;
-    proxy_http_version          1.1;
-    proxy_set_header Host       $http_host;
-    proxy_set_header Upgrade    $http_upgrade;
-    proxy_set_header Connection "upgrade";
-}
-```
-
 ## Install V2ray plugin
 
 ```bash
@@ -99,6 +75,32 @@ sudo vim /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
 }
 ```
 
+## Open firewall
+
+```bash
+sudo firewall-cmd  --permanent --zone=public --add-port=8081/tcp
+sudo firewall-cmd  --reload
+```
+
+## Nginx Configuration
+
+```bash
+sudo vim /etc/nginx/sites-enabled/default
+```
+
+```nginx
+location  /ladder {
+    proxy_redirect              off;
+    proxy_pass                  http://127.0.0.1:8081;
+    proxy_http_version          1.1;
+    proxy_set_header Host       $http_host;
+    proxy_set_header Upgrade    $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+```
+
+Use `ngingx -t` to check
+
 ## Start the daemon
 
 ```bash
@@ -113,13 +115,15 @@ sudo snap logs shadowsocks-rust.ssserver-daemon
 
 ## Cloudflare Configuration
 
-{% asset_img cdn0.png %}
+Login into Cloudflare dashboard
 
 Find the SSL/TLS -> Overview, Set the encryption mode to **Full**
 
-{% blockquote %}
+{% asset_img cdn0.png %}
+
+{% note warning %}
 If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by [acme.sh](https://github.com/acmesh-official/acme.sh), then set the encryption mode to **FULL**, otherwise you will get `TOO MANY REDIERCTS`.
-{% endblockquote %}
+{% endnote %}
 
 
 You can check the CDN whether it is taking effects by using tool like `ping` or `nslookup`. 
@@ -138,12 +142,12 @@ You can check the CDN whether it is taking effects by using tool like `ping` or 
 }
 ```
 
+**Then you are connected to the Internet !**
+
 ---
 
-Ref
+[Opening port 80 on Oracle Cloud Infrastructure Compute node](https://stackoverflow.com/a/54835902/6575354)
 
 [shadowsocks-libev snap can't find custom downloaded plugin](https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864)
 
 [Why do I have to change from Flexible to Full to solve my "too many redirects" problem with cloudflare?](https://stackoverflow.com/q/70851543)
-
-[Opening port 80 on Oracle Cloud Infrastructure Compute node](https://stackoverflow.com/a/54835902/6575354)
