@@ -7,9 +7,9 @@ tags:
     - WSL
 ---
 
----
-
 使用 WSL 编译 Openwrt 固件及安装包<!-- more -->
+
+---
 
 # WSL 安装必要软件
 
@@ -46,7 +46,9 @@ file wget
 
 ## 配置 package
 
-`make menuconfig`  选择要编译的包
+`make menuconfig` 选择要编译的包，配置保存于 `.config`
+
+{% note info %} 
 
 当 package 没出现在列表时，尝试清除临时文件夹
 
@@ -55,6 +57,9 @@ cd ~/openwrt/
 rm -rf tmp
 make menuconfig
 ```
+
+{% endnote %}
+
 
 ## 生成 package
 
