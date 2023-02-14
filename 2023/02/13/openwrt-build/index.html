@@ -29,7 +29,7 @@
 <meta property="og:description" content="使用 WSL 编译 Openwrt 固件及安装包">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-13T09:45:52.000Z">
-<meta property="article:modified_time" content="2023-02-13T10:15:49.880Z">
+<meta property="article:modified_time" content="2023-02-14T10:15:56.156Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="OpenWrt">
 <meta property="article:tag" content="WSL">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -261,8 +261,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <hr>
-<p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
+        <p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
+<hr>
 <h1 id="WSL-安装必要软件"><a href="#WSL-安装必要软件" class="headerlink" title="WSL 安装必要软件"></a>WSL 安装必要软件</h1><p>以 Ubuntu 为例</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">sudo apt update
 sudo apt install build-essential clang flex bison g++ gawk gcc-multilib gettext \
@@ -277,11 +277,13 @@ file wget</code></pre>
 <h2 id="更新-feeds"><a href="#更新-feeds" class="headerlink" title="更新 feeds"></a>更新 feeds</h2><p>获取最新的 feeds: <code>./scripts/feeds update -a</code></p>
 <h2 id="获取-package"><a href="#获取-package" class="headerlink" title="获取 package"></a>获取 package</h2><p>使用脚本： <code>./scripts/feeds install &lt;PACKAGENAME&gt;</code></p>
 <p>使用 git： <code>git clone https://github.com/*/&lt;repo_name&gt;.git package/&lt;repo_name&gt;</code></p>
-<h2 id="配置-package"><a href="#配置-package" class="headerlink" title="配置 package"></a>配置 package</h2><p><code>make menuconfig</code>  选择要编译的包</p>
-<p>当 package 没出现在列表时，尝试清除临时文件夹</p>
+<h2 id="配置-package"><a href="#配置-package" class="headerlink" title="配置 package"></a>配置 package</h2><p><code>make menuconfig</code> 选择要编译的包，配置保存于 <code>.config</code></p>
+<div class="note info"><p>当 package 没出现在列表时，尝试清除临时文件夹</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;openwrt&#x2F;
 rm -rf tmp
 make menuconfig</code></pre>
+</div>
+
 
 <h2 id="生成-package"><a href="#生成-package" class="headerlink" title="生成 package"></a>生成 package</h2><p><code>make package/shadowsocks-rust/compile V=99</code></p>
 <p>构建成功的 package 位于 <code>bin/</code></p>
@@ -345,6 +347,9 @@ cd openwrt-imagebuilder-*&#x2F;</code></pre>
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2023/02/14/asp-dotnet-core-serilog/" rel="next" title="Serilog for ASP.NET Core">
+                  Serilog for ASP.NET Core <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>

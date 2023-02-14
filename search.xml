@@ -2918,10 +2918,154 @@ Authorization: Bearer xxxxxx</code></pre></li>
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
       <tags>
         <tag>Clean Architecture</tag>
         <tag>ASP.Net Core Identity</tag>
         <tag>JWT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Serilog for ASP.NET Core</title>
+    <url>/2023/02/14/asp-dotnet-core-serilog/</url>
+    <content><![CDATA[<p>Using Serilog logging for ASP.NET Core.<span id="more"></span></p>
+<hr>
+<h1 id="Logging-during-startup"><a href="#Logging-during-startup" class="headerlink" title="Logging during startup"></a>Logging during startup</h1><p>Use <code>Serilog.Extensions.Hosting</code> for logging framework’s internal operations.</p>
+<pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Serilog.Extensions.Hosting</code></pre>
+
+<p>Use <code>CreateBootstrapLogger()</code> for <code>appsettings.json</code> configuration and dependency injection logging</p>
+<pre class="language-csharp" data-language="csharp"><div class="caption"><span>Program.cs</span><a href="https://github.com/serilog/serilog-aspnetcore#instructions">link</a></div><code class="language-csharp">Log.Logger &#x3D; new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+try
+&#123;
+    Log.Information(&quot;Starting web application&quot;);
+
+    var builder &#x3D; WebApplication.CreateBuilder(args);
+
+    var app &#x3D; builder.Build();
+    app.UseHsts();
+    app.UseStaticFiles();
+    app.UseRouting();
+    app.MapControllers();
+
+    app.Run();
+&#125;
+catch (Exception ex)
+&#123;
+    Log.Fatal(ex, &quot;Application terminated unexpectedly&quot;);
+&#125;
+finally
+&#123;
+    Log.CloseAndFlush();
+&#125;</code></pre>
+
+<h1 id="Add-UseSerilog"><a href="#Add-UseSerilog" class="headerlink" title="Add UseSerilog()"></a>Add UseSerilog()</h1><p>Add packages</p>
+<pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Serilog.AspNetCore
+dotnet add package Serilog.Sinks.Console
+dotnet add package Serilog.Sinks.File</code></pre>
+
+<p>Add <code>UseSerilog()</code> to the host builder</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">const string OutputTemplate &#x3D; &quot;[&#123;Timestamp:HH:mm:ss&#125; &#123;Level:u3&#125;] [&#123;SourceContext&#125;] &#123;Message:lj&#125;&#123;NewLine&#125;&#123;Exception&#125;&quot;;
+
+builder.UseSerilog((_, _, cfg) &#x3D;&gt; cfg
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override(&quot;&lt;project_name_space&gt;&quot;, LogEventLevel.Warning)
+    .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning)
+    .MinimumLevel.Override(&quot;Microsoft.Hosting.Lifetime&quot;, LogEventLevel.Information)
+    .MinimumLevel.Override(&quot;System&quot;, LogEventLevel.Information)
+    .WriteTo.Console(outputTemplate: OutputTemplate)
+    .WriteToFile(builderConfiguration.GetValue&lt;string&gt;(&quot;LogFolder&quot;) ?? string.Empty));</code></pre>
+
+<p>Use <code>&#123;SourceContext&#125;</code> to log the namespace.</p>
+<h2 id="Write-to-different-log-files-by-level"><a href="#Write-to-different-log-files-by-level" class="headerlink" title="Write to different log files by level"></a>Write to different log files by level</h2><p>To create log by different logEvent, implement methond <code>WriteToFile()</code></p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">private static LoggerConfiguration WriteToFile(this LoggerConfiguration loggerConfiguration, string logFolder)
+&#123;
+    var logEventLevels &#x3D; new[]
+    &#123;
+        LogEventLevel.Debug,
+        LogEventLevel.Information,
+        LogEventLevel.Warning,
+        LogEventLevel.Error
+    &#125;;
+
+    foreach (var logEventLevel in logEventLevels)
+    &#123;
+        loggerConfiguration.WriteTo.Logger(configuration &#x3D;&gt;
+        &#123;
+            configuration.Filter.ByIncludingOnly(logEvent &#x3D;&gt; logEvent.Level &#x3D;&#x3D; logEventLevel)
+                .WriteTo.File(path: $&quot;&#123;logFolder&#125;\\&#123;logEventLevel&#125;-.log&quot;,
+                    outputTemplate: OutputTemplate,
+                    rollingInterval: RollingInterval.Day,
+                    fileSizeLimitBytes: 1 * 1024 * 1024, &#x2F;&#x2F; 1MB
+                    retainedFileCountLimit: 2,
+                    rollOnFileSizeLimit: true,
+                    shared: true,
+                    flushToDiskInterval: TimeSpan.FromSeconds(1));
+        &#125;);
+    &#125;
+
+    return loggerConfiguration;
+&#125;</code></pre>
+
+<p>When setting <code>rollingInterval</code>, the log files will append current date to the file name. e.g: <code>Information-20230101.log</code></p>
+<h1 id="Request-logging"><a href="#Request-logging" class="headerlink" title="Request logging"></a>Request logging</h1><p>Use <code>UseSerilogRequestLogging()</code> for request logging</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.UseSerilogRequestLogging(options &#x3D;&gt;
+&#123;
+    &#x2F;&#x2F; &#x2F;&#x2F; Emit debug-level events instead of the defaults
+    options.GetLevel &#x3D; (_, _, _) &#x3D;&gt; LogEventLevel.Debug;
+    
+    &#x2F;&#x2F; Attach additional properties to the request completion event
+    options.EnrichDiagnosticContext &#x3D; async (diagnosticContext, httpContext) &#x3D;&gt;
+    &#123;
+        diagnosticContext.Set(&quot;RequestHost&quot;, httpContext.Request.Host.Value);
+        diagnosticContext.Set(&quot;RequestScheme&quot;, httpContext.Request.Scheme);
+        diagnosticContext.Set(&quot;QueryString&quot;, httpContext.Request.QueryString);
+    
+        var requestBody &#x3D; await GetRequestBody(httpContext.Request);
+        diagnosticContext.Set(&quot;RequestBody&quot;, requestBody);
+    &#125;;
+    
+    options.MessageTemplate &#x3D; 
+        &quot;&#123;RequestMethod&#125; &#123;RequestBody&#125;&#123;RequestPath&#125;&#123;QueryString&#125; responded &#123;StatusCode&#125; in &#123;Elapsed:0.0000&#125; ms&quot;;
+&#125;);</code></pre>
+
+<p>Add <code>UseSerilogRequestLogging()</code> in Startup.cs before any handlers whose activities should be logged, by this way can also reduce unnesseray log</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">private static async Task&lt;string&gt; GetRequestBody(HttpRequest httpRequest)
+&#123;
+    string requestBody &#x3D; string.Empty;
+
+    if (httpRequest.Path.ToString().ContainsAny(nameof(AuthenticateController.Login).Slugify(),
+            nameof(AuthenticateController.Registry).Slugify()))
+    &#123;
+        requestBody &#x3D; &quot;[Redacted] Contains Sensitive Information. &quot;;
+    &#125;
+    else
+    &#123;
+        using var reader &#x3D; new HttpRequestStreamReader(httpRequest.Body, Encoding.UTF8);
+        var payload &#x3D; await reader.ReadToEndAsync();
+        if (!string.IsNullOrEmpty(payload))
+        &#123;
+            var json &#x3D; JsonSerializer.Deserialize&lt;object&gt;(payload);
+            requestBody &#x3D; $&quot;&#123;JsonSerializer.Serialize(json)&#125; &quot;;
+        &#125;
+    &#125;
+
+    return requestBody;
+&#125;</code></pre>
+
+<hr>
+<p><a href="https://github.com/serilog/serilog-aspnetcore">Serilog.AspNetCore</a><br><a href="https://stackoverflow.com/questions/38481227/serilog-log-to-different-files">Serilog : Log to different files - Stack Overflow</a></p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Serilog</tag>
       </tags>
   </entry>
   <entry>
@@ -4446,8 +4590,8 @@ Z:       \\192.168.1.1\mnt\sda1                 UID&#x3D;-2, GID&#x3D;-2
   <entry>
     <title>OpenWrt折腾记录06</title>
     <url>/2023/02/13/openwrt-build/</url>
-    <content><![CDATA[<hr>
-<p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
+    <content><![CDATA[<p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
+<hr>
 <h1 id="WSL-安装必要软件"><a href="#WSL-安装必要软件" class="headerlink" title="WSL 安装必要软件"></a>WSL 安装必要软件</h1><p>以 Ubuntu 为例</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">sudo apt update
 sudo apt install build-essential clang flex bison g++ gawk gcc-multilib gettext \
@@ -4462,11 +4606,13 @@ file wget</code></pre>
 <h2 id="更新-feeds"><a href="#更新-feeds" class="headerlink" title="更新 feeds"></a>更新 feeds</h2><p>获取最新的 feeds: <code>./scripts/feeds update -a</code></p>
 <h2 id="获取-package"><a href="#获取-package" class="headerlink" title="获取 package"></a>获取 package</h2><p>使用脚本： <code>./scripts/feeds install &lt;PACKAGENAME&gt;</code></p>
 <p>使用 git： <code>git clone https://github.com/*/&lt;repo_name&gt;.git package/&lt;repo_name&gt;</code></p>
-<h2 id="配置-package"><a href="#配置-package" class="headerlink" title="配置 package"></a>配置 package</h2><p><code>make menuconfig</code>  选择要编译的包</p>
-<p>当 package 没出现在列表时，尝试清除临时文件夹</p>
+<h2 id="配置-package"><a href="#配置-package" class="headerlink" title="配置 package"></a>配置 package</h2><p><code>make menuconfig</code> 选择要编译的包，配置保存于 <code>.config</code></p>
+<div class="note info"><p>当 package 没出现在列表时，尝试清除临时文件夹</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;openwrt&#x2F;
 rm -rf tmp
 make menuconfig</code></pre>
+</div>
+
 
 <h2 id="生成-package"><a href="#生成-package" class="headerlink" title="生成 package"></a>生成 package</h2><p><code>make package/shadowsocks-rust/compile V=99</code></p>
 <p>构建成功的 package 位于 <code>bin/</code></p>
