@@ -12,8 +12,6 @@ tags:
 
 ---
 
-[项目地址](https://github.com/ehye/CleanIdentity)
-
 ## 使用 Clean Architecture
 
 1. 安装模板 [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture)
