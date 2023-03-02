@@ -1,7 +1,7 @@
 ---
 title: hexo 配置 firestore 记录阅读数
 date: 2019-07-07 12:21:18
-categories: Blog
+categories: Note
 tags:
     - hexo
     - firebase

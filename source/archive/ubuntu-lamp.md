@@ -1,13 +1,13 @@
 ﻿---
 title: 在 Ubuntu 上安装和配置 LAMP
 date: 2018-05-26 10:34:46
-categories: Tips
+categories: Note
 tags:
-	- LAMP
-	- Apache
-	- Ubuntu
-	- PHP
-	- MySQL
+    - LAMP
+    - Apache
+    - Ubuntu
+    - PHP
+    - MySQL
 ---
 
 Set up and install a LAMP (Linux-Apache-MySQL-PHP) server in Ubuntu 18.04, including Apache 2, PHP 7 and MySQL 5.7. <!--more-->
@@ -30,13 +30,13 @@ sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-availab
 ```
 sudo vim /etc/apache2/sites-available/mysite.conf
 ```
-	将 DocumentRoot 设置为 `/home/<user>/public_html`
-	
+    将 DocumentRoot 设置为 `/home/<user>/public_html`
+    
 3. 改变探测路径
 ```
 sudo vim /etc/apache2/apache2.conf
 ```
-	将 `<Directory /var/www/>` 替换为 `<Directory /home/<user>/public_html/>`
+    将 `<Directory /var/www/>` 替换为 `<Directory /home/<user>/public_html/>`
 
 3. 使旧站点失效，新站点生效
 ```
@@ -98,7 +98,7 @@ sudo systemctl status apache2
    CGroup: /system.slice/apache2.service
            ├─13317 /usr/sbin/apache2 -k start
            ├─13318 /usr/sbin/apache2 -k start
-			. . .
+            . . .
 ```
 ## Testing PHP 
 在 apache 默认站点或者你更改后的自定义位置创建一个测试页面

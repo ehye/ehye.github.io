@@ -1,7 +1,7 @@
 ---
 title: 一波字符串处理函数（C语言）
 date: 2017-03-15 00:02:51
-categories: Coding
+categories: Note
 tags:
 ---
 

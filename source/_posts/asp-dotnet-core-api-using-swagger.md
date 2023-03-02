@@ -1,7 +1,7 @@
 ---
 title: 如何在ASP.NET Core(ABP)项目中生成自定义的Swagger文档
 date: 2019-08-29 15:08:42
-categories: Coding
+categories: Note
 tags:
     - aspnetboilerplate(ABP)
     - ASP.NET Core

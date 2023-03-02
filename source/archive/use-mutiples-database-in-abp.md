@@ -42,9 +42,7 @@ public class Product : Entity<int> {
 
 3.添加DbContext
 
-在`EntityFrameworkCore`项目中添加以下文件
-
-SecondDbContext.cs
+在`EntityFrameworkCore`项目中添加 `SecondDbContext.cs`
 
 ```csharp
 public class SecondDbContext : AbpZeroDbContext<Tenant, Role, User, SecondDbContext>
@@ -58,7 +56,7 @@ public class SecondDbContext : AbpZeroDbContext<Tenant, Role, User, SecondDbCont
 }
 ```
 
-SecondDbContextConfigurer.cs
+`SecondDbContextConfigurer.cs`
 
 ```csharp
 public static void Configure(DbContextOptionsBuilder<SecondDbContext> builder, string connectionString)

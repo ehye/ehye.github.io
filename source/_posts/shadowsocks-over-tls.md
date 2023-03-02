@@ -1,7 +1,7 @@
 ---
 title: How to set Shadowsocks over HTTPS With Nginx
 date: 2020-03-27 18:53:20
-categories: Tips
+categories: Note
 tags:
     - Nginx
     - Shadowsocks

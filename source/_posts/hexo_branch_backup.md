@@ -1,10 +1,10 @@
 ---
 title: 使用 branch 对 hexo 备份
 date: 2017-09-12 20:41:13
-categories: Blog
+categories: Note
 tags: 
-	- hexo
-	- git
+    - hexo
+    - git
 ---
 因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少，而新建一个 repository 过于臃肿，因此利用 branch 进行备份<!--more-->
 

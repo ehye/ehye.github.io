@@ -1,16 +1,17 @@
 ---
 title: 用 Github Pages 与 hexo 搭建个人博客
 date: 2016-12-17 00:06:33
-categories: Blog
+categories: Note
 tags: 
-	- hexo
-	- blog
+  - hexo
+  - Github Pages
 ---
+
 > Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
 
 <!-- more -->
 
---------------------------
+---
  
 # 安装
 

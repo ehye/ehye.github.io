@@ -1,7 +1,7 @@
 ---
 title: 使用 ASP.Net Core Identity 和 JWT 实现认证与授权
 date: 2023-01-28 13:47:22
-categories: Coding
+categories: Note
 tags:
     - Clean Architecture
     - ASP.Net Core Identity

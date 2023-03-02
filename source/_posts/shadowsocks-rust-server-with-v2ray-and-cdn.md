@@ -1,7 +1,7 @@
 ---
 title: Setting up a Shadowsocks-rust server with v2ray plugin and CDN
 date: 2022-10-30 22:51:08
-categories: Tips
+categories: Note
 tags:
   - Oracle cloud
   - shadowsocks-rust

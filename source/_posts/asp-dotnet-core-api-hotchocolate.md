@@ -1,10 +1,10 @@
 ---
 title: GraphQL query in .NET Core
 date: 2023-03-02 16:40:27
-categroise: Note
+categories: Note
 tags:
-  - GraphQL
-  - HotChocolate
+    - GraphQL
+    - HotChocolate
 ---
 
 使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务<!-- more -->

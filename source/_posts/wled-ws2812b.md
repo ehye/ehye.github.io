@@ -1,7 +1,7 @@
 ---
 title: 使用 ESP8266 搭建 WLED project
 date: 2022-08-06 13:29:41
-categories: Tips
+categories: Note
 tags: 
     - WLED
     - ESP8266

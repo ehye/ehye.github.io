@@ -1,7 +1,7 @@
 ---
 title: Serilog for ASP.NET Core 
 date: 2023-02-14 09:34:28
-categories: Coding
+categories: Note
 tags:
     - Serilog
 ---

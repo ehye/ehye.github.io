@@ -7,8 +7,10 @@ tags:
 	- CSS
 	- NexT
 ---
+
 修改 PiscesScheme 的宽度，使 next 主题适应移动设备
-> 对于Pisces Scheme ，需要同时修改 **header** 的宽度、**.main-inner** 的宽度以及 **.content-wrap** 的宽度。例如，使用百分比（Pisces 的布局定义在 source/css/_schemes/Picses/_layout.styl 中）：
+
+> 对于Pisces Scheme ，需要同时修改 **header** 的宽度、**.main-inner** 的宽度以及 **.content-wrap** 的宽度。例如，使用百分比（Pisces 的布局定义在 `source/css/_schemes/Picses/_layout.styl` 中）
 
 ```css
 .header{ width: 90%; }
@@ -43,5 +45,3 @@ tags:
   margin-top: 20px;
 }
 ```
-
-最新的 Gemini 主题适用
