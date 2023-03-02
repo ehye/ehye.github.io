@@ -25,11 +25,11 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 ASP.Net Core Identity 和 JWT 实现认证与授权">
 <meta property="og:url" content="https://ehye.github.io/2023/01/28/asp-dotnet-core-identity-and-jwt/index.html">
-<meta property="og:site_name" content="ehye&#39;s Blog">
+<meta property="og:site_name" content="ehye">
 <meta property="og:description" content="利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-28T05:47:22.000Z">
-<meta property="article:modified_time" content="2023-02-14T10:15:56.148Z">
+<meta property="article:modified_time" content="2023-03-02T09:50:31.672Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Clean Architecture">
 <meta property="article:tag" content="ASP.Net Core Identity">
@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2023/01/28/asp-dotnet-core-identity-and-jwt/","path":"2023/01/28/asp-dotnet-core-identity-and-jwt/","title":"使用 ASP.Net Core Identity 和 JWT 实现认证与授权"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye's Blog</title>
+<title>使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye</title>
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
   <script src="/js/third-party/analytics/google-analytics.js"></script>
@@ -87,9 +87,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">ehye's Blog</p>
+      <p class="site-title">ehye</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">Note and Blog</p>
   </div>
 
   <div class="site-nav-right">
@@ -168,7 +169,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -179,7 +180,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-count">75</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -219,12 +220,12 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ehye's Blog">
+      <meta itemprop="name" content="ehye">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye's Blog">
+      <meta itemprop="name" content="使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -264,7 +265,6 @@
     <div class="post-body" itemprop="articleBody">
         <p>利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<span id="more"></span></p>
 <hr>
-<p><a target="_blank" rel="noopener" href="https://github.com/ehye/CleanIdentity">项目地址</a></p>
 <h2 id="使用-Clean-Architecture"><a href="#使用-Clean-Architecture" class="headerlink" title="使用 Clean Architecture"></a>使用 Clean Architecture</h2><ol>
 <li><p>安装模板 <a target="_blank" rel="noopener" href="https://github.com/jasontaylordev/CleanArchitecture">Clean Architecture Solution Template</a></p>
  <pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet new install Clean.Architecture.Solution.Template
