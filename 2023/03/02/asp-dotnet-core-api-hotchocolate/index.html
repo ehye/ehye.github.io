@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL query in .NET Core">
+<meta property="og:url" content="https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/index.html">
+<meta property="og:site_name" content="ehye">
+<meta property="og:description" content="使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-02T08:40:27.000Z">
+<meta property="article:modified_time" content="2023-03-02T10:37:51.576Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="GraphQL">
+<meta property="article:tag" content="HotChocolate">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/","path":"2023/03/02/asp-dotnet-core-api-hotchocolate/","title":"GraphQL query in .NET Core"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GraphQL query in .NET Core | ehye</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Note and Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.</span> <span class="nav-text">实现查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">注入配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%9F%A5%E8%AF%A2"><span class="nav-number">4.</span> <span class="nav-text">测试查询</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GraphQL query in .NET Core | ehye">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GraphQL query in .NET Core
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-02 16:40:27" itemprop="dateCreated datePublished" datetime="2023-03-02T16:40:27+08:00">2023-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Note/" itemprop="url" rel="index"><span itemprop="name">Note</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务<span id="more"></span></p>
+<hr>
+<h1 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h1><p>.NET 平台上的 GraphQL 服务有 GraphQL.net 和 HotChocolate</p>
+<blockquote>
+<p>HotChocolate 提供了更多的特性和扩展，比如过滤、排序、分页、订阅、批量操作等，并且可以自动将 .NET 类型转换为 GraphQL 类型<br>如果想要更多的控制和灵活性，可以选择 GraphQL.net；如果想要更多的便利和功能，则可以选择 HotChocolate</p>
+</blockquote>
+<p>配置 HotChocolate 会更简单一些</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">dotnet add package HotChocolate.Data
+dotnet add package HotChocolate.AspNetCore
+dotnet add package HotChocolate.Abstractions</code></pre>
+
+<h1 id="实现查询"><a href="#实现查询" class="headerlink" title="实现查询"></a>实现查询</h1><ul>
+<li>在 Persistence 层创建 <code>TodoListQuery.cs</code>，在这里实现需要的查询</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
+&#123;
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    public IQueryable&lt;TodoList&gt; GetTodoLists([Service] ApplicationDbContext dbContext)
+        &#x3D;&gt; dbContext.TodoLists.AsQueryable();
+    
+    public IQueryable&lt;TodoList&gt; GetTodoList(int id, [Service] ApplicationDbContext dbContext)
+        &#x3D;&gt; dbContext.TodoLists.Include(x &#x3D;&gt; x.Items).Where(x &#x3D;&gt; x.Id &#x3D;&#x3D; id);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<p>Use <code>IncludeTotalCount = true</code> to show the total count of the output result.</p>
+<p>Use <code>int id</code> as input param.</p>
+<ul>
+<li>若使用 MediatR，则在 API 层传递 command，并实现相应的 handler</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
+&#123;
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    [UseFiltering]
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists([Service] IMediator mediator)
+        &#x3D;&gt; await mediator.Send(new GetTodosQueryGraph(null));
+    
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists(GetTodosQueryGraph query, [Service] IMediator mediator)
+        &#x3D;&gt; await mediator.Send(query);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public record GetTodosQueryGraph(string? Title) : IRequest&lt;List&lt;TodoListDto&gt;&gt;;
+
+public class GetTodosQueryGraphHandler : IRequestHandler&lt;GetTodosQueryGraph, List&lt;TodoListDto&gt;&gt;
+&#123;
+    private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetTodosQueryGraphHandler(IApplicationDbContext context, IMapper mapper)
+    &#123;
+        _context &#x3D; context;
+        _mapper &#x3D; mapper;
+    &#125;
+
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; Handle(GetTodosQueryGraph request, CancellationToken cancellationToken)
+    &#123;
+        return await _context.TodoLists
+            .AsNoTracking()
+            .Where(x &#x3D;&gt; x.Title.Contains(request.Title!))
+            .ProjectTo&lt;TodoListDto&gt;(_mapper.ConfigurationProvider)
+            .OrderBy(t &#x3D;&gt; t.Title)
+            .ToListAsync(cancellationToken);
+    &#125;
+&#125;</code></pre>
+
+<h1 id="注入配置"><a href="#注入配置" class="headerlink" title="注入配置"></a>注入配置</h1><ul>
+<li>注入 GraphQL 服务配置</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">var builder &#x3D; WebApplication.CreateBuilder(args);
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType&lt;TodoListQuery&gt;()
+    .AddFiltering();</code></pre>
+
+<p>仅在开发环境下启用 Banana Cake Pop GraphQL IDE</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.MapGraphQL().WithOptions(new GraphQLServerOptions()
+&#123;
+    Tool &#x3D; &#123; Enable &#x3D; builder.Environment.IsDevelopment() &#125;
+&#125;);
+
+app.Run();</code></pre>
+
+<h1 id="测试查询"><a href="#测试查询" class="headerlink" title="测试查询"></a>测试查询</h1><p>访问 <code>/graphql</code> 进行测试</p>
+<ul>
+<li><p>request</p>
+<pre class="language-graphql" data-language="graphql"><code class="language-graphql">query TodoLists &#123;
+  todoLists(first: 3, where: &#123;title: &#123;contains: &quot;occaecat&quot;&#125;&#125;)&#123;
+    totalCount
+    nodes&#123;
+      id
+      title
+    &#125;
+    pageInfo&#123;
+      hasPreviousPage
+      startCursor
+      endCursor
+      hasNextPage
+    &#125;
+  &#125;  
+&#125;</code></pre>
+</li>
+<li><p>repsonse</p>
+<pre class="language-json" data-language="json"><code class="language-json">&#123;
+  &quot;data&quot;: &#123;
+    &quot;todoLists&quot;: &#123;
+      &quot;totalCount&quot;: 18,
+      &quot;nodes&quot;: [
+        &#123;
+          &quot;id&quot;: 3,
+          &quot;title&quot;: &quot;occaecat m&quot;
+        &#125;,
+        &#123;
+          &quot;id&quot;: 4,
+          &quot;title&quot;: &quot;occaecat rm&quot;
+        &#125;,
+        &#123;
+          &quot;id&quot;: 5,
+          &quot;title&quot;: &quot;occaecat; rm&quot;
+        &#125;
+      ],
+      &quot;pageInfo&quot;: &#123;
+        &quot;hasPreviousPage&quot;: false,
+        &quot;startCursor&quot;: &quot;MA&#x3D;&#x3D;&quot;,
+        &quot;endCursor&quot;: &quot;Mg&#x3D;&#x3D;&quot;,
+        &quot;hasNextPage&quot;: true
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre></li>
+</ul>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/shows/on-net/getting-started-with-hotchocolate">Getting started with GraphQL and HotChocolate | Microsoft Learn</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/dotnet/guide/tutorials/dotnet-days-online-2020/hotchocolate-an-introduction-to-graphql-for-aspnet-core">HotChocolate - An Introduction to GraphQL for ASP.NET Core</a></p>
+<p><a target="_blank" rel="noopener" href="https://chillicream.com/docs/hotchocolate/v13">Introduction - Hot Chocolate - ChilliCream GraphQL Platform</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/" title="GraphQL query in .NET Core">https://ehye.github.io/2023/03/02/asp-dotnet-core-api-hotchocolate/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/GraphQL/" rel="tag"># GraphQL</a>
+              <a href="/tags/HotChocolate/" rel="tag"># HotChocolate</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/14/asp-dotnet-core-api-serilog/" rel="prev" title="Serilog for ASP.NET Core">
+                  <i class="fa fa-chevron-left"></i> Serilog for ASP.NET Core
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

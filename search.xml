@@ -303,54 +303,6 @@ exit:
       </tags>
   </entry>
   <entry>
-    <title>使 next 主题适应移动设备</title>
-    <url>/2016/12/16/PiscesScheme_widescreen/</url>
-    <content><![CDATA[<p>修改 PiscesScheme 的宽度，使 next 主题适应移动设备</p>
-<blockquote>
-<p>对于Pisces Scheme ，需要同时修改 <strong>header</strong> 的宽度、**.main-inner** 的宽度以及 <strong>.content-wrap</strong> 的宽度。例如，使用百分比（Pisces 的布局定义在 source&#x2F;css&#x2F;_schemes&#x2F;Picses&#x2F;_layout.styl 中）：</p>
-</blockquote>
-<pre class="language-css" data-language="css"><code class="language-css">.header&#123; width: 90%; &#125;
-.container .main-inner &#123; width: 90%; &#125;
-.content-wrap &#123; width: calc(100% - 260px); &#125;</code></pre>
-
-<blockquote>
-<p>查看Github上的<a href="https://github.com/iissnan/hexo-theme-next/issues/759#issuecomment-202242848">Issue</a></p>
-</blockquote>
-<p>实际操作后发现此时移动端页面显示不完整，相应修改如下</p>
-<pre class="language-css" data-language="css"><code class="language-css">.header .container .main-inner &#123;
-  width: 90%;
-  +tablet() &#123; width: 100%; &#125;
-  +mobile() &#123; width: 100%; &#125;
-&#125;
-.content-wrap &#123;
-  width: calc(100% - 260px);
-  +tablet() &#123; width: 100%; &#125;
-  +mobile() &#123; width: 100%; &#125;
-&#125;
-.site-nav-toggle &#123;
-  +tablet() &#123; top: 10px; &#125;
-  +mobile() &#123; top: 11px; &#125;
-&#125;
-.site-meta &#123;
-  +tablet() &#123; padding: 1px 0;&#125;
-  +mobile() &#123; padding: 1px 0;&#125;
-&#125;
-.site-nav-toggle button &#123;
-  margin-top: 20px;
-&#125;</code></pre>
-
-<p>最新的 Gemini 主题适用</p>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>CSS</tag>
-        <tag>NexT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PuTTY 自动登录设置</title>
     <url>/2018/01/18/PuTTY-Auto-login/</url>
     <content><![CDATA[<ol>
@@ -2521,8 +2473,158 @@ location &#x2F;asf&#x2F; &#123;
       </tags>
   </entry>
   <entry>
+    <title>GraphQL query in .NET Core</title>
+    <url>/2023/03/02/asp-dotnet-core-api-hotchocolate/</url>
+    <content><![CDATA[<p>使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务<span id="more"></span></p>
+<hr>
+<h1 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h1><p>.NET 平台上的 GraphQL 服务有 GraphQL.net 和 HotChocolate</p>
+<blockquote>
+<p>HotChocolate 提供了更多的特性和扩展，比如过滤、排序、分页、订阅、批量操作等，并且可以自动将 .NET 类型转换为 GraphQL 类型<br>如果想要更多的控制和灵活性，可以选择 GraphQL.net；如果想要更多的便利和功能，则可以选择 HotChocolate</p>
+</blockquote>
+<p>配置 HotChocolate 会更简单一些</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">dotnet add package HotChocolate.Data
+dotnet add package HotChocolate.AspNetCore
+dotnet add package HotChocolate.Abstractions</code></pre>
+
+<h1 id="实现查询"><a href="#实现查询" class="headerlink" title="实现查询"></a>实现查询</h1><ul>
+<li>在 Persistence 层创建 <code>TodoListQuery.cs</code>，在这里实现需要的查询</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
+&#123;
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    public IQueryable&lt;TodoList&gt; GetTodoLists([Service] ApplicationDbContext dbContext)
+        &#x3D;&gt; dbContext.TodoLists.AsQueryable();
+    
+    public IQueryable&lt;TodoList&gt; GetTodoList(int id, [Service] ApplicationDbContext dbContext)
+        &#x3D;&gt; dbContext.TodoLists.Include(x &#x3D;&gt; x.Items).Where(x &#x3D;&gt; x.Id &#x3D;&#x3D; id);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<p>Use <code>IncludeTotalCount = true</code> to show the total count of the output result.</p>
+<p>Use <code>int id</code> as input param.</p>
+<ul>
+<li>若使用 MediatR，则在 API 层传递 command，并实现相应的 handler</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
+&#123;
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    [UseFiltering]
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists([Service] IMediator mediator)
+        &#x3D;&gt; await mediator.Send(new GetTodosQueryGraph(null));
+    
+    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists(GetTodosQueryGraph query, [Service] IMediator mediator)
+        &#x3D;&gt; await mediator.Send(query);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public record GetTodosQueryGraph(string? Title) : IRequest&lt;List&lt;TodoListDto&gt;&gt;;
+
+public class GetTodosQueryGraphHandler : IRequestHandler&lt;GetTodosQueryGraph, List&lt;TodoListDto&gt;&gt;
+&#123;
+    private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetTodosQueryGraphHandler(IApplicationDbContext context, IMapper mapper)
+    &#123;
+        _context &#x3D; context;
+        _mapper &#x3D; mapper;
+    &#125;
+
+    public async Task&lt;List&lt;TodoListDto&gt;&gt; Handle(GetTodosQueryGraph request, CancellationToken cancellationToken)
+    &#123;
+        return await _context.TodoLists
+            .AsNoTracking()
+            .Where(x &#x3D;&gt; x.Title.Contains(request.Title!))
+            .ProjectTo&lt;TodoListDto&gt;(_mapper.ConfigurationProvider)
+            .OrderBy(t &#x3D;&gt; t.Title)
+            .ToListAsync(cancellationToken);
+    &#125;
+&#125;</code></pre>
+
+<h1 id="注入配置"><a href="#注入配置" class="headerlink" title="注入配置"></a>注入配置</h1><ul>
+<li>注入 GraphQL 服务配置</li>
+</ul>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">var builder &#x3D; WebApplication.CreateBuilder(args);
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType&lt;TodoListQuery&gt;()
+    .AddFiltering();</code></pre>
+
+<p>仅在开发环境下启用 Banana Cake Pop GraphQL IDE</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.MapGraphQL().WithOptions(new GraphQLServerOptions()
+&#123;
+    Tool &#x3D; &#123; Enable &#x3D; builder.Environment.IsDevelopment() &#125;
+&#125;);
+
+app.Run();</code></pre>
+
+<h1 id="测试查询"><a href="#测试查询" class="headerlink" title="测试查询"></a>测试查询</h1><p>访问 <code>/graphql</code> 进行测试</p>
+<ul>
+<li><p>request</p>
+<pre class="language-graphql" data-language="graphql"><code class="language-graphql">query TodoLists &#123;
+  todoLists(first: 3, where: &#123;title: &#123;contains: &quot;occaecat&quot;&#125;&#125;)&#123;
+    totalCount
+    nodes&#123;
+      id
+      title
+    &#125;
+    pageInfo&#123;
+      hasPreviousPage
+      startCursor
+      endCursor
+      hasNextPage
+    &#125;
+  &#125;  
+&#125;</code></pre>
+</li>
+<li><p>repsonse</p>
+<pre class="language-json" data-language="json"><code class="language-json">&#123;
+  &quot;data&quot;: &#123;
+    &quot;todoLists&quot;: &#123;
+      &quot;totalCount&quot;: 18,
+      &quot;nodes&quot;: [
+        &#123;
+          &quot;id&quot;: 3,
+          &quot;title&quot;: &quot;occaecat m&quot;
+        &#125;,
+        &#123;
+          &quot;id&quot;: 4,
+          &quot;title&quot;: &quot;occaecat rm&quot;
+        &#125;,
+        &#123;
+          &quot;id&quot;: 5,
+          &quot;title&quot;: &quot;occaecat; rm&quot;
+        &#125;
+      ],
+      &quot;pageInfo&quot;: &#123;
+        &quot;hasPreviousPage&quot;: false,
+        &quot;startCursor&quot;: &quot;MA&#x3D;&#x3D;&quot;,
+        &quot;endCursor&quot;: &quot;Mg&#x3D;&#x3D;&quot;,
+        &quot;hasNextPage&quot;: true
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre></li>
+</ul>
+<hr>
+<p><a href="https://learn.microsoft.com/en-us/shows/on-net/getting-started-with-hotchocolate">Getting started with GraphQL and HotChocolate | Microsoft Learn</a></p>
+<p><a href="https://www.jetbrains.com/dotnet/guide/tutorials/dotnet-days-online-2020/hotchocolate-an-introduction-to-graphql-for-aspnet-core">HotChocolate - An Introduction to GraphQL for ASP.NET Core</a></p>
+<p><a href="https://chillicream.com/docs/hotchocolate/v13">Introduction - Hot Chocolate - ChilliCream GraphQL Platform</a></p>
+]]></content>
+      <categories>
+        <category>Note</category>
+      </categories>
+      <tags>
+        <tag>GraphQL</tag>
+        <tag>HotChocolate</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 ASP.Net Core Identity 和 JWT 实现认证与授权</title>
-    <url>/2023/01/28/asp-dotnet-core-identity-and-jwt/</url>
+    <url>/2023/01/28/asp-dotnet-core-api-identity-and-jwt/</url>
     <content><![CDATA[<p>利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<span id="more"></span></p>
 <hr>
 <h2 id="使用-Clean-Architecture"><a href="#使用-Clean-Architecture" class="headerlink" title="使用 Clean Architecture"></a>使用 Clean Architecture</h2><ol>
@@ -2918,7 +3020,7 @@ Authorization: Bearer xxxxxx</code></pre></li>
 </ul>
 ]]></content>
       <categories>
-        <category>Coding</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>Clean Architecture</tag>
@@ -2928,7 +3030,7 @@ Authorization: Bearer xxxxxx</code></pre></li>
   </entry>
   <entry>
     <title>Serilog for ASP.NET Core</title>
-    <url>/2023/02/14/asp-dotnet-core-serilog/</url>
+    <url>/2023/02/14/asp-dotnet-core-api-serilog/</url>
     <content><![CDATA[<p>Using Serilog logging for ASP.NET Core.<span id="more"></span></p>
 <hr>
 <h1 id="Logging-during-startup"><a href="#Logging-during-startup" class="headerlink" title="Logging during startup"></a>Logging during startup</h1><p>Use <code>Serilog.Extensions.Hosting</code> for logging framework’s internal operations.</p>
@@ -3061,7 +3163,7 @@ builder.UseSerilog((_, _, cfg) &#x3D;&gt; cfg
 <p><a href="https://github.com/serilog/serilog-aspnetcore">Serilog.AspNetCore</a><br><a href="https://stackoverflow.com/questions/38481227/serilog-log-to-different-files">Serilog : Log to different files - Stack Overflow</a></p>
 ]]></content>
       <categories>
-        <category>Coding</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>Serilog</tag>
@@ -3069,11 +3171,11 @@ builder.UseSerilog((_, _, cfg) &#x3D;&gt; cfg
   </entry>
   <entry>
     <title>如何在ASP.NET Core(ABP)项目中生成自定义的Swagger文档</title>
-    <url>/2019/08/29/aspcore-api-using-swagger/</url>
+    <url>/2019/08/29/asp-dotnet-core-api-using-swagger/</url>
     <content><![CDATA[<p>后端开发人员提供一个书写良好的Swagger文档页面可有效提高与前端对接的效率<span id="more"></span></p>
 <hr>
 <h2 id="安装Nuget包"><a href="#安装Nuget包" class="headerlink" title="安装Nuget包"></a>安装Nuget包</h2><p>对<strong>core</strong>项目安装<code>Swashbuckle.AspNetCore</code></p>
-<img src="/2019/08/29/aspcore-api-using-swagger/install-nuget-swagger.png" class="">
+
 
 <p>然后在<code>Startup.cs</code>中的<code>ConfigureServices</code>方法增加配置</p>
 <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddMvc();
@@ -3124,7 +3226,7 @@ public ActionResult&lt;TodoItem&gt; Create(TodoItem item)
     return CreatedAtRoute(&quot;GetTodo&quot;, new &#123; id &#x3D; item.Id &#125;, item);
 &#125;</code></pre>
 
-<img src="/2019/08/29/aspcore-api-using-swagger/xml-comments-extended.png" class="">
+
 
 <h2 id="在swagger文档上显示注释"><a href="#在swagger文档上显示注释" class="headerlink" title="在swagger文档上显示注释"></a>在swagger文档上显示注释</h2><ol>
 <li>在【解决方案管理器】右击<strong>Application</strong>项目，选择<strong>属性</strong></li>
@@ -3181,159 +3283,12 @@ options.SupportedSubmitMethods();</code></pre></li>
 <p><a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore On GitHub</a></p>
 ]]></content>
       <categories>
-        <category>Coding</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>aspnetboilerplate(ABP)</tag>
         <tag>ASP.NET Core</tag>
         <tag>Swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>GraphQL query in .NET Core</title>
-    <url>/2023/03/02/aspdotnet-hotchocolate/</url>
-    <content><![CDATA[<p>使用 HotChocolate 在 ASP.NET Core Web API 项目中提供 GraphQL 查询服务<span id="more"></span></p>
-<hr>
-<h1 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h1><p>.NET 平台上的 GraphQL 服务有 GraphQL.net 和 HotChocolate</p>
-<blockquote>
-<p>HotChocolate 提供了更多的特性和扩展，比如过滤、排序、分页、订阅、批量操作等，并且可以自动将 .NET 类型转换为 GraphQL 类型<br>如果想要更多的控制和灵活性，可以选择 GraphQL.net；如果想要更多的便利和功能，则可以选择 HotChocolate</p>
-</blockquote>
-<p>配置 HotChocolate 会更简单一些</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">dotnet add package HotChocolate.Data
-dotnet add package HotChocolate.AspNetCore
-dotnet add package HotChocolate.Abstractions</code></pre>
-
-<h1 id="实现查询"><a href="#实现查询" class="headerlink" title="实现查询"></a>实现查询</h1><ul>
-<li>在 Persistence 层创建 <code>TodoListQuery.cs</code>，在这里实现需要的查询</li>
-</ul>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
-&#123;
-    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
-    public IQueryable&lt;TodoList&gt; GetTodoLists([Service] ApplicationDbContext dbContext)
-        &#x3D;&gt; dbContext.TodoLists.AsQueryable();
-    
-    public IQueryable&lt;TodoList&gt; GetTodoList(int id, [Service] ApplicationDbContext dbContext)
-        &#x3D;&gt; dbContext.TodoLists.Include(x &#x3D;&gt; x.Items).Where(x &#x3D;&gt; x.Id &#x3D;&#x3D; id);
-
-    &#x2F;&#x2F; ...
-&#125;</code></pre>
-
-<p>Use <code>IncludeTotalCount = true</code> to show the total count of the output result.</p>
-<p>Use <code>int id</code> as input param.</p>
-<ul>
-<li>若使用 MediatR，则在 API 层传递 command，并实现相应的 handler</li>
-</ul>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TodoListQuery
-&#123;
-    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
-    [UseFiltering]
-    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists([Service] IMediator mediator)
-        &#x3D;&gt; await mediator.Send(new GetTodosQueryGraph(null));
-    
-    [UsePaging(IncludeTotalCount &#x3D; true, DefaultPageSize &#x3D; 10)]
-    public async Task&lt;List&lt;TodoListDto&gt;&gt; GetTodoLists(GetTodosQueryGraph query, [Service] IMediator mediator)
-        &#x3D;&gt; await mediator.Send(query);
-
-    &#x2F;&#x2F; ...
-&#125;</code></pre>
-
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public record GetTodosQueryGraph(string? Title) : IRequest&lt;List&lt;TodoListDto&gt;&gt;;
-
-public class GetTodosQueryGraphHandler : IRequestHandler&lt;GetTodosQueryGraph, List&lt;TodoListDto&gt;&gt;
-&#123;
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetTodosQueryGraphHandler(IApplicationDbContext context, IMapper mapper)
-    &#123;
-        _context &#x3D; context;
-        _mapper &#x3D; mapper;
-    &#125;
-
-    public async Task&lt;List&lt;TodoListDto&gt;&gt; Handle(GetTodosQueryGraph request, CancellationToken cancellationToken)
-    &#123;
-        return await _context.TodoLists
-            .AsNoTracking()
-            .Where(x &#x3D;&gt; x.Title.Contains(request.Title!))
-            .ProjectTo&lt;TodoListDto&gt;(_mapper.ConfigurationProvider)
-            .OrderBy(t &#x3D;&gt; t.Title)
-            .ToListAsync(cancellationToken);
-    &#125;
-&#125;</code></pre>
-
-<h1 id="注入配置"><a href="#注入配置" class="headerlink" title="注入配置"></a>注入配置</h1><ul>
-<li>注入 GraphQL 服务配置</li>
-</ul>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">var builder &#x3D; WebApplication.CreateBuilder(args);
-
-builder.Services.AddGraphQLServer()
-    .AddQueryType&lt;TodoListQuery&gt;()
-    .AddFiltering();</code></pre>
-
-<p>仅在开发环境下启用 Banana Cake Pop GraphQL IDE</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.MapGraphQL().WithOptions(new GraphQLServerOptions()
-&#123;
-    Tool &#x3D; &#123; Enable &#x3D; builder.Environment.IsDevelopment() &#125;
-&#125;);
-
-app.Run();</code></pre>
-
-<h1 id="测试查询"><a href="#测试查询" class="headerlink" title="测试查询"></a>测试查询</h1><p>访问 <code>/graphql</code> 进行测试</p>
-<ul>
-<li><p>request</p>
-<pre class="language-graphql" data-language="graphql"><code class="language-graphql">query TodoLists &#123;
-  todoLists(first: 3, where: &#123;title: &#123;contains: &quot;occaecat&quot;&#125;&#125;)&#123;
-    totalCount
-    nodes&#123;
-      id
-      title
-    &#125;
-    pageInfo&#123;
-      hasPreviousPage
-      startCursor
-      endCursor
-      hasNextPage
-    &#125;
-  &#125;  
-&#125;</code></pre>
-</li>
-<li><p>repsonse</p>
-<pre class="language-json" data-language="json"><code class="language-json">&#123;
-  &quot;data&quot;: &#123;
-    &quot;todoLists&quot;: &#123;
-      &quot;totalCount&quot;: 18,
-      &quot;nodes&quot;: [
-        &#123;
-          &quot;id&quot;: 3,
-          &quot;title&quot;: &quot;occaecat m&quot;
-        &#125;,
-        &#123;
-          &quot;id&quot;: 4,
-          &quot;title&quot;: &quot;occaecat rm&quot;
-        &#125;,
-        &#123;
-          &quot;id&quot;: 5,
-          &quot;title&quot;: &quot;occaecat; rm&quot;
-        &#125;
-      ],
-      &quot;pageInfo&quot;: &#123;
-        &quot;hasPreviousPage&quot;: false,
-        &quot;startCursor&quot;: &quot;MA&#x3D;&#x3D;&quot;,
-        &quot;endCursor&quot;: &quot;Mg&#x3D;&#x3D;&quot;,
-        &quot;hasNextPage&quot;: true
-      &#125;
-    &#125;
-  &#125;
-&#125;</code></pre></li>
-</ul>
-<hr>
-<p><a href="https://learn.microsoft.com/en-us/shows/on-net/getting-started-with-hotchocolate">Getting started with GraphQL and HotChocolate | Microsoft Learn</a></p>
-<p><a href="https://www.jetbrains.com/dotnet/guide/tutorials/dotnet-days-online-2020/hotchocolate-an-introduction-to-graphql-for-aspnet-core">HotChocolate - An Introduction to GraphQL for ASP.NET Core</a></p>
-<p><a href="https://chillicream.com/docs/hotchocolate/v13">Introduction - Hot Chocolate - ChilliCream GraphQL Platform</a></p>
-]]></content>
-      <tags>
-        <tag>GraphQL</tag>
-        <tag>HotChocolate</tag>
       </tags>
   </entry>
   <entry>
@@ -3626,6 +3581,43 @@ deploy:
       </tags>
   </entry>
   <entry>
+    <title>使用 branch 对 hexo 备份</title>
+    <url>/2017/09/12/hexo_branch_backup/</url>
+    <content><![CDATA[<p>因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少，而新建一个 repository 过于臃肿，因此利用 branch 进行备份<span id="more"></span></p>
+<hr>
+<p>操作如下</p>
+<ol>
+<li><p>将网站 clone 到本地</p>
+ <pre class="language-sh" data-language="sh"><code class="language-sh">git clone git@github.com:username&#x2F;username.github.io</code></pre>
+</li>
+<li><p>创建空的新分支</p>
+ <pre class="language-sh" data-language="sh"><code class="language-sh">git checkout --orphan &lt;branchname&gt;</code></pre>
+</li>
+<li><p>清空网站文件夹，把所需的 hexo 文件复制进来add</p>
+ <pre class="language-sh" data-language="sh"><code class="language-sh">git add .</code></pre>
+</li>
+<li><p>设置上游分支并推送</p>
+ <pre class="language-sh" data-language="sh"><code class="language-sh">git commit -am&quot;initial commit&quot;
+git push --set-upstream origin &lt;branchname&gt;</code></pre>
+
+<p> 到此，远程仓库就有两个 branch 了</p>
+</li>
+<li><p>将 .git 文件夹复制到 Hexo 文件夹</p>
+</li>
+<li><p>后续日常更新<br>只需在 Hexo 文件夹中进行<code>commit</code> <code>push</code> 操作<br>也可重新 clone 分支</p>
+ <pre class="language-sh" data-language="sh"><code class="language-sh">git clone -b &lt;branchname&gt; git@github.com:username&#x2F;username.github.io</code></pre></li>
+</ol>
+<hr>
+]]></content>
+      <categories>
+        <category>Note</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误</title>
     <url>/2020/03/21/fastboot-press-any-key-to-shutdown/</url>
     <content><![CDATA[<p>在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<span id="more"></span><br>手机成功进入 fastboot 了，但在 cmd 执行<code>fastboot devices</code>后手机却断开了，屏幕上显示一行 Press any key to shutdown<br>而在一些预装 Win8 的机子上使用 USB3.0 却不会出现这样的问题</p>
@@ -3657,99 +3649,6 @@ deploy:
         <tag>Windows</tag>
         <tag>Android</tag>
         <tag>fastboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用 Github Pages 与 hexo 搭建个人博客</title>
-    <url>/2016/12/16/github_pages_with_hexo/</url>
-    <content><![CDATA[<blockquote>
-<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-</blockquote>
-<span id="more"></span>
-
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装 Hexo 相当简单。然而在安装前，您必须检查电脑中是否已安装下列应用程序：</p>
-<ul>
-<li><a href="http://nodejs.org/">Node.js</a></li>
-<li><a href="http://git-scm.com/">Git</a></li>
-</ul>
-<h2 id="淘宝-NPM-镜像"><a href="#淘宝-NPM-镜像" class="headerlink" title="淘宝 NPM 镜像"></a>淘宝 NPM 镜像</h2><p><em>免梯子，使用<a href="https://npm.taobao.org/">淘宝npm镜像</a>安装npm工具</em><br><em>使用定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:</em></p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</code></pre>
-
-<p>继续使用 cnpm 即可完成 Hexo 的安装</p>
-<pre class="language-batch" data-language="batch"><code class="language-batch">cnpm install -g hexo-cli</code></pre>
-
-<hr>
-<h1 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h1><p>安装 Hexo 完成后，执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件</p>
-<pre class="language-none"><code class="language-none">$ hexo init &lt;folder&gt;
-$ cd &lt;folder&gt;
-$ cnpm install</code></pre>
-<blockquote>
-<p>如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。</p>
-</blockquote>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>一切成功的话，此时可以运行$ hexo s启动服务器<br>默认情况下，访问网址为：<a href="http://localhost:4000/">http://localhost:4000/</a> </p>
-<hr>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="部署到Github"><a href="#部署到Github" class="headerlink" title="部署到Github"></a>部署到Github</h2><p>需要先提前安装一个扩展：</p>
-<pre class="language-none"><code class="language-none">$ npm install hexo-deployer-git --save</code></pre>
-<p>接着在配置文件_config.xml中作如下修改：</p>
-<pre class="language-none"><code class="language-none">deploy:
-  type: git
-  repo: git@github.com:username&#x2F;username.github.io.git
-  branch: master</code></pre>
-<p>把 username 替换成你的Github用户名，然后在命令行中执行</p>
-<pre class="language-none"><code class="language-none">hexo d</code></pre>
-<p>即可完成部署。</p>
-<h2 id="Local-Search"><a href="#Local-Search" class="headerlink" title="Local Search"></a>Local Search</h2><p>添加自定义站点内容搜索<br>安装 hexo-generator-searchdb，在站点的根目录下执行以下命令：</p>
-<pre class="language-none"><code class="language-none">npm install hexo-generator-searchdb --save</code></pre>
-<p>编辑 站点配置文件，新增以下内容到任意位置：</p>
-<pre class="language-none"><code class="language-none">search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000</code></pre>]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 branch 对 hexo 备份</title>
-    <url>/2017/09/12/hexo_branch_backup/</url>
-    <content><![CDATA[<p>因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少，而新建一个 repository 过于臃肿，因此利用 branch 进行备份<span id="more"></span></p>
-<hr>
-<p>操作如下</p>
-<ol>
-<li><p>将网站 clone 到本地</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git clone git@github.com:username&#x2F;username.github.io</code></pre>
-</li>
-<li><p>创建空的新分支</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git checkout --orphan &lt;branchname&gt;</code></pre>
-</li>
-<li><p>清空网站文件夹，把所需的 hexo 文件复制进来add</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git add .</code></pre>
-</li>
-<li><p>设置上游分支并推送</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git commit -am&quot;initial commit&quot;
-git push --set-upstream origin &lt;branchname&gt;</code></pre>
-
-<p> 到此，远程仓库就有两个 branch 了</p>
-</li>
-<li><p>将 .git 文件夹复制到 Hexo 文件夹</p>
-</li>
-<li><p>后续日常更新<br>只需在 Hexo 文件夹中进行<code>commit</code> <code>push</code> 操作<br>也可重新 clone 分支</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git clone -b &lt;branchname&gt; git@github.com:username&#x2F;username.github.io</code></pre></li>
-</ol>
-<hr>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -4596,18 +4495,15 @@ theta&#x3D;temp;</code></pre>
 
 <p>然后在第二仓库添加你使用的 SSH KEY ，具体查看各平台的帮助文档</p>
 <h1 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h1><p>设置上游分支并推送，这里使用之前定义的名为<code>all</code>的 remote 配置，后面跟随分支名<code>hexo</code></p>
-<pre class="language-none"><code class="language-none">git push --set-upstream all hexo</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">git push --set-upstream all hexo</code></pre>
 
 <p>到此，每个远程仓库就有两个 branch 了</p>
 <p>后续只要正常地使用<code>hexo d</code>和<code>git push</code>即可完成博客部署以及备份分支的推送</p>
 <hr>
-<p><strong>ref</strong></p>
-<blockquote>
-<p><a href="https://stackoverflow.com/questions/4255865/git-push-to-multiple-repositories-simultaneously">https://stackoverflow.com/questions/4255865/git-push-to-multiple-repositories-simultaneously</a></p>
-</blockquote>
+<p><a href="https://stackoverflow.com/questions/849308/how-can-i-pull-push-from-multiple-remote-locations">git - How can I pull&#x2F;push from multiple remote locations? - Stack Overflow</a></p>
 ]]></content>
       <categories>
-        <category>Blog</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>hexo</tag>
@@ -4998,25 +4894,6 @@ iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to
       </tags>
   </entry>
   <entry>
-    <title>怎么查看端口占用</title>
-    <url>/2016/12/22/port-in-use-check/</url>
-    <content><![CDATA[<p>比如要查看端口4000占用的情况</p>
-<p>打开cmd，输入</p>
-<pre class="language-none"><code class="language-none">netstat -ano|findstr &quot;4000&quot;</code></pre>
-<p>即可看到占用列表</p>
-<pre class="language-none"><code class="language-none">TCP   0.0.0.0:4000           0.0.0.0:0              LISTENING       13980
-TCP   127.0.0.1:4000         127.0.0.1:3618         TIME_WAIT       0
-TCP   127.0.0.1:4000         127.0.0.1:3621         TIME_WAIT       0
-TCP   127.0.0.1:4000         127.0.0.1:3622         TIME_WAIT       0
-TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0</code></pre>
-
-<p>最后一排的根据最后一排的 PID 到任务管理器里找到相应进程</p>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-  </entry>
-  <entry>
     <title>How to set Shadowsocks over HTTPS With Nginx</title>
     <url>/2020/03/27/shadowsocks-over-tls/</url>
     <content><![CDATA[<p>将 Shadowsocks 流量伪装成 HTTPS 请求</p>
@@ -5101,7 +4978,7 @@ TCP   127.0.0.1:4000         127.0.0.1:3623         TIME_WAIT       0</code></pr
 <p><a href="https://github.com/shadowsocks/v2ray-plugin/issues/48">Use v2ray-plugin after Nginx · Issue #48 · shadowsocks&#x2F;v2ray-plugin</a></p>
 ]]></content>
       <categories>
-        <category>Tips</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>Nginx</tag>
@@ -5201,288 +5078,13 @@ sudo firewall-cmd  --reload</code></pre>
 <p><a href="https://stackoverflow.com/q/70851543">Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare?</a></p>
 ]]></content>
       <categories>
-        <category>Tips</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>Oracle cloud</tag>
         <tag>shadowsocks-rust</tag>
         <tag>V2ray</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>一波字符串处理函数（C语言）</title>
-    <url>/2017/03/14/string-proc-fun/</url>
-    <content><![CDATA[<p>常见的字符串处理函数<span id="more"></span></p>
-<hr>
-<h2 id="恺撒加密"><a href="#恺撒加密" class="headerlink" title="恺撒加密"></a>恺撒加密</h2><p><em>恺撒加密法加密规则是：将原来的小写字母用字母表中其后面的第3个字母的大写形式来替换，大写字母按同样规则用小写字母替换，对于字母表中最后的三个字母，可将字母表看成是首未衔接的。</em>  </p>
-<p><strong>输入样例：</strong><br>AMDxyzXYZ</p>
-<p><strong>输出样例：</strong><br>dpgABCabc</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">char epy(char input)
-&#123;
-    char epy_mess;
-    int input_asc &#x3D; (int)input;
-    if (input_asc &gt;&#x3D; 97 &amp;&amp; input_asc &lt;&#x3D; 122) &#123;
-        switch (input_asc) &#123;
-            case 120:
-                input_asc &#x3D; 65;
-                break;
-            case 121:
-                input_asc &#x3D; 66;
-                break;
-            case 122:
-                input_asc &#x3D; 67;
-                break;
-            default:
-                input_asc -&#x3D; 29;
-                break;
-        &#125;
-    &#125;
-    else if (input_asc &gt;&#x3D; 65 &amp;&amp; input_asc &lt;&#x3D; 90) &#123;
-        switch (input_asc) &#123;
-            case 88:
-                input_asc &#x3D; 97;
-                break;
-            case 89:
-                input_asc &#x3D; 98;
-                break;
-            case 90:
-                input_asc &#x3D; 99;
-                break;
-            default:
-                input_asc +&#x3D; 35;
-                break;
-        &#125;
-    &#125;
-    else &#123;
-        return input;
-    &#125;
-    return (char)input_asc;
-&#125;</code></pre>
-
-<hr>
-<h2 id="矩阵转置"><a href="#矩阵转置" class="headerlink" title="矩阵转置"></a>矩阵转置</h2><p><em>输入矩阵阶数，然后按行输入所有矩阵元素（整数），将该矩阵转置输出。</em>  </p>
-<p><strong>输入：</strong><br>4<br>4 6 8 9<br>2 7 4 5<br>3 8 16 15<br>1 5 7 11<br><strong>输出：</strong><br>4 2 3 1<br>6 7 8 5<br>8 4 16 7<br>9 5 15 11</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">void transfer(int(*m)[5][5], int(*t)[5][5], int rank)
-&#123;
-    for (int i &#x3D; 0; i &lt; rank; i++) &#123;
-        for (int j &#x3D; 0; j &lt; rank; j++) &#123;
-            if (i !&#x3D; j) &#123;
-                (*t)[i][j] &#x3D; (*m)[j][i];
-            &#125;
-            else &#123;
-                (*t)[i][j] &#x3D; (*m)[i][j];
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-<hr>
-<h2 id="字符串反转函数"><a href="#字符串反转函数" class="headerlink" title="字符串反转函数"></a>字符串反转函数</h2><p><em>输入一个字符串，将其反序输出</em>  </p>
-<p><strong>输入样例：</strong><br>Hello,everyone</p>
-<p><strong>输出样例：</strong><br>enoyreve,olleH</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include&lt;cstring&gt; 
-using namespace std;
-
-const int ArrSize &#x3D; 100;
-void mystrrev(char str[]);
-
-int main()
-&#123;
-    char str[ArrSize] &#x3D; &#123;&#125;;
-    cin.getline(str, ArrSize);
-    int empty_length &#x3D; ArrSize - strlen(str);
-
-    mystrrev(str);
-    for (int i &#x3D; empty_length; i &lt; ArrSize; i++) &#123;
-        cout &lt;&lt; str[i];
-    &#125;
-
-    return 0;
-&#125;
-
-void mystrrev(char str[])
-&#123;
-    for (int i &#x3D; 0; i &lt; ArrSize &#x2F; 2; i++) &#123;
-        char temp &#x3D; str[ArrSize - 1 - i];
-        str[ArrSize - 1 - i] &#x3D; str[i];
-        str[i] &#x3D; temp;
-    &#125;
-&#125;</code></pre>
-
-<hr>
-<h2 id="求数组中最大最小元素"><a href="#求数组中最大最小元素" class="headerlink" title="求数组中最大最小元素"></a>求数组中最大最小元素</h2><p><strong>输入样例：</strong><br>5<br>90 89 30 45 55</p>
-<p><strong>输出样例：</strong><br>90<br>30</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int imax(int array[], int count)
-&#123;
-    int max &#x3D; -32767;
-    for (int i&#x3D;0; i&lt;count; i++) &#123;
-        if (array[i] &gt; max) &#123;
-            max &#x3D; array[i];
-        &#125;
-    &#125;
-    return max;
-&#125;
-
-int imin(int array[], int count)
-&#123;
-    int min &#x3D; 32767;
-    for (int i&#x3D;0; i&lt;count; i++) &#123;
-        if (array[i] &lt; min) &#123;
-            min &#x3D; array[i];
-        &#125;
-    &#125;
-    return min;
-&#125;</code></pre>
-
-<hr>
-<h2 id="判断一个整数是否为素数"><a href="#判断一个整数是否为素数" class="headerlink" title="判断一个整数是否为素数"></a>判断一个整数是否为素数</h2><p><em>1不是素数</em>  </p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int isprime(int a)
-&#123;
-    if (a &lt;&#x3D; 1) &#123;
-        return 0;
-    &#125;
-    int Prime &#x3D; 1;
-    
-    for ( int k &#x3D; 2; k &lt; a-1; k++) &#123;
-        if ( a % k &#x3D;&#x3D; 0 ) &#123;
-            Prime &#x3D; 0;
-            break;
-        &#125;
-    &#125;
-    return Prime;
-&#125;</code></pre>
-
-<hr>
-<h2 id="英文句子中的单词个数"><a href="#英文句子中的单词个数" class="headerlink" title="英文句子中的单词个数"></a>英文句子中的单词个数</h2><p><em>It’s 是一个单词</em></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int countWords(char* p)
-&#123;
-    int count &#x3D; 0;
-    bool isWord &#x3D; false;
-
-    while(*p)
-    &#123;
-        char c &#x3D; *p;
-
-          if ((c &gt;&#x3D; &#39;A&#39; &amp;&amp; c &lt;&#x3D; &#39;Z&#39;) ||
-              (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) || 
-              (c &#x3D;&#x3D; &#39;\&#39;&#39;))
-        &#123;
-            isWord &#x3D; true;
-        &#125;
-        else if (isWord)
-        &#123;
-            count++;
-            isWord &#x3D; false;
-        &#125;
-        p++;
-    &#125;
-    return count;
-&#125;</code></pre>
-
-<hr>
-<h2 id="字母转换"><a href="#字母转换" class="headerlink" title="字母转换"></a>字母转换</h2><p><em>除字符串中包含的非字母字符(不包括空格)，并将小写字母转换成大写字母</em>  </p>
-<p><strong>输入样例：</strong><br>hAppy new year!</p>
-<p><strong>输出样例：</strong><br>HAPPY NEW YEAR</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int main()
-&#123;
-    char str[200]; char arr[201] &#x3D; &#123;&#125;;
-    cin.getline(str, 200);
-    myGetchar(str, arr);
-    for (int i &#x3D; 0; i &lt; strlen(arr); i++) &#123;
-        cout &lt;&lt; arr[i];
-    &#125;
-    return 0;
-&#125;
-
-void myGetchar(char str[200], char (&amp;arr)[201])
-&#123;
-    int count &#x3D; 0; int j &#x3D; 0;
-    for (int i &#x3D; 0; i &lt; 200; i++) &#123;
-        char c &#x3D; str[i];
-
-        &#x2F;&#x2F; add lowwer case to upper case
-        if (c &gt;&#x3D; &#39;a&#39; &amp;&amp; c &lt;&#x3D; &#39;z&#39;) &#123; c -&#x3D; (char)(97 - 65); arr[j++] &#x3D; c; &#125;
-
-        &#x2F;&#x2F; add upper case
-        else if (c &gt;&#x3D; &#39;A&#39;&amp;&amp;c &lt;&#x3D; &#39;Z&#39;) &#123; arr[j++] &#x3D; c; &#125;
-
-        &#x2F;&#x2F; add blankspace
-        else if (c &#x3D;&#x3D; &#39; &#39;) &#123; arr[j++] &#x3D; c; continue; &#125;
-
-        &#x2F;&#x2F; add end of line
-        else if (c &#x3D;&#x3D; &#39;\0&#39;) &#123; arr[j] &#x3D; c; break; &#125;
-
-        &#x2F;&#x2F; ignore some char between
-        else if (c &gt; &#39;Z&#39; &amp;&amp; c &lt; &#39;a&#39;) &#123; continue; &#125;
-        else if (c &lt; &#39;A&#39; || c &gt; &#39;z&#39;) &#123; continue; &#125;
-    &#125;
-&#125;</code></pre>
-
-<hr>
-<h2 id="插入加密"><a href="#插入加密" class="headerlink" title="插入加密"></a>插入加密</h2><p><em>插入式加密是在明文字母中按照指定间隔插入另一些字母以形成密文。例如对明文china，在间隔为1的位置插入其它字母序列中的字母a,b,c,d,e，就变成密文cahbicndae；如果其它字母序列的字母取完，则从头再取，要求密文中最后一个字母一定是其它字母序列中的字母。</em>  </p>
-<p><strong>输入样例：</strong><br>china<br>1</p>
-<p><strong>输出样例：</strong><br>cahbicndae</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int main()
-&#123;
-    int interval;
-    char source[30] &#x3D; &#123;&#125;;
-    char arr[60] &#x3D; &#123;&#125;;
-    cin.getline(source, 60);
-    cin &gt;&gt; interval;
-    epy(source, arr, interval);
-    for (int i &#x3D; 0; i &lt; strlen(arr); i++)
-    &#123;
-        cout &lt;&lt; arr[i];
-    &#125;
-    return 0;
-&#125;
-
-void epy(char source[], char(&amp;arr)[60], int interval)
-&#123;
-    int length &#x3D; strlen(source);
-    int k &#x3D; 0, flag &#x3D; 0;
-    for (int i &#x3D; 0; i &lt; length; )
-    &#123;
-        arr[k++] &#x3D; source[i++];
-        flag++;
-        if (flag &#x3D;&#x3D; interval)
-        &#123;
-            arr[k++] &#x3D; getSerial();
-            flag &#x3D; 0;
-        &#125;
-        &#x2F;&#x2F; when reach the end
-        if (source[i] &#x3D;&#x3D; &#39;\0&#39;) &#123;
-            &#x2F;&#x2F; and from the last character to last serial less than one interval
-            if (flag &gt; 0) &#123;
-                arr[k] &#x3D; getSerial();
-            &#125;
-        &#125;
-    &#125;
-&#125;
-
-char getSerial()
-&#123;
-    static int index &#x3D; 0;
-    char temp;
-    const char serial[] &#x3D; &#123; &#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39; &#125;;
-    temp &#x3D; serial[index];
-    if (index &#x3D;&#x3D; 4)
-    &#123;
-        index &#x3D; 0;
-    &#125;
-    else
-    &#123;
-        index++;
-    &#125;
-    return temp;
-&#125;</code></pre>
-
-<hr>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
   </entry>
   <entry>
     <title>向 Anki 添加 LaTeX 支持</title>
@@ -5603,426 +5205,6 @@ char getSerial()
       </categories>
   </entry>
   <entry>
-    <title>在 Ubuntu 上安装和配置 LAMP</title>
-    <url>/2018/05/26/ubuntu-lamp/</url>
-    <content><![CDATA[<p>Set up and install a LAMP (Linux-Apache-MySQL-PHP) server in Ubuntu 18.04, including Apache 2, PHP 7 and MySQL 5.7. <span id="more"></span></p>
-<hr>
-<h1 id="Installing-Apache-2"><a href="#Installing-Apache-2" class="headerlink" title="Installing Apache 2"></a>Installing Apache 2</h1><pre class="language-none"><code class="language-none">sudo apt install apache2</code></pre>
-
-<h2 id="改变默认站点位置"><a href="#改变默认站点位置" class="headerlink" title="改变默认站点位置"></a>改变默认站点位置</h2><p><strong>这步可以在最后 LAMP 所有组件都测试通过后再调整</strong></p>
-<ol>
-<li><p>复制站点配置文件进行备份</p>
-<pre class="language-none"><code class="language-none">sudo cp &#x2F;etc&#x2F;apache2&#x2F;sites-available&#x2F;000-default.conf &#x2F;etc&#x2F;apache2&#x2F;sites-available&#x2F;mysite.conf </code></pre></li>
-<li><p>编辑新的可用站点配置文件</p>
-<pre class="language-none"><code class="language-none">sudo vim &#x2F;etc&#x2F;apache2&#x2F;sites-available&#x2F;mysite.conf</code></pre>
-<p> 将 DocumentRoot 设置为 <code>/home/&lt;user&gt;/public_html</code></p>
-</li>
-<li><p>改变探测路径</p>
-<pre class="language-none"><code class="language-none">sudo vim &#x2F;etc&#x2F;apache2&#x2F;apache2.conf</code></pre>
-<p> 将 <code>&lt;Directory /var/www/&gt;</code> 替换为 <code>&lt;Directory /home/&lt;user&gt;/public_html/&gt;</code></p>
-</li>
-<li><p>使旧站点失效，新站点生效</p>
-<pre class="language-none"><code class="language-none">sudo a2dissite 000-default &amp;&amp; sudo a2ensite mysite</code></pre></li>
-<li><p>重启 Apache</p>
-<pre class="language-none"><code class="language-none">sudo &#x2F;etc&#x2F;init.d&#x2F;apache2 restart</code></pre></li>
-</ol>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>建立一个测试页面</p>
-<pre class="language-none"><code class="language-none">echo &#39;&lt;b&gt;Hello! It is working!&lt;&#x2F;b&gt;&#39; &gt; &#x2F;home&#x2F;&lt;user&gt;&#x2F;public_html&#x2F;index.html</code></pre>
-
-<p>访问进行测试 <code>http://your_server_ip/</code></p>
-<hr>
-<h1 id="Installing-MYSQL"><a href="#Installing-MYSQL" class="headerlink" title="Installing MYSQL"></a>Installing MYSQL</h1><p>安装</p>
-<pre class="language-none"><code class="language-none">sudo apt install mysql-server</code></pre>
-<p>进行安全配置</p>
-<pre class="language-none"><code class="language-none">sudo mysql_secure_installation</code></pre>
-
-<ul>
-<li>跳过安装密码检验插件<blockquote>
-<p>使用弱密码和自动配置 MySQL 用户凭据的软件 (如 phpMyAdmin)会导致问题。禁用验证是安全的， 但应该始终为数据库凭据使用强而独特的密码</p>
-</blockquote>
-</li>
-<li>禁止 root 远程登录、删除测试数据库等</li>
-<li>输入 root 密码</li>
-</ul>
-<hr>
-<h1 id="Installing-PHP"><a href="#Installing-PHP" class="headerlink" title="Installing PHP"></a>Installing PHP</h1><p>安装 PHP 并重启 apache </p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo apt install php libapache2-mod-php php-mysql
-sudo systemctl restart apache2
-sudo systemctl status apache2</code></pre>
-<p>看到<code>active</code>表明成功</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">● apache2.service - The Apache HTTP Server
-   Loaded: loaded (&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;apache2.service; enabled; vendor preset: enabled)
-  Drop-In: &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;apache2.service.d
-           └─apache2-systemd.conf
-   Active: active (running) since Fri 2018-05-25 23:09:25 EDT; 3min 21s ago
-  Process: 13308 ExecStop&#x3D;&#x2F;usr&#x2F;sbin&#x2F;apachectl stop (code&#x3D;exited, status&#x3D;0&#x2F;SUCCESS)
-  Process: 13313 ExecStart&#x3D;&#x2F;usr&#x2F;sbin&#x2F;apachectl start (code&#x3D;exited, status&#x3D;0&#x2F;SUCCESS)
- Main PID: 13317 (apache2)
-    Tasks: 7 (limit: 571)
-   CGroup: &#x2F;system.slice&#x2F;apache2.service
-           ├─13317 &#x2F;usr&#x2F;sbin&#x2F;apache2 -k start
-           ├─13318 &#x2F;usr&#x2F;sbin&#x2F;apache2 -k start
-      . . .</code></pre>
-<h2 id="Testing-PHP"><a href="#Testing-PHP" class="headerlink" title="Testing PHP"></a>Testing PHP</h2><p>在 apache 默认站点或者你更改后的自定义位置创建一个测试页面</p>
-<pre class="language-none"><code class="language-none">sudo vim &#x2F;var&#x2F;www&#x2F;html&#x2F;test.php</code></pre>
-<p>将 php 环境信息显示出来</p>
-<pre class="language-php" data-language="php"><code class="language-php">&lt;?php
-    phpinfo();
-?&gt;</code></pre>
-<p>访问页面进行测试<br><code>http://your_server_ip/test.php</code></p>
-<p>测试成功后出于安全考虑，删除这个文件</p>
-<pre class="language-none"><code class="language-none">sudo rm &#x2F;var&#x2F;www&#x2F;html&#x2F;test.php</code></pre>
-
-<hr>
-<h1 id="Installing-phpMyAdmin"><a href="#Installing-phpMyAdmin" class="headerlink" title="Installing phpMyAdmin"></a>Installing phpMyAdmin</h1><pre class="language-bash" data-language="bash"><code class="language-bash">sudo apt install phpmyadmin php-mbstring php-gettext</code></pre>
-<ul>
-<li>服务器选择<code>apache2</code><blockquote>
-<p>注意这里比较坑的一点，“apache2”默认是高亮的，但并未选中，因此要按<code>空格键</code>然后<code>tab</code>再<code>回车</code>来选择 apache 作为服务器</p>
-</blockquote>
-</li>
-<li>当询问是否用 dbconfig-common 来设置数据库时选择<code>Yes</code></li>
-<li>输入一个让 phpMyAdmin 来访问 MySQL 的密码，为空则生成一段随机密码</li>
-</ul>
-<p>启动模块</p>
-<pre class="language-none"><code class="language-none">sudo phpenmod mbstring</code></pre>
-
-<h2 id="更改验证方式"><a href="#更改验证方式" class="headerlink" title="更改验证方式"></a>更改验证方式</h2><p>目前还不能让 phpMyAdmin 用刚刚的 root 用户登录到 MySQL 数据库。在运行 MySQL 5.7 (和更高版本) 的 Ubuntu 系统中， root 用户默认使用 auth_socket 插件进行身份验证， 而不是密码。这允许在许多情况下获得更大的安全性和可用性, 但是当需要允许外部程序 (如 phpMyAdmin) 访问用户时，它也会使事情复杂化。为了作为 root 用户登录到 phpMyAdmin， 需要将其身份验证方法从 auth_socket 切换到 mysql_native_password</p>
-<p>登录数据库</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo mysql -u root</code></pre>
-<p>查看验证方式 </p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">SELECT user,authentication_string,plugin,host FROM mysql.user;</code></pre>
-
-<pre class="language-none"><code class="language-none">+------------------+-------------------------------------------+-----------------------+-----------+
-| user             | authentication_string                     | plugin                | host      |
-+------------------+-------------------------------------------+-----------------------+-----------+
-| root             |                                           | auth_socket           | localhost |
-| mysql.session    | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
-| mysql.sys        | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
-| debian-sys-maint | *C484B7E390A676F6D82EB057C57176B66A34333B | mysql_native_password | localhost |
-| phpmyadmin       | *5ED9F84DCC6ACB1D0B6C78366D77C83FA88E4BD9 | mysql_native_password | localhost |
-+------------------+-------------------------------------------+-----------------------+-----------+
-5 rows in set (0.00 sec)</code></pre>
-<p>可以看到 root 认证方式是<code>auth_socket</code>并且密码为空；<br>phpMyAdmin 默认不允许空密码登录，下面更改认证方式并添加一个较强的密码**<code>password</code>**</p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;&lt;password&gt;&#39;;</code></pre>
-
-<p>刷新权限</p>
-<pre class="language-none"><code class="language-none">mysql&gt; FLUSH PRIVILEGES;</code></pre>
-
-<p>再次查看一下，这时就是 <code>mysql_native_password</code></p>
-<pre class="language-none"><code class="language-none">+------------------+-------------------------------------------+-----------------------+-----------+
-| user             | authentication_string                     | plugin                | host      |
-+------------------+-------------------------------------------+-----------------------+-----------+
-| root             | *4ACFE3202A5FF5CF467898FC58AAB1D615029441 | mysql_native_password | localhost |
-| mysql.session    | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
-| mysql.sys        | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
-| debian-sys-maint | *C484B7E390A676F6D82EB057C57176B66A34333B | mysql_native_password | localhost |
-| phpmyadmin       | *5ED9F84DCC6ACB1D0B6C78366D77C83FA88E4BD9 | mysql_native_password | localhost |
-+------------------+-------------------------------------------+-----------------------+-----------+
-5 rows in set (0.00 sec)</code></pre>
-
-<p>以后在命令行就需要提供密码来登录数据库</p>
-<pre class="language-none"><code class="language-none">sudo mysql -u root -p</code></pre>
-
-<h2 id="解决兼容问题"><a href="#解决兼容问题" class="headerlink" title="解决兼容问题"></a>解决兼容问题</h2><p>通过软件源安装的 phpMyAdmin 和 php7.2 不兼容，会有查询错误，解决方法是手动更新 phpMyAdmin</p>
-<ol>
-<li><p>到官网下载最新的 phpMyAdmin</p>
-</li>
-<li><p>删除或重命名（备份）<code>/usr/share/phpmyadmin/</code> 的文件夹</p>
-</li>
-<li><p>将最新的 phpMyAdmin 解压到 <code>/usr/share/phpmyadmin/</code></p>
-</li>
-<li><p>编辑文件 <code>./libraries/vendor_config.php</code> 将 <code>define(&#39;CONFIG_DIR&#39;, &#39;&#39;);</code><br>改为<br><code>define(&#39;CONFIG_DIR&#39;, &#39;/etc/phpmyadmin/&#39;);</code></p>
-</li>
-<li><p>重启 apache</p>
-</li>
-</ol>
-<h2 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h2><p><code>https://your_domain_or_IP/phpmyadmin</code><br>使用 root 和密码应可成功登录</p>
-<h2 id="增加-http-基本验证"><a href="#增加-http-基本验证" class="headerlink" title="增加 http 基本验证"></a>增加 http 基本验证</h2><pre class="language-none"><code class="language-none">sudo vim &#x2F;etc&#x2F;apache2&#x2F;conf-available&#x2F;phpmyadmin.conf</code></pre>
-<p>在 &lt;Directory &#x2F;usr&#x2F;share&#x2F;phpmyadmin&gt; 内加一行 <code>AllowOverride All</code>，效果如下</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">&lt;Directory &#x2F;usr&#x2F;share&#x2F;phpmyadmin&gt;
-    Options FollowSymLinks
-    DirectoryIndex index.php
-    AllowOverride All
-    . . .</code></pre>
-
-<p>保存并关闭文件，重启 Apache</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo systemctl restart apache2</code></pre>
-
-<p>编辑 Apache 配置文件, 启用 .htaccess 文件重写<br>新建一个 .htaccess 文件</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;usr&#x2F;share&#x2F;phpmyadmin&#x2F;.htaccess</code></pre>
-<p>文件内容如下</p>
-<pre class="language-none"><code class="language-none">AuthType Basic
-AuthName &quot;Restricted Files&quot;
-AuthUserFile &#x2F;etc&#x2F;phpmyadmin&#x2F;.htpasswd
-Require valid-user</code></pre>
-<p>设置用户名和密码</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo htpasswd -c &#x2F;etc&#x2F;phpmyadmin&#x2F;.htpasswd &lt;username&gt;</code></pre>
-<p>访问测试<br><code>http://domain_name_or_IP/phpmyadmin</code></p>
-<hr>
-<p>Reference</p>
-<ul>
-<li><a href="https://help.ubuntu.com/community/ApacheMySQLPHP">https://help.ubuntu.com/community/ApacheMySQLPHP</a></li>
-<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04">https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-ubuntu-18-04</a></li>
-<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-18-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-18-04</a></li>
-<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql">https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql</a></li>
-<li><a href="https://stackoverflow.com/questions/48001569/phpmyadmin-count-parameter-must-be-an-array-or-an-object-that-implements-co">https://stackoverflow.com/questions/48001569/phpmyadmin-count-parameter-must-be-an-array-or-an-object-that-implements-co</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>Ubuntu</tag>
-        <tag>LAMP</tag>
-        <tag>Apache</tag>
-        <tag>PHP</tag>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在ABP中连接到多个数据库</title>
-    <url>/2019/12/10/use-mutiples-database-in-abp/</url>
-    <content><![CDATA[<p>此套方法适用于有ABP表格的数据库<span id="more"></span></p>
-<hr>
-<p>1.添加连接字符串</p>
-<p>打开<code>appsettings.json</code>添加第二个连接字符串</p>
-<pre class="language-json" data-language="json"><code class="language-json">&quot;ConnectionStrings&quot;: &#123;
-    &quot;Default&quot;: &quot;server&#x3D;***;database&#x3D;***;user&#x3D;***;password&#x3D;***;&quot;,
-    &quot;SecondDb&quot;: &quot;server&#x3D;***;database&#x3D;***;user&#x3D;***;password&#x3D;***;&quot;
-&#125;</code></pre>
-
-<p>打开Core项目的<code>Consts</code>文件，添加对连接字符串的引用</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public const string SecondDbConnectionStringName &#x3D; &quot;SecondDb&quot;;</code></pre>
-
-<p>2.添加实体</p>
-<p>和往常一样在<code>Core</code>项目中添加实体，实体中的字段可以只添加所需要的</p>
-<p>Product.cs</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class Product : Entity&lt;int&gt; &#123;
-    public string Name &#123; get; set; &#125;
-&#125;</code></pre>
-
-<p>3.添加DbContext</p>
-<p>在<code>EntityFrameworkCore</code>项目中添加以下文件</p>
-<p>SecondDbContext.cs</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class SecondDbContext : AbpZeroDbContext&lt;Tenant, Role, User, SecondDbContext&gt;
-&#123;
-    public virtual DbSet&lt;Product&gt; Product &#123; get; set; &#125;
-
-    public SecondDbContext(DbContextOptions&lt;SecondDbContext&gt; options)
-        : base(options)
-    &#123;
-    &#125;
-&#125;</code></pre>
-
-<p>SecondDbContextConfigurer.cs</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public static void Configure(DbContextOptionsBuilder&lt;SecondDbContext&gt; builder, string connectionString)
-&#123;
-    builder.UseMySql(connectionString);
-&#125;
-
-public static void Configure(DbContextOptionsBuilder&lt;SecondDbContext&gt; builder, DbConnection connection)
-&#123;
-    builder.UseMySql(connection);
-&#125;</code></pre>
-
-<p>SecondDbContextFactory.cs</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class SecondDbContextFactory: IDesignTimeDbContextFactory&lt;SecondDbContext&gt;
-&#123;
-    public SecondDbContext CreateDbContext(string[] args)
-    &#123;
-        var builder &#x3D; new DbContextOptionsBuilder&lt;SecondDbContext&gt;();
-        var configuration &#x3D; AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
-
-        SecondDbContextConfigurer.Configure(builder, configuration.GetConnectionString(Consts.SecondDbConnectionStringName));
-
-        return new SecondDbContext(builder.Options);
-    &#125;
-&#125;</code></pre>
-
-<p>4.添加连接字符串解析服务</p>
-<p>还是在<code>EntityFrameworkCore</code>项目中添加<code>MyConnectionStringResolver.cs</code>文件</p>
-<p>MyConnectionStringResolver.cs</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class MyConnectionStringResolver : DefaultConnectionStringResolver
-&#123;
-    public MyConnectionStringResolver(IAbpStartupConfiguration configuration) 
-        : base(configuration)
-    &#123;
-    &#125;
-
-    public override string GetNameOrConnectionString(ConnectionStringResolveArgs args)
-    &#123;
-        if (args[&quot;DbContextConcreteType&quot;] as Type &#x3D;&#x3D; typeof(SecondDbContext))
-        &#123;
-            var configuration &#x3D; AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
-            return configuration.GetConnectionString(MultipleDbContextEfCoreDemoConsts.SecondDbConnectionStringName);
-        &#125;
-
-        return base.GetNameOrConnectionString(args);
-    &#125;
-&#125;</code></pre>
-
-<p>然后在<code>EntityFrameworkModule.cs</code>更新<code>PreInitialize()</code>方法</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class MultipleDbContextEfCoreDemoEntityFrameworkCoreModule : AbpModule
-&#123;
-    public override void PreInitialize()
-    &#123;
-        Configuration.ReplaceService&lt;IConnectionStringResolver, MyConnectionStringResolver&gt;();
-
-        &#x2F;&#x2F; Configure first DbContext
-        Configuration.Modules.AbpEfCore().AddDbContext&lt;FirstDbContext&gt;(options &#x3D;&gt;
-        &#123;
-            if (options.ExistingConnection !&#x3D; null)
-            &#123;
-                FirstDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
-            &#125;
-            else
-            &#123;
-                FirstDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
-            &#125;
-        &#125;);
-
-        &#x2F;&#x2F; Configure second DbContext
-        Configuration.Modules.AbpEfCore().AddDbContext&lt;SecondDbContext&gt;(options &#x3D;&gt;
-        &#123;
-            if (options.ExistingConnection !&#x3D; null)
-            &#123;
-                SecondDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
-            &#125;
-            else
-            &#123;
-                SecondDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
-<hr>
-<p>Ref</p>
-<p><a href="https://stackoverflow.com/questions/49243891/how-to-use-multiples-databases-in-abp-core-zero">How to use multiples databases in ABP Core Zero?</a></p>
-]]></content>
-      <tags>
-        <tag>ASP.NET Core</tag>
-        <tag>ABP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>UWP开发笔记 获取定位信息</title>
-    <url>/2017/01/26/uwp-get-location/</url>
-    <content><![CDATA[<p>首先创建一个叫LocationManager的类</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class LocationManager
-    &#123;
-        public async static Task&lt;Geoposition&gt; GetPostion()
-        &#123;
-            var accessStatus &#x3D; await Geolocator.RequestAccessAsync();
-
-            if (accessStatus !&#x3D; GeolocationAccessStatus.Allowed)
-                throw new Exception();
-
-            var geolocator &#x3D; new Geolocator &#123; DesiredAccuracyInMeters &#x3D; 0 &#125;;
-
-            var position &#x3D; await geolocator.GetGeopositionAsync();
-
-            return position;
-        &#125;
-    &#125;</code></pre>
-
-<p>有了position之后，就可以获取经纬度<br><em>in MainPage.xaml.cs</em></p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">private async void Button_Click(object sender, RoutedEventArgs e)
-&#123;
-  var position &#x3D; await LocationManager.GetPostion();
-  
-  RootObject myWeather &#x3D; await OpenWeatherMapProxy.GetWeather(position.Coordinate.Latitude, position.Coordinate.Longitude);
-  string icon &#x3D; String.Format(&quot;ms-appx:&#x2F;&#x2F;&#x2F;Assets&#x2F;Weather&#x2F;&#123;0&#125;.png&quot;, myWeather.results[0].now.code);
-  ResultImage.Source &#x3D; new BitmapImage(new Uri(icon, UriKind.Absolute));
-  ResultTextBlock.Text &#x3D; myWeather.results[0].location.name + &quot; - &quot;
-        + myWeather.results[0].now.temperature + &quot; - &quot; 
-        + myWeather.results[0].now.text;
-&#125;</code></pre>
-<p><em>Geocoordinate.Latitude.get提示已过时，实测发现不影响</em></p>
-<blockquote>
-<p>更多关于如何使用Device的Geolocater模块，详见：<br>Geolocator Class<br><a href="https://msdn.microsoft.com/zh-cn/library/windows/apps/windows.devices.geolocation.geolocator.aspx">https://msdn.microsoft.com/zh-cn/library/windows/apps/windows.devices.geolocation.geolocator.aspx</a></p>
-</blockquote>
-<blockquote>
-<p>更详细的使用UWP中maps 和 Location（position）的方法：<br>获取用户位置<br><a href="https://msdn.microsoft.com/zh-cn/windows/uwp/maps-and-location/get-location">https://msdn.microsoft.com/zh-cn/windows/uwp/maps-and-location/get-location</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>UWP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>UWP开发笔记 汉堡菜单</title>
-    <url>/2016/09/04/uwp-hamburger/</url>
-    <content><![CDATA[<p>先画出汉堡菜单按钮或返回按钮</p>
-<pre class="language-markup" data-language="markup"><code class="language-markup">&lt;RelativePanel&gt;
-  &lt;Button Name&#x3D;&quot;HamburgerButton&quot;
-    FontFamily&#x3D;&quot;Segoe MDL2 Assets&quot;
-    Content&#x3D;&quot;&amp;#xE700;&quot;
-    Click&#x3D;&quot;HamburgerButton_Click&quot;
-    FontSize&#x3D;&quot;36&quot;
-    Background&#x3D;&quot;LightGray&quot;
-    RelativePanel.AlignLeftWithPanel&#x3D;&quot;True&quot;&#x2F;&gt;
-  &lt;Button Name&#x3D;&quot;Back&quot;
-    Visibility&#x3D;&quot;Collapsed&quot;
-    FontFamily&#x3D;&quot;Segoe MDL2 Assets&quot;
-    Content&#x3D;&quot;&amp;#xE7EA;&quot;
-    Click&#x3D;&quot;Back_Click&quot;
-    FontSize&#x3D;&quot;36&quot;
-    Background&#x3D;&quot;White&quot;
-    RelativePanel.RightOf&#x3D;&quot;HamburgerButton&quot;&#x2F;&gt;
-&lt;&#x2F;RelativePanel&gt;</code></pre>
-
-<p>然后是菜单列表</p>
-<pre class="language-markup" data-language="markup"><code class="language-markup">&lt;SplitView Grid.Row&#x3D;&quot;1&quot;
-     Name&#x3D;&quot;HamburgerMeun&quot; 
-     DisplayMode&#x3D;&quot;CompactOverlay&quot;
-     OpenPaneLength&#x3D;&quot;200&quot;
-     CompactPaneLength&#x3D;&quot;56&quot; 
-     IsPaneOpen&#x3D;&quot;False&quot; &gt;
-&lt;SplitView.Pane&gt;
-  &lt;ListBox SelectionMode&#x3D;&quot;Single&quot;
-    SelectionChanged&#x3D;&quot;ListBox_SelectionChanged&quot;&gt;
-    &lt;ListBoxItem Name&#x3D;&quot;Financial&quot;&gt;
-      &lt;StackPanel Orientation&#x3D;&quot;Horizontal&quot;&gt;
-        &lt;TextBlock Text&#x3D;&quot;&amp;#xE10F;&quot;
-           FontFamily&#x3D;&quot;Segoe MDL2 Assets&quot;
-           FontSize&#x3D;&quot;36&quot;&gt;&lt;&#x2F;TextBlock&gt;
-        &lt;TextBlock Text&#x3D;&quot;Home&quot; 
-           FontSize&#x3D;&quot;24&quot;
-           Margin&#x3D;&quot;20,0,0,0&quot;&gt;&lt;&#x2F;TextBlock&gt;
-      &lt;&#x2F;StackPanel&gt;
-    &lt;&#x2F;ListBoxItem&gt;
-
-    &lt;ListBoxItem Name&#x3D;&quot;Food&quot;&gt;
-      &lt;StackPanel Orientation&#x3D;&quot;Horizontal&quot;&gt;
-        &lt;TextBlock Text&#x3D;&quot;&amp;#xE1CE;&quot;
-          FontFamily&#x3D;&quot;Segoe MDL2 Assets&quot;
-          FontSize&#x3D;&quot;36&quot;&gt;&lt;&#x2F;TextBlock&gt;
-        &lt;TextBlock Text&#x3D;&quot;Food&quot;
-          FontSize&#x3D;&quot;24&quot;
-          Margin&#x3D;&quot;20,0,0,0&quot;&gt;&lt;&#x2F;TextBlock&gt;
-      &lt;&#x2F;StackPanel&gt;
-    &lt;&#x2F;ListBoxItem&gt;
-  &lt;&#x2F;ListBox&gt;
-&lt;&#x2F;SplitView.Pane&gt;</code></pre>
-<p>接下来是点击事件</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-&#123;
-  HamburgerMeun.IsPaneOpen &#x3D; !HamburgerMeun.IsPaneOpen;
-&#125;</code></pre>
-<p><em>Bob Tabord 的汉堡菜单弹出写法</em></p>
-<p>第一次看到这样写按钮，很巧妙</p>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>UWP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用 ESP8266 搭建 WLED project</title>
     <url>/2022/08/06/wled-ws2812b/</url>
     <content><![CDATA[<p>制作一个通过 WIFI 控制的 LED 灯带，布置于显示器后方，改善环境光</p>
@@ -6119,7 +5301,7 @@ public static void Configure(DbContextOptionsBuilder&lt;SecondDbContext&gt; buil
 <p><a href="https://kno.wled.ge/">WLED Project</a></p>
 ]]></content>
       <categories>
-        <category>Tips</category>
+        <category>Note</category>
       </categories>
       <tags>
         <tag>WLED</tag>

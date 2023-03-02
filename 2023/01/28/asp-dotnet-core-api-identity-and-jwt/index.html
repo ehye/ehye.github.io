@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rcshRLlkxflXsWi1BMyvksG0jIzITYPop-GCRZmoCjs">
+  <meta name="msvalidate.01" content="F1D4D412BCED9D8BDE4A8C660D147D15">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ASP.Net Core Identity 和 JWT 实现认证与授权">
+<meta property="og:url" content="https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/index.html">
+<meta property="og:site_name" content="ehye">
+<meta property="og:description" content="利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-28T05:47:22.000Z">
+<meta property="article:modified_time" content="2023-03-02T10:37:51.576Z">
+<meta property="article:author" content="ehye">
+<meta property="article:tag" content="Clean Architecture">
+<meta property="article:tag" content="ASP.Net Core Identity">
+<meta property="article:tag" content="JWT">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/","path":"2023/01/28/asp-dotnet-core-api-identity-and-jwt/","title":"使用 ASP.Net Core Identity 和 JWT 实现认证与授权"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "5659ny4ed0");
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ehye</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Note and Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Clean-Architecture"><span class="nav-number">1.</span> <span class="nav-text">使用 Clean Architecture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90-Identity-%E6%95%B0%E6%8D%AE%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">生成 Identity 数据表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%AA%8C%E8%AF%81%E6%8E%88%E6%9D%83%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">创建验证授权服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90-JWT"><span class="nav-number">3.1.</span> <span class="nav-text">生成 JWT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81-JWT"><span class="nav-number">3.2.</span> <span class="nav-text">验证 JWT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BA%AB%E4%BB%BD%E7%AE%A1%E7%90%86%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">身份管理服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%8E%A5%E5%8F%A3"><span class="nav-number">5.</span> <span class="nav-text">实现接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82-Application"><span class="nav-number">5.1.</span> <span class="nav-text">应用层(Application)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E5%B1%82-WebUI"><span class="nav-number">5.2.</span> <span class="nav-text">接口层(WebUI)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A5%E5%8F%A3"><span class="nav-number">6.</span> <span class="nav-text">访问接口</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ehye"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ehye</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ehye" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ehye" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 ASP.Net Core Identity 和 JWT 实现认证与授权 | ehye">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 ASP.Net Core Identity 和 JWT 实现认证与授权
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-01-28 13:47:22" itemprop="dateCreated datePublished" datetime="2023-01-28T13:47:22+08:00">2023-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Note/" itemprop="url" rel="index"><span itemprop="name">Note</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>利用 Clean Architecture 模板搭配 ASP.Net Core Identity 创建一个使用 JWT 验证的 Web API 项目<span id="more"></span></p>
+<hr>
+<h2 id="使用-Clean-Architecture"><a href="#使用-Clean-Architecture" class="headerlink" title="使用 Clean Architecture"></a>使用 Clean Architecture</h2><ol>
+<li><p>安装模板 <a target="_blank" rel="noopener" href="https://github.com/jasontaylordev/CleanArchitecture">Clean Architecture Solution Template</a></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet new install Clean.Architecture.Solution.Template
+
+dotnet new ca-sln</code></pre>
+</li>
+<li><p>删除配置文件中前端相关的配置信息</p>
+<ul>
+<li>src&#x2F;WebUI&#x2F;WebUI.csproj</li>
+<li>src&#x2F;WebUI&#x2F;appsettings.json</li>
+<li>src&#x2F;WebUI&#x2F;Properties&#x2F;launchSettings.json</li>
+</ul>
+</li>
+<li><p>删除前端文件</p>
+<p> 删除接口项目不要需要的前端文件夹 <code>ClientApp</code> <code>Pages</code> <code>wwroot</code></p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">WebUI&#x2F;
+├── ClientApp *
+├── Controllers
+├── Filters
+├── Pages *
+├── Properties
+├── Services
+└── wwwroot *</code></pre>
+</li>
+<li><p>删除依赖</p>
+<ul>
+<li>Microsoft.AspNetCore.ApiAuthorization.IdentityServer</li>
+<li>Microsoft.AspNetCore.Identity.UI</li>
+<li>Microsoft.AspNetCore.SpaProxy</li>
+<li>NSwag.MSBuild</li>
+</ul>
+</li>
+<li><p>更新、增加依赖</p>
+<p> 在 <code>Infrastructure</code> 项目中添加 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 和 <code>Microsoft.AspNetCore.Authentication.JwtBearer</code></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd \src\Infrastructure
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer</code></pre>
+
+<p> 在 <code>WebUI</code> 项目中添加 <code>Microsoft.EntityFrameworkCore.Design</code></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">\src\WebUI
+dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre></li>
+</ol>
+<h2 id="生成-Identity-数据表"><a href="#生成-Identity-数据表" class="headerlink" title="生成 Identity 数据表"></a>生成 Identity 数据表</h2><ol>
+<li><p>新建 <code>User</code> 类，继承于 <code>IdentityUser</code>，使用 Guid 类型作为主键</p>
+ <pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class User : IdentityUser&lt;Guid&gt;
+&#123;
+    &#x2F;&#x2F; Custom fields goes here
+&#125;</code></pre>
+</li>
+<li><p>让 <code>ApplicationDbContext</code> 继承 <code>IdentityDbContext&lt;TUser,TRole,TKey&gt;</code></p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/Persistence/ApplicationDbContext.cs</span></div><code class="language-csharp">public class ApplicationDbContext : IdentityDbContext&lt;User, IdentityRole&lt;Guid&gt;, Guid&gt;, IApplicationDbContext
+&#123;
+&#125;</code></pre>
+</li>
+<li><p>在 <code>OnModelCreating()</code> 中，可自定义 Identity 所用到的表名</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/Persistence/ApplicationDbContext.cs</span></div><code class="language-csharp">protected override void OnModelCreating(ModelBuilder builder)
+&#123;
+    builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+    base.OnModelCreating(builder);
+    
+    builder.Entity&lt;ApplicationUser&gt;().ToTable(&quot;Users&quot;);
+    builder.Entity&lt;IdentityRole&gt;().ToTable(&quot;Roles&quot;);
+    builder.Entity&lt;IdentityRoleClaim&lt;string&gt;&gt;().ToTable(&quot;RoleClaim&quot;);
+    builder.Entity&lt;IdentityUserRole&lt;string&gt;&gt;().ToTable(&quot;UserRoles&quot;);
+    builder.Entity&lt;IdentityUserClaim&lt;string&gt;&gt;().ToTable(&quot;UserClaims&quot;);
+    builder.Entity&lt;IdentityUserLogin&lt;string&gt;&gt;().ToTable(&quot;UserLogins&quot;);
+    builder.Entity&lt;IdentityUserToken&lt;string&gt;&gt;().ToTable(&quot;UserTokens&quot;);
+&#125;</code></pre>
+</li>
+<li><p>在 <code>src/Infrastructure/ConfigureServices.cs</code> 中注入 Identity Service</p>
+<p> 使用自定义的用户类 <code>User</code>，和默认的角色类 <code>IdentityRole</code>，并使用 <code>Guid</code> 类型作为主键；</p>
+<p> 可以使用 options 参数来配置 Identity</p>
+<p> <code>AddEntityFrameworkStores()</code> 用于生成 Identity 使用的表</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/ConfigureServices.cs</span></div><code class="language-csharp">services.AddIdentity&lt;User, IdentityRole&lt;Guid&gt;&gt;(options &#x3D;&gt;
+    &#123;
+        options.Password.RequiredLength &#x3D; 4;
+        options.Password.RequireDigit &#x3D; false;
+        options.Password.RequireNonAlphanumeric &#x3D; false;
+        options.Password.RequireUppercase &#x3D; false;
+
+        options.User.AllowedUserNameCharacters &#x3D; &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+
+        options.Lockout.MaxFailedAccessAttempts &#x3D; 7;
+    &#125;)
+    .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;();</code></pre>
+</li>
+<li><p>生成数据库迁移</p>
+<p> 语法为 <code>dotnet ef migrations add Init -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt; -o &lt;MigrationsFolder&gt; --verbose</code></p>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd src\Infrastructure\
+
+dotnet ef migrations add Init -s ..\WebUI\ -o .\Persistence\Migrations\ -v</code></pre>
+
+ <div class="note info"><p>可以使用 <code>dotnet ef migrations remove -s &lt;ApiProjectFile&gt; -c &lt;DbContextClassName&gt;</code> 移除迁移记录</p>
+<pre class="language-cmd" data-language="cmd"><code class="language-cmd">cd src\Infrastructure\
+
+dotnet ef migrations remove -s ..\WebUI\ -c ApplicationDbContext --v</code></pre></div></li>
+</ol>
+<p>执行 <code>ef database update </code> 生成以下数据表</p>
+<ul>
+<li>RoleClaims</li>
+<li>Roles</li>
+<li>UserClaims</li>
+<li>UserLogins</li>
+<li>UserRoles</li>
+<li>UserTokens</li>
+<li>Users</li>
+</ul>
+<h2 id="创建验证授权服务"><a href="#创建验证授权服务" class="headerlink" title="创建验证授权服务"></a>创建验证授权服务</h2><h3 id="生成-JWT"><a href="#生成-JWT" class="headerlink" title="生成 JWT"></a>生成 JWT</h3><ol>
+<li><p>定义接口 <code>ITokenService.cs</code> </p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Application/Common/Interfaces/ITokenService.cs</span></div><code class="language-csharp">public interface ITokenService
+&#123;
+    Task&lt;string&gt; CreateToken(string userName);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+</li>
+<li><p>实现 <code>TokenService.cs</code>, 从这里生成 JWT</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/WebUI/Services/TokenService.cs</span></div><code class="language-csharp">public async Task&lt;string&gt; CreateToken(string userName)
+&#123;
+    var authClaims &#x3D; new List&lt;Claim&gt;
+    &#123;
+        new Claim(ClaimTypes.Name, userName), 
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+    &#125;;
+
+    var user &#x3D; await _userManager.FindByNameAsync(userName);
+
+    if (user is null)
+    &#123;
+        throw new InvalidOperationException();
+    &#125;
+    
+    authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+
+    var roles &#x3D; await _userManager.GetRolesAsync(user);
+
+    authClaims.AddRange(roles.Select(role &#x3D;&gt; new Claim(ClaimTypes.Role, role)));
+
+    var token &#x3D; new JwtSecurityToken(
+        issuer: _configuration[&quot;Jwt:Issuer&quot;],
+        audience: _configuration[&quot;Jwt:Audience&quot;],
+        expires: _dateTime.Now.AddDays(7),
+        claims: authClaims,
+        signingCredentials: new SigningCredentials(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[&quot;Jwt:Key&quot;])),
+            SecurityAlgorithms.HmacSha256Signature)
+    );
+
+    return new JwtSecurityTokenHandler().WriteToken(token);
+&#125;</code></pre>
+</li>
+<li><p>在 <code>ConfigureServices.cs</code> 中注入 <code>ITokenService</code></p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/WebUI/ConfigureServices.cs</span></div><code class="language-csharp">services.AddScoped&lt;ITokenService, TokenService&gt;();</code></pre></li>
+</ol>
+<h3 id="验证-JWT"><a href="#验证-JWT" class="headerlink" title="验证 JWT"></a>验证 JWT</h3><ul>
+<li><p>在 <code>appsettings.json</code> 中配置 JWT </p>
+  <pre class="language-json" data-language="json"><code class="language-json">&quot;Jwt&quot;: &#123;
+    &quot;Audience&quot;: &quot;Valid.Audience&quot;,
+    &quot;Issuer&quot;: &quot;Valid.Issuer&quot;,
+    &quot;Key&quot;: &quot;8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy&quot;
+&#125;,</code></pre>
+</li>
+<li><p>在 <code>ConfigureServices.cs</code> 中启用 JWT 验证</p>
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/ConfigureServices.cs</span></div><code class="language-csharp">services.AddAuthentication(options &#x3D;&gt;
+    &#123;
+        options.DefaultAuthenticateScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
+    &#125;)
+    .AddJwtBearer(options &#x3D;&gt;
+    &#123;
+        options.SaveToken &#x3D; true;
+        options.RequireHttpsMetadata &#x3D; false;
+        options.TokenValidationParameters &#x3D; new TokenValidationParameters()
+        &#123;
+            ValidateIssuer &#x3D; true,
+            ValidateAudience &#x3D; true,
+            ValidAudience &#x3D; configuration[&quot;JWT:Audience&quot;],
+            ValidIssuer &#x3D; configuration[&quot;JWT:Issuer&quot;]
+        &#125;;
+    &#125;);</code></pre>
+</li>
+<li><p>让 Swagger 可以使用 JWT</p>
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/ConfigureServices.cs</span></div><code class="language-csharp">services.AddOpenApiDocument(configure &#x3D;&gt;
+&#123;
+    configure.AddSecurity(&quot;JWT&quot;, Enumerable.Empty&lt;string&gt;(),
+        new OpenApiSecurityScheme
+        &#123;
+            Type &#x3D; OpenApiSecuritySchemeType.ApiKey,
+            Name &#x3D; &quot;Authorization&quot;,
+            In &#x3D; OpenApiSecurityApiKeyLocation.Header,
+            Description &#x3D; &quot;Type into the textbox: Bearer &#123;your JWT token&#125;.&quot;
+        &#125;);
+
+    configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor(&quot;JWT&quot;));
+&#125;);</code></pre></li>
+</ul>
+<h2 id="身份管理服务"><a href="#身份管理服务" class="headerlink" title="身份管理服务"></a>身份管理服务</h2><p>实现 <code>IIdentityService</code></p>
+<ol>
+<li><p>定义接口 <code>IIdentityService.cs</code> </p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Application/Common/Interfaces/IIdentityService</span></div><code class="language-csharp">public interface 
+&#123;
+    Task&lt;(Result Result, string UserId)&gt; CreateUserAsync(string userName, string password);
+
+    Task&lt;Result&gt; CreateRoleAsync(string roleName, CancellationToken cancellationToken);
+
+    Task&lt;bool&gt; CheckPassword(string userName, string password);
+    
+    Task&lt;bool&gt; IsInRoleAsync(string userId, string role);
+
+    &#x2F;&#x2F; ...
+&#125;</code></pre>
+</li>
+<li><p>实现 <code>IdentityService.cs</code>, 在这里调用 <code>UserManager</code> 和 <code>RoleManager</code> 的方法</p>
+ <pre class="language-csharp" data-language="csharp"><div class="caption"><span>src/Infrastructure/Identity/IdentityService.cs</span></div><code class="language-csharp">namespace Infrastructure.Identity;
+
+public class IdentityService : IIdentityService
+&#123;
+    private readonly UserManager&lt;User&gt; _userManager;
+    private readonly RoleManager&lt;IdentityRole&lt;Guid&gt;&gt; _roleManager;
+    private readonly IUserClaimsPrincipalFactory&lt;User&gt; _userClaimsPrincipalFactory;
+    private readonly IAuthorizationService _authorizationService;
+
+    public IdentityService(
+        UserManager&lt;User&gt; userManager,
+        RoleManager&lt;IdentityRole&lt;Guid&gt;&gt; roleManager,
+        IUserClaimsPrincipalFactory&lt;User&gt; userClaimsPrincipalFactory,
+        IAuthorizationService authorizationService)
+    &#123;
+        _userManager &#x3D; userManager;
+        _roleManager &#x3D; roleManager;
+        _userClaimsPrincipalFactory &#x3D; userClaimsPrincipalFactory;
+        _authorizationService &#x3D; authorizationService;
+    &#125;
+
+    public async Task&lt;(Result Result, string UserId)&gt; CreateUserAsync(string userName, string password)
+    &#123;
+        var user &#x3D; new User &#123; UserName &#x3D; userName, Email &#x3D; userName, &#125;;
+
+        var result &#x3D; await _userManager.CreateAsync(user, password);
+
+        return (result.ToApplicationResult(), user.Id.ToString());
+    &#125;
+
+    public async Task&lt;Result&gt; CreateRoleAsync(string roleName, CancellationToken cancellationToken)
+    &#123;
+        var result &#x3D; await _roleManager.CreateAsync(new IdentityRole&lt;Guid&gt;(roleName));
+
+        return result.ToApplicationResult();
+    &#125;
+
+    public async Task&lt;bool&gt; IsInRoleAsync(string userId, string role)
+    &#123;
+        var user &#x3D; _userManager.Users.SingleOrDefault(u &#x3D;&gt; u.Id &#x3D;&#x3D; Guid.Parse(userId));
+
+        return user !&#x3D; null &amp;&amp; await _userManager.IsInRoleAsync(user, role);
+    &#125;
+
+    public async Task&lt;bool&gt; CheckPassword(string userName, string password)
+    &#123;
+        var user &#x3D; await _userManager.FindByNameAsync(userName);
+        var result &#x3D; user !&#x3D; null &amp;&amp; await _userManager.CheckPasswordAsync(user, password);
+        return result;
+    &#125;
+&#125;</code></pre>
+</li>
+<li><p>在 <code>src/Infrastructure/ConfigureServices.cs</code> 中注入 <code>IdentityService</code></p>
+ <pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddTransient&lt;IIdentityService, IdentityService&gt;();</code></pre>
+</li>
+<li><p>在 <code>Program.cs</code> 中启用验证与授权</p>
+ <pre class="language-csharp" data-language="csharp" data-line="3,4" data-line-offset="0"><code class="language-csharp">app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();</code></pre></li>
+</ol>
+<h2 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h2><h3 id="应用层-Application"><a href="#应用层-Application" class="headerlink" title="应用层(Application)"></a>应用层(Application)</h3><p>实现用户注册和登录</p>
+<ul>
+<li><p>RegistryCommand.cs</p>
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>RegistryCommand.cs</span></div><code class="language-csharp">namespace Application.Authentication.Commands;
+
+public record RegistryCommand : IRequest&lt;Result&gt;
+&#123;
+    public string UserName &#123; get; init; &#125;
+
+    public string Password &#123; get; init; &#125;
+&#125;
+
+public class RegistryCommandHandler : IRequestHandler&lt;RegistryCommand, Result&gt;
+&#123;
+    private readonly IIdentityService _identityService;
+
+    public RegistryCommandHandler(IIdentityService identityService)
+    &#123;
+        _identityService &#x3D; identityService;
+    &#125;
+
+    public async Task&lt;Result&gt; Handle(RegistryCommand request, CancellationToken cancellationToken)
+    &#123;
+        var r &#x3D; await _identityService.CreateUserAsync(request.UserName, request.Password);
+
+        return r.Result;
+    &#125;
+&#125;</code></pre>
+</li>
+<li><p>LoginCommand.cs</p>
+  <pre class="language-csharp" data-language="csharp"><div class="caption"><span>RegistryCommand.cs</span></div><code class="language-csharp">namespace Application.Authentication.Commands;
+
+public record LoginCommand : IRequest&lt;string&gt;
+&#123;
+    public string UserName &#123; get; init; &#125;
+
+    public string Password &#123; get; init; &#125;
+&#125;
+
+public class LoginHandler : IRequestHandler&lt;LoginCommand, string&gt;
+&#123;
+    private readonly IIdentityService _identityService;
+    private readonly ITokenService _tokenService;
+
+    public LoginHandler(IIdentityService identityService, ITokenService tokenService)
+    &#123;
+        _identityService &#x3D; identityService;
+        _tokenService &#x3D; tokenService;
+    &#125;
+
+    public async Task&lt;string&gt; Handle(LoginCommand request, CancellationToken cancellationToken)
+    &#123;
+        var checkPassword &#x3D; await _identityService.CheckPassword(request.UserName, request.Password);
+        if (checkPassword)
+        &#123;
+            return await _tokenService.CreateToken(request.UserName);
+        &#125;
+
+        return string.Empty;
+    &#125;
+&#125;</code></pre></li>
+</ul>
+<h3 id="接口层-WebUI"><a href="#接口层-WebUI" class="headerlink" title="接口层(WebUI)"></a>接口层(WebUI)</h3><p>然后在 WebUI 项目中使用它们</p>
+<pre class="language-csharp" data-language="csharp"><div class="caption"><span>AuthenticateController.cs</span></div><code class="language-csharp">namespace WebUI.Controllers;
+
+[AllowAnonymous]
+public class AuthenticateController : ApiControllerBase
+&#123;
+    [HttpPost]
+    public async Task&lt;IActionResult&gt; Login([FromBody] LoginCommand command)
+    &#123;
+        var token &#x3D; await Mediator.Send(command);
+
+        return string.IsNullOrEmpty(token) ? Unauthorized() : Ok(token);
+    &#125;
+
+    [HttpPost]
+    public async Task&lt;Result&gt; Registry([FromBody] RegistryCommand command)
+    &#123;
+        return await Mediator.Send(command);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="访问接口"><a href="#访问接口" class="headerlink" title="访问接口"></a>访问接口</h2><ul>
+<li><p>登录获得 Token</p>
+  <pre class="language-http" data-language="http"><div class="caption"><span>Request</span></div><code class="language-http">POST &#x2F;api&#x2F;authenticate&#x2F;login HTTP&#x2F;1.1
+Host: localhost:5001
+accept: application&#x2F;octet-stream
+Content-Type: application&#x2F;json
+Content-Length: 77
+
+&#123;
+  &quot;username&quot;: &quot;administrator@localhost&quot;,
+  &quot;password&quot;: &quot;Administrator1!&quot;
+&#125;</code></pre>
+</li>
+<li><p>访问需要验证的 API</p>
+  <pre class="language-http" data-language="http"><div class="caption"><span>Request</span></div><code class="language-http">GET &#x2F;api&#x2F;TodoLists HTTP&#x2F;1.1
+Host: localhost:5001
+Authorization: Bearer xxxxxx</code></pre></li>
+</ul>
+<hr>
+<p>资源</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jasontaylordev/CleanArchitecture">Clean Architecture Solution Template</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/">Overview of ASP.NET Core authentication</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0#change-the-primary-key-type">Change the primary key type - Identity model customization in ASP.NET Core</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/" title="使用 ASP.Net Core Identity 和 JWT 实现认证与授权">https://ehye.github.io/2023/01/28/asp-dotnet-core-api-identity-and-jwt/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Clean-Architecture/" rel="tag"># Clean Architecture</a>
+              <a href="/tags/ASP-Net-Core-Identity/" rel="tag"># ASP.Net Core Identity</a>
+              <a href="/tags/JWT/" rel="tag"># JWT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/" rel="prev" title="Setting up a Shadowsocks-rust server with v2ray plugin and CDN">
+                  <i class="fa fa-chevron-left"></i> Setting up a Shadowsocks-rust server with v2ray plugin and CDN
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/13/openwrt-build/" rel="next" title="OpenWrt折腾记录06">
+                  OpenWrt折腾记录06 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ehye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"ehye/ehye.github.io","repo_id":"R_kgDOHIPhOg","category":"Comments","category_id":"DIC_kwDOHIPhOs4CTSmJ","mapping":"og:title","reactions_enabled":1,"emit_metadata":0,"theme":"preferred_color_scheme","lang":"en","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>
