@@ -14,13 +14,13 @@ miui更换第三方recovery之后无法进行OTA升级，MIUI系统更新包会�
 
 1. 下载 [Brotli](https://github.com/google/brotli/releases) 解压`system.new.dat.br`文件
 
-    ```bash
+    ```cmd
     .\brotli.exe -d system.new.dat.br -o system.new.dat
     ```
 
 2. 使用 [sdat2img](https://github.com/xpirt/sdat2img) 生成刷入的镜像
 
-    ```bash
+    ```cmd
     .\sdat2img.py system.transfer.list system.new.dat system.img
     ```
 

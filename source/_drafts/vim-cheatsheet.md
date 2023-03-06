@@ -33,3 +33,11 @@ tags:
 - 全选（高亮显示）
 
     按esc后，然后ggvG或者ggVG
+
+- vim 多行编辑
+
+    `Ctrl + v` 选择多行
+
+    `shift + i` 插入
+    
+    `<ESC>` 退出编辑

@@ -37,8 +37,10 @@ tags:
 
     ```nginx
     server {
-        listen 443 ssl default_server;
-        #listen [::]:443 ssl default_server; # 没有 ipv6 可以不写这行
+        server_name mydomain.com;
+        listen 443 ssl http2;
+        #listen [::]:443 ssl http2; # 没有 ipv6 可以不写这行
+
         ssl_certificate /etc/nginx/certs/fullchain.cer; # 证书位置
         ssl_certificate_key /etc/nginx/certs/mydomain.com.key; # 证书位置
         ssl_session_timeout 3m;

@@ -8,12 +8,11 @@ tags:
   - V2ray
 ---
 
-One Oracle Cloud account could create two free instance with mutable IP address.
-<!-- more -->
+Set up a proxy server use behind the Nginx and CDN<!-- more -->
 
 ---
 
-## Conver private key form oracle cloud
+## Conver private key form Oracle Cloud (Optional)
 
 Use PuTTYgen load the private key and save the private key as putty's format
 
@@ -84,18 +83,31 @@ sudo firewall-cmd  --reload
 
 ## Nginx Configuration
 
-```bash
-sudo vim /etc/nginx/sites-enabled/default
-```
+Add server configuration in `/etc/nginx/sites-enabled/default`
 
 ```nginx
-location  /ladder {
-    proxy_redirect              off;
-    proxy_pass                  http://127.0.0.1:8081;
-    proxy_http_version          1.1;
-    proxy_set_header Host       $http_host;
-    proxy_set_header Upgrade    $http_upgrade;
-    proxy_set_header Connection "upgrade";
+server {
+     server_name your.site;
+     listen <PORT> ssl http2;
+     
+     # SSL configuration
+     ssl_certificate /etc/nginx/certs/your.site/fullchain.cer;
+     ssl_certificate_key /etc/nginx/certs/your.site.key;
+     ssl_protocols TLSv1 TLSv1.2 TLSv1.3;
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_prefer_server_ciphers on;
+     ssl_session_timeout    10m;
+     ssl_session_cache      shared:SSL:1m;
+     ssl_session_tickets    off;
+     
+     location /ladder {
+             proxy_redirect off;
+             proxy_pass http://127.0.0.1:8008;
+             proxy_set_header Host $http_host;
+             proxy_http_version 1.1;
+             proxy_set_header Upgrade $http_upgrade;
+             proxy_set_header Connection "upgrade";
+     }
 }
 ```
 
@@ -111,6 +123,10 @@ sudo snap start --enable shadowsocks-rust.ssserver-daemon
 
 ```bash
 sudo snap logs shadowsocks-rust.ssserver-daemon
+
+tail /var/log/nginx/access.log -n 20
+
+tail /var/log/nginx/error.log -n 20
 ```
 
 ## Cloudflare Configuration
@@ -124,7 +140,6 @@ Find the SSL/TLS -> Overview, Set the encryption mode to **Full**
 {% note warning %}
 If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by [acme.sh](https://github.com/acmesh-official/acme.sh), then set the encryption mode to **FULL**, otherwise you will get `TOO MANY REDIERCTS`.
 {% endnote %}
-
 
 You can check the CDN whether it is taking effects by using tool like `ping` or `nslookup`. 
 
