@@ -3452,10 +3452,10 @@ Router(config)#end</code></pre>
 <hr>
 <ol>
 <li><p>下载 <a href="https://github.com/google/brotli/releases">Brotli</a> 解压<code>system.new.dat.br</code>文件</p>
- <pre class="language-bash" data-language="bash"><code class="language-bash">.\brotli.exe -d system.new.dat.br -o system.new.dat</code></pre>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">.\brotli.exe -d system.new.dat.br -o system.new.dat</code></pre>
 </li>
 <li><p>使用 <a href="https://github.com/xpirt/sdat2img">sdat2img</a> 生成刷入的镜像</p>
- <pre class="language-bash" data-language="bash"><code class="language-bash">.\sdat2img.py system.transfer.list system.new.dat system.img</code></pre>
+ <pre class="language-cmd" data-language="cmd"><code class="language-cmd">.\sdat2img.py system.transfer.list system.new.dat system.img</code></pre>
 </li>
 <li><p>进入twrp，因为是同内核升级，双清(Cache, Dalvik)即可，然后刷入system分区</p>
 </li>
@@ -3581,6 +3581,40 @@ deploy:
       </tags>
   </entry>
   <entry>
+    <title>如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误</title>
+    <url>/2020/03/21/fastboot-press-any-key-to-shutdown/</url>
+    <content><![CDATA[<p>在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<span id="more"></span><br>手机成功进入 fastboot 了，但在 cmd 执行<code>fastboot devices</code>后手机却断开了，屏幕上显示一行 Press any key to shutdown<br>而在一些预装 Win8 的机子上使用 USB3.0 却不会出现这样的问题</p>
+<p>解决方法如下：</p>
+<ol>
+<li>手机进入 fastboot 模式，打开设备管理器，在详细信息选项卡查看手机的硬件ID，</li>
+<li>打开注册表编辑器，定位到<code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\usbflags</code></li>
+<li>根据<code>VID</code> <code>PID</code> <code>REV</code>后的值找到对应的项（本例中为<code>18D1D00D0100</code>）</li>
+<li>按照这个值，新建一个类型为DWORD，名称为<code>SkipBOSDescriptorQuery</code>的数据</li>
+<li><code>数值数据</code>设为1，然后单击确定</li>
+<li>退出注册表编辑器，拔下并重新插入设备，以使解决方法生效</li>
+</ol>
+<p>最终效果：</p>
+<img src="/2020/03/21/fastboot-press-any-key-to-shutdown/VIDPIDREV.png" class="" title="最终效果">
+
+<blockquote>
+<p>当一些USB设备连接到EHCI的端口时，在Windows 8.1上可能无法枚举，但在Windows 8上可以工作。<br>在Windows 8.1中，该错误在设备管理器中报告为错误代码43。 原因之一是设备报告自己支持的USB版本大于2.00，但未提供所需的BOS描述符。<br>根据官方USB规范，版本大于2.00的USB设备必须提供BOS描述符。<br>在Windows 8中，USB 2.0驱动程序堆栈无法验证该要求。 因此，连接到EHCI控制器时，具有大于2.00版本且没有BOS描述符的设备将成功枚举。<br>在Windows 8.1中，驱动程序堆栈已更新，此类设备的枚举失败。<br>注意：Windows 8和8.1中的USB 3.0可扩展主机控制器（xHCI）驱动程序可验证该要求。</p>
+</blockquote>
+<p>看来是Windows驱动的一个历史遗留问题</p>
+<hr>
+<p>参考</p>
+<p><a href="https://forum.xda-developers.com/showpost.php?p=55529498&postcount=56">Windows 8.1 “A request for the USB BOS descriptor failed” - SOLVED !</a></p>
+<p><a href="https://web.archive.org/web/20190109023258/https://blogs.msdn.microsoft.com/usbcoreblog/2013/11/25/why-does-my-usb-device-work-on-windows-8-0-but-fail-on-windows-8-1-with-code-43/">Why does my USB device work on Windows 8.0 but fail on Windows 8.1 with code 43?</a></p>
+]]></content>
+      <categories>
+        <category>Tips</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>Android</tag>
+        <tag>fastboot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 branch 对 hexo 备份</title>
     <url>/2017/09/12/hexo_branch_backup/</url>
     <content><![CDATA[<p>因为文章源文件都在本地 hexo 文件夹中，所以备份必不可少，而新建一个 repository 过于臃肿，因此利用 branch 进行备份<span id="more"></span></p>
@@ -3615,40 +3649,6 @@ git push --set-upstream origin &lt;branchname&gt;</code></pre>
       <tags>
         <tag>hexo</tag>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何解决 Windows 下执行 fastboot 出现 Press any key to shutdown 的错误</title>
-    <url>/2020/03/21/fastboot-press-any-key-to-shutdown/</url>
-    <content><![CDATA[<p>在 Windows 上使用USB3.0运行 fastboot 时可能会遇到这个问题<span id="more"></span><br>手机成功进入 fastboot 了，但在 cmd 执行<code>fastboot devices</code>后手机却断开了，屏幕上显示一行 Press any key to shutdown<br>而在一些预装 Win8 的机子上使用 USB3.0 却不会出现这样的问题</p>
-<p>解决方法如下：</p>
-<ol>
-<li>手机进入 fastboot 模式，打开设备管理器，在详细信息选项卡查看手机的硬件ID，</li>
-<li>打开注册表编辑器，定位到<code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\usbflags</code></li>
-<li>根据<code>VID</code> <code>PID</code> <code>REV</code>后的值找到对应的项（本例中为<code>18D1D00D0100</code>）</li>
-<li>按照这个值，新建一个类型为DWORD，名称为<code>SkipBOSDescriptorQuery</code>的数据</li>
-<li><code>数值数据</code>设为1，然后单击确定</li>
-<li>退出注册表编辑器，拔下并重新插入设备，以使解决方法生效</li>
-</ol>
-<p>最终效果：</p>
-<img src="/2020/03/21/fastboot-press-any-key-to-shutdown/VIDPIDREV.png" class="" title="最终效果">
-
-<blockquote>
-<p>当一些USB设备连接到EHCI的端口时，在Windows 8.1上可能无法枚举，但在Windows 8上可以工作。<br>在Windows 8.1中，该错误在设备管理器中报告为错误代码43。 原因之一是设备报告自己支持的USB版本大于2.00，但未提供所需的BOS描述符。<br>根据官方USB规范，版本大于2.00的USB设备必须提供BOS描述符。<br>在Windows 8中，USB 2.0驱动程序堆栈无法验证该要求。 因此，连接到EHCI控制器时，具有大于2.00版本且没有BOS描述符的设备将成功枚举。<br>在Windows 8.1中，驱动程序堆栈已更新，此类设备的枚举失败。<br>注意：Windows 8和8.1中的USB 3.0可扩展主机控制器（xHCI）驱动程序可验证该要求。</p>
-</blockquote>
-<p>看来是Windows驱动的一个历史遗留问题</p>
-<hr>
-<p>参考</p>
-<p><a href="https://forum.xda-developers.com/showpost.php?p=55529498&postcount=56">Windows 8.1 “A request for the USB BOS descriptor failed” - SOLVED !</a></p>
-<p><a href="https://web.archive.org/web/20190109023258/https://blogs.msdn.microsoft.com/usbcoreblog/2013/11/25/why-does-my-usb-device-work-on-windows-8-0-but-fail-on-windows-8-1-with-code-43/">Why does my USB device work on Windows 8.0 but fail on Windows 8.1 with code 43?</a></p>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>Windows</tag>
-        <tag>Android</tag>
-        <tag>fastboot</tag>
       </tags>
   </entry>
   <entry>
@@ -4915,8 +4915,10 @@ iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to
 <li><p>复制&#x2F;安装</p>
 <p> 不要让 Nginx 直接使用<code>~/.acme.sh/</code>下的文件，将生成的证书复制到<code>/etc/nginx/certs/</code>下后，配置 Nginx</p>
  <pre class="language-nginx" data-language="nginx"><code class="language-nginx">server &#123;
-    listen 443 ssl default_server;
-    #listen [::]:443 ssl default_server; # 没有 ipv6 可以不写这行
+    server_name mydomain.com;
+    listen 443 ssl http2;
+    #listen [::]:443 ssl http2; # 没有 ipv6 可以不写这行
+
     ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;fullchain.cer; # 证书位置
     ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;mydomain.com.key; # 证书位置
     ssl_session_timeout 3m;
@@ -4990,11 +4992,9 @@ iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to
   <entry>
     <title>Setting up a Shadowsocks-rust server with v2ray plugin and CDN</title>
     <url>/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/</url>
-    <content><![CDATA[<p>One Oracle Cloud account could create two free instance with mutable IP address.</p>
-<span id="more"></span>
-
+    <content><![CDATA[<p>Set up a proxy server use behind the Nginx and CDN<span id="more"></span></p>
 <hr>
-<h2 id="Conver-private-key-form-oracle-cloud"><a href="#Conver-private-key-form-oracle-cloud" class="headerlink" title="Conver private key form oracle cloud"></a>Conver private key form oracle cloud</h2><p>Use PuTTYgen load the private key and save the private key as putty’s format</p>
+<h2 id="Conver-private-key-form-Oracle-Cloud-Optional"><a href="#Conver-private-key-form-Oracle-Cloud-Optional" class="headerlink" title="Conver private key form Oracle Cloud (Optional)"></a>Conver private key form Oracle Cloud (Optional)</h2><p>Use PuTTYgen load the private key and save the private key as putty’s format</p>
 <ol>
 <li><p>Open <strong>Console connection</strong></p>
 <img src="/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/ssh0.png" class="">
@@ -5036,21 +5036,39 @@ sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;co
 <h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd  --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
 sudo firewall-cmd  --reload</code></pre>
 
-<h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default</code></pre>
-
-<pre class="language-nginx" data-language="nginx"><code class="language-nginx">location  &#x2F;ladder &#123;
-    proxy_redirect              off;
-    proxy_pass                  http:&#x2F;&#x2F;127.0.0.1:8081;
-    proxy_http_version          1.1;
-    proxy_set_header Host       $http_host;
-    proxy_set_header Upgrade    $http_upgrade;
-    proxy_set_header Connection &quot;upgrade&quot;;
+<h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><p>Add server configuration in <code>/etc/nginx/sites-enabled/default</code></p>
+<pre class="language-nginx" data-language="nginx"><code class="language-nginx">server &#123;
+     server_name your.site;
+     listen &lt;PORT&gt; ssl http2;
+     
+     # SSL configuration
+     ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site&#x2F;fullchain.cer;
+     ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site.key;
+     ssl_protocols TLSv1 TLSv1.2 TLSv1.3;
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_prefer_server_ciphers on;
+     ssl_session_timeout    10m;
+     ssl_session_cache      shared:SSL:1m;
+     ssl_session_tickets    off;
+     
+     location &#x2F;ladder &#123;
+             proxy_redirect off;
+             proxy_pass http:&#x2F;&#x2F;127.0.0.1:8008;
+             proxy_set_header Host $http_host;
+             proxy_http_version 1.1;
+             proxy_set_header Upgrade $http_upgrade;
+             proxy_set_header Connection &quot;upgrade&quot;;
+     &#125;
 &#125;</code></pre>
 
 <p>Use <code>ngingx -t</code> to check</p>
 <h2 id="Start-the-daemon"><a href="#Start-the-daemon" class="headerlink" title="Start the daemon"></a>Start the daemon</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap start --enable shadowsocks-rust.ssserver-daemon</code></pre>
 
-<h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap logs shadowsocks-rust.ssserver-daemon</code></pre>
+<h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap logs shadowsocks-rust.ssserver-daemon
+
+tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log -n 20
+
+tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -n 20</code></pre>
 
 <h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><p>Login into Cloudflare dashboard</p>
 <p>Find the SSL&#x2F;TLS -&gt; Overview, Set the encryption mode to <strong>Full</strong></p>
@@ -5058,7 +5076,6 @@ sudo firewall-cmd  --reload</code></pre>
 
 <div class="note warning"><p>If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by <a href="https://github.com/acmesh-official/acme.sh">acme.sh</a>, then set the encryption mode to <strong>FULL</strong>, otherwise you will get <code>TOO MANY REDIERCTS</code>.</p>
 </div>
-
 
 <p>You can check the CDN whether it is taking effects by using tool like <code>ping</code> or <code>nslookup</code>. </p>
 <h2 id="Client-Configuration"><a href="#Client-Configuration" class="headerlink" title="Client Configuration"></a>Client Configuration</h2><pre class="language-json" data-language="json"><code class="language-json">&#123;
