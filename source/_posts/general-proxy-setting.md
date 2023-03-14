@@ -1,5 +1,5 @@
 ---
-title: 常见软件代理设置
+title: 常用软件代理设置
 date: 2023-03-13 09:24:27
 categroies: Note
 tags:
@@ -18,10 +18,9 @@ tags:
 `git config --global --unset http.proxy`
 `git config --global --unset https.proxy`
 
-- 直接编辑 .gitconfig
+- 编辑 .gitconfig
 
 ```bash .gitconfig
-# proxy
 [https]
     proxy = https://127.0.0.1:1080
 [http]
@@ -33,13 +32,20 @@ tags:
 `yarn config set proxy http://127.0.0.1:1080`
 `yarn config set https-proxy http://127.0.0.1:1080`
 
+`yarn config delete proxy`
+`yarn config delete https-proxy`
+
 ## npm
 
 - 使用命令
-`npm config set proxy http://127.0.0.1:26709`
-`npm config set https-proxy http://127.0.0.1:26709`
 
-- 直接编辑 .npmrc
+`npm config set proxy http://127.0.0.1:1080`
+`npm config set https-proxy http://127.0.0.1:1080`
+
+`npm config delete proxy`
+`npm config delete https-proxy`
+
+- 编辑 .npmrc
 
 ```cmd .npmrc
 proxy=http://127.0.0.1:1080
@@ -47,6 +53,8 @@ https-prox=https://127.0.0.1:1080
 ```
 
 ## WSL2
+
+添加到 ~/.bashrc 末尾
 
 ```bash .bashrc
 host_ip=$(cat /etc/resolv.conf | grep "nameserver" | cut -f 2 -d " ")
