@@ -56,8 +56,6 @@ Add packages
 
 ```cmd
 dotnet add package Serilog.AspNetCore
-dotnet add package Serilog.Sinks.Console
-dotnet add package Serilog.Sinks.File
 ```
 
 Add `UseSerilog()` to the host builder
@@ -143,12 +141,26 @@ app.UseSerilogRequestLogging(options =>
 Add `UseSerilogRequestLogging()` in Startup.cs before any handlers whose activities should be logged, by this way can also reduce unnesseray log
 
 ```cs
+// ...
+var app = builder.Build();
+
+app.UseSerilogRequestLogging();
+
+app.UseStaticFiles(); // Won't skip static file logs
+
+// ...
+
+```
+
+Then implement the method for gartering request body
+
+```cs
 private static async Task<string> GetRequestBody(HttpRequest httpRequest)
 {
     string requestBody = string.Empty;
 
-    if (httpRequest.Path.ToString().ContainsAny(nameof(AuthenticateController.Login).Slugify(),
-            nameof(AuthenticateController.Registry).Slugify()))
+    if (httpRequest.Path.ToString().ContainsAny(nameof(AuthenticateController.Login),
+            nameof(AuthenticateController.Registry)))
     {
         requestBody = "[Redacted] Contains Sensitive Information. ";
     }
