@@ -29,7 +29,7 @@
 <meta property="og:description" content="Using Serilog logging for ASP.NET Core.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-14T01:34:28.000Z">
-<meta property="article:modified_time" content="2023-03-06T09:06:20.323Z">
+<meta property="article:modified_time" content="2023-03-14T07:42:47.105Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Serilog">
 <meta name="twitter:card" content="summary">
@@ -296,9 +296,7 @@ finally
 &#125;</code></pre>
 
 <h1 id="Add-UseSerilog"><a href="#Add-UseSerilog" class="headerlink" title="Add UseSerilog()"></a>Add UseSerilog()</h1><p>Add packages</p>
-<pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Serilog.AspNetCore
-dotnet add package Serilog.Sinks.Console
-dotnet add package Serilog.Sinks.File</code></pre>
+<pre class="language-cmd" data-language="cmd"><code class="language-cmd">dotnet add package Serilog.AspNetCore</code></pre>
 
 <p>Add <code>UseSerilog()</code> to the host builder</p>
 <pre class="language-csharp" data-language="csharp"><code class="language-csharp">const string OutputTemplate &#x3D; &quot;[&#123;Timestamp:HH:mm:ss&#125; &#123;Level:u3&#125;] [&#123;SourceContext&#125;] &#123;Message:lj&#125;&#123;NewLine&#125;&#123;Exception&#125;&quot;;
@@ -366,12 +364,23 @@ builder.UseSerilog((_, _, cfg) &#x3D;&gt; cfg
 &#125;);</code></pre>
 
 <p>Add <code>UseSerilogRequestLogging()</code> in Startup.cs before any handlers whose activities should be logged, by this way can also reduce unnesseray log</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">&#x2F;&#x2F; ...
+var app &#x3D; builder.Build();
+
+app.UseSerilogRequestLogging();
+
+app.UseStaticFiles(); &#x2F;&#x2F; Won&#39;t skip static file logs
+
+&#x2F;&#x2F; ...
+</code></pre>
+
+<p>Then implement the method for gartering request body</p>
 <pre class="language-csharp" data-language="csharp"><code class="language-csharp">private static async Task&lt;string&gt; GetRequestBody(HttpRequest httpRequest)
 &#123;
     string requestBody &#x3D; string.Empty;
 
-    if (httpRequest.Path.ToString().ContainsAny(nameof(AuthenticateController.Login).Slugify(),
-            nameof(AuthenticateController.Registry).Slugify()))
+    if (httpRequest.Path.ToString().ContainsAny(nameof(AuthenticateController.Login),
+            nameof(AuthenticateController.Registry)))
     &#123;
         requestBody &#x3D; &quot;[Redacted] Contains Sensitive Information. &quot;;
     &#125;
