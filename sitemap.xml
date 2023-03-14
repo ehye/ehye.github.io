@@ -2,6 +2,60 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ehye.github.io/2018/04/10/tex-in-anki/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2016/12/09/the-dark-side-of-the-moon/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2016/12/22/the-magpie-developer/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2022/08/06/wled-ws2812b/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/about/index.html</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/archive/List%20Leaves.html</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ehye.github.io/archive/Maximum%20Subsequence%20Sum.html</loc>
     
     <lastmod>2023-03-14</lastmod>
@@ -209,6 +263,96 @@
   </url>
   
   <url>
+    <loc>https://ehye.github.io/2019/06/10/convert-dat-br-to-img/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2017/10/16/csgo-training-script/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2017/09/26/debug-on-win10x64/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2020/03/28/deploy-hexo-to-gh-pages-by-travis/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2020/03/21/fastboot-press-any-key-to-shutdown/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2023/03/13/general-proxy-setting/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2017/09/12/hexo_branch_backup/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2020/04/01/hit-oslab2/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2020/04/05/hit-oslab3/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/2020/04/30/hit-oslab8/</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ehye.github.io/2017/12/02/insurgency-server-build/</loc>
     
     <lastmod>2023-03-14</lastmod>
@@ -308,7 +452,7 @@
   </url>
   
   <url>
-    <loc>https://ehye.github.io/2018/04/10/tex-in-anki/</loc>
+    <loc>https://ehye.github.io/2017/12/04/alg4s-SeamCarving/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -317,43 +461,7 @@
   </url>
   
   <url>
-    <loc>https://ehye.github.io/2016/12/09/the-dark-side-of-the-moon/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2016/12/22/the-magpie-developer/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2022/08/06/wled-ws2812b/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/about/index.html</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/archive/List%20Leaves.html</loc>
+    <loc>https://ehye.github.io/2017/12/04/alg4s-WordNet/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -425,79 +533,7 @@
   </url>
   
   <url>
-    <loc>https://ehye.github.io/2019/06/10/convert-dat-br-to-img/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2017/10/16/csgo-training-script/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2017/09/26/debug-on-win10x64/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2020/03/28/deploy-hexo-to-gh-pages-by-travis/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2020/03/21/fastboot-press-any-key-to-shutdown/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2017/09/12/hexo_branch_backup/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2020/04/01/hit-oslab2/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2020/04/05/hit-oslab3/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2020/04/30/hit-oslab8/</loc>
+    <loc>https://ehye.github.io/2017/12/04/alg4s-Boggle/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -551,34 +587,7 @@
   </url>
   
   <url>
-    <loc>https://ehye.github.io/2017/12/04/alg4s-SeamCarving/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2017/12/04/alg4s-WordNet/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://ehye.github.io/2017/12/04/alg4s-BaseballElimination/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ehye.github.io/2017/12/04/alg4s-Boggle/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -947,6 +956,13 @@
   
   <url>
     <loc>https://ehye.github.io/tags/fastboot/</loc>
+    <lastmod>2023-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ehye.github.io/tags/proxy/</loc>
     <lastmod>2023-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
