@@ -231,4 +231,10 @@ Ubuntu 常用命令 <!-- more -->
     scp -P 2003 E:\xx.ipk root@192.168.1.1:/tmp
     ```
 
+- pm2 启动程序并命名为 myApp
+
+    ```bash
+    pm2 start "npm run dev" --name myApp
+    ```
+
 ---
