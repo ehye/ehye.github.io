@@ -21,23 +21,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="ehye">
-<meta property="og:url" content="https://ehye.github.io/archives/2019/02/index.html">
+    <meta name="description" content="突破封锁，配置代理访问 OpenAI API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Nginx 代理 OpenAI API">
+<meta property="og:url" content="https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/index.html">
 <meta property="og:site_name" content="ehye">
+<meta property="og:description" content="突破封锁，配置代理访问 OpenAI API">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-29T03:52:58.000Z">
+<meta property="article:modified_time" content="2023-03-29T06:56:03.592Z">
 <meta property="article:author" content="ehye">
+<meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://ehye.github.io/archives/2019/02/">
+<link rel="canonical" href="https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2019/02/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/","path":"2023/03/29/nginx-proxy-for-chatgpt-api/","title":"使用 Nginx 代理 OpenAI API"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | ehye</title>
+<title>使用 Nginx 代理 OpenAI API | ehye</title>
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-143510723-1","only_pageview":true}</script>
   <script src="/js/third-party/analytics/google-analytics.js"></script>
@@ -80,7 +85,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">ehye</h1>
+      <p class="site-title">ehye</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">Note and Blog</p>
@@ -193,51 +198,176 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ehye">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ehye">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Nginx 代理 OpenAI API | ehye">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Nginx 代理 OpenAI API
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-29 11:52:58" itemprop="dateCreated datePublished" datetime="2023-03-29T11:52:58+08:00">2023-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>突破封锁，配置代理访问 OpenAI API <span id="more"></span></p>
+<hr>
+<p>使用以下配置，即可利用代理服务转发调用 OpenAI API</p>
+<pre class="language-nginx" data-language="nginx"><code class="language-nginx">location &#x2F;api&#x2F;v1&#x2F; &#123;
+    
+    proxy_pass  https:&#x2F;&#x2F;api.openai.com&#x2F;v1&#x2F;;
+
+    proxy_http_version 1.1;
+    chunked_transfer_encoding on;
+    proxy_max_temp_file_size 0;
+    proxy_buffering off;
+    proxy_cache off;
+
+    proxy_set_header Connection &#39;&#39;;
+    proxy_set_header Host api.openai.com;
+    proxy_set_header content-type &quot;application&#x2F;json&quot;;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    
+    proxy_connect_timeout              15s;
+    proxy_send_timeout                 15s;
+    proxy_read_timeout                 15s;
+&#125;</code></pre>
+
+<div class="note default"><p>让 ChatGPT 来解释一些配置</p>
+<blockquote>
+<p>To enable streaming of the response, <code>chunked_transfer_encoding</code> is set to <code>on</code>. This allows the response to be sent to the client in a series of small chunks rather than all at once.</p>
+</blockquote>
+<blockquote>
+<p>To ensure that the response is not buffered, <code>proxy_buffering</code> is set to <code>off</code>. This allows the response to be sent to the client as soon as it is received from the upstream server.</p>
+</blockquote>
+<blockquote>
+<p>Finally, <code>proxy_max_temp_file_size</code> is set to <code>0</code> to ensure that no temporary files are created when buffering the response.</p>
+</blockquote>
+</div>
+
+<p>配置保存后 <code>sudo service nginx restart</code> 重启服务并验证 </p>
+<p>现在就可以使用 <code>https://&lt;your_domain&gt;/api/v1/</code> 来代理访问 API OpenAI API</p>
+<p>例如用来调用 ChatGPT API</p>
+<pre class="language-curl" data-language="curl"><code class="language-curl">curl --location &#39;https:&#x2F;&#x2F;&lt;your_domain&gt;&#x2F;api&#x2F;v1&#x2F;chat&#x2F;completions&#39; \
+--header &#39;Authorization: Bearer sk-xxxxxxxx&#39; \
+--header &#39;Content-Type: application&#x2F;json&#39; \
+--data &#39;&#123;
+  &quot;model&quot;: &quot;gpt-3.5-turbo&quot;,
+  &quot;messages&quot;: [
+    &#123;
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;hello&quot;
+    &#125;
+  ]
+&#125;&#39;</code></pre>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>ehye
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/" title="使用 Nginx 代理 OpenAI API">https://ehye.github.io/2023/03/29/nginx-proxy-for-chatgpt-api/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
         
-        <span class="collection-header">还行! 目前共计 49 篇日志。 继续努力。</span>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2019</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2019-02-23T14:03:56+08:00"
-              content="2019-02-23">
-          02-23
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/02/23/openwrt-ss-tproxy/" itemprop="url">
-            <span itemprop="name">Openwrt折腾记录03</span>
-          </a>
-      </div>
-
-      
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/13/general-proxy-setting/" rel="prev" title="常用软件代理设置">
+                  <i class="fa fa-chevron-left"></i> 常用软件代理设置
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
 
-    </div>
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
   </div>
   
   
-  
-
 </div>
   </main>
 

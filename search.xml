@@ -4524,6 +4524,70 @@ theta&#x3D;temp;</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>使用 Nginx 代理 OpenAI API</title>
+    <url>/2023/03/29/nginx-proxy-for-chatgpt-api/</url>
+    <content><![CDATA[<p>突破封锁，配置代理访问 OpenAI API <span id="more"></span></p>
+<hr>
+<p>使用以下配置，即可利用代理服务转发调用 OpenAI API</p>
+<pre class="language-nginx" data-language="nginx"><code class="language-nginx">location &#x2F;api&#x2F;v1&#x2F; &#123;
+    
+    proxy_pass  https:&#x2F;&#x2F;api.openai.com&#x2F;v1&#x2F;;
+
+    proxy_http_version 1.1;
+    chunked_transfer_encoding on;
+    proxy_max_temp_file_size 0;
+    proxy_buffering off;
+    proxy_cache off;
+
+    proxy_set_header Connection &#39;&#39;;
+    proxy_set_header Host api.openai.com;
+    proxy_set_header content-type &quot;application&#x2F;json&quot;;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    
+    proxy_connect_timeout              15s;
+    proxy_send_timeout                 15s;
+    proxy_read_timeout                 15s;
+&#125;</code></pre>
+
+<div class="note default"><p>让 ChatGPT 来解释一些配置</p>
+<blockquote>
+<p>To enable streaming of the response, <code>chunked_transfer_encoding</code> is set to <code>on</code>. This allows the response to be sent to the client in a series of small chunks rather than all at once.</p>
+</blockquote>
+<blockquote>
+<p>To ensure that the response is not buffered, <code>proxy_buffering</code> is set to <code>off</code>. This allows the response to be sent to the client as soon as it is received from the upstream server.</p>
+</blockquote>
+<blockquote>
+<p>Finally, <code>proxy_max_temp_file_size</code> is set to <code>0</code> to ensure that no temporary files are created when buffering the response.</p>
+</blockquote>
+</div>
+
+<p>配置保存后 <code>sudo service nginx restart</code> 重启服务并验证 </p>
+<p>现在就可以使用 <code>https://&lt;your_domain&gt;/api/v1/</code> 来代理访问 API OpenAI API</p>
+<p>例如用来调用 ChatGPT API</p>
+<pre class="language-curl" data-language="curl"><code class="language-curl">curl --location &#39;https:&#x2F;&#x2F;&lt;your_domain&gt;&#x2F;api&#x2F;v1&#x2F;chat&#x2F;completions&#39; \
+--header &#39;Authorization: Bearer sk-xxxxxxxx&#39; \
+--header &#39;Content-Type: application&#x2F;json&#39; \
+--data &#39;&#123;
+  &quot;model&quot;: &quot;gpt-3.5-turbo&quot;,
+  &quot;messages&quot;: [
+    &#123;
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;hello&quot;
+    &#125;
+  ]
+&#125;&#39;</code></pre>
+
+<hr>
+]]></content>
+      <categories>
+        <category>Tips</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在多个仓库部署同一个 hexo 博客</title>
     <url>/2018/08/01/one-hexo-mul-branch/</url>
     <content><![CDATA[<p>GitHub Pages 在国内访问会不可避免的慢，因此可以使用国内类似的平台提供的服务，来加快从国内访问的速度<span id="more"></span></p>
