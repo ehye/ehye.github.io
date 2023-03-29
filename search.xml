@@ -3624,7 +3624,7 @@ deploy:
       </tags>
   </entry>
   <entry>
-    <title>常见软件代理设置</title>
+    <title>常用软件代理设置</title>
     <url>/2023/03/13/general-proxy-setting/</url>
     <content><![CDATA[<p>记录一些常用软件的代理设置方式<span id="more"></span></p>
 <h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><ul>
@@ -3633,25 +3633,28 @@ deploy:
 <p><code>git config --global http.proxy http://127.0.0.1:1080</code><br><code>git config --global https.proxy https://127.0.0.1:1080</code></p>
 <p><code>git config --global --unset http.proxy</code><br><code>git config --global --unset https.proxy</code></p>
 <ul>
-<li>直接编辑 .gitconfig</li>
+<li>编辑 .gitconfig</li>
 </ul>
-<pre class="language-bash" data-language="bash"><div class="caption"><span>.gitconfig</span></div><code class="language-bash"># proxy
-[https]
+<pre class="language-bash" data-language="bash"><div class="caption"><span>.gitconfig</span></div><code class="language-bash">[https]
     proxy &#x3D; https:&#x2F;&#x2F;127.0.0.1:1080
 [http]
     proxy &#x3D; http:&#x2F;&#x2F;127.0.0.1:1080</code></pre>
 
 <h2 id="yarn"><a href="#yarn" class="headerlink" title="yarn"></a>yarn</h2><p><code>yarn config set proxy http://127.0.0.1:1080</code><br><code>yarn config set https-proxy http://127.0.0.1:1080</code></p>
+<p><code>yarn config delete proxy</code><br><code>yarn config delete https-proxy</code></p>
 <h2 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h2><ul>
-<li><p>使用命令<br><code>npm config set proxy http://127.0.0.1:26709</code><br><code>npm config set https-proxy http://127.0.0.1:26709</code></p>
-</li>
-<li><p>直接编辑 .npmrc</p>
-</li>
+<li>使用命令</li>
+</ul>
+<p><code>npm config set proxy http://127.0.0.1:1080</code><br><code>npm config set https-proxy http://127.0.0.1:1080</code></p>
+<p><code>npm config delete proxy</code><br><code>npm config delete https-proxy</code></p>
+<ul>
+<li>编辑 .npmrc</li>
 </ul>
 <pre class="language-cmd" data-language="cmd"><div class="caption"><span>.npmrc</span></div><code class="language-cmd">proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080
 https-prox&#x3D;https:&#x2F;&#x2F;127.0.0.1:1080</code></pre>
 
-<h2 id="WSL2"><a href="#WSL2" class="headerlink" title="WSL2"></a>WSL2</h2><pre class="language-bash" data-language="bash"><div class="caption"><span>.bashrc</span></div><code class="language-bash">host_ip&#x3D;$(cat &#x2F;etc&#x2F;resolv.conf | grep &quot;nameserver&quot; | cut -f 2 -d &quot; &quot;)
+<h2 id="WSL2"><a href="#WSL2" class="headerlink" title="WSL2"></a>WSL2</h2><p>添加到 ~&#x2F;.bashrc 末尾</p>
+<pre class="language-bash" data-language="bash"><div class="caption"><span>.bashrc</span></div><code class="language-bash">host_ip&#x3D;$(cat &#x2F;etc&#x2F;resolv.conf | grep &quot;nameserver&quot; | cut -f 2 -d &quot; &quot;)
 export http_proxy&#x3D;&quot;http:&#x2F;&#x2F;$host_ip:1080&quot;
 export https_proxy&#x3D;&quot;http:&#x2F;&#x2F;$host_ip:1080&quot;</code></pre>
 
