@@ -4627,6 +4627,154 @@ theta&#x3D;temp;</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>OpenWrt折腾记录06</title>
+    <url>/2023/08/02/openwrt-agh-dnsmasq/</url>
+    <content><![CDATA[<p>安装AdGuardHome并配置为DNS服务器<span id="more"></span></p>
+<img src="https://cdn.adguard.info/website/adguard.com/products/home/home.svg" class="full-image" />
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre class="language-bash" data-language="bash"><code class="language-bash">opkg update
+opkg install adguardhome</code></pre>
+
+<p>设置为开机启动并启动服务</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">service adguardhome enable
+service adguardhome start</code></pre>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ol>
+<li>打开 <a href="http://192.168.1.1:3000/">http://192.168.1.1:3000/</a> （192.168.1.1为路由器地址）</li>
+<li>设置管理页面在<code>3001</code>端口</li>
+<li>设置监听<code>53</code>端口</li>
+</ol>
+<h1 id="设置DNS服务器"><a href="#设置DNS服务器" class="headerlink" title="设置DNS服务器"></a>设置DNS服务器</h1><h2 id="DNSMasq"><a href="#DNSMasq" class="headerlink" title="DNSMasq"></a>DNSMasq</h2><p>为了让 AGH 能够监听53端口，将 DNSMasq 监听端口改为54</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"># Get the first IPv4 and IPv6 Address of router and store them in following variables for use during the script.
+NET_ADDR&#x3D;$(&#x2F;sbin&#x2F;ip -o -4 addr list br-lan | awk &#39;NR&#x3D;&#x3D;1&#123; split($4, ip_addr, &quot;&#x2F;&quot;); print ip_addr[1] &#125;&#39;)
+echo &quot;Router IPv4 : &quot;&quot;$&#123;NET_ADDR&#125;&quot;
+
+# 1. Enable dnsmasq to do PTR requests.
+# 2. Reduce dnsmasq cache size as it will only provide PTR&#x2F;rDNS info.
+# 3. Disable rebind protection. 
+# 4. Move dnsmasq to port 54.
+uci set dhcp.@dnsmasq[0].noresolv&#x3D;&#39;0&#39;
+uci set dhcp.@dnsmasq[0].cachesize&#x3D;&#39;1000&#39;
+uci set dhcp.@dnsmasq[0].rebind_protection&#x3D;&#39;0&#39;
+uci set dhcp.@dnsmasq[0].port&#x3D;&#39;54&#39;
+
+#Delete existing config ready to install new options.
+uci -q delete dhcp.@dnsmasq[0].server
+uci -q delete dhcp.lan.dhcp_option
+uci -q delete dhcp.lan.dns
+
+uci add_list dhcp.@dnsmasq[0].server&#x3D;&quot;$&#123;NET_ADDR&#125;&quot;
+uci set dhcp.lan.leasetime&#x3D;&#39;24h&#39;</code></pre>
+
+<p>DHCP通告网关和 DNS 为路由器IP</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"># DHCP option 6: which DNS (Domain Name Server) to include in the IP configuration for name resolution
+uci add_list dhcp.lan.dhcp_option&#x3D;&#39;6,&#39;&quot;$&#123;NET_ADDR&#125;&quot;
+
+#DHCP option 3: default router or last resort gateway for this interface
+uci add_list dhcp.lan.dhcp_option&#x3D;&#39;3,&#39;&quot;$&#123;NET_ADDR&#125;&quot;
+
+# Save changes
+uci commit dhcp
+
+# Restart dnsmasq service to reflect changes
+&#x2F;etc&#x2F;init.d&#x2F;dnsmasq restart</code></pre>
+
+<p>确认启用 SLAAC 和 DHCPv6</p>
+<pre class="language-bash" data-language="bash"><div class="caption"><span>/etc/config/dhcp</span></div><code class="language-bash">...
+config dhcp &#39;lan&#39;
+        option dhcpv4 &#39;server&#39;
+        option dhcpv6 &#39;server&#39;
+        option ra &#39;server&#39;
+        list ra_flags &#39;managed-config&#39;
+        list ra_flags &#39;other-config&#39;
+...</code></pre>
+
+<h2 id="AdGuardHome"><a href="#AdGuardHome" class="headerlink" title="AdGuardHome"></a>AdGuardHome</h2><ol>
+<li><p>获取路由器本地 ip</p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">ip -o addr list br-lan | awk &#39;&#x2F;global&#x2F; &#123; split($4, ip_addr, &quot;&#x2F;&quot;); print ip_addr[1] &#125;&#39;</code></pre>
+</li>
+<li><p>编辑 <code>/etc/adguardhome.yaml</code></p>
+<ul>
+<li><p>绑定DNS服务地址</p>
+  <pre class="language-yaml" data-language="yaml"><code class="language-yaml">dns:
+  bind_hosts:
+    - 127.0.0.1
+    - 192.168.1.1 # inet
+    - ::1
+    - 2408:8248:2004:b600::1  # inet6
+  port: 53</code></pre>
+</li>
+<li><p>配置上游DNS为谷歌DNS</p>
+  <pre class="language-yaml" data-language="yaml"><code class="language-yaml">upstream_dns:
+   - 8.8.8.8
+   - 8.8.4.4
+   - 2001:4860:4860::8888
+   - 2001:4860:4860::8844</code></pre></li>
+</ul>
+</li>
+<li><p>检查配置是否有错误</p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">&#x2F;usr&#x2F;bin&#x2F;AdGuardHome -c &#x2F;etc&#x2F;adguardhome.yaml --check-config</code></pre>
+
+<p> 确保 <code>/etc/resolv.conf</code> 使用本地解析</p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">root@OpenWrt:~# cat &#x2F;etc&#x2F;resolv.conf
+search lan
+nameserver 127.0.0.1
+nameserver ::1</code></pre>
+</li>
+<li><p>重启服务</p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">&#x2F;etc&#x2F;init.d&#x2F;adguardhome restart</code></pre>
+</li>
+<li><p>检查DNS服务是否有效</p>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">root@OpenWrt:~# nslookup google.com
+Server:         127.0.0.1
+Address:        127.0.0.1:53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 2404:6800:4012:1::200e
+
+Non-authoritative answer:
+Name:   google.com
+Address: 172.217.160.110
+
+root@OpenWrt:~# nslookup google.com ::1
+Server:         ::1
+Address:        [::1]:53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 2404:6800:4012:1::200e
+
+Non-authoritative answer:
+Name:   google.com
+Address: 172.217.160.110
+
+root@OpenWrt:~# nslookup google.com 192.168.1.1
+Server:         192.168.1.1
+Address:        192.168.1.1:53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 2404:6800:4012:1::200e
+
+Non-authoritative answer:
+Name:   google.com
+Address: 172.217.160.110
+</code></pre></li>
+</ol>
+<hr>
+<p><a href="https://openwrt.org/docs/guide-user/services/dns/adguard-home">OpenWrt AdGuard Home 101 ( DNSMASQ ) - OpenWrt Forum</a><br><a href="https://forum.openwrt.org/t/openwrt-adguard-home-101-dnsmasq/110864">[OpenWrt Wiki] AdGuard Home</a></p>
+]]></content>
+      <categories>
+        <category>Router</category>
+      </categories>
+      <tags>
+        <tag>OpenWrt</tag>
+        <tag>AdGuardHome</tag>
+        <tag>DNSMasq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenWrt折腾记录01</title>
     <url>/2019/01/15/openwrt-aria2/</url>
     <content><![CDATA[<p>路由器+转接线+旧硬盘&#x3D;私有云存储<span id="more"></span></p>
