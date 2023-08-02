@@ -17,9 +17,9 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ehye.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"giscus","storage":true,"lazyload":false,"nav":null,"activeClass":"giscus"},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="配置动态域名解析，在外网通过域名来访问路由器">
 <meta property="og:type" content="article">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="配置动态域名解析，在外网通过域名来访问路由器">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-01-31T09:05:58.000Z">
-<meta property="article:modified_time" content="2023-03-29T06:56:03.592Z">
+<meta property="article:modified_time" content="2023-08-02T07:40:14.448Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="OpenWrt">
 <meta property="article:tag" content="DDNS">
@@ -53,9 +53,7 @@
 
 
 
-  <script async defer data-website-id="" src=""></script>
 
-  <script defer data-domain="" src=""></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -261,16 +259,15 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <p>配置动态域名解析，在外网通过域名来访问路由器<span id="more"></span></p>
+    <div class="post-body" itemprop="articleBody"><p>配置动态域名解析，在外网通过域名来访问路由器<span id="more"></span></p>
 <h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h1><p>安装动态DNS客户端</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install luci-app-ddns luci-i18n-ddns-zh-cn</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install luci-app-ddns luci-i18n-ddns-zh-cn</code></pre>
 
 <p>安装GoDaddy脚本</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install ddns-scripts_godaddy.com-v1</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install ddns-scripts_godaddy.com-v1</code></pre>
 
 <p>安装uHTTPd</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn</code></pre>
 
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ol>
 <li><p>DNS改用DNSPod（可选）</p>
@@ -278,13 +275,13 @@
 <li><p><a target="_blank" rel="noopener" href="https://developer.godaddy.com/keys">生成API密钥</a><br>Environment选<code>Production</code><br>记住Key和Secret</p>
 </li>
 <li><p>配置DDNS客户端<br><code>查询主机名</code>和<code>域名</code>填自己的域名<br><code>用户名</code>填Key，<code>密码</code>填Secret<br><code>CA 证书路径</code>填证书和密钥所在的文件夹就行<br>获取IPv6的方法：接口设置为br-lan</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">option use_ipv6 &#39;1&#39;
+ <pre class="language-bash" data-language="bash"><code class="language-bash">option use_ipv6 &#39;1&#39;
 option interface &#39;lan&#39;
 option ip_source &#39;interface&#39;
 option ip_interface &#39;br-lan&#39;</code></pre>
 </li>
 <li><p>配置HTTPS服务器<br>运营商一般是屏蔽80端口的，干脆就用HTTPS。修改<code>/etc/config/uhttpd</code></p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">option cert &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.crt&#39;
+ <pre class="language-bash" data-language="bash"><code class="language-bash">option cert &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.crt&#39;
 option key &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.key&#39;
 option rfc1918_filter &#39;0&#39;
 option redirect_https &#39;1&#39;</code></pre></li>
@@ -311,7 +308,7 @@ option redirect_https &#39;1&#39;</code></pre></li>
       <a href="https://ehye.github.io/2019/01/31/openwrt-godaddy-ddns/" title="OpenWrt折腾记录02">https://ehye.github.io/2019/01/31/openwrt-godaddy-ddns/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -326,12 +323,12 @@ option redirect_https &#39;1&#39;</code></pre></li>
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2019/01/19/ml-ex1/" rel="prev" title="机器学习编程作业1 - Linear Regression">
-                  <i class="fa fa-chevron-left"></i> 机器学习编程作业1 - Linear Regression
+                  <i class="fa fa-angle-left"></i> 机器学习编程作业1 - Linear Regression
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/02/23/openwrt-ss-tproxy/" rel="next" title="Openwrt折腾记录03">
-                  Openwrt折腾记录03 <i class="fa fa-chevron-right"></i>
+                  Openwrt折腾记录03 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -356,15 +353,14 @@ option redirect_https &#39;1&#39;</code></pre></li>
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 2015 – 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ehye</span>
-</div>
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ehye</span>
+  </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
@@ -391,6 +387,8 @@ option redirect_https &#39;1&#39;</code></pre></li>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
+
 
 
 

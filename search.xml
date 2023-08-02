@@ -487,8 +487,9 @@ int strLen(char* s)&#123;
 <ul>
 <li>Teach Yourself: In 24 hours you won’t have time to write several significant programs, and learn from your successes and failures with them. You won’t have time to work with an experienced programmer and understand what it is like to live in a C++ environment. In short, you won’t have time to learn much. So the book can only be talking about a superficial familiarity, not a deep understanding. As Alexander Pope said, a little learning is a dangerous thing.</li>
 <li>C++: In 24 hours you might be able to learn some of the syntax of C++ (if you already know another language), but you couldn’t learn much about how to use the language. In short, if you were, say, a Basic programmer, you could learn to write programs in the style of Basic using C++ syntax, but you couldn’t learn what C++ is actually good (and bad) for. So what’s the point? Alan Perlis once said: “A language that doesn’t affect the way you think about programming, is not worth knowing”. One possible point is that you have to learn a tiny bit of C++ (or more likely, something like JavaScript or Processing) because you need to interface with an existing tool to accomplish a specific task. But then you’re not learning how to program; you’re learning to accomplish that task.</li>
-<li><strong>in 24 Hours</strong>: Unfortunately, this is not enough, as the next section shows.<br>#Teach Yourself Programming in Ten Years#</li>
+<li><strong>in 24 Hours</strong>: Unfortunately, this is not enough, as the next section shows.</li>
 </ul>
+<p>#Teach Yourself Programming in Ten Years#</p>
 <p>Researchers (Bloom (1985), Bryan &amp; Harter (1899), Hayes (1989), Simmon &amp; Chase (1973)) have shown it takes about ten years to develop expertise in any of a wide variety of areas, including chess playing, music composition, telegraph operation, painting, piano playing, swimming, tennis, and research in neuropsychology and topology. The key is deliberative practice: not just doing it again and again, but challenging yourself with a task that is just beyond your current ability, trying it, analyzing your performance while and after doing it, and correcting any mistakes. Then repeat. And repeat again. There appear to be no real shortcuts: even Mozart, who was a musical prodigy at age 4, took 13 more years before he began to produce world-class music. In another genre, the Beatles seemed to burst onto the scene with a string of #1 hits and an appearance on the Ed Sullivan show in 1964. But they had been playing small clubs in Liverpool and Hamburg since 1957, and while they had mass appeal early on, their first great critical success, Sgt. Peppers, was released in 1967.</p>
 <p>Malcolm Gladwell has popularized the idea, although he concentrates on 10,000 hours, not 10 years. Henri Cartier-Bresson (1908-2004) had another metric: “Your first 10,000 photographs are your worst.” (He didn’t anticipate that with digital cameras, some people can reach that mark in a week.) True expertise may take a lifetime: Samuel Johnson (1709-1784) said “Excellence in any department can be attained only by the labor of a lifetime; it is not to be purchased at a lesser price.” And Chaucer (1340-1400) complained “the lyf so short, the craft so long to lerne.” Hippocrates (c. 400BC) is known for the excerpt “ars longa, vita brevis”, which is part of the longer quotation “Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”, which in English renders as “Life is short, [the] craft long, opportunity fleeting, experiment treacherous, judgment difficult.” Of course, no single number can be the final answer: it doesn’t seem reasonable to assume that all skills (e.g., programming, chess playing, checkers playing, and music playing) could all require exactly the same amount of time to master, nor that all people will take exactly the same amount of time. As Prof. K. Anders Ericsson puts it, “In most domains it’s remarkable how much time even the most talented individuals need in order to reach the highest levels of performance. The 10,000 hour number just gives you a sense that we’re talking years of 10 to 20 hours a week which those who some people would argue are the most innately talented individuals still need to get to the highest level.”</p>
 <h1 id="So-You-Want-to-be-a-Programmer"><a href="#So-You-Want-to-be-a-Programmer" class="headerlink" title="So You Want to be a Programmer"></a>So You Want to be a Programmer</h1><p>Here’s my recipe for programming success:</p>
@@ -544,7 +545,7 @@ int strLen(char* s)&#123;
 <li>Oz: Concepts, Techniques, and Models of Computer Programming (Van Roy &amp; Haridi) is seen by some as the modern-day successor to Abelson &amp; Sussman. It is a tour through the big ideas of programming, covering a wider range than Abelson &amp; Sussman while being perhaps easier to read and follow. It uses a language, Oz, that is not widely known but serves as a basis for learning other languages. &lt;</li>
 </ul>
 <hr>
-<h1 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h1><p>T. Capey points out that the Complete Problem Solver page on Amazon now has the “Teach Yourself Bengali in 21 days” and “Teach Yourself Grammar and Style” books under the “Customers who shopped for this item also shopped for these items” section. I guess that a large portion of the people who look at that book are coming from this page. Thanks to Ross Cohen for help with Hippocrates.<br>Translations</p>
+<h1 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h1><p>T. Capey points out that the Complete Problem Solver page on Amazon now has the “Teach Yourself Bengali in 21 days” and “Teach Yourself Grammar and Style” books under the “Customers who shopped for this item also shopped for these items” section. I guess that a large portion of the people who look at that book are coming from this page. Thanks to Ross Cohen for help with Hippocrates.	          	<br>Translations</p>
 <hr>
 <p>Peter Norvig (Copyright 2001—2014)</p>
 <blockquote>
@@ -1058,8 +1059,8 @@ previous    search node    neighbor   neighbor    neighbor
 &#125;</code></pre>
 
 <h2 id="BurrowsWheeler-java"><a href="#BurrowsWheeler-java" class="headerlink" title="BurrowsWheeler.java"></a>BurrowsWheeler.java</h2><h3 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h3><p>目的是输出排序后数组的最后一列，以及原数组第一行在排序后数组的行号</p>
-<pre> i     Original Suffixes          Sorted Suffixes       t    index[i]            输出
---    -----------------------     -----------------------    --------            3    
+<pre> i     Original Suffixes          Sorted Suffixes       t    index[i]			输出
+--    -----------------------     -----------------------    --------			3	
  0    A B R A C A D A B R A !     ! A B R A C A D A B R <font color="blue">A</font>    11                  ARD!RCAAAABB
  1    B R A C A D A B R A ! A     A ! A B R A C A D A B <font color="blue">R</font>    10
  2    R A C A D A B R A ! A B     A B R A ! A B R A C A <font color="blue">D</font>    7
@@ -2448,6 +2449,7 @@ public class PercolationStats &#123;
     proxy_set_header Connection &quot;Upgrade&quot;;
     proxy_set_header Upgrade $http_upgrade;
 &#125;
+
 location &#x2F;asf&#x2F; &#123;
     proxy_pass http:&#x2F;&#x2F;127.0.0.1:1242&#x2F;;
     # proxy_set_header Host 127.0.0.1; # Only if you need to override default host
@@ -3672,16 +3674,16 @@ export https_proxy&#x3D;&quot;http:&#x2F;&#x2F;$host_ip:1080&quot;</code></pre>
 <p>操作如下</p>
 <ol>
 <li><p>将网站 clone 到本地</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git clone git@github.com:username&#x2F;username.github.io</code></pre>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">git clone git@github.com:username&#x2F;username.github.io</code></pre>
 </li>
 <li><p>创建空的新分支</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git checkout --orphan &lt;branchname&gt;</code></pre>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">git checkout --orphan &lt;branchname&gt;</code></pre>
 </li>
 <li><p>清空网站文件夹，把所需的 hexo 文件复制进来add</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git add .</code></pre>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">git add .</code></pre>
 </li>
 <li><p>设置上游分支并推送</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git commit -am&quot;initial commit&quot;
+ <pre class="language-bash" data-language="bash"><code class="language-bash">git commit -am&quot;initial commit&quot;
 git push --set-upstream origin &lt;branchname&gt;</code></pre>
 
 <p> 到此，远程仓库就有两个 branch 了</p>
@@ -3689,7 +3691,7 @@ git push --set-upstream origin &lt;branchname&gt;</code></pre>
 <li><p>将 .git 文件夹复制到 Hexo 文件夹</p>
 </li>
 <li><p>后续日常更新<br>只需在 Hexo 文件夹中进行<code>commit</code> <code>push</code> 操作<br>也可重新 clone 分支</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">git clone -b &lt;branchname&gt; git@github.com:username&#x2F;username.github.io</code></pre></li>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">git clone -b &lt;branchname&gt; git@github.com:username&#x2F;username.github.io</code></pre></li>
 </ol>
 <hr>
 ]]></content>
@@ -4686,7 +4688,7 @@ opkg install kmod-fs-vfat</code></pre>
 <p><a href="https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings">https://openwrt.org/docs/guide-user/luci/getting-rid-of-luci-https-certificate-warnings</a></p>
 </blockquote>
 <p>配置文件是每次自动生成的，因此直接修改无效，通过 UCI 增加参数反而更简单</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">rpc-secure&#x3D;true
+<pre class="language-bash" data-language="bash"><code class="language-bash">rpc-secure&#x3D;true
 rpc-certificate&#x3D;&#x2F;etc&#x2F;ssl&#x2F;mycert.pem
 rpc-private-key&#x3D;&#x2F;etc&#x2F;ssl&#x2F;mycert.key</code></pre>
 
@@ -4744,7 +4746,7 @@ Z:       \\192.168.1.1\mnt\sda1                 UID&#x3D;-2, GID&#x3D;-2
       </tags>
   </entry>
   <entry>
-    <title>OpenWrt折腾记录06</title>
+    <title>OpenWrt折腾记录05</title>
     <url>/2023/02/13/openwrt-build/</url>
     <content><![CDATA[<p>使用 WSL 编译 Openwrt 固件及安装包<span id="more"></span></p>
 <hr>
@@ -4807,13 +4809,13 @@ cd openwrt-imagebuilder-*&#x2F;</code></pre>
     <url>/2019/01/31/openwrt-godaddy-ddns/</url>
     <content><![CDATA[<p>配置动态域名解析，在外网通过域名来访问路由器<span id="more"></span></p>
 <h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h1><p>安装动态DNS客户端</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install luci-app-ddns luci-i18n-ddns-zh-cn</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install luci-app-ddns luci-i18n-ddns-zh-cn</code></pre>
 
 <p>安装GoDaddy脚本</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install ddns-scripts_godaddy.com-v1</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install ddns-scripts_godaddy.com-v1</code></pre>
 
 <p>安装uHTTPd</p>
-<pre class="language-sh" data-language="sh"><code class="language-sh">opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn</code></pre>
 
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ol>
 <li><p>DNS改用DNSPod（可选）</p>
@@ -4821,13 +4823,13 @@ cd openwrt-imagebuilder-*&#x2F;</code></pre>
 <li><p><a href="https://developer.godaddy.com/keys">生成API密钥</a><br>Environment选<code>Production</code><br>记住Key和Secret</p>
 </li>
 <li><p>配置DDNS客户端<br><code>查询主机名</code>和<code>域名</code>填自己的域名<br><code>用户名</code>填Key，<code>密码</code>填Secret<br><code>CA 证书路径</code>填证书和密钥所在的文件夹就行<br>获取IPv6的方法：接口设置为br-lan</p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">option use_ipv6 &#39;1&#39;
+ <pre class="language-bash" data-language="bash"><code class="language-bash">option use_ipv6 &#39;1&#39;
 option interface &#39;lan&#39;
 option ip_source &#39;interface&#39;
 option ip_interface &#39;br-lan&#39;</code></pre>
 </li>
 <li><p>配置HTTPS服务器<br>运营商一般是屏蔽80端口的，干脆就用HTTPS。修改<code>/etc/config/uhttpd</code></p>
- <pre class="language-sh" data-language="sh"><code class="language-sh">option cert &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.crt&#39;
+ <pre class="language-bash" data-language="bash"><code class="language-bash">option cert &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.crt&#39;
 option key &#39;&#x2F;etc&#x2F;ssl&#x2F;mycert.key&#39;
 option rfc1918_filter &#39;0&#39;
 option redirect_https &#39;1&#39;</code></pre></li>
@@ -5147,8 +5149,9 @@ sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;co
   &quot;plugin_opts&quot;: &quot;server;path&#x3D;&#x2F;ladder;&quot;
 &#125;</code></pre>
 
-<h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd  --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
-sudo firewall-cmd  --reload</code></pre>
+<h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --zone&#x3D;public --list-ports</code></pre>
 
 <h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><p>Add server configuration in <code>/etc/nginx/sites-enabled/default</code></p>
 <pre class="language-nginx" data-language="nginx"><code class="language-nginx">server &#123;
