@@ -77,8 +77,9 @@ sudo vim /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
 ## Open firewall
 
 ```bash
-sudo firewall-cmd  --permanent --zone=public --add-port=8081/tcp
-sudo firewall-cmd  --reload
+sudo firewall-cmd --permanent --zone=public --add-port=8081/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --zone=public --list-ports
 ```
 
 ## Nginx Configuration

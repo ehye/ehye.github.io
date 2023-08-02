@@ -25,6 +25,7 @@ location /asf/api/nlog {
     proxy_set_header Connection "Upgrade";
     proxy_set_header Upgrade $http_upgrade;
 }
+
 location /asf/ {
     proxy_pass http://127.0.0.1:1242/;
     # proxy_set_header Host 127.0.0.1; # Only if you need to override default host

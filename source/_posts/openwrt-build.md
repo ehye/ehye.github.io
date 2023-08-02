@@ -1,5 +1,5 @@
 ---
-title: OpenWrt折腾记录06
+title: OpenWrt折腾记录05
 date: 2023-02-13 17:45:52
 categories: Router
 tags:
