@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://ehye.github.io/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/ssh1.png">
 <meta property="og:image" content="https://ehye.github.io/2022/10/30/shadowsocks-rust-server-with-v2ray-and-cdn/cdn0.png">
 <meta property="article:published_time" content="2022-10-30T14:51:08.000Z">
-<meta property="article:modified_time" content="2023-08-02T07:52:43.963Z">
+<meta property="article:modified_time" content="2023-08-18T03:29:37.317Z">
 <meta property="article:author" content="ehye">
 <meta property="article:tag" content="Oracle cloud">
 <meta property="article:tag" content="shadowsocks-rust">
@@ -290,19 +290,17 @@ sudo apt install snapd</code></pre>
 <h2 id="Install-V2ray-plugin"><a href="#Install-V2ray-plugin" class="headerlink" title="Install V2ray plugin"></a>Install V2ray plugin</h2><pre class="language-bash" data-language="bash"><code class="language-bash">tar -xzvf v2ray-plugin-linux-amd64-v1.2.0.tar.gz
 sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;v2ray-plugin</code></pre>
 
-<h2 id="Shadowsocks-Configuration"><a href="#Shadowsocks-Configuration" class="headerlink" title="Shadowsocks Configuration"></a>Shadowsocks Configuration</h2><p>The configuration file of shadowsocks-rust is <code>/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json</code></p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;etc&#x2F;shadowsocks-rust&#x2F;config.json</code></pre>
-
-<pre class="language-json" data-language="json"><code class="language-json">&#123;
+<h2 id="Shadowsocks-Configuration"><a href="#Shadowsocks-Configuration" class="headerlink" title="Shadowsocks Configuration"></a>Shadowsocks Configuration</h2><p>Editing the configuration file of shadowsocks-rust</p>
+<pre class="language-json" data-language="json"><div class="caption"><span>/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json</span></div><code class="language-json">&#123;
   &quot;server&quot;: &quot;localhost&quot;,
-  &quot;server_port&quot;: 8081,
+  &quot;server_port&quot;: 8008,
   &quot;method&quot;: &quot;chacha20-ietf-poly1305&quot;,
   &quot;password&quot;: &quot;********&quot;,
   &quot;mode&quot;: &quot;tcp_only&quot;,
   &quot;fast_open&quot;: false,
   &quot;timeout&quot;: 5,
-  &quot;plugin&quot;: &quot;v2ray-plugin&quot;,
-  &quot;plugin_opts&quot;: &quot;server;path&#x3D;&#x2F;ladder;&quot;
+  &quot;plugin&quot;: &quot;&#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;v2ray-plugin&quot;,
+  &quot;plugin_opts&quot;: &quot;server;host&#x3D;mydomain.com;path&#x3D;&#x2F;ladder;&quot;
 &#125;</code></pre>
 
 <h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
@@ -312,16 +310,16 @@ sudo firewall-cmd --zone&#x3D;public --list-ports</code></pre>
 <h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><p>Add server configuration in <code>/etc/nginx/sites-enabled/default</code></p>
 <pre class="language-nginx" data-language="nginx"><code class="language-nginx">server &#123;
      server_name your.site;
-     listen &lt;PORT&gt; ssl http2;
+     listen 8081 ssl http2;
      
      # SSL configuration
      ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site&#x2F;fullchain.cer;
      ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site.key;
-     ssl_protocols TLSv1 TLSv1.2 TLSv1.3;
-     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_protocols TLSv1.2 TLSv1.3;
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!DHE;
      ssl_prefer_server_ciphers on;
-     ssl_session_timeout    10m;
-     ssl_session_cache      shared:SSL:1m;
+     ssl_session_timeout    1d;
+     ssl_session_cache      shared:MozSSL:10m;
      ssl_session_tickets    off;
      
      location &#x2F;ladder &#123;
@@ -334,14 +332,14 @@ sudo firewall-cmd --zone&#x3D;public --list-ports</code></pre>
      &#125;
 &#125;</code></pre>
 
-<p>Use <code>ngingx -t</code> to check</p>
+<p>Use <code>nginx -t</code> to check syntax</p>
 <h2 id="Start-the-daemon"><a href="#Start-the-daemon" class="headerlink" title="Start the daemon"></a>Start the daemon</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap start --enable shadowsocks-rust.ssserver-daemon</code></pre>
 
 <h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap logs shadowsocks-rust.ssserver-daemon
 
-tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log -n 20
+tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log
 
-tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -n 20</code></pre>
+tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log</code></pre>
 
 <h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><p>Login into Cloudflare dashboard</p>
 <p>Find the SSL&#x2F;TLS -&gt; Overview, Set the encryption mode to <strong>Full</strong></p>
@@ -354,18 +352,17 @@ tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -n 20</code></pre>
 <h2 id="Client-Configuration"><a href="#Client-Configuration" class="headerlink" title="Client Configuration"></a>Client Configuration</h2><pre class="language-json" data-language="json"><code class="language-json">&#123;
   &quot;server&quot;: &quot;mydomain.com&quot;,
   &quot;server_port&quot;: 443,
-  &quot;password&quot;: &quot;***&quot;,
+  &quot;password&quot;: &quot;********&quot;,
   &quot;method&quot;: &quot;chacha20-ietf-poly1305&quot;,
   &quot;plugin&quot;: &quot;v2ray-plugin&quot;,
-  &quot;plugin_opts&quot;: &quot;tls;host&#x3D;mydomain.com;path&#x3D;&#x2F;ray&quot;,
+  &quot;plugin_opts&quot;: &quot;tls;host&#x3D;mydomain.com;path&#x3D;&#x2F;ladder&quot;,
   &quot;timeout&quot;: 5
 &#125;</code></pre>
 
-<p><strong>Then you are connected to the Internet !</strong></p>
 <hr>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/q/70851543">Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare?</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin. · Issue #2633 · shadowsocks&#x2F;shadowsocks-libev</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/q/70851543">ssl - Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare? - Stack Overflow</a></p>
 
     </div>
 

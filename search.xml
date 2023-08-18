@@ -4629,7 +4629,7 @@ theta&#x3D;temp;</code></pre>
   <entry>
     <title>OpenWrt折腾记录06</title>
     <url>/2023/08/02/openwrt-agh-dnsmasq/</url>
-    <content><![CDATA[<p>安装AdGuardHome并配置为DNS服务器<span id="more"></span></p>
+    <content><![CDATA[<p>安装 AdGuardHome 并配置为DNS服务器<span id="more"></span></p>
 <img src="https://cdn.adguard.info/website/adguard.com/products/home/home.svg" class="full-image" />
 
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre class="language-bash" data-language="bash"><code class="language-bash">opkg update
@@ -4658,16 +4658,15 @@ uci set dhcp.@dnsmasq[0].cachesize&#x3D;&#39;1000&#39;
 uci set dhcp.@dnsmasq[0].rebind_protection&#x3D;&#39;0&#39;
 uci set dhcp.@dnsmasq[0].port&#x3D;&#39;54&#39;
 
-#Delete existing config ready to install new options.
 uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server&#x3D;&quot;$&#123;NET_ADDR&#125;&quot;</code></pre>
+
+<p>设置 DHCP 通告网关和 DNS 为路由器IP</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">#Delete existing config ready to install new options.
 uci -q delete dhcp.lan.dhcp_option
 uci -q delete dhcp.lan.dns
 
-uci add_list dhcp.@dnsmasq[0].server&#x3D;&quot;$&#123;NET_ADDR&#125;&quot;
-uci set dhcp.lan.leasetime&#x3D;&#39;24h&#39;</code></pre>
-
-<p>DHCP通告网关和 DNS 为路由器IP</p>
-<pre class="language-bash" data-language="bash"><code class="language-bash"># DHCP option 6: which DNS (Domain Name Server) to include in the IP configuration for name resolution
+# DHCP option 6: which DNS (Domain Name Server) to include in the IP configuration for name resolution
 uci add_list dhcp.lan.dhcp_option&#x3D;&#39;6,&#39;&quot;$&#123;NET_ADDR&#125;&quot;
 
 #DHCP option 3: default router or last resort gateway for this interface
@@ -4691,7 +4690,7 @@ config dhcp &#39;lan&#39;
 
 <h2 id="AdGuardHome"><a href="#AdGuardHome" class="headerlink" title="AdGuardHome"></a>AdGuardHome</h2><ol>
 <li><p>获取路由器本地 ip</p>
- <pre class="language-bash" data-language="bash"><code class="language-bash">ip -o addr list br-lan | awk &#39;&#x2F;global&#x2F; &#123; split($4, ip_addr, &quot;&#x2F;&quot;); print ip_addr[1] &#125;&#39;</code></pre>
+ <pre class="language-bash" data-language="bash"><code class="language-bash">ip -o -4 addr list br-lan | awk &#39;NR&#x3D;&#x3D;1&#123; split($4, ip_addr, &quot;&#x2F;&quot;); print ip_addr[1] &#125;&#39;</code></pre>
 </li>
 <li><p>编辑 <code>/etc/adguardhome.yaml</code></p>
 <ul>
@@ -4701,15 +4700,29 @@ config dhcp &#39;lan&#39;
     - 127.0.0.1
     - 192.168.1.1 # inet
     - ::1
-    - 2408:8248:2004:b600::1  # inet6
   port: 53</code></pre>
 </li>
 <li><p>配置上游DNS为谷歌DNS</p>
   <pre class="language-yaml" data-language="yaml"><code class="language-yaml">upstream_dns:
-   - 8.8.8.8
-   - 8.8.4.4
-   - 2001:4860:4860::8888
-   - 2001:4860:4860::8844</code></pre></li>
+    - 8.8.8.8
+    - 8.8.4.4
+    - 2001:4860:4860::8888
+    - 2001:4860:4860::8844</code></pre>
+</li>
+<li><p>限制日志大小</p>
+  <pre class="language-yaml" data-language="yaml"><code class="language-yaml">querylog:
+    interval: 24h
+    size_memory: 1000
+    enabled: true
+    file_enabled: true
+log:
+    file: &quot;&quot;
+    max_backups: 0
+    max_size: 10
+    max_age: 3
+    compress: false
+    local_time: false
+    verbose: false</code></pre></li>
 </ul>
 </li>
 <li><p>检查配置是否有错误</p>
@@ -4759,8 +4772,7 @@ Address: 2404:6800:4012:1::200e
 
 Non-authoritative answer:
 Name:   google.com
-Address: 172.217.160.110
-</code></pre></li>
+Address: 172.217.160.110</code></pre></li>
 </ol>
 <hr>
 <p><a href="https://openwrt.org/docs/guide-user/services/dns/adguard-home">OpenWrt AdGuard Home 101 ( DNSMASQ ) - OpenWrt Forum</a><br><a href="https://forum.openwrt.org/t/openwrt-adguard-home-101-dnsmasq/110864">[OpenWrt Wiki] AdGuard Home</a></p>
@@ -5282,19 +5294,17 @@ sudo apt install snapd</code></pre>
 <h2 id="Install-V2ray-plugin"><a href="#Install-V2ray-plugin" class="headerlink" title="Install V2ray plugin"></a>Install V2ray plugin</h2><pre class="language-bash" data-language="bash"><code class="language-bash">tar -xzvf v2ray-plugin-linux-amd64-v1.2.0.tar.gz
 sudo cp v2ray-plugin_linux_386 &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;v2ray-plugin</code></pre>
 
-<h2 id="Shadowsocks-Configuration"><a href="#Shadowsocks-Configuration" class="headerlink" title="Shadowsocks Configuration"></a>Shadowsocks Configuration</h2><p>The configuration file of shadowsocks-rust is <code>/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json</code></p>
-<pre class="language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;etc&#x2F;shadowsocks-rust&#x2F;config.json</code></pre>
-
-<pre class="language-json" data-language="json"><code class="language-json">&#123;
+<h2 id="Shadowsocks-Configuration"><a href="#Shadowsocks-Configuration" class="headerlink" title="Shadowsocks Configuration"></a>Shadowsocks Configuration</h2><p>Editing the configuration file of shadowsocks-rust</p>
+<pre class="language-json" data-language="json"><div class="caption"><span>/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json</span></div><code class="language-json">&#123;
   &quot;server&quot;: &quot;localhost&quot;,
-  &quot;server_port&quot;: 8081,
+  &quot;server_port&quot;: 8008,
   &quot;method&quot;: &quot;chacha20-ietf-poly1305&quot;,
   &quot;password&quot;: &quot;********&quot;,
   &quot;mode&quot;: &quot;tcp_only&quot;,
   &quot;fast_open&quot;: false,
   &quot;timeout&quot;: 5,
-  &quot;plugin&quot;: &quot;v2ray-plugin&quot;,
-  &quot;plugin_opts&quot;: &quot;server;path&#x3D;&#x2F;ladder;&quot;
+  &quot;plugin&quot;: &quot;&#x2F;var&#x2F;snap&#x2F;shadowsocks-rust&#x2F;common&#x2F;v2ray-plugin&quot;,
+  &quot;plugin_opts&quot;: &quot;server;host&#x3D;mydomain.com;path&#x3D;&#x2F;ladder;&quot;
 &#125;</code></pre>
 
 <h2 id="Open-firewall"><a href="#Open-firewall" class="headerlink" title="Open firewall"></a>Open firewall</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo firewall-cmd --permanent --zone&#x3D;public --add-port&#x3D;8081&#x2F;tcp
@@ -5304,16 +5314,16 @@ sudo firewall-cmd --zone&#x3D;public --list-ports</code></pre>
 <h2 id="Nginx-Configuration"><a href="#Nginx-Configuration" class="headerlink" title="Nginx Configuration"></a>Nginx Configuration</h2><p>Add server configuration in <code>/etc/nginx/sites-enabled/default</code></p>
 <pre class="language-nginx" data-language="nginx"><code class="language-nginx">server &#123;
      server_name your.site;
-     listen &lt;PORT&gt; ssl http2;
+     listen 8081 ssl http2;
      
      # SSL configuration
      ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site&#x2F;fullchain.cer;
      ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;certs&#x2F;your.site.key;
-     ssl_protocols TLSv1 TLSv1.2 TLSv1.3;
-     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_protocols TLSv1.2 TLSv1.3;
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!DHE;
      ssl_prefer_server_ciphers on;
-     ssl_session_timeout    10m;
-     ssl_session_cache      shared:SSL:1m;
+     ssl_session_timeout    1d;
+     ssl_session_cache      shared:MozSSL:10m;
      ssl_session_tickets    off;
      
      location &#x2F;ladder &#123;
@@ -5326,14 +5336,14 @@ sudo firewall-cmd --zone&#x3D;public --list-ports</code></pre>
      &#125;
 &#125;</code></pre>
 
-<p>Use <code>ngingx -t</code> to check</p>
+<p>Use <code>nginx -t</code> to check syntax</p>
 <h2 id="Start-the-daemon"><a href="#Start-the-daemon" class="headerlink" title="Start the daemon"></a>Start the daemon</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap start --enable shadowsocks-rust.ssserver-daemon</code></pre>
 
 <h2 id="View-the-the-log"><a href="#View-the-the-log" class="headerlink" title="View the the log"></a>View the the log</h2><pre class="language-bash" data-language="bash"><code class="language-bash">sudo snap logs shadowsocks-rust.ssserver-daemon
 
-tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log -n 20
+tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log
 
-tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -n 20</code></pre>
+tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log</code></pre>
 
 <h2 id="Cloudflare-Configuration"><a href="#Cloudflare-Configuration" class="headerlink" title="Cloudflare Configuration"></a>Cloudflare Configuration</h2><p>Login into Cloudflare dashboard</p>
 <p>Find the SSL&#x2F;TLS -&gt; Overview, Set the encryption mode to <strong>Full</strong></p>
@@ -5346,18 +5356,17 @@ tail &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -n 20</code></pre>
 <h2 id="Client-Configuration"><a href="#Client-Configuration" class="headerlink" title="Client Configuration"></a>Client Configuration</h2><pre class="language-json" data-language="json"><code class="language-json">&#123;
   &quot;server&quot;: &quot;mydomain.com&quot;,
   &quot;server_port&quot;: 443,
-  &quot;password&quot;: &quot;***&quot;,
+  &quot;password&quot;: &quot;********&quot;,
   &quot;method&quot;: &quot;chacha20-ietf-poly1305&quot;,
   &quot;plugin&quot;: &quot;v2ray-plugin&quot;,
-  &quot;plugin_opts&quot;: &quot;tls;host&#x3D;mydomain.com;path&#x3D;&#x2F;ray&quot;,
+  &quot;plugin_opts&quot;: &quot;tls;host&#x3D;mydomain.com;path&#x3D;&#x2F;ladder&quot;,
   &quot;timeout&quot;: 5
 &#125;</code></pre>
 
-<p><strong>Then you are connected to the Internet !</strong></p>
 <hr>
-<p><a href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node</a></p>
-<p><a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin</a></p>
-<p><a href="https://stackoverflow.com/q/70851543">Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare?</a></p>
+<p><a href="https://stackoverflow.com/a/54835902/6575354">Opening port 80 on Oracle Cloud Infrastructure Compute node - Stack Overflow</a></p>
+<p><a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864">shadowsocks-libev snap can’t find custom downloaded plugin. · Issue #2633 · shadowsocks&#x2F;shadowsocks-libev</a></p>
+<p><a href="https://stackoverflow.com/q/70851543">ssl - Why do I have to change from Flexible to Full to solve my “too many redirects” problem with cloudflare? - Stack Overflow</a></p>
 ]]></content>
       <categories>
         <category>Note</category>
