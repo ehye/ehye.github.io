@@ -8,7 +8,7 @@ tags:
     - DNSMasq
 ---
 
-安装AdGuardHome并配置为DNS服务器<!-- more -->
+安装 AdGuardHome 并配置为DNS服务器<!-- more -->
 
 <img src="https://cdn.adguard.info/website/adguard.com/products/home/home.svg" class="full-image" />
 
@@ -32,7 +32,6 @@ service adguardhome start
 1. 设置管理页面在`3001`端口
 1. 设置监听`53`端口
 
-
 # 设置DNS服务器
 
 ## DNSMasq
@@ -53,18 +52,17 @@ uci set dhcp.@dnsmasq[0].cachesize='1000'
 uci set dhcp.@dnsmasq[0].rebind_protection='0'
 uci set dhcp.@dnsmasq[0].port='54'
 
-#Delete existing config ready to install new options.
 uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server="${NET_ADDR}"
+```
+
+设置 DHCP 通告网关和 DNS 为路由器IP
+
+```bash
+#Delete existing config ready to install new options.
 uci -q delete dhcp.lan.dhcp_option
 uci -q delete dhcp.lan.dns
 
-uci add_list dhcp.@dnsmasq[0].server="${NET_ADDR}"
-uci set dhcp.lan.leasetime='24h'
-```
-
-DHCP通告网关和 DNS 为路由器IP
-
-```bash
 # DHCP option 6: which DNS (Domain Name Server) to include in the IP configuration for name resolution
 uci add_list dhcp.lan.dhcp_option='6,'"${NET_ADDR}"
 
@@ -96,7 +94,7 @@ config dhcp 'lan'
 1. 获取路由器本地 ip
 
     ```bash
-    ip -o addr list br-lan | awk '/global/ { split($4, ip_addr, "/"); print ip_addr[1] }'
+    ip -o -4 addr list br-lan | awk 'NR==1{ split($4, ip_addr, "/"); print ip_addr[1] }'
     ```
 
 1. 编辑 `/etc/adguardhome.yaml`
@@ -109,18 +107,35 @@ config dhcp 'lan'
             - 127.0.0.1
             - 192.168.1.1 # inet
             - ::1
-            - 2408:8248:2004:b600::1  # inet6
           port: 53
         ```
 
     - 配置上游DNS为谷歌DNS
 
         ```yaml
-         upstream_dns:
+        upstream_dns:
             - 8.8.8.8
             - 8.8.4.4
             - 2001:4860:4860::8888
             - 2001:4860:4860::8844
+        ```
+
+    - 限制日志大小
+        
+        ```yaml
+        querylog:
+            interval: 24h
+            size_memory: 1000
+            enabled: true
+            file_enabled: true
+        log:
+            file: ""
+            max_backups: 0
+            max_size: 10
+            max_age: 3
+            compress: false
+            local_time: false
+            verbose: false
         ```
 
 1. 检查配置是否有错误
@@ -145,7 +160,6 @@ config dhcp 'lan'
     ```
 
 1. 检查DNS服务是否有效
-
 
     ```bash
     root@OpenWrt:~# nslookup google.com
@@ -183,7 +197,6 @@ config dhcp 'lan'
     Non-authoritative answer:
     Name:   google.com
     Address: 172.217.160.110
-
     ```
 
 ---

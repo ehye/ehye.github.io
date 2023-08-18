@@ -54,23 +54,19 @@ sudo cp v2ray-plugin_linux_386 /var/snap/shadowsocks-rust/common/v2ray-plugin
 
 ## Shadowsocks Configuration
 
-The configuration file of shadowsocks-rust is `/var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json`
+Editing the configuration file of shadowsocks-rust
 
-```bash
-sudo vim /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
-```
-
-```json
+```json /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
 {
   "server": "localhost",
-  "server_port": 8081,
+  "server_port": 8008,
   "method": "chacha20-ietf-poly1305",
   "password": "********",
   "mode": "tcp_only",
   "fast_open": false,
   "timeout": 5,
-  "plugin": "v2ray-plugin",
-  "plugin_opts": "server;path=/ladder;"
+  "plugin": "/var/snap/shadowsocks-rust/common/v2ray-plugin",
+  "plugin_opts": "server;host=mydomain.com;path=/ladder;"
 }
 ```
 
@@ -89,16 +85,16 @@ Add server configuration in `/etc/nginx/sites-enabled/default`
 ```nginx
 server {
      server_name your.site;
-     listen <PORT> ssl http2;
+     listen 8081 ssl http2;
      
      # SSL configuration
      ssl_certificate /etc/nginx/certs/your.site/fullchain.cer;
      ssl_certificate_key /etc/nginx/certs/your.site.key;
-     ssl_protocols TLSv1 TLSv1.2 TLSv1.3;
-     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_protocols TLSv1.2 TLSv1.3;
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!DHE;
      ssl_prefer_server_ciphers on;
-     ssl_session_timeout    10m;
-     ssl_session_cache      shared:SSL:1m;
+     ssl_session_timeout    1d;
+     ssl_session_cache      shared:MozSSL:10m;
      ssl_session_tickets    off;
      
      location /ladder {
@@ -112,7 +108,7 @@ server {
 }
 ```
 
-Use `ngingx -t` to check
+Use `nginx -t` to check syntax
 
 ## Start the daemon
 
@@ -125,9 +121,9 @@ sudo snap start --enable shadowsocks-rust.ssserver-daemon
 ```bash
 sudo snap logs shadowsocks-rust.ssserver-daemon
 
-tail /var/log/nginx/access.log -n 20
+tail -n 20 /var/log/nginx/access.log
 
-tail /var/log/nginx/error.log -n 20
+tail -n 20 /var/log/nginx/error.log
 ```
 
 ## Cloudflare Configuration
@@ -150,20 +146,18 @@ You can check the CDN whether it is taking effects by using tool like `ping` or 
 {
   "server": "mydomain.com",
   "server_port": 443,
-  "password": "***",
+  "password": "********",
   "method": "chacha20-ietf-poly1305",
   "plugin": "v2ray-plugin",
-  "plugin_opts": "tls;host=mydomain.com;path=/ray",
+  "plugin_opts": "tls;host=mydomain.com;path=/ladder",
   "timeout": 5
 }
 ```
 
-**Then you are connected to the Internet !**
-
 ---
 
-[Opening port 80 on Oracle Cloud Infrastructure Compute node](https://stackoverflow.com/a/54835902/6575354)
+[Opening port 80 on Oracle Cloud Infrastructure Compute node - Stack Overflow](https://stackoverflow.com/a/54835902/6575354)
 
-[shadowsocks-libev snap can't find custom downloaded plugin](https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864)
+[shadowsocks-libev snap can't find custom downloaded plugin. · Issue #2633 · shadowsocks/shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev/issues/2633#issuecomment-589652864)
 
-[Why do I have to change from Flexible to Full to solve my "too many redirects" problem with cloudflare?](https://stackoverflow.com/q/70851543)
+[ssl - Why do I have to change from Flexible to Full to solve my "too many redirects" problem with cloudflare? - Stack Overflow](https://stackoverflow.com/q/70851543)
