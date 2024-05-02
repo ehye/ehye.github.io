@@ -5,12 +5,24 @@ on:
     branches:
       - main
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: 'lts/Hydrogen'
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['lts/Hydrogen']
     steps:
       - uses: actions/checkout@v4
 
@@ -18,10 +30,10 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -34,9 +46,16 @@ jobs:
           pnpm run build
           ls -la
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: blog
-          publish_dir: ./public
+          path: './public'
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+  
