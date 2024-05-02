@@ -1,6 +1,6 @@
 ﻿---
 title: Git Cheatsheets
-categorties: Note
+categories: Note
 tags:
     - git
 ---

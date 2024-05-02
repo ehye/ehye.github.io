@@ -1,6 +1,6 @@
 ---
 title: C# Cheatsheet
-categorties: Note
+categories: Note
 tags:
     - C#
     - Linq

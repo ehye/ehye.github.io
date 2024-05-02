@@ -1,6 +1,6 @@
 ---
 title: Windwos Cheatsheets
-categorties: Note
+categories: Note
 tags:
     - Windows
 ---

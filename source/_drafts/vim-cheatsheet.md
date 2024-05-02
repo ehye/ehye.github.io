@@ -1,6 +1,6 @@
 ---
 title: Vim Cheatsheets
-categorties: Note
+categories: Note
 tags:
     - vim
 ---
