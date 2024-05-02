@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 292.Nim Game</title>
+    <url>/2016/08/31/Nim%20Game/</url>
+    <content><![CDATA[<p>You are playing the following Nim Game with your friend: <span id="more"></span>There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.</p>
+<p>Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.</p>
+<p>For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.</p>
+<p>Hint:</p>
+<blockquote>
+<p>If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?</p>
+</blockquote>
+<blockquote>
+<p><a href="https://leetcode.com/problems/nim-game/">https://leetcode.com/problems/nim-game/</a></p>
+</blockquote>
+<p><strong>答案</strong></p>
+<p>C</p>
+<pre class="language-c" data-language="c"><code class="language-c">bool canWinNim(int n) &#123;
+    if (n % 4 &#x3D;&#x3D; 0)
+        return false;
+    else
+        return true;
+&#125;</code></pre>
+
+<p>C#</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class Solution &#123;
+  public bool CanWinNim(int n) &#123;
+    if (n % 4 &#x3D;&#x3D; 0)
+      return false;
+    else
+      return true;
+  &#125;
+&#125;</code></pre>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MIPS汇编程序设计</title>
     <url>/2017/10/10/MIPS-program-design0/</url>
     <content><![CDATA[<p>北京大学-计算机组成原理 第二讲 指令系统体系结构 互评作业<span id="more"></span></p>
@@ -262,44 +300,6 @@ exit:
       <tags>
         <tag>MIPS</tag>
         <tag>汇编</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 292.Nim Game</title>
-    <url>/2016/08/31/Nim%20Game/</url>
-    <content><![CDATA[<p>You are playing the following Nim Game with your friend: <span id="more"></span>There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.</p>
-<p>Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.</p>
-<p>For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.</p>
-<p>Hint:</p>
-<blockquote>
-<p>If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?</p>
-</blockquote>
-<blockquote>
-<p><a href="https://leetcode.com/problems/nim-game/">https://leetcode.com/problems/nim-game/</a></p>
-</blockquote>
-<p><strong>答案</strong></p>
-<p>C</p>
-<pre class="language-c" data-language="c"><code class="language-c">bool canWinNim(int n) &#123;
-    if (n % 4 &#x3D;&#x3D; 0)
-        return false;
-    else
-        return true;
-&#125;</code></pre>
-
-<p>C#</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class Solution &#123;
-  public bool CanWinNim(int n) &#123;
-    if (n % 4 &#x3D;&#x3D; 0)
-      return false;
-    else
-      return true;
-  &#125;
-&#125;</code></pre>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
       </tags>
   </entry>
   <entry>
@@ -1013,129 +1013,6 @@ previous    search node    neighbor   neighbor    neighbor
       </tags>
   </entry>
   <entry>
-    <title>Algorithms, Part II - Week 5 - BurrowsWheeler</title>
-    <url>/2017/12/04/alg4s-BurrowsWheeler/</url>
-    <content><![CDATA[<p>巨长的 specification，没有图片解释，超多的OJ检测点，最后的一次作业甚至涉及到第一次的内容<span id="more"></span></p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="CircularSuffixArray-java"><a href="#CircularSuffixArray-java" class="headerlink" title="CircularSuffixArray.java"></a>CircularSuffixArray.java</h2><pre> i       Original Suffixes           Sorted Suffixes         index[i]
---    -----------------------     -----------------------    --------
- 0    A B R A C A D A B R A !     ! A B R A C A D A B R A    <font color="blue">11</font>
- 1    B R A C A D A B R A ! A     A ! A B R A C A D A B R    <font color="blue">10</font>
- 2    R A C A D A B R A ! A B     A B R A ! A B R A C A D    <font color="blue">7</font>
- 3    A C A D A B R A ! A B R     A B R A C A D A B R A !    <font color="blue">0</font>
- 4    C A D A B R A ! A B R A     A C A D A B R A ! A B R    <font color="blue">3</font>
- 5    A D A B R A ! A B R A C     A D A B R A ! A B R A C    <font color="blue">5</font>
- 6    D A B R A ! A B R A C A     B R A ! A B R A C A D A    <font color="blue">8</font>
- 7    A B R A ! A B R A C A D     B R A C A D A B R A ! A    <font color="blue">1</font>
- 8    B R A ! A B R A C A D A     C A D A B R A ! A B R A    <font color="blue">4</font>
- 9    R A ! A B R A C A D A B     D A B R A ! A B R A C A    <font color="blue">6</font>
-10    A ! A B R A C A D A B R     R A ! A B R A C A D A B    <font color="blue">9</font>
-11    ! A B R A C A D A B R A     R A C A D A B R A ! A B    <font color="blue">2</font>
-</pre>
-
-<p>读入一行字符串”ABRACADABRA!”构造一个后缀数组，再按照第一列进行字母排序，index数组记录排序后的第i行是原数组的第index[i]行</p>
-<p>可以不生成排序后的数组，而只排序原序号</p>
-<pre class="language-java" data-language="java"><code class="language-java">public int compare(Integer first, Integer second) &#123;
-    &#x2F;&#x2F; get start indexes of chars to compare
-    int firstIndex &#x3D; first;
-    int secondIndex &#x3D; second;
-    &#x2F;&#x2F; for all characters
-    for (int i &#x3D; 0; i &lt; s.length(); i++) &#123;
-    &#x2F;&#x2F; if out of the last char then start from beginning
-    if (firstIndex &gt; s.length() - 1)
-        firstIndex &#x3D; 0;
-    if (secondIndex &gt; s.length() - 1)
-        secondIndex &#x3D; 0;
-    &#x2F;&#x2F; if first string &gt; second
-    if (s.charAt(firstIndex) &lt; s.charAt(secondIndex))
-        return -1;
-    else if (s.charAt(firstIndex) &gt; s.charAt(secondIndex))
-        return 1;
-    &#x2F;&#x2F; watch next chars
-    firstIndex++;
-    secondIndex++;
-    &#125;
-    &#x2F;&#x2F; equal strings
-    return 0;
-&#125;</code></pre>
-
-<h2 id="BurrowsWheeler-java"><a href="#BurrowsWheeler-java" class="headerlink" title="BurrowsWheeler.java"></a>BurrowsWheeler.java</h2><h3 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h3><p>目的是输出排序后数组的最后一列，以及原数组第一行在排序后数组的行号</p>
-<pre> i     Original Suffixes          Sorted Suffixes       t    index[i]			输出
---    -----------------------     -----------------------    --------			3	
- 0    A B R A C A D A B R A !     ! A B R A C A D A B R <font color="blue">A</font>    11                  ARD!RCAAAABB
- 1    B R A C A D A B R A ! A     A ! A B R A C A D A B <font color="blue">R</font>    10
- 2    R A C A D A B R A ! A B     A B R A ! A B R A C A <font color="blue">D</font>    7
-<font color="blue">*3</font>    A C A D A B R A ! A B R     A B R A C A D A B R A <font color="blue">!</font>   *0
- 4    C A D A B R A ! A B R A     A C A D A B R A ! A B <font color="blue">R</font>    3
- 5    A D A B R A ! A B R A C     A D A B R A ! A B R A <font color="blue">C</font>    5
- 6    D A B R A ! A B R A C A     B R A ! A B R A C A D <font color="blue">A</font>    8
- 7    A B R A ! A B R A C A D     B R A C A D A B R A ! <font color="blue">A</font>    1
- 8    B R A ! A B R A C A D A     C A D A B R A ! A B R <font color="blue">A</font>    4
- 9    R A ! A B R A C A D A B     D A B R A ! A B R A C <font color="blue">A</font>    6
-10    A ! A B R A C A D A B R     R A ! A B R A C A D A <font color="blue">B</font>    9
-11    ! A B R A C A D A B R A     R A C A D A B R A ! A <font color="blue">B</font>    2
-</pre>
-
-<p>OJ不允许有<code>CircularSuffixArray.java</code>的 API 中之外的 <strong>public</strong>  方法，所以不能在<code>CircularSuffixArray.java</code>记录排序后的数组然后在这里引用，因此唯一入手点就是之前的<code>index()</code></p>
-<h3 id="inverse-transform"><a href="#inverse-transform" class="headerlink" title="inverse transform"></a>inverse transform</h3><pre> i      Sorted Suffixes     t      next[i]
---    -----------------------      -------
- 0    ! ? ? ? ? ? ? ? ? ? ? A        <font color="blue">3</font>
- 1    A ? ? ? ? ? ? ? ? ? ? R        <font color="blue">0</font>
- 2    A ? ? ? ? ? ? ? ? ? ? D        <font color="blue">6</font>
-*3    A ? ? ? ? ? ? ? ? ? ? !        <font color="blue">7</font>
- 4    A ? ? ? ? ? ? ? ? ? ? R        <font color="blue">8</font>
- 5    A ? ? ? ? ? ? ? ? ? ? C        <font color="blue">9</font>
- 6    B ? ? ? ? ? ? ? ? ? ? A       <font color="blue">10</font>
- 7    B ? ? ? ? ? ? ? ? ? ? A       <font color="blue">11</font>
- 8    C ? ? ? ? ? ? ? ? ? ? A        <font color="blue">5</font>
- 9    D ? ? ? ? ? ? ? ? ? ? A        <font color="blue">2</font>
-10    R ? ? ? ? ? ? ? ? ? ? B        <font color="blue">1</font>
-11    R ? ? ? ? ? ? ? ? ? ? B        <font color="blue">4</font>
-</pre>
-
-<p>最难的一部分，checklist 中说代码不超过10行，实际上就是 LSD</p>
-<pre class="language-java" data-language="java"><code class="language-java">public static void inverseTransform() &#123;
-    int first &#x3D; BinaryStdIn.readInt();
-    String s &#x3D; BinaryStdIn.readString();
-    int n &#x3D; s.length();
-    int[] next &#x3D; new int[n];
-
-    &#x2F;* use LSD algorithm for char *&#x2F;
-    &#x2F;&#x2F; compute frequency counts
-    int[] count &#x3D; new int[R + 1];
-    for (int i &#x3D; 0; i &lt; n; i++)
-        count[s.charAt(i) + 1]++;
-
-    &#x2F;&#x2F; compute cumulates
-    for (int r &#x3D; 0; r &lt; R; r++)
-        count[r+1] +&#x3D; count[r];
-
-    &#x2F;&#x2F; move data
-    for (int i &#x3D; 0; i &lt; n; i++)
-        next[count[s.charAt(i)]++] &#x3D; i;
-
-    &#x2F;&#x2F; print out
-    for (int j &#x3D; 0, k &#x3D; next[first]; j &lt; n; j++, k &#x3D; next[k])
-        BinaryStdOut.write(s.charAt(k));
-    BinaryStdOut.close();
-&#125;</code></pre>
-
-<h2 id="MoveToFront-java"><a href="#MoveToFront-java" class="headerlink" title="MoveToFront.java"></a>MoveToFront.java</h2><p>本次作业里最简单的一部分，简单的字符串处理；但实际编程中被 Java 内置的方法搞得有点晕，一开始不确定要用字符串还是字符数组；最后用 StringBuilder 解决</p>
-<hr>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://coursera.cs.princeton.edu/algs4/assignments/burrows.html">http://coursera.cs.princeton.edu/algs4/assignments/burrows.html</a></li>
-<li><a href="http://coursera.cs.princeton.edu/algs4/checklists/burrows.html">http://coursera.cs.princeton.edu/algs4/checklists/burrows.html</a></li>
-<li><a href="http://www.cnblogs.com/yunhsiao/p/algorithms_princeton.html">http://www.cnblogs.com/yunhsiao/p/algorithms_princeton.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>MOOC</category>
-      </categories>
-      <tags>
-        <tag>7-Zip</tag>
-        <tag>WinRAR</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Algorithms, Part I - Week 2 - Deques and Randomized Queues</title>
     <url>/2017/05/06/alg4s-Deque/</url>
     <content><![CDATA[<p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第二周编程作业<a href="http://coursera.cs.princeton.edu/algs4/assignments/queues.html">Deques and Randomized Queues</a><span id="more"></span></p>
@@ -1412,6 +1289,129 @@ public class Permutation &#123;
       <tags>
         <tag>stack</tag>
         <tag>linkedlist</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Algorithms, Part II - Week 5 - BurrowsWheeler</title>
+    <url>/2017/12/04/alg4s-BurrowsWheeler/</url>
+    <content><![CDATA[<p>巨长的 specification，没有图片解释，超多的OJ检测点，最后的一次作业甚至涉及到第一次的内容<span id="more"></span></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="CircularSuffixArray-java"><a href="#CircularSuffixArray-java" class="headerlink" title="CircularSuffixArray.java"></a>CircularSuffixArray.java</h2><pre> i       Original Suffixes           Sorted Suffixes         index[i]
+--    -----------------------     -----------------------    --------
+ 0    A B R A C A D A B R A !     ! A B R A C A D A B R A    <font color="blue">11</font>
+ 1    B R A C A D A B R A ! A     A ! A B R A C A D A B R    <font color="blue">10</font>
+ 2    R A C A D A B R A ! A B     A B R A ! A B R A C A D    <font color="blue">7</font>
+ 3    A C A D A B R A ! A B R     A B R A C A D A B R A !    <font color="blue">0</font>
+ 4    C A D A B R A ! A B R A     A C A D A B R A ! A B R    <font color="blue">3</font>
+ 5    A D A B R A ! A B R A C     A D A B R A ! A B R A C    <font color="blue">5</font>
+ 6    D A B R A ! A B R A C A     B R A ! A B R A C A D A    <font color="blue">8</font>
+ 7    A B R A ! A B R A C A D     B R A C A D A B R A ! A    <font color="blue">1</font>
+ 8    B R A ! A B R A C A D A     C A D A B R A ! A B R A    <font color="blue">4</font>
+ 9    R A ! A B R A C A D A B     D A B R A ! A B R A C A    <font color="blue">6</font>
+10    A ! A B R A C A D A B R     R A ! A B R A C A D A B    <font color="blue">9</font>
+11    ! A B R A C A D A B R A     R A C A D A B R A ! A B    <font color="blue">2</font>
+</pre>
+
+<p>读入一行字符串”ABRACADABRA!”构造一个后缀数组，再按照第一列进行字母排序，index数组记录排序后的第i行是原数组的第index[i]行</p>
+<p>可以不生成排序后的数组，而只排序原序号</p>
+<pre class="language-java" data-language="java"><code class="language-java">public int compare(Integer first, Integer second) &#123;
+    &#x2F;&#x2F; get start indexes of chars to compare
+    int firstIndex &#x3D; first;
+    int secondIndex &#x3D; second;
+    &#x2F;&#x2F; for all characters
+    for (int i &#x3D; 0; i &lt; s.length(); i++) &#123;
+    &#x2F;&#x2F; if out of the last char then start from beginning
+    if (firstIndex &gt; s.length() - 1)
+        firstIndex &#x3D; 0;
+    if (secondIndex &gt; s.length() - 1)
+        secondIndex &#x3D; 0;
+    &#x2F;&#x2F; if first string &gt; second
+    if (s.charAt(firstIndex) &lt; s.charAt(secondIndex))
+        return -1;
+    else if (s.charAt(firstIndex) &gt; s.charAt(secondIndex))
+        return 1;
+    &#x2F;&#x2F; watch next chars
+    firstIndex++;
+    secondIndex++;
+    &#125;
+    &#x2F;&#x2F; equal strings
+    return 0;
+&#125;</code></pre>
+
+<h2 id="BurrowsWheeler-java"><a href="#BurrowsWheeler-java" class="headerlink" title="BurrowsWheeler.java"></a>BurrowsWheeler.java</h2><h3 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h3><p>目的是输出排序后数组的最后一列，以及原数组第一行在排序后数组的行号</p>
+<pre> i     Original Suffixes          Sorted Suffixes       t    index[i]			输出
+--    -----------------------     -----------------------    --------			3	
+ 0    A B R A C A D A B R A !     ! A B R A C A D A B R <font color="blue">A</font>    11                  ARD!RCAAAABB
+ 1    B R A C A D A B R A ! A     A ! A B R A C A D A B <font color="blue">R</font>    10
+ 2    R A C A D A B R A ! A B     A B R A ! A B R A C A <font color="blue">D</font>    7
+<font color="blue">*3</font>    A C A D A B R A ! A B R     A B R A C A D A B R A <font color="blue">!</font>   *0
+ 4    C A D A B R A ! A B R A     A C A D A B R A ! A B <font color="blue">R</font>    3
+ 5    A D A B R A ! A B R A C     A D A B R A ! A B R A <font color="blue">C</font>    5
+ 6    D A B R A ! A B R A C A     B R A ! A B R A C A D <font color="blue">A</font>    8
+ 7    A B R A ! A B R A C A D     B R A C A D A B R A ! <font color="blue">A</font>    1
+ 8    B R A ! A B R A C A D A     C A D A B R A ! A B R <font color="blue">A</font>    4
+ 9    R A ! A B R A C A D A B     D A B R A ! A B R A C <font color="blue">A</font>    6
+10    A ! A B R A C A D A B R     R A ! A B R A C A D A <font color="blue">B</font>    9
+11    ! A B R A C A D A B R A     R A C A D A B R A ! A <font color="blue">B</font>    2
+</pre>
+
+<p>OJ不允许有<code>CircularSuffixArray.java</code>的 API 中之外的 <strong>public</strong>  方法，所以不能在<code>CircularSuffixArray.java</code>记录排序后的数组然后在这里引用，因此唯一入手点就是之前的<code>index()</code></p>
+<h3 id="inverse-transform"><a href="#inverse-transform" class="headerlink" title="inverse transform"></a>inverse transform</h3><pre> i      Sorted Suffixes     t      next[i]
+--    -----------------------      -------
+ 0    ! ? ? ? ? ? ? ? ? ? ? A        <font color="blue">3</font>
+ 1    A ? ? ? ? ? ? ? ? ? ? R        <font color="blue">0</font>
+ 2    A ? ? ? ? ? ? ? ? ? ? D        <font color="blue">6</font>
+*3    A ? ? ? ? ? ? ? ? ? ? !        <font color="blue">7</font>
+ 4    A ? ? ? ? ? ? ? ? ? ? R        <font color="blue">8</font>
+ 5    A ? ? ? ? ? ? ? ? ? ? C        <font color="blue">9</font>
+ 6    B ? ? ? ? ? ? ? ? ? ? A       <font color="blue">10</font>
+ 7    B ? ? ? ? ? ? ? ? ? ? A       <font color="blue">11</font>
+ 8    C ? ? ? ? ? ? ? ? ? ? A        <font color="blue">5</font>
+ 9    D ? ? ? ? ? ? ? ? ? ? A        <font color="blue">2</font>
+10    R ? ? ? ? ? ? ? ? ? ? B        <font color="blue">1</font>
+11    R ? ? ? ? ? ? ? ? ? ? B        <font color="blue">4</font>
+</pre>
+
+<p>最难的一部分，checklist 中说代码不超过10行，实际上就是 LSD</p>
+<pre class="language-java" data-language="java"><code class="language-java">public static void inverseTransform() &#123;
+    int first &#x3D; BinaryStdIn.readInt();
+    String s &#x3D; BinaryStdIn.readString();
+    int n &#x3D; s.length();
+    int[] next &#x3D; new int[n];
+
+    &#x2F;* use LSD algorithm for char *&#x2F;
+    &#x2F;&#x2F; compute frequency counts
+    int[] count &#x3D; new int[R + 1];
+    for (int i &#x3D; 0; i &lt; n; i++)
+        count[s.charAt(i) + 1]++;
+
+    &#x2F;&#x2F; compute cumulates
+    for (int r &#x3D; 0; r &lt; R; r++)
+        count[r+1] +&#x3D; count[r];
+
+    &#x2F;&#x2F; move data
+    for (int i &#x3D; 0; i &lt; n; i++)
+        next[count[s.charAt(i)]++] &#x3D; i;
+
+    &#x2F;&#x2F; print out
+    for (int j &#x3D; 0, k &#x3D; next[first]; j &lt; n; j++, k &#x3D; next[k])
+        BinaryStdOut.write(s.charAt(k));
+    BinaryStdOut.close();
+&#125;</code></pre>
+
+<h2 id="MoveToFront-java"><a href="#MoveToFront-java" class="headerlink" title="MoveToFront.java"></a>MoveToFront.java</h2><p>本次作业里最简单的一部分，简单的字符串处理；但实际编程中被 Java 内置的方法搞得有点晕，一开始不确定要用字符串还是字符数组；最后用 StringBuilder 解决</p>
+<hr>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://coursera.cs.princeton.edu/algs4/assignments/burrows.html">http://coursera.cs.princeton.edu/algs4/assignments/burrows.html</a></li>
+<li><a href="http://coursera.cs.princeton.edu/algs4/checklists/burrows.html">http://coursera.cs.princeton.edu/algs4/checklists/burrows.html</a></li>
+<li><a href="http://www.cnblogs.com/yunhsiao/p/algorithms_princeton.html">http://www.cnblogs.com/yunhsiao/p/algorithms_princeton.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>MOOC</category>
+      </categories>
+      <tags>
+        <tag>7-Zip</tag>
+        <tag>WinRAR</tag>
       </tags>
   </entry>
   <entry>
@@ -1785,262 +1785,6 @@ public class Permutation &#123;
       </tags>
   </entry>
   <entry>
-    <title>Algorithms, Part I - Week 3 - Pattern Recognition</title>
-    <url>/2017/05/08/alg4s-Pattern/</url>
-    <content><![CDATA[<p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第三周编程作业<a href="http://coursera.cs.princeton.edu/algs4/assignments/collinear.html">Pattern Recognition</a><span id="more"></span></p>
-<hr>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目大意：在一平面内给定 n 个随机点，找出可以连接4点及以上的最长直线段</p>
-<img src="/2017/05/08/alg4s-Pattern/lines2.png" class="">
-
-<p>问题就是识别模型是否有4点及以上共线</p>
-<h2 id="Point-数据类型"><a href="#Point-数据类型" class="headerlink" title="Point 数据类型"></a>Point 数据类型</h2><pre class="language-java" data-language="java"><code class="language-java">public class Point implements Comparable&lt;Point&gt; &#123;
-    public Point(int x, int y)              &#x2F;&#x2F; constructs the point (x, y)
-
-    public   void draw()                    &#x2F;&#x2F; draws this point
-    public   void drawTo(Point that)        &#x2F;&#x2F; draws the line segment from this point to that point
-    public String toString()                &#x2F;&#x2F; string representation
-
-    public int compareTo(Point that)         &#x2F;&#x2F; compare two points by y-coordinates, breaking ties by x-coordinates
-    public double slopeTo(Point that)       &#x2F;&#x2F; the slope between this point and that point
-    public Comparator&lt;Point&gt; slopeOrder()   &#x2F;&#x2F; compare two points by slopes they make with this point
-&#125;</code></pre>
-
-<p>课件给了一个<a href="http://coursera.cs.princeton.edu/algs4/testing/collinear/Point.java">半成品</a>，相对容易能够完成</p>
-<p>这里说一下 <em><strong>slopeOrder()</strong></em> 的实现<br>实现方法在 <a href="http://coursera.cs.princeton.edu/algs4/checklists/collinear.html">checklists</a> 里有解答，就是实现 Comparator 接口</p>
-<blockquote>
-<p>To do this, create a private nested (non-static) class SlopeOrder that implements the Comparator&lt;Point&gt; interface. This class has a single method compare(q1, q2) that compares the slopes that q1 and q2 make with the invoking object p. the slopeOrder() method should create an instance of this nested class and return it.</p>
-</blockquote>
-<p>创建一个叫 SlopeOrder 的私有内部类，并实现 Comparator 接口。在这个类里创建一个 compare(q1, q2) 方法， 然后在 slopeOrder() 中创建一个 SlopeOrder 的实例并返回。</p>
-<pre class="language-java" data-language="java"><code class="language-java">public Comparator&lt;Point&gt; slopeOrder() &#123;
-    return new SlopeOrder();
-&#125;
-
-private class SlopeOrder implements Comparator&lt;Point&gt; &#123;
-    public int compare(Point q1, Point q2) &#123;
-
-    &#125;
-&#125;</code></pre>
-
-<h2 id="暴力算法"><a href="#暴力算法" class="headerlink" title="暴力算法"></a>暴力算法</h2><p>不做任何算法优化的方法，同样 checklists 也给出步骤<br>一次检查4点, 检查它们是否全都位于同一线段上, 返回所有这些线段<br>要检查4点 p、q、r、s 是否共线, 就检查 p 和 q 之间，p 和 r 之间，p 和 s 之间这三个斜率是否相等即可</p>
-<p><em>具体实现的时候犯了一个微小的致命错误，题目要求传进来的参数不能被改变，一想解决方法很简单就是复制出来使用<br>但用的是等号 <code>copies = points;</code> 直接赋值，这只是增加了一个关于 <strong>points</strong> 的引用，结果就是后面的 test 那个点过不去<br>正确方法就是用 <strong>for</strong> 循环赋值，这样一来在程序后面对 <strong>copies</strong> 进行排序时就不会连同改变传进来的 <strong>points</strong> 参数了</em></p>
-<p>题目要求检查输入不能有重复的点，解决方法就是先按升序排序，然后遍历比较<br>排序用到 <code>Arrays.sort()</code> ，这时 之前在 Point 类中实现的 compareTo() 就起作用了</p>
-<h2 id="快速算法"><a href="#快速算法" class="headerlink" title="快速算法"></a>快速算法</h2><p>一个以排序为基础的快速算法<br>官方给出的具体实现</p>
-<blockquote>
-<ul>
-<li>Think of p as the origin.</li>
-<li>For each other point q, determine the slope it makes with p.</li>
-<li>Sort the points according to the slopes they makes with p.</li>
-<li>Check if any 3 (or more) adjacent points in the sorted order have equal slopes with respect to p. If so, these points, together with p, are collinear.</li>
-</ul>
-</blockquote>
-<p>意思就是一次取一个参照点 p，求与其它点的斜率，然后<strong>按照斜率来排序其它点</strong>，遍历比较当有3个或以上点的斜率相同时即可说明四点共线</p>
-<img src="/2017/05/08/alg4s-Pattern/lines1.png" class="">
-
-<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><p>Point.java</p>
-<pre class="language-java" data-language="java"><code class="language-java">public class Point implements Comparable&lt;Point&gt; &#123;
-
-    private final int x;     &#x2F;&#x2F; x-coordinate of this point
-    private final int y;     &#x2F;&#x2F; y-coordinate of this point
-
-    public Point(int x, int y) &#123;
-        &#x2F;* DO NOT MODIFY *&#x2F;
-        this.x &#x3D; x;
-        this.y &#x3D; y;
-    &#125;
-
-    public void draw() &#123;
-        &#x2F;* DO NOT MODIFY *&#x2F;
-        StdDraw.point(x, y);
-    &#125;
-
-    public void drawTo(Point that) &#123;
-        &#x2F;* DO NOT MODIFY *&#x2F;
-        StdDraw.line(this.x, this.y, that.x, that.y);
-    &#125;
-
-    public double slopeTo(Point that) &#123;
-        &#x2F;* YOUR CODE HERE *&#x2F;
-        if (this.y &#x3D;&#x3D; that.y) &#123;                         &#x2F;&#x2F; horizontal
-            if (this.x &#x3D;&#x3D; that.x) &#123;
-                return Double.NEGATIVE_INFINITY;
-            &#125;
-            return 0.0;
-        &#125;
-        if (this.x &#x3D;&#x3D; that.x)                         &#x2F;&#x2F; vertical
-            return Double.POSITIVE_INFINITY;
-
-        return (double)(that.y - this.y) &#x2F; (that.x - this.x);
-    &#125;
-
-    public int compareTo(Point that) &#123;
-        &#x2F;* YOUR CODE HERE *&#x2F;
-        if (this.y &lt; that.y || (this.y &#x3D;&#x3D; that.y &amp;&amp; this.x &lt; that.x))
-            return -1;
-        else if (this.y &#x3D;&#x3D; that.y &amp;&amp; this.x &#x3D;&#x3D; that.x)
-            return 0;
-        else
-            return 1;
-    &#125;
-
-    public Comparator&lt;Point&gt; slopeOrder() &#123;
-        &#x2F;* YOUR CODE HERE *&#x2F;
-        return new SlopeOrder();
-    &#125;
-
-    private class SlopeOrder implements Comparator&lt;Point&gt;
-    &#123;
-        public int compare(Point q1, Point q2) &#123;
-            double slope1 &#x3D; Point.this.slopeTo(q1);
-            double slope2 &#x3D; Point.this.slopeTo(q2);
-            if (slope1 &gt; slope2) return 1;
-            if (slope1 &lt; slope2) return -1;
-            return 0;
-        &#125;
-    &#125;
-
-    public String toString() &#123;
-        &#x2F;* DO NOT MODIFY *&#x2F;
-        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;
-    &#125;
-&#125;</code></pre>
-
-<p>BruteCollinearPoints.java</p>
-<pre class="language-java" data-language="java"><code class="language-java">public class BruteCollinearPoints &#123;
-
-    private Point[] copies;
-    private ArrayList&lt;LineSegment&gt; lineSegments &#x3D; new ArrayList&lt;LineSegment&gt;();
-
-    &#x2F;&#x2F; finds all line segments containing 4 points
-    public BruteCollinearPoints(final Point[] points) &#123;
-
-        if (points &#x3D;&#x3D; null)
-            throw new java.lang.NullPointerException();
-
-        copies &#x3D; new Point[points.length];
-        for (int i &#x3D; 0; i &lt; points.length; i++) &#123;
-            copies[i] &#x3D; points[i];
-        &#125;
-
-        &#x2F;&#x2F; sort by y-coordinate
-        &#x2F;&#x2F; the endpoints are the first and last points
-        Arrays.sort(copies);
-
-        &#x2F;&#x2F; after sort then can check if duplicate
-        for (int i &#x3D; 0; i &lt; copies.length - 1; i++)
-            if (copies[i].compareTo(copies[i+1]) &#x3D;&#x3D; 0)
-                throw new java.lang.IllegalArgumentException();
-
-        for (int ip &#x3D; 0; ip &lt; copies.length-3; ip++) &#123;
-            for (int iq &#x3D; ip + 1; iq &lt; copies.length-2; iq++) &#123;
-                double slopeP2Q &#x3D; copies[ip].slopeTo(copies[iq]);
-                for (int ir &#x3D; iq + 1; ir &lt; copies.length-1; ir++) &#123;
-                    double slopeQ2R &#x3D; copies[iq].slopeTo(copies[ir]);
-                    if (slopeP2Q !&#x3D; slopeQ2R) continue;
-                    for (int is &#x3D; ir + 1; is &lt; copies.length; is++) &#123;
-                        double slopeR2S &#x3D; copies[ir].slopeTo(copies[is]);
-                        &#x2F;&#x2F; if 3 of 4&#39;s slopes are equal then 4 points are colllinear
-                        if (slopeP2Q &#x3D;&#x3D; slopeR2S)
-                            lineSegments.add(new LineSegment(copies[ip], copies[is]));
-                    &#125;
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-
-    &#x2F;&#x2F; the number of line segments
-    public int numberOfSegments() &#123;
-        return lineSegments.size();
-    &#125;
-
-    &#x2F;&#x2F; the line segments
-    public LineSegment[] segments() &#123;
-        LineSegment[] result &#x3D; new LineSegment[lineSegments.size()];
-        for (int i &#x3D; 0; i &lt; lineSegments.size(); i++) &#123;
-            result[i] &#x3D; lineSegments.get(i);
-        &#125;
-        return result;
-    &#125;
-&#125;</code></pre>
-
-<p>FastCollinearPoints.java</p>
-<pre class="language-java" data-language="java"><code class="language-java">public class FastCollinearPoints &#123;
-
-    private Point[] copies;
-    private ArrayList&lt;LineSegment&gt; lineSegments &#x3D; new ArrayList&lt;LineSegment&gt;();
-
-    &#x2F;&#x2F; finds all line segments containing 4 or more points
-    public FastCollinearPoints(Point[] points) &#123;
-        if (points &#x3D;&#x3D; null)
-            throw new java.lang.NullPointerException();
-
-        copies &#x3D; new Point[points.length];
-        for (int i &#x3D; 0; i &lt; points.length; i++) &#123;
-            copies[i] &#x3D; points[i];
-        &#125;
-
-        &#x2F;&#x2F; sort by y-coordinate
-        &#x2F;&#x2F; the endpoints are the first and last points
-        Arrays.sort(copies);
-
-        &#x2F;&#x2F; after sort then can check if duplicate
-        for (int i &#x3D; 0; i &lt; copies.length - 1; i++)
-            if (copies[i].compareTo(copies[i+1]) &#x3D;&#x3D; 0)
-                throw new java.lang.IllegalArgumentException();
-
-        for (int i &#x3D; 0; i &lt; copies.length - 1; i++) &#123;
-            Point origin &#x3D; copies[i];             &#x2F;&#x2F; Think of p as the origin.
-            double[] slopes &#x3D; new double[copies.length - 1 - i];
-            Point[] others &#x3D; new Point[copies.length - 1 - i];
-
-            for (int j &#x3D; 0; j &lt; copies.length - 1 - i; j++)
-                others[j] &#x3D; copies[j + 1 + i];
-
-            &#x2F;&#x2F; For each other point q, determine the slope it makes with p
-            for (int j &#x3D; 0; j &lt; others.length; j++)
-                slopes[j] &#x3D; origin.slopeTo(others[j]);
-
-            &#x2F;&#x2F; Sort the points according to the slopes they makes with p
-            Arrays.sort(others, origin.slopeOrder());
-
-            Arrays.sort(slopes);
-            &#x2F;&#x2F; Check if any 3 (or more) adjacent points in the
-            &#x2F;&#x2F; sorted order have equal slopes with respect to p
-            &#x2F;&#x2F; If so, these points, together with p, are collinear
-            for (int cnt_same &#x3D; 0, j &#x3D; 0; j &lt; slopes.length - 1; j++) &#123;
-                if (slopes[j] &#x3D;&#x3D; slopes[j+1]) &#123;
-                    cnt_same++;
-                &#125;
-                if (cnt_same &gt;&#x3D; 2) &#123;
-                    lineSegments.add(new LineSegment(origin, others[j + 1]));
-                    break;
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-
-    &#x2F;&#x2F; the number of line segments
-    public int numberOfSegments() &#123;
-        return lineSegments.size();
-    &#125;
-
-    &#x2F;&#x2F; the line segments
-    public LineSegment[] segments() &#123;
-        LineSegment[] result &#x3D; new LineSegment[lineSegments.size()];
-        for (int i &#x3D; 0; i &lt; lineSegments.size(); i++) &#123;
-            result[i] &#x3D; lineSegments.get(i);
-        &#125;
-        return result;
-    &#125;
-&#125;</code></pre>
-]]></content>
-      <categories>
-        <category>MOOC</category>
-      </categories>
-      <tags>
-        <tag>Pattern Recognition</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Algorithms, Part I - Week 1 - Percolation</title>
     <url>/2017/04/21/alg4s-Percolation/</url>
     <content><![CDATA[<p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第一周编程作业<a href="http://coursera.cs.princeton.edu/algs4/assignments/percolation.html">Percolation</a><span id="more"></span></p>
@@ -2358,6 +2102,262 @@ public class PercolationStats &#123;
         <tag>DFS</tag>
         <tag>DAG</tag>
         <tag>Shortest path</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Algorithms, Part I - Week 3 - Pattern Recognition</title>
+    <url>/2017/05/08/alg4s-Pattern/</url>
+    <content><![CDATA[<p>来自 Coursera 上普林斯顿大学的 Algorithms, Part I 课程的第三周编程作业<a href="http://coursera.cs.princeton.edu/algs4/assignments/collinear.html">Pattern Recognition</a><span id="more"></span></p>
+<hr>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目大意：在一平面内给定 n 个随机点，找出可以连接4点及以上的最长直线段</p>
+<img src="/2017/05/08/alg4s-Pattern/lines2.png" class="">
+
+<p>问题就是识别模型是否有4点及以上共线</p>
+<h2 id="Point-数据类型"><a href="#Point-数据类型" class="headerlink" title="Point 数据类型"></a>Point 数据类型</h2><pre class="language-java" data-language="java"><code class="language-java">public class Point implements Comparable&lt;Point&gt; &#123;
+    public Point(int x, int y)              &#x2F;&#x2F; constructs the point (x, y)
+
+    public   void draw()                    &#x2F;&#x2F; draws this point
+    public   void drawTo(Point that)        &#x2F;&#x2F; draws the line segment from this point to that point
+    public String toString()                &#x2F;&#x2F; string representation
+
+    public int compareTo(Point that)         &#x2F;&#x2F; compare two points by y-coordinates, breaking ties by x-coordinates
+    public double slopeTo(Point that)       &#x2F;&#x2F; the slope between this point and that point
+    public Comparator&lt;Point&gt; slopeOrder()   &#x2F;&#x2F; compare two points by slopes they make with this point
+&#125;</code></pre>
+
+<p>课件给了一个<a href="http://coursera.cs.princeton.edu/algs4/testing/collinear/Point.java">半成品</a>，相对容易能够完成</p>
+<p>这里说一下 <em><strong>slopeOrder()</strong></em> 的实现<br>实现方法在 <a href="http://coursera.cs.princeton.edu/algs4/checklists/collinear.html">checklists</a> 里有解答，就是实现 Comparator 接口</p>
+<blockquote>
+<p>To do this, create a private nested (non-static) class SlopeOrder that implements the Comparator&lt;Point&gt; interface. This class has a single method compare(q1, q2) that compares the slopes that q1 and q2 make with the invoking object p. the slopeOrder() method should create an instance of this nested class and return it.</p>
+</blockquote>
+<p>创建一个叫 SlopeOrder 的私有内部类，并实现 Comparator 接口。在这个类里创建一个 compare(q1, q2) 方法， 然后在 slopeOrder() 中创建一个 SlopeOrder 的实例并返回。</p>
+<pre class="language-java" data-language="java"><code class="language-java">public Comparator&lt;Point&gt; slopeOrder() &#123;
+    return new SlopeOrder();
+&#125;
+
+private class SlopeOrder implements Comparator&lt;Point&gt; &#123;
+    public int compare(Point q1, Point q2) &#123;
+
+    &#125;
+&#125;</code></pre>
+
+<h2 id="暴力算法"><a href="#暴力算法" class="headerlink" title="暴力算法"></a>暴力算法</h2><p>不做任何算法优化的方法，同样 checklists 也给出步骤<br>一次检查4点, 检查它们是否全都位于同一线段上, 返回所有这些线段<br>要检查4点 p、q、r、s 是否共线, 就检查 p 和 q 之间，p 和 r 之间，p 和 s 之间这三个斜率是否相等即可</p>
+<p><em>具体实现的时候犯了一个微小的致命错误，题目要求传进来的参数不能被改变，一想解决方法很简单就是复制出来使用<br>但用的是等号 <code>copies = points;</code> 直接赋值，这只是增加了一个关于 <strong>points</strong> 的引用，结果就是后面的 test 那个点过不去<br>正确方法就是用 <strong>for</strong> 循环赋值，这样一来在程序后面对 <strong>copies</strong> 进行排序时就不会连同改变传进来的 <strong>points</strong> 参数了</em></p>
+<p>题目要求检查输入不能有重复的点，解决方法就是先按升序排序，然后遍历比较<br>排序用到 <code>Arrays.sort()</code> ，这时 之前在 Point 类中实现的 compareTo() 就起作用了</p>
+<h2 id="快速算法"><a href="#快速算法" class="headerlink" title="快速算法"></a>快速算法</h2><p>一个以排序为基础的快速算法<br>官方给出的具体实现</p>
+<blockquote>
+<ul>
+<li>Think of p as the origin.</li>
+<li>For each other point q, determine the slope it makes with p.</li>
+<li>Sort the points according to the slopes they makes with p.</li>
+<li>Check if any 3 (or more) adjacent points in the sorted order have equal slopes with respect to p. If so, these points, together with p, are collinear.</li>
+</ul>
+</blockquote>
+<p>意思就是一次取一个参照点 p，求与其它点的斜率，然后<strong>按照斜率来排序其它点</strong>，遍历比较当有3个或以上点的斜率相同时即可说明四点共线</p>
+<img src="/2017/05/08/alg4s-Pattern/lines1.png" class="">
+
+<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><p>Point.java</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class Point implements Comparable&lt;Point&gt; &#123;
+
+    private final int x;     &#x2F;&#x2F; x-coordinate of this point
+    private final int y;     &#x2F;&#x2F; y-coordinate of this point
+
+    public Point(int x, int y) &#123;
+        &#x2F;* DO NOT MODIFY *&#x2F;
+        this.x &#x3D; x;
+        this.y &#x3D; y;
+    &#125;
+
+    public void draw() &#123;
+        &#x2F;* DO NOT MODIFY *&#x2F;
+        StdDraw.point(x, y);
+    &#125;
+
+    public void drawTo(Point that) &#123;
+        &#x2F;* DO NOT MODIFY *&#x2F;
+        StdDraw.line(this.x, this.y, that.x, that.y);
+    &#125;
+
+    public double slopeTo(Point that) &#123;
+        &#x2F;* YOUR CODE HERE *&#x2F;
+        if (this.y &#x3D;&#x3D; that.y) &#123;                         &#x2F;&#x2F; horizontal
+            if (this.x &#x3D;&#x3D; that.x) &#123;
+                return Double.NEGATIVE_INFINITY;
+            &#125;
+            return 0.0;
+        &#125;
+        if (this.x &#x3D;&#x3D; that.x)                         &#x2F;&#x2F; vertical
+            return Double.POSITIVE_INFINITY;
+
+        return (double)(that.y - this.y) &#x2F; (that.x - this.x);
+    &#125;
+
+    public int compareTo(Point that) &#123;
+        &#x2F;* YOUR CODE HERE *&#x2F;
+        if (this.y &lt; that.y || (this.y &#x3D;&#x3D; that.y &amp;&amp; this.x &lt; that.x))
+            return -1;
+        else if (this.y &#x3D;&#x3D; that.y &amp;&amp; this.x &#x3D;&#x3D; that.x)
+            return 0;
+        else
+            return 1;
+    &#125;
+
+    public Comparator&lt;Point&gt; slopeOrder() &#123;
+        &#x2F;* YOUR CODE HERE *&#x2F;
+        return new SlopeOrder();
+    &#125;
+
+    private class SlopeOrder implements Comparator&lt;Point&gt;
+    &#123;
+        public int compare(Point q1, Point q2) &#123;
+            double slope1 &#x3D; Point.this.slopeTo(q1);
+            double slope2 &#x3D; Point.this.slopeTo(q2);
+            if (slope1 &gt; slope2) return 1;
+            if (slope1 &lt; slope2) return -1;
+            return 0;
+        &#125;
+    &#125;
+
+    public String toString() &#123;
+        &#x2F;* DO NOT MODIFY *&#x2F;
+        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;
+    &#125;
+&#125;</code></pre>
+
+<p>BruteCollinearPoints.java</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class BruteCollinearPoints &#123;
+
+    private Point[] copies;
+    private ArrayList&lt;LineSegment&gt; lineSegments &#x3D; new ArrayList&lt;LineSegment&gt;();
+
+    &#x2F;&#x2F; finds all line segments containing 4 points
+    public BruteCollinearPoints(final Point[] points) &#123;
+
+        if (points &#x3D;&#x3D; null)
+            throw new java.lang.NullPointerException();
+
+        copies &#x3D; new Point[points.length];
+        for (int i &#x3D; 0; i &lt; points.length; i++) &#123;
+            copies[i] &#x3D; points[i];
+        &#125;
+
+        &#x2F;&#x2F; sort by y-coordinate
+        &#x2F;&#x2F; the endpoints are the first and last points
+        Arrays.sort(copies);
+
+        &#x2F;&#x2F; after sort then can check if duplicate
+        for (int i &#x3D; 0; i &lt; copies.length - 1; i++)
+            if (copies[i].compareTo(copies[i+1]) &#x3D;&#x3D; 0)
+                throw new java.lang.IllegalArgumentException();
+
+        for (int ip &#x3D; 0; ip &lt; copies.length-3; ip++) &#123;
+            for (int iq &#x3D; ip + 1; iq &lt; copies.length-2; iq++) &#123;
+                double slopeP2Q &#x3D; copies[ip].slopeTo(copies[iq]);
+                for (int ir &#x3D; iq + 1; ir &lt; copies.length-1; ir++) &#123;
+                    double slopeQ2R &#x3D; copies[iq].slopeTo(copies[ir]);
+                    if (slopeP2Q !&#x3D; slopeQ2R) continue;
+                    for (int is &#x3D; ir + 1; is &lt; copies.length; is++) &#123;
+                        double slopeR2S &#x3D; copies[ir].slopeTo(copies[is]);
+                        &#x2F;&#x2F; if 3 of 4&#39;s slopes are equal then 4 points are colllinear
+                        if (slopeP2Q &#x3D;&#x3D; slopeR2S)
+                            lineSegments.add(new LineSegment(copies[ip], copies[is]));
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; the number of line segments
+    public int numberOfSegments() &#123;
+        return lineSegments.size();
+    &#125;
+
+    &#x2F;&#x2F; the line segments
+    public LineSegment[] segments() &#123;
+        LineSegment[] result &#x3D; new LineSegment[lineSegments.size()];
+        for (int i &#x3D; 0; i &lt; lineSegments.size(); i++) &#123;
+            result[i] &#x3D; lineSegments.get(i);
+        &#125;
+        return result;
+    &#125;
+&#125;</code></pre>
+
+<p>FastCollinearPoints.java</p>
+<pre class="language-java" data-language="java"><code class="language-java">public class FastCollinearPoints &#123;
+
+    private Point[] copies;
+    private ArrayList&lt;LineSegment&gt; lineSegments &#x3D; new ArrayList&lt;LineSegment&gt;();
+
+    &#x2F;&#x2F; finds all line segments containing 4 or more points
+    public FastCollinearPoints(Point[] points) &#123;
+        if (points &#x3D;&#x3D; null)
+            throw new java.lang.NullPointerException();
+
+        copies &#x3D; new Point[points.length];
+        for (int i &#x3D; 0; i &lt; points.length; i++) &#123;
+            copies[i] &#x3D; points[i];
+        &#125;
+
+        &#x2F;&#x2F; sort by y-coordinate
+        &#x2F;&#x2F; the endpoints are the first and last points
+        Arrays.sort(copies);
+
+        &#x2F;&#x2F; after sort then can check if duplicate
+        for (int i &#x3D; 0; i &lt; copies.length - 1; i++)
+            if (copies[i].compareTo(copies[i+1]) &#x3D;&#x3D; 0)
+                throw new java.lang.IllegalArgumentException();
+
+        for (int i &#x3D; 0; i &lt; copies.length - 1; i++) &#123;
+            Point origin &#x3D; copies[i];             &#x2F;&#x2F; Think of p as the origin.
+            double[] slopes &#x3D; new double[copies.length - 1 - i];
+            Point[] others &#x3D; new Point[copies.length - 1 - i];
+
+            for (int j &#x3D; 0; j &lt; copies.length - 1 - i; j++)
+                others[j] &#x3D; copies[j + 1 + i];
+
+            &#x2F;&#x2F; For each other point q, determine the slope it makes with p
+            for (int j &#x3D; 0; j &lt; others.length; j++)
+                slopes[j] &#x3D; origin.slopeTo(others[j]);
+
+            &#x2F;&#x2F; Sort the points according to the slopes they makes with p
+            Arrays.sort(others, origin.slopeOrder());
+
+            Arrays.sort(slopes);
+            &#x2F;&#x2F; Check if any 3 (or more) adjacent points in the
+            &#x2F;&#x2F; sorted order have equal slopes with respect to p
+            &#x2F;&#x2F; If so, these points, together with p, are collinear
+            for (int cnt_same &#x3D; 0, j &#x3D; 0; j &lt; slopes.length - 1; j++) &#123;
+                if (slopes[j] &#x3D;&#x3D; slopes[j+1]) &#123;
+                    cnt_same++;
+                &#125;
+                if (cnt_same &gt;&#x3D; 2) &#123;
+                    lineSegments.add(new LineSegment(origin, others[j + 1]));
+                    break;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    &#x2F;&#x2F; the number of line segments
+    public int numberOfSegments() &#123;
+        return lineSegments.size();
+    &#125;
+
+    &#x2F;&#x2F; the line segments
+    public LineSegment[] segments() &#123;
+        LineSegment[] result &#x3D; new LineSegment[lineSegments.size()];
+        for (int i &#x3D; 0; i &lt; lineSegments.size(); i++) &#123;
+            result[i] &#x3D; lineSegments.get(i);
+        &#125;
+        return result;
+    &#125;
+&#125;</code></pre>
+]]></content>
+      <categories>
+        <category>MOOC</category>
+      </categories>
+      <tags>
+        <tag>Pattern Recognition</tag>
       </tags>
   </entry>
   <entry>
@@ -3031,6 +3031,128 @@ Authorization: Bearer xxxxxx</code></pre></li>
       </tags>
   </entry>
   <entry>
+    <title>如何在ASP.NET Core(ABP)项目中生成自定义的Swagger文档</title>
+    <url>/2019/08/29/asp-dotnet-core-api-using-swagger/</url>
+    <content><![CDATA[<p>后端开发人员提供一个书写良好的Swagger文档页面可有效提高与前端对接的效率<span id="more"></span></p>
+<hr>
+<h2 id="安装Nuget包"><a href="#安装Nuget包" class="headerlink" title="安装Nuget包"></a>安装Nuget包</h2><p>对<strong>core</strong>项目安装<code>Swashbuckle.AspNetCore</code></p>
+
+
+<p>然后在<code>Startup.cs</code>中的<code>ConfigureServices</code>方法增加配置</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddMvc();
+
+services.AddSwaggerGen(c &#x3D;&gt;
+&#123;
+    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title &#x3D; &quot;My API&quot;, Version &#x3D; &quot;v1&quot; &#125;);
+&#125;);</code></pre>
+
+<p>以及<code>Configure</code>方法中</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.UseSwagger();
+
+app.UseSwaggerUI(c &#x3D;&gt;
+&#123;
+    c.SwaggerEndpoint(&quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;My API V1&quot;);
+&#125;);</code></pre>
+
+<h2 id="书写XML注释"><a href="#书写XML注释" class="headerlink" title="书写XML注释"></a>书写XML注释</h2><blockquote>
+<p>微软官方文档上一个较为完整的例子</p>
+</blockquote>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">&#x2F;&#x2F;&#x2F; &lt;summary&gt;
+&#x2F;&#x2F;&#x2F; Creates a TodoItem.
+&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
+&#x2F;&#x2F;&#x2F; &lt;remarks&gt;
+&#x2F;&#x2F;&#x2F; Sample request:
+&#x2F;&#x2F;&#x2F;
+&#x2F;&#x2F;&#x2F;     POST &#x2F;Todo
+&#x2F;&#x2F;&#x2F;     &#123;
+&#x2F;&#x2F;&#x2F;        &quot;id&quot;: 1,
+&#x2F;&#x2F;&#x2F;        &quot;name&quot;: &quot;Item1&quot;,
+&#x2F;&#x2F;&#x2F;        &quot;isComplete&quot;: true
+&#x2F;&#x2F;&#x2F;     &#125;
+&#x2F;&#x2F;&#x2F;
+&#x2F;&#x2F;&#x2F; &lt;&#x2F;remarks&gt;
+&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;item&quot;&gt;&lt;&#x2F;param&gt;
+&#x2F;&#x2F;&#x2F; &lt;returns&gt;A newly created TodoItem&lt;&#x2F;returns&gt;
+&#x2F;&#x2F;&#x2F; &lt;response code&#x3D;&quot;201&quot;&gt;Returns the newly created item&lt;&#x2F;response&gt;
+&#x2F;&#x2F;&#x2F; &lt;response code&#x3D;&quot;400&quot;&gt;If the item is null&lt;&#x2F;response&gt;
+[HttpPost]
+[ProducesResponseType(201)]
+[ProducesResponseType(400)]
+&#x2F;&#x2F; [Obsolete]
+public ActionResult&lt;TodoItem&gt; Create(TodoItem item)
+&#123;
+    _context.TodoItems.Add(item);
+    _context.SaveChanges();
+
+    return CreatedAtRoute(&quot;GetTodo&quot;, new &#123; id &#x3D; item.Id &#125;, item);
+&#125;</code></pre>
+
+
+
+<h2 id="在swagger文档上显示注释"><a href="#在swagger文档上显示注释" class="headerlink" title="在swagger文档上显示注释"></a>在swagger文档上显示注释</h2><ol>
+<li>在【解决方案管理器】右击<strong>Application</strong>项目，选择<strong>属性</strong></li>
+<li>在【生成】页面，勾选<strong>XML文档文件</strong></li>
+<li>在【取消显示警告】一栏中增加<strong>1591;</strong></li>
+</ol>
+<h2 id="配置Swagger参数-4-0-0"><a href="#配置Swagger参数-4-0-0" class="headerlink" title="配置Swagger参数(4.0.0)"></a>配置Swagger参数(4.0.0)</h2><ol>
+<li><p>打开<code>Startup.cs</code>,在<code>ConfigureServices</code>方法中增加下行</p>
+ <pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, &quot;&lt;XML File Path&gt;&quot;));</code></pre>
+</li>
+<li><p>在<em>Configure</em>方法中自定义Swagger页面样式</p>
+ <pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.ShowExtensions();
+options.EnableValidator();
+&#x2F;&#x2F; 将选择的接口地址连接到URL，方便与他人定位
+options.EnableDeepLinking();
+&#x2F;&#x2F; 启用过滤器（大小写敏感）
+options.EnableFilter();
+&#x2F;&#x2F; 展开级别
+options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+&#x2F;&#x2F; 右侧显示方法名
+options.DisplayOperationId();
+
+&#x2F;* 启用下面代码，生成适合用于对接的Swagger页面 *&#x2F;
+
+&#x2F;&#x2F; 默认显示model
+options.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
+&#x2F;&#x2F; 模型展开到2级
+options.DefaultModelExpandDepth(2);
+&#x2F;&#x2F; 隐藏model列表
+options.DefaultModelsExpandDepth(-1);
+&#x2F;&#x2F; 隐藏 [Try it]
+options.SupportedSubmitMethods();</code></pre></li>
+</ol>
+<h2 id="增加折叠块注释"><a href="#增加折叠块注释" class="headerlink" title="增加折叠块注释"></a>增加折叠块注释</h2><p>新增一个过滤器</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TagDescriptionsDocumentFilter : IDocumentFilter
+&#123;
+    public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
+    &#123;
+        swaggerDoc.Tags &#x3D; new[]
+        &#123;
+            new Tag &#123; Name &#x3D; &quot;Admin&quot;, Description &#x3D; &quot;管理员&quot; &#125;,
+            new Tag &#123; Name &#x3D; &quot;User&quot;, Description &#x3D; &quot;用户&quot; &#125;
+        &#125;;
+    &#125;
+&#125;</code></pre>
+
+<p>然后在<code>Startup.cs &gt; ConfigureServices &gt; AddSwaggerGen</code>里添加</p>
+<pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.DocumentFilter&lt;TagDescriptionsDocumentFilter&gt;();</code></pre>
+
+<hr>
+<p>参考</p>
+<p><a href="https://aspnetboilerplate.com/Pages/Documents/Swagger-UI-Integration">Swagger UI Integration - ASP.NET Boilerplate</a></p>
+<p><a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio#customize-and-extend">Get started with Swashbuckle and ASP.NET Core | Microsoft Docs</a></p>
+<p><a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore On GitHub</a></p>
+]]></content>
+      <categories>
+        <category>Note</category>
+      </categories>
+      <tags>
+        <tag>aspnetboilerplate(ABP)</tag>
+        <tag>ASP.NET Core</tag>
+        <tag>Swagger</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Serilog for ASP.NET Core</title>
     <url>/2023/02/14/asp-dotnet-core-api-serilog/</url>
     <content><![CDATA[<p>Using Serilog logging for ASP.NET Core.<span id="more"></span></p>
@@ -3178,128 +3300,6 @@ app.UseStaticFiles(); &#x2F;&#x2F; Won&#39;t skip static file logs
       </categories>
       <tags>
         <tag>Serilog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在ASP.NET Core(ABP)项目中生成自定义的Swagger文档</title>
-    <url>/2019/08/29/asp-dotnet-core-api-using-swagger/</url>
-    <content><![CDATA[<p>后端开发人员提供一个书写良好的Swagger文档页面可有效提高与前端对接的效率<span id="more"></span></p>
-<hr>
-<h2 id="安装Nuget包"><a href="#安装Nuget包" class="headerlink" title="安装Nuget包"></a>安装Nuget包</h2><p>对<strong>core</strong>项目安装<code>Swashbuckle.AspNetCore</code></p>
-
-
-<p>然后在<code>Startup.cs</code>中的<code>ConfigureServices</code>方法增加配置</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">services.AddMvc();
-
-services.AddSwaggerGen(c &#x3D;&gt;
-&#123;
-    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title &#x3D; &quot;My API&quot;, Version &#x3D; &quot;v1&quot; &#125;);
-&#125;);</code></pre>
-
-<p>以及<code>Configure</code>方法中</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">app.UseSwagger();
-
-app.UseSwaggerUI(c &#x3D;&gt;
-&#123;
-    c.SwaggerEndpoint(&quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;My API V1&quot;);
-&#125;);</code></pre>
-
-<h2 id="书写XML注释"><a href="#书写XML注释" class="headerlink" title="书写XML注释"></a>书写XML注释</h2><blockquote>
-<p>微软官方文档上一个较为完整的例子</p>
-</blockquote>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">&#x2F;&#x2F;&#x2F; &lt;summary&gt;
-&#x2F;&#x2F;&#x2F; Creates a TodoItem.
-&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
-&#x2F;&#x2F;&#x2F; &lt;remarks&gt;
-&#x2F;&#x2F;&#x2F; Sample request:
-&#x2F;&#x2F;&#x2F;
-&#x2F;&#x2F;&#x2F;     POST &#x2F;Todo
-&#x2F;&#x2F;&#x2F;     &#123;
-&#x2F;&#x2F;&#x2F;        &quot;id&quot;: 1,
-&#x2F;&#x2F;&#x2F;        &quot;name&quot;: &quot;Item1&quot;,
-&#x2F;&#x2F;&#x2F;        &quot;isComplete&quot;: true
-&#x2F;&#x2F;&#x2F;     &#125;
-&#x2F;&#x2F;&#x2F;
-&#x2F;&#x2F;&#x2F; &lt;&#x2F;remarks&gt;
-&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;item&quot;&gt;&lt;&#x2F;param&gt;
-&#x2F;&#x2F;&#x2F; &lt;returns&gt;A newly created TodoItem&lt;&#x2F;returns&gt;
-&#x2F;&#x2F;&#x2F; &lt;response code&#x3D;&quot;201&quot;&gt;Returns the newly created item&lt;&#x2F;response&gt;
-&#x2F;&#x2F;&#x2F; &lt;response code&#x3D;&quot;400&quot;&gt;If the item is null&lt;&#x2F;response&gt;
-[HttpPost]
-[ProducesResponseType(201)]
-[ProducesResponseType(400)]
-&#x2F;&#x2F; [Obsolete]
-public ActionResult&lt;TodoItem&gt; Create(TodoItem item)
-&#123;
-    _context.TodoItems.Add(item);
-    _context.SaveChanges();
-
-    return CreatedAtRoute(&quot;GetTodo&quot;, new &#123; id &#x3D; item.Id &#125;, item);
-&#125;</code></pre>
-
-
-
-<h2 id="在swagger文档上显示注释"><a href="#在swagger文档上显示注释" class="headerlink" title="在swagger文档上显示注释"></a>在swagger文档上显示注释</h2><ol>
-<li>在【解决方案管理器】右击<strong>Application</strong>项目，选择<strong>属性</strong></li>
-<li>在【生成】页面，勾选<strong>XML文档文件</strong></li>
-<li>在【取消显示警告】一栏中增加<strong>1591;</strong></li>
-</ol>
-<h2 id="配置Swagger参数-4-0-0"><a href="#配置Swagger参数-4-0-0" class="headerlink" title="配置Swagger参数(4.0.0)"></a>配置Swagger参数(4.0.0)</h2><ol>
-<li><p>打开<code>Startup.cs</code>,在<code>ConfigureServices</code>方法中增加下行</p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, &quot;&lt;XML File Path&gt;&quot;));</code></pre>
-</li>
-<li><p>在<em>Configure</em>方法中自定义Swagger页面样式</p>
- <pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.ShowExtensions();
-options.EnableValidator();
-&#x2F;&#x2F; 将选择的接口地址连接到URL，方便与他人定位
-options.EnableDeepLinking();
-&#x2F;&#x2F; 启用过滤器（大小写敏感）
-options.EnableFilter();
-&#x2F;&#x2F; 展开级别
-options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-&#x2F;&#x2F; 右侧显示方法名
-options.DisplayOperationId();
-
-&#x2F;* 启用下面代码，生成适合用于对接的Swagger页面 *&#x2F;
-
-&#x2F;&#x2F; 默认显示model
-options.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
-&#x2F;&#x2F; 模型展开到2级
-options.DefaultModelExpandDepth(2);
-&#x2F;&#x2F; 隐藏model列表
-options.DefaultModelsExpandDepth(-1);
-&#x2F;&#x2F; 隐藏 [Try it]
-options.SupportedSubmitMethods();</code></pre></li>
-</ol>
-<h2 id="增加折叠块注释"><a href="#增加折叠块注释" class="headerlink" title="增加折叠块注释"></a>增加折叠块注释</h2><p>新增一个过滤器</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">public class TagDescriptionsDocumentFilter : IDocumentFilter
-&#123;
-    public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
-    &#123;
-        swaggerDoc.Tags &#x3D; new[]
-        &#123;
-            new Tag &#123; Name &#x3D; &quot;Admin&quot;, Description &#x3D; &quot;管理员&quot; &#125;,
-            new Tag &#123; Name &#x3D; &quot;User&quot;, Description &#x3D; &quot;用户&quot; &#125;
-        &#125;;
-    &#125;
-&#125;</code></pre>
-
-<p>然后在<code>Startup.cs &gt; ConfigureServices &gt; AddSwaggerGen</code>里添加</p>
-<pre class="language-csharp" data-language="csharp"><code class="language-csharp">options.DocumentFilter&lt;TagDescriptionsDocumentFilter&gt;();</code></pre>
-
-<hr>
-<p>参考</p>
-<p><a href="https://aspnetboilerplate.com/Pages/Documents/Swagger-UI-Integration">Swagger UI Integration - ASP.NET Boilerplate</a></p>
-<p><a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio#customize-and-extend">Get started with Swashbuckle and ASP.NET Core | Microsoft Docs</a></p>
-<p><a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore On GitHub</a></p>
-]]></content>
-      <categories>
-        <category>Note</category>
-      </categories>
-      <tags>
-        <tag>aspnetboilerplate(ABP)</tag>
-        <tag>ASP.NET Core</tag>
-        <tag>Swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -3485,6 +3485,25 @@ Router(config)#end</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>在 Win10 64位上使用 debug.exe</title>
+    <url>/2017/09/26/debug-on-win10x64/</url>
+    <content><![CDATA[<p>下载<a href="http://www.dosbox.com/download.php?main=1">DOSBox</a></p>
+<p>从32位机上复制 debug.exe 放到E盘</p>
+<p>在 DOSBox 中输入<code>mount c e:\</code></p>
+<blockquote>
+<p>这步让 DOSBox 用盘符 C 代替访问主机的 E盘</p>
+</blockquote>
+<p>切换到 C 盘，运行</p>
+]]></content>
+      <categories>
+        <category>Tips</category>
+      </categories>
+      <tags>
+        <tag>汇编</tag>
+        <tag>DOSBox</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何设置 CSGO 训练脚本</title>
     <url>/2017/10/16/csgo-training-script/</url>
     <content><![CDATA[<p>新建一个文本文档，复制黏贴以下代码</p>
@@ -3516,25 +3535,6 @@ mp_restartgame 1</code></pre>
       </categories>
       <tags>
         <tag>CSGO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在 Win10 64位上使用 debug.exe</title>
-    <url>/2017/09/26/debug-on-win10x64/</url>
-    <content><![CDATA[<p>下载<a href="http://www.dosbox.com/download.php?main=1">DOSBox</a></p>
-<p>从32位机上复制 debug.exe 放到E盘</p>
-<p>在 DOSBox 中输入<code>mount c e:\</code></p>
-<blockquote>
-<p>这步让 DOSBox 用盘符 C 代替访问主机的 E盘</p>
-</blockquote>
-<p>切换到 C 盘，运行</p>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>汇编</tag>
-        <tag>DOSBox</tag>
       </tags>
   </entry>
   <entry>
@@ -5442,24 +5442,6 @@ tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>向 Anki 添加 LaTeX 支持</title>
-    <url>/2018/04/10/tex-in-anki/</url>
-    <content><![CDATA[<p>安装 TeX Live 而不是 MiKTeX</p>
-<p>安装时选择 Mathematics 组件</p>
-<p>从开始菜单打开 TeX Live Manager</p>
-<p>在<code>匹配</code>那里搜索并下载<code>dvipng</code>包</p>
-<p>打开 Anki 试验效果</p>
-<p>需要时可下载 Texmaker 生成 PDF</p>
-]]></content>
-      <categories>
-        <category>Tips</category>
-      </categories>
-      <tags>
-        <tag>LaTeX</tag>
-        <tag>Anki</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>The Dark Side of the Moon</title>
     <url>/2016/12/09/the-dark-side-of-the-moon/</url>
     <content><![CDATA[<img src="/2016/12/09/the-dark-side-of-the-moon/TheDarkSideoftheMoon.jpg" class="">
@@ -5490,67 +5472,22 @@ tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>The Magpie Developer</title>
-    <url>/2016/12/22/the-magpie-developer/</url>
-    <content><![CDATA[<p>Written by Jeff Atwood<span id="more"></span></p>
-<p>I’ve often thought that software developers were akin to Magpies, birds notorious for stealing shiny items to decorate their complex nests. Like Magpies, software developers are unusually smart and curious creatures, almost by definition. But <strong>we are too easily distracted by shiny new toys and playthings.</strong></p>
-<img src="/2016/12/22/the-magpie-developer/Magpie_with_item_in_beak.jpg" class="">
-<br>
-
-<p>I no longer find Scott Hanselman’s Ultimate Developer Tool list inspiring. Instead, it’s fatiguing. The pace of change in the world of software is relentless. We’re so inundated with the Shiny and the New that the very concepts themselves start to disintegrate, the words repeated over and over and over until they devolve into a meaningless stream of vowels and consonants. “Shiny” and “new” become mundane, even commonplace. It’s no longer unique for something to be new, no longer interesting when something is shiny. Eventually, <strong>you grow weary of the endless procession of shiny new things.</strong></p>
-<p>I’m not alone. Jeremy Zawodny also notes the diminishing luster of shiny new things:</p>
-<blockquote>
-<p>Over a year ago I unsubscribed from Steve’s blog because he had a habit of writing in breathless fashion about the latest shiny new thing – often several times a day. I see too many people I know getting caught up in the breathless hype and <strong>forgetting to think about whether the latest shiny new thing really matters in the grand scheme of things.</strong></p>
-</blockquote>
-<p>Dave Slusher concurs:</p>
-<blockquote>
-<p>[Robert Scoble] says that he gets too much email and that is ineffective for getting PR releases to him. He suggests that what you should do now is leave him a message on his Facebook wall. Dear god and&#x2F;or Bob. In the time I’ve followed Scoble, I must have seen something like this a dozen times from him. Don’t email, Twitter me. Don’t Twitter, Pwnce. Jaiku me. Leave a wall message, send an SMS, just call me, email me, don’t email me, don’t call me. Enough already! I’m not even trying to get in contact with him, and I find this constant migration from platform to platform to be a load of shit that just wearies me. I felt the same way when I dropped TechCrunch, well over a year ago. I got so tired of hearing about another slightly different way of doing what we were already doing and why that tiny difference was worth dropping everything and moving over. <strong>I officially renounce the search for the newer and shinier.</strong></p>
-</blockquote>
-<p>It isn’t just the neverending stream of tech news. It’s also the tidal push and pull of a thousand software religious wars that continually wears us down, like errant rocks in a rapidly flowing stream. I bet the process David Megginson outlines sounds awfully familiar:</p>
-<blockquote>
-<ol>
-<li>Elite (guru) developers notice too many riff-raff using their current programming language, and start looking for something that will distinguish them better from their mediocre colleagues.</li>
-<li>Elite developers take their shopping list of current annoyances and look for a new, little-known language that apparently has fewer of them.</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="3">
-<li>Elite developers start to drive the development of the new language, contributing code, writing libraries, etc., then evangelize the new language. Sub-elite (senior) developers follow the elite developers to the new language, creating a market for books, training, etc., and also accelerating the development and testing of the language.</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="4">
-<li>Sub-elite developers, who have huge influence (elite developers tend to work in isolation on research projects rather than on production development teams), begin pushing for the new language in the workplace.</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="5">
-<li>The huge mass of regular developers realize that they have to start buying books and taking courses to learn a new language.</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="6">
-<li>Elite developers notice too many riff-raff using their current programming language, and start looking for something that will distinguish them better from their mediocre colleagues.</li>
-</ol>
-</blockquote>
-<p>I hope you’re sitting down, because I’ve got some bad news for you. That Ruby on Rails thing you were so interested in? That’s so last year. We’ve moved on.</p>
-<p>If you consider that, statistically, the vast majority of programmers have yet to experience a dynamic language of any kind – much less Ruby – the absurdity here is sublime. Some dynamic language features are trickling down to the bastions of Java and .NET, but slowly, and with varying levels of success. These so-called thought leaders have left a virtual ghost town before anyone else had a chance to arrive.</p>
-<p>I became a programmer because I love computers, and to love computers, you must love change. And I do. But I think <strong>the magpie developer sometimes loves change to the detriment of his own craft</strong>. Andy Hunt and Dave Thomas, the Pragmatic Programmers who were a big part of the last sea change in Ruby, said it quite well in a 2004 IEEE column (pdf).</p>
-<blockquote>
-<p>Users don’t care whether you use J2EE, Cobol, or a pair of magic rocks. They want their credit card authorization to process correctly and their inventory reports to print. You help them discover what they really need and jointly imagine a system.<br>Instead of getting carried away with the difficult race up the cutting edge of the latest technology, Pete concentrated on building a system [in COBOL] that works for him and his clients. It’s simple, perhaps almost primitive by our lofty standards. But it’s easy to use, easy to understand, and fast to deploy. Pete’s framework uses a mixture of technologies: some modeling, some code generation, some reusable components, and so on. He applies the fundamental pragmatic principle and uses what works, not what’s merely new or fashionable.</p>
-</blockquote>
-<blockquote>
-<p><strong>We fail (as an industry) when we try to come up with the all-singing, all-dancing applications framework to end all applications frameworks.</strong> Maybe that’s because there is no grand, unified theory waiting to emerge. One of the hallmarks of postmodernism – which some think is a distinguishing feature of our times – is that there’s no “grand narrative,” no overarching story to guide us. Instead, there are lots of little stories.</p>
-</blockquote>
-<p>Don’t feel inadequate if you aren’t lining your nest with the shiniest, newest things possible. <strong>Who cares what technology you use</strong>, as long as it works, and both you and your users are happy with it?</p>
-<p>That’s the beauty of new things: there’s always a new one coming along. Don’t let the pursuit of new, shiny things accidentally become your goal. Avoid becoming a magpie developer. Be selective in your pursuit of the shiny and new, and you may find yourself a better developer for it.</p>
-<blockquote>
-<p><a href="https://blog.codinghorror.com/the-magpie-developer/">https://blog.codinghorror.com/the-magpie-developer/</a></p>
-</blockquote>
+    <title>向 Anki 添加 LaTeX 支持</title>
+    <url>/2018/04/10/tex-in-anki/</url>
+    <content><![CDATA[<p>安装 TeX Live 而不是 MiKTeX</p>
+<p>安装时选择 Mathematics 组件</p>
+<p>从开始菜单打开 TeX Live Manager</p>
+<p>在<code>匹配</code>那里搜索并下载<code>dvipng</code>包</p>
+<p>打开 Anki 试验效果</p>
+<p>需要时可下载 Texmaker 生成 PDF</p>
 ]]></content>
       <categories>
-        <category>Article</category>
+        <category>Tips</category>
       </categories>
+      <tags>
+        <tag>LaTeX</tag>
+        <tag>Anki</tag>
+      </tags>
   </entry>
   <entry>
     <title>使用 ESP8266 搭建 WLED project</title>
@@ -5655,5 +5592,68 @@ tail -n 20 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log</code></pre>
         <tag>WLED</tag>
         <tag>ESP8266</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>The Magpie Developer</title>
+    <url>/2016/12/22/the-magpie-developer/</url>
+    <content><![CDATA[<p>Written by Jeff Atwood<span id="more"></span></p>
+<p>I’ve often thought that software developers were akin to Magpies, birds notorious for stealing shiny items to decorate their complex nests. Like Magpies, software developers are unusually smart and curious creatures, almost by definition. But <strong>we are too easily distracted by shiny new toys and playthings.</strong></p>
+<img src="/2016/12/22/the-magpie-developer/Magpie_with_item_in_beak.jpg" class="">
+<br>
+
+<p>I no longer find Scott Hanselman’s Ultimate Developer Tool list inspiring. Instead, it’s fatiguing. The pace of change in the world of software is relentless. We’re so inundated with the Shiny and the New that the very concepts themselves start to disintegrate, the words repeated over and over and over until they devolve into a meaningless stream of vowels and consonants. “Shiny” and “new” become mundane, even commonplace. It’s no longer unique for something to be new, no longer interesting when something is shiny. Eventually, <strong>you grow weary of the endless procession of shiny new things.</strong></p>
+<p>I’m not alone. Jeremy Zawodny also notes the diminishing luster of shiny new things:</p>
+<blockquote>
+<p>Over a year ago I unsubscribed from Steve’s blog because he had a habit of writing in breathless fashion about the latest shiny new thing – often several times a day. I see too many people I know getting caught up in the breathless hype and <strong>forgetting to think about whether the latest shiny new thing really matters in the grand scheme of things.</strong></p>
+</blockquote>
+<p>Dave Slusher concurs:</p>
+<blockquote>
+<p>[Robert Scoble] says that he gets too much email and that is ineffective for getting PR releases to him. He suggests that what you should do now is leave him a message on his Facebook wall. Dear god and&#x2F;or Bob. In the time I’ve followed Scoble, I must have seen something like this a dozen times from him. Don’t email, Twitter me. Don’t Twitter, Pwnce. Jaiku me. Leave a wall message, send an SMS, just call me, email me, don’t email me, don’t call me. Enough already! I’m not even trying to get in contact with him, and I find this constant migration from platform to platform to be a load of shit that just wearies me. I felt the same way when I dropped TechCrunch, well over a year ago. I got so tired of hearing about another slightly different way of doing what we were already doing and why that tiny difference was worth dropping everything and moving over. <strong>I officially renounce the search for the newer and shinier.</strong></p>
+</blockquote>
+<p>It isn’t just the neverending stream of tech news. It’s also the tidal push and pull of a thousand software religious wars that continually wears us down, like errant rocks in a rapidly flowing stream. I bet the process David Megginson outlines sounds awfully familiar:</p>
+<blockquote>
+<ol>
+<li>Elite (guru) developers notice too many riff-raff using their current programming language, and start looking for something that will distinguish them better from their mediocre colleagues.</li>
+<li>Elite developers take their shopping list of current annoyances and look for a new, little-known language that apparently has fewer of them.</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>Elite developers start to drive the development of the new language, contributing code, writing libraries, etc., then evangelize the new language. Sub-elite (senior) developers follow the elite developers to the new language, creating a market for books, training, etc., and also accelerating the development and testing of the language.</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="4">
+<li>Sub-elite developers, who have huge influence (elite developers tend to work in isolation on research projects rather than on production development teams), begin pushing for the new language in the workplace.</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="5">
+<li>The huge mass of regular developers realize that they have to start buying books and taking courses to learn a new language.</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="6">
+<li>Elite developers notice too many riff-raff using their current programming language, and start looking for something that will distinguish them better from their mediocre colleagues.</li>
+</ol>
+</blockquote>
+<p>I hope you’re sitting down, because I’ve got some bad news for you. That Ruby on Rails thing you were so interested in? That’s so last year. We’ve moved on.</p>
+<p>If you consider that, statistically, the vast majority of programmers have yet to experience a dynamic language of any kind – much less Ruby – the absurdity here is sublime. Some dynamic language features are trickling down to the bastions of Java and .NET, but slowly, and with varying levels of success. These so-called thought leaders have left a virtual ghost town before anyone else had a chance to arrive.</p>
+<p>I became a programmer because I love computers, and to love computers, you must love change. And I do. But I think <strong>the magpie developer sometimes loves change to the detriment of his own craft</strong>. Andy Hunt and Dave Thomas, the Pragmatic Programmers who were a big part of the last sea change in Ruby, said it quite well in a 2004 IEEE column (pdf).</p>
+<blockquote>
+<p>Users don’t care whether you use J2EE, Cobol, or a pair of magic rocks. They want their credit card authorization to process correctly and their inventory reports to print. You help them discover what they really need and jointly imagine a system.<br>Instead of getting carried away with the difficult race up the cutting edge of the latest technology, Pete concentrated on building a system [in COBOL] that works for him and his clients. It’s simple, perhaps almost primitive by our lofty standards. But it’s easy to use, easy to understand, and fast to deploy. Pete’s framework uses a mixture of technologies: some modeling, some code generation, some reusable components, and so on. He applies the fundamental pragmatic principle and uses what works, not what’s merely new or fashionable.</p>
+</blockquote>
+<blockquote>
+<p><strong>We fail (as an industry) when we try to come up with the all-singing, all-dancing applications framework to end all applications frameworks.</strong> Maybe that’s because there is no grand, unified theory waiting to emerge. One of the hallmarks of postmodernism – which some think is a distinguishing feature of our times – is that there’s no “grand narrative,” no overarching story to guide us. Instead, there are lots of little stories.</p>
+</blockquote>
+<p>Don’t feel inadequate if you aren’t lining your nest with the shiniest, newest things possible. <strong>Who cares what technology you use</strong>, as long as it works, and both you and your users are happy with it?</p>
+<p>That’s the beauty of new things: there’s always a new one coming along. Don’t let the pursuit of new, shiny things accidentally become your goal. Avoid becoming a magpie developer. Be selective in your pursuit of the shiny and new, and you may find yourself a better developer for it.</p>
+<blockquote>
+<p><a href="https://blog.codinghorror.com/the-magpie-developer/">https://blog.codinghorror.com/the-magpie-developer/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Article</category>
+      </categories>
   </entry>
 </search>
