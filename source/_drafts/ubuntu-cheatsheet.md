@@ -161,6 +161,12 @@ Ubuntu 常用命令 <!-- more -->
   rm -rf folder
   ```
 
+- 下载文件
+
+  ```bash
+  curl -L -o v2ray-plugin https://github.com/shadowsocks/v2ray-plugin/releases/download/v1.3.2/v2ray-plugin-linux-amd64-v1.3.2.tar.gz
+  ```
+
 - 解压到指定文件夹
 
   ```bash

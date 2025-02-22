@@ -1,0 +1,17 @@
+﻿- unzip ISO to D:\
+
+- Copy the following from Windows 7 disc to C:\
+	boot
+	efi
+	sources
+	bootmgr
+
+- Open CMD as Administretor
+	
+- C:\boot\bootsect.exe /nt60 C:
+
+- Reboot
+
+- repair computer -> Command Prompt
+
+- D:\Win7\sources\setup.exe。

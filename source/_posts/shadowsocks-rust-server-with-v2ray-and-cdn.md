@@ -12,18 +12,18 @@ Set up a proxy server use behind the Nginx and CDN<!-- more -->
 
 ---
 
-## Conver private key form Oracle Cloud (Optional)
+## Generate private key (Optional)
 
 Use PuTTYgen load the private key and save the private key as putty's format
 
 1. Open **Console connection**
-   
+
    {% asset_img ssh0.png %}
 
 1. Download private key file from panel
 
    {% asset_img ssh1.png %}
-   
+
 1. Open PuTTYgen.
 
 1. Click **Load**, and select the private key file which the extension is `.key`.
@@ -32,31 +32,28 @@ Use PuTTYgen load the private key and save the private key as putty's format
 
 ---
 
-## Install snap
+## Install shadowsocks-rust
 
 ```bash
 sudo apt update
 sudo apt install snapd
-```
-
-## Install shadowsocks-rust
-
-```bash
 sudo snap install shadowsocks-rust
 ```
 
-## Install V2ray plugin
+### Install V2ray plugin
 
 ```bash
 tar -xzvf v2ray-plugin-linux-amd64-v1.2.0.tar.gz
 sudo cp v2ray-plugin_linux_386 /var/snap/shadowsocks-rust/common/v2ray-plugin
 ```
 
-## Shadowsocks Configuration
+### Configuration
 
 Editing the configuration file of shadowsocks-rust
 
-```json /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
+> configuration file is most probably located in /var/snap/shadowsocks-rust/common/etc/shadowsocks-rust/config.json
+
+```json
 {
   "server": "localhost",
   "server_port": 8008,
@@ -70,12 +67,22 @@ Editing the configuration file of shadowsocks-rust
 }
 ```
 
-## Open firewall
+### Start the daemon
 
 ```bash
-sudo firewall-cmd --permanent --zone=public --add-port=8081/tcp
-sudo firewall-cmd --reload
-sudo firewall-cmd --zone=public --list-ports
+sudo snap start --enable shadowsocks-rust.ssserver-daemon
+```
+
+- Restart generated systemd service to apply changes
+
+```bash
+systemctl restart snap.shadowsocks-rust.ssserver-daemon.service
+```
+
+- Show generated systemd service status
+
+```bash
+systemctl status snap.shadowsocks-rust.ssserver-daemon.service
 ```
 
 ## Nginx Configuration
@@ -86,7 +93,7 @@ Add server configuration in `/etc/nginx/sites-enabled/default`
 server {
      server_name your.site;
      listen 8081 ssl http2;
-     
+
      # SSL configuration
      ssl_certificate /etc/nginx/certs/your.site/fullchain.cer;
      ssl_certificate_key /etc/nginx/certs/your.site.key;
@@ -96,7 +103,7 @@ server {
      ssl_session_timeout    1d;
      ssl_session_cache      shared:MozSSL:10m;
      ssl_session_tickets    off;
-     
+
      location /ladder {
              proxy_redirect off;
              proxy_pass http://127.0.0.1:8008;
@@ -110,13 +117,15 @@ server {
 
 Use `nginx -t` to check syntax
 
-## Start the daemon
+### Open firewall
 
 ```bash
-sudo snap start --enable shadowsocks-rust.ssserver-daemon
+sudo firewall-cmd --permanent --zone=public --add-port=8081/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --zone=public --list-ports
 ```
 
-## View the the log
+### View the the log
 
 ```bash
 sudo snap logs shadowsocks-rust.ssserver-daemon
@@ -138,7 +147,7 @@ Find the SSL/TLS -> Overview, Set the encryption mode to **Full**
 If your Nginx is configured to redirect HTTP request to HTTPS, and has self signed certificate on the server like generate by [acme.sh](https://github.com/acmesh-official/acme.sh), then set the encryption mode to **FULL**, otherwise you will get `TOO MANY REDIERCTS`.
 {% endnote %}
 
-You can check the CDN whether it is taking effects by using tool like `ping` or `nslookup`. 
+You can check the CDN whether it is taking effects by using tool like `ping` or `nslookup`.
 
 ## Client Configuration
 

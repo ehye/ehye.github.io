@@ -1,0 +1,2 @@
+- Copy [Bootmgfw.efi] from Windows10 ISO
+- Paste it to Win7 install file folder \EFI\Boot (Create \Boot if not exsited)

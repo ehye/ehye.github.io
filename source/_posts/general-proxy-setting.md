@@ -8,15 +8,17 @@ tags:
 
 记录一些常用软件的代理设置方式<!-- more -->
 
-## git
+## Git
 
 - 使用 Git Bash
 
-`git config --global http.proxy http://127.0.0.1:1080`
-`git config --global https.proxy https://127.0.0.1:1080`
+```bash
+git config --global http.proxy http://127.0.0.1:1080
+git config --global https.proxy https://127.0.0.1:1080
 
-`git config --global --unset http.proxy`
-`git config --global --unset https.proxy`
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
 
 - 编辑 .gitconfig
 
@@ -29,21 +31,35 @@ tags:
 
 ## yarn
 
-`yarn config set proxy http://127.0.0.1:1080`
-`yarn config set https-proxy http://127.0.0.1:1080`
+```bash
+yarn config set proxy http://127.0.0.1:1080
+yarn config set https-proxy http://127.0.0.1:1080
 
-`yarn config delete proxy`
-`yarn config delete https-proxy`
+yarn config delete proxy
+yarn config delete https-proxy
+
+yarn config get registry
+yarn config set registry https://registry.npmmirror.com
+yarn config set registry https://registry.yarnpkg.com
+yarn config delete registry
+```
 
 ## npm
 
 - 使用命令
 
-`npm config set proxy http://127.0.0.1:1080`
-`npm config set https-proxy http://127.0.0.1:1080`
+```bash
+npm config set proxy http://127.0.0.1:1080
+npm config set https-proxy http://127.0.0.1:1080
 
-`npm config delete proxy`
-`npm config delete https-proxy`
+npm config delete proxy
+npm config delete https-proxy
+
+npm config get registry
+npm config set registry https://registry.npmmirror.com
+npm config set registry https://registry.npmjs.org
+npm config delete registry
+```
 
 - 编辑 .npmrc
 
@@ -63,3 +79,11 @@ export https_proxy="http://$host_ip:1080"
 ```
 
 对于 Shadowsocks, 勾选 `Allow other Devices to connect`
+
+### Get Host IP
+
+```bash
+ip route | awk 'NR==1 {print $3}'
+```
+
+---
