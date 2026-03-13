@@ -3,9 +3,9 @@ title: 使 next 主题适应移动设备
 date: 2016-12-16 13:15:56
 categories: Blog
 tags: 
-	- hexo
-	- CSS
-	- NexT
+    - hexo
+    - CSS
+    - NexT
 ---
 
 修改 PiscesScheme 的宽度，使 next 主题适应移动设备

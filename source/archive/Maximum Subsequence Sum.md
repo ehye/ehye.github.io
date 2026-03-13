@@ -3,8 +3,8 @@ title: 数据结构题目集 - Maximum Subsequence Sum
 date: 2016-09-19 23:26:13
 categories: Algorithm
 tags: 
-	- PAT
-	- Data Structures
+    - PAT
+    - Data Structures
 ---
 
 Given a sequence of**K**integers **{ $N\_1$，$N\_2$, ... , $N\_K$ }**.A continuous subsequence is defined to be **{ $N\_i$，$N\_{i+1}$, ... ,$N\_j$ }** where **1 ≤ i ≤ j ≤ K**. The Maximum Subsequence is the continuous subsequence which has the largest sum of its elements. For example, given sequence **{ -2, 11, -4, 13, -5, -2 }**, its maximum subsequence is **{ 11, -4, 13 }** with the largest sum being 20.

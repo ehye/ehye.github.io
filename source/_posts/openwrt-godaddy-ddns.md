@@ -3,8 +3,8 @@ title: OpenWrt折腾记录02
 date: 2019-01-31 17:05:58
 categories: Router
 tags:
-	- OpenWrt
-	- DDNS
+    - OpenWrt
+    - DDNS
 ---
 
 配置动态域名解析，在外网通过域名来访问路由器<!-- more -->

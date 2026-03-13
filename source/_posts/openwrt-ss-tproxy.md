@@ -3,13 +3,13 @@ title: Openwrt折腾记录03
 date: 2019-02-23 14:03:56
 categories: Router
 tags:
-	- OpenWrt
-	- shadowsocks
-	- 透明代理
-	- 科学上网
+    - OpenWrt
+    - shadowsocks
+    - 透明代理
+    - 科学上网
 ---
 
-Openwrt+shadowsocks透明代理，实现路由器科学上网<!-- more -->
+OpenWrt + shadowsocks 透明代理，实现路由器科学上网<!-- more -->
 
 当局域网中设备较多时，对每个主机配置ss客户端将变得繁琐，此时最适合在路由器上实现科学上网
 
@@ -39,7 +39,6 @@ opkg install luci-app-shadowsocks
 ```
 
 这个ss客户端和镜像源里的ss不同
-
 
 # 配置shadowsocks
 

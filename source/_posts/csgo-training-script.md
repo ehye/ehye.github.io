@@ -3,7 +3,7 @@ title: 如何设置 CSGO 训练脚本
 date: 2017-10-16 19:23:02
 categories: Game
 tags:
-	- CSGO
+    - CSGO
 ---
 
 新建一个文本文档，复制黏贴以下代码

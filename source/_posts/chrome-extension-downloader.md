@@ -3,7 +3,7 @@ title: Chrome 插件打包下载
 date: 2017-12-12 08:12:02
 categories: Tips
 tags:
-	- Chrome
+    - Chrome
 ---
 到[应用商店](https://chrome.google.com/webstore/category/extensions)搜索并获取获取插件 id
 {% asset_img get_id.png %}

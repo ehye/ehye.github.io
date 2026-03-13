@@ -3,11 +3,13 @@ title: OpenWrt折腾记录01
 date: 2019-01-15 12:28:41
 categories: Router
 tags:
-	- OpenWrt
-	- aria2
-	- NFS
+  - OpenWrt
+  - aria2
+  - NFS
+
 ---
-路由器+转接线+旧硬盘=私有云存储<!-- more -->
+
+路由器 + 转接线 + 旧硬盘 = 私有云存储<!-- more -->
 
 ---
 
