@@ -3,8 +3,8 @@ title: 在 Win10 64位上使用 debug.exe
 date: 2017-09-26 13:42:36
 categories: Tips
 tags:
-	- 汇编
-	- DOSBox
+    - 汇编
+    - DOSBox
 ---
 
 下载[DOSBox](http://www.dosbox.com/download.php?main=1)

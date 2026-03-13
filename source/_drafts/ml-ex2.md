@@ -3,8 +3,8 @@ title: 机器学习编程作业2 - Logistic Regression
 date: 2019-01-27 18:26:09
 categories: MOOC
 tags:
-	- Machine Learning
-	- Logistic Regression
+    - Machine Learning
+    - Logistic Regression
 
 ---
 实现线性回归并应用到两种不同的数据集里<!-- more -->

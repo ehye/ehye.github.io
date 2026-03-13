@@ -4,8 +4,8 @@ date: 2019-01-19 18:57:23
 categories: MOOC
 mathjax: true
 tags:
-	- Linear Regression
-	- Gradient Descent
+    - Linear Regression
+    - Gradient Descent
 ---
 
 实现线性回归并可视化其对数据起作用<!-- more -->

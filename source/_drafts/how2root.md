@@ -2,8 +2,8 @@
 title: unlock-bootloader-install-custom-recovery-and-root
 categories:
 tags:
-	- TWRP
-	- root
+    - TWRP
+    - root
 ---
 
 fastboot oem unlock

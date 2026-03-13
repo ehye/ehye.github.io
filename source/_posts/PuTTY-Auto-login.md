@@ -3,8 +3,8 @@ title: PuTTY 自动登录设置
 date: 2018-01-19 00:18:32
 categories: Tips
 tags:
-	- SSH
-	- PuTTY
+    - SSH
+    - PuTTY
 ---
 
 1. 打开 PuTTYgen，点击 generate ，不断在进度条下空白区域移动鼠标，直到生成密匙。

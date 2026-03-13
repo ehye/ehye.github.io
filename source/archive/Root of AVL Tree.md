@@ -3,8 +3,8 @@ title: 数据结构题目集 - Root of AVL Tree
 date: 2016-10-11 09:22:03
 categories: Algorithm
 tags: 
-	- PAT
-	- Data Structures
+    - PAT
+    - Data Structures
 ---
 An AVL tree is a self-balancing binary search tree. In an AVL tree, the heights of the two child subtrees of any node differ by at most one; if at any time they differ by more than one, rebalancing is done to restore this property. Figures 1-4 illustrate the rotation rules.<!-- more -->
 

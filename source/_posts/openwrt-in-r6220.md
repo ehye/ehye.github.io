@@ -3,7 +3,7 @@ title: OpenWrt折腾记录00
 date: 2018-10-18 22:18:37
 categories: Router
 tags:
-	- OpenWrt
+    - OpenWrt
 ---
 
 记之前刷网件R6220的过程<!-- more -->

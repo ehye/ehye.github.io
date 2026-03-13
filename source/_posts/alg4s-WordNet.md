@@ -3,9 +3,9 @@ title: Algorithms, Part II - Week 1 - WordNet
 date: 2017-12-04 10:26:07
 categories: MOOC
 tags:
-	- DFS
-	- DAG
-	- Shortest path
+    - DFS
+    - DAG
+    - Shortest path
 ---
 
 突然开课的 Part II，难度大增<!-- more -->

@@ -3,8 +3,8 @@ title: 机器学习编程作业3 - Multi-class Classification and Neural Network
 date: 2019-02-02 14:46:14
 categories: MOOC
 tags:
-	- Machine Learning
-	- Neural Networks
+    - Machine Learning
+    - Neural Networks
 ---
 
 实现一对多逻辑回归和利用神经网络识别手写阿拉伯数字<!-- more -->

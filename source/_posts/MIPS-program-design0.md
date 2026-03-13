@@ -3,8 +3,8 @@ title: MIPS汇编程序设计
 date: 2017-10-10 15:27:12
 categories: MOOC
 tags:
-	- MIPS
-	- 汇编
+    - MIPS
+    - 汇编
 ---
 北京大学-计算机组成原理 第二讲 指令系统体系结构 互评作业<!--more-->
 

@@ -3,7 +3,7 @@ title: OpenWrt折腾记录04
 date: 2019-06-18 09:45:48
 categories: Router
 tags:
-	- OpenWrt
+    - OpenWrt
 ---
 
 捡了台新3（newifi-d2)，放弱电箱当有线路由吧<!-- more -->
