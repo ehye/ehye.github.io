@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: 'lts/Hydrogen'
+  NODE_VERSION: 'latest'
 
 jobs:
   build:
