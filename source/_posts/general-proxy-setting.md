@@ -1,7 +1,7 @@
 ---
 title: 常用软件代理设置
 date: 2023-03-13 09:24:27
-categroies: Note
+categories: Note
 tags:
     - proxy
 ---
@@ -84,6 +84,23 @@ export https_proxy="http://$host_ip:1080"
 
 ```bash
 ip route | awk 'NR==1 {print $3}'
+```
+
+## Codex (Windows)
+
+To solve esbuild not available in WSL (/mnt/), need to set Windows powershell proxy
+
+- Setting proxy
+
+```powershell
+$env:HTTP_PROXY = "http://127.0.0.1:26709"
+$env:HTTPS_PROXY = "http://127.0.0.1:26709"
+```
+
+- Whitelist for local dev server
+
+```powershell
+$env:NO_PROXY = "localhost,127.0.0.1,.example.com"
 ```
 
 ---
